@@ -1,13 +1,14 @@
-import { orange } from '@mui/material/colors';
-import { lighten, styled } from '@mui/material/styles';
-import clsx from 'clsx';
-import FuseUtils from '@fuse/utils';
-import { Controller, useFormContext } from 'react-hook-form';
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import Box from '@mui/material/Box';
+import { orange } from '@mui/material/colors'
+import { lighten, styled } from '@mui/material/styles'
+import clsx from 'clsx'
+import FuseUtils from '@fuse/utils'
+import { Controller, useFormContext } from 'react-hook-form'
+import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
+import Box from '@mui/material/Box'
+import { useState } from 'react'
 
 const Root = styled('div')(({ theme }) => ({
-  '& .productImageFeaturedStar': {
+  '& .productImageFeaturedStar2': {
     position: 'absolute',
     top: 0,
     right: 0,
@@ -26,28 +27,39 @@ const Root = styled('div')(({ theme }) => ({
     transitionDuration: theme.transitions.duration.short,
     transitionTimingFunction: theme.transitions.easing.easeInOut,
     '&:hover': {
-      '& .productImageFeaturedStar': {
+      '& .productImageFeaturedStar2': {
         opacity: 0.8,
       },
     },
     '&.featured': {
       pointerEvents: 'none',
       boxShadow: theme.shadows[3],
-      '& .productImageFeaturedStar': {
+      '& .productImageFeaturedStar2': {
         opacity: 1,
       },
-      '&:hover .productImageFeaturedStar': {
+      '&:hover .productImageFeaturedStar2': {
         opacity: 1,
       },
     },
   },
-}));
+}))
 
-function ProductImagesTab(props) {
+const FormImages = () => {
+
+  const [imageName, setImageName] = useState(null)
+  const [fileName, setFileName] = useState('')
+  const [countImage, setCountImage] = useState([])
+  const [count, setCount] = useState(0)
+  const increment = () => {
+    setCount(count + 1)
+    setCountImage([...countImage, {
+      id: count + 1,
+      url: imageName
+    }])
+  }
   const methods = useFormContext();
-  const { control, watch } = methods;
-
-  const images = watch('images');
+  const { control } = methods;
+  console.log(imageName)
 
   return (
     <Root>
@@ -72,33 +84,15 @@ function ProductImagesTab(props) {
                 className="hidden"
                 id="button-file"
                 type="file"
-                onChange={async (e) => {
-                  function readFileAsync() {
-                    return new Promise((resolve, reject) => {
-                      const file = e.target.files[0];
-                      if (!file) {
-                        return;
-                      }
-                      const reader = new FileReader();
-
-                      reader.onload = () => {
-                        resolve({
-                          id: FuseUtils.generateGUID(),
-                          url: `data:${file.type};base64,${btoa(reader.result)}`,
-                          type: 'image',
-                        });
-                      };
-
-                      reader.onerror = reject;
-
-                      reader.readAsBinaryString(file);
-                    });
+                onChange={(e) => {
+                  const selectedFile = e.target.files[0]
+                  if(selectedFile) {
+                    setFileName(selectedFile)
+                    setImageName(URL.createObjectURL(selectedFile))
+                    // setCountImage([1])
+                    increment()
                   }
-
-                  const newImage = await readFileAsync();
-                  console.log([newImage, ...value])
-
-                  onChange([newImage, ...value]);
+                  // onChange([newImage, ...value])
                 }}
               />
               <FuseSvgIcon size={32} color="action">
@@ -107,12 +101,28 @@ function ProductImagesTab(props) {
             </Box>
           )}
         />
+        {/* {countImage.map((media) => (
+          <div
+            onClick={() => onChange(media.id)}
+            onKeyDown={() => onChange(media.id)}
+            role="button"
+            tabIndex={0}
+            className={clsx(
+              'productImageItem flex items-center justify-center relative w-128 h-128 rounded-16 mx-12 mb-24 overflow-hidden cursor-pointer outline-none shadow hover:shadow-lg',
+              // media.id === value && 'featured'
+            )}
+            key={media.id}
+            >
+              <FuseSvgIcon className="productImageFeaturedStar2">heroicons-solid:star</FuseSvgIcon>
+              <img className="max-w-none w-auto h-full" src={media.url ? media.url : ''} alt="" />
+          </div>
+        ))} */}
         <Controller
           name="featuredImageId"
           control={control}
           defaultValue=""
           render={({ field: { onChange, value } }) =>
-            images.map((media) => (
+            countImage.map((media) => (
               <div
                 onClick={() => onChange(media.id)}
                 onKeyDown={() => onChange(media.id)}
@@ -124,7 +134,7 @@ function ProductImagesTab(props) {
                 )}
                 key={media.id}
               >
-                <FuseSvgIcon className="productImageFeaturedStar">heroicons-solid:star</FuseSvgIcon>
+                <FuseSvgIcon className="productImageFeaturedStar2">heroicons-solid:star</FuseSvgIcon>
                 <img className="max-w-none w-auto h-full" src={media.url} alt="product" />
               </div>
             ))
@@ -132,7 +142,7 @@ function ProductImagesTab(props) {
         />
       </div>
     </Root>
-  );
+  )
 }
 
-export default ProductImagesTab;
+export default FormImages

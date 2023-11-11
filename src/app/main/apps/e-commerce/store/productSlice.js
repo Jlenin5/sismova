@@ -1,35 +1,46 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import FuseUtils from '@fuse/utils';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
+import FuseUtils from '@fuse/utils'
 
-export const getProduct = createAsyncThunk('eCommerceApp/product/getProduct', async (productId) => {
-  const response = await axios.get(`/api/ecommerce/products/${productId}`);
-  const data = await response.data;
+const API_URL = 'https://sismova.tech/backsis/public/api/product'
 
-  return data === undefined ? null : data;
-});
+export const getProduct = createAsyncThunk(
+  'eCommerceApp/product/getProduct',
+  async (productId) => {
+    try {
+      const response = await axios.get(API_URL+'/'+productId)
+      const data = await response.data
+      console.log(data)
+      return data
+    } catch(error) {
+    }
+    // const response = await axios.get(`/api/ecommerce/products/${productId}`)
+    // const data = await response.data
+    // return data === undefined ? null : data
+  }
+)
 
 export const removeProduct = createAsyncThunk(
   'eCommerceApp/product/removeProduct',
   async (val, { dispatch, getState }) => {
-    const { id } = getState().eCommerceApp.product;
-    await axios.delete(`/api/ecommerce/products/${id}`);
-    return id;
+    const { id } = getState().eCommerceApp.product
+    await axios.delete(API_URL+'/'+id)
+    return id
   }
-);
+)
 
 export const saveProduct = createAsyncThunk(
   'eCommerceApp/product/saveProduct',
   async (productData, { dispatch, getState }) => {
-    const { id } = getState().eCommerceApp;
+    const { id } = getState().eCommerceApp
 
-    const response = await axios.put(`/api/ecommerce/products/${id}`, productData);
+    const response = await axios.put(`/api/ecommerce/products/${id}`, productData)
 
-    const data = await response.data;
+    const data = await response.data
 
-    return data;
+    return data
   }
-);
+)
 
 const productSlice = createSlice({
   name: 'eCommerceApp/product',
@@ -68,10 +79,10 @@ const productSlice = createSlice({
     [saveProduct.fulfilled]: (state, action) => action.payload,
     [removeProduct.fulfilled]: (state, action) => null,
   },
-});
+})
 
-export const { newProduct, resetProduct } = productSlice.actions;
+export const { newProduct, resetProduct } = productSlice.actions
 
-export const selectProduct = ({ eCommerceApp }) => eCommerceApp.product;
+export const selectProduct = ({ eCommerceApp }) => eCommerceApp.product
 
-export default productSlice.reducer;
+export default productSlice.reducer

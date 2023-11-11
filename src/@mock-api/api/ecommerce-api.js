@@ -3,49 +3,49 @@ import FuseUtils from '@fuse/utils';
 import mockApi from '../mock-api.json';
 import mock from '../mock';
 
-let productsDB = mockApi.components.examples.ecommerce_products.value;
+// let productsDB = mockApi.components.examples.ecommerce_products.value;
 let ordersDB = mockApi.components.examples.ecommerce_orders.value;
 
-mock.onGet('/api/ecommerce/products').reply((config) => {
-  return [200, productsDB];
-});
+// mock.onGet('product').reply((config) => {
+//   return [200, productsDB];
+// });
 
-mock.onPost('/api/ecommerce/products').reply(({ data }) => {
-  const newProduct = { id: FuseUtils.generateGUID(), ...JSON.parse(data) };
+// mock.onPost('product').reply(({ data }) => {
+//   const newProduct = { id: FuseUtils.generateGUID(), ...JSON.parse(data) };
 
-  productsDB.push(newProduct);
+//   productsDB.push(newProduct);
 
-  return [200, newProduct];
-});
+//   return [200, newProduct];
+// });
 
-mock.onDelete('/api/ecommerce/products').reply(({ data }) => {
-  const ids = JSON.parse(data);
-  productsDB = productsDB.filter((item) => ids.includes(item.id));
+// mock.onDelete('product').reply(({ data }) => {
+//   const ids = JSON.parse(data);
+//   productsDB = productsDB.filter((item) => ids.includes(item.id));
 
-  return [200, productsDB];
-});
+//   return [200, productsDB];
+// });
 
-mock.onGet(/\/api\/ecommerce\/products\/[^/]+/).reply(({ url, data }) => {
-  const { id } = url.match(/\/api\/ecommerce\/products\/(?<id>[^/]+)/).groups;
+// mock.onGet(/\/api\/ecommerce\/products\/[^/]+/).reply(({ url, data }) => {
+//   const { id } = url.match(/\/api\/ecommerce\/products\/(?<id>[^/]+)/).groups;
 
-  return [200, _.find(productsDB, { id })];
-});
+//   return [200, _.find(productsDB, { id })];
+// });
 
-mock.onPut(/\/api\/ecommerce\/products\/[^/]+/).reply(({ url, data }) => {
-  const { id } = url.match(/\/api\/ecommerce\/products\/(?<id>[^/]+)/).groups;
+// mock.onPut(/\/api\/ecommerce\/products\/[^/]+/).reply(({ url, data }) => {
+//   const { id } = url.match(/\/api\/ecommerce\/products\/(?<id>[^/]+)/).groups;
 
-  _.assign(_.find(productsDB, { id }), JSON.parse(data));
+//   _.assign(_.find(productsDB, { id }), JSON.parse(data));
 
-  return [200, _.find(productsDB, { id })];
-});
+//   return [200, _.find(productsDB, { id })];
+// });
 
-mock.onDelete(/\/api\/ecommerce\/products\/[^/]+/).reply((config) => {
-  const { id } = config.url.match(/\/api\/ecommerce\/products\/(?<id>[^/]+)/).groups;
+// mock.onDelete(/\/api\/ecommerce\/products\/[^/]+/).reply((config) => {
+//   const { id } = config.url.match(/\/api\/ecommerce\/products\/(?<id>[^/]+)/).groups;
 
-  _.remove(productsDB, { id });
+//   _.remove(productsDB, { id });
 
-  return [200, id];
-});
+//   return [200, id];
+// });
 
 mock.onGet('/api/ecommerce/orders').reply((config) => {
   return [200, ordersDB];

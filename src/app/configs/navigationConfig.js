@@ -50,6 +50,10 @@ const navigationConfig = [
     ],
   },
   {
+    id: 'divider-1',
+    type: 'divider',
+  },
+  {
     id: 'apps',
     title: 'Applications',
     subtitle: 'Custom made application designs',
@@ -86,7 +90,7 @@ const navigationConfig = [
         id: 'apps.contacts',
         title: 'Contacts',
         type: 'item',
-        icon: 'heroicons-outline:user-group',
+        icon: 'material-outline:person_pin',
         url: '/apps/contacts',
         translate: 'CONTACTS',
       },
@@ -98,8 +102,22 @@ const navigationConfig = [
         translate: 'ECOMMERCE',
         children: [
           {
+            id: 'e-commerce-images',
+            title: 'Imágenes',
+            type: 'item',
+            url: 'apps/e-commerce/images',
+            end: true,
+          },
+          {
+            id: 'e-commerce-categories',
+            title: 'Categorías',
+            type: 'item',
+            url: 'apps/e-commerce/categories',
+            end: true,
+          },
+          {
             id: 'e-commerce-products',
-            title: 'Products',
+            title: 'Productos',
             type: 'item',
             url: 'apps/e-commerce/products',
             end: true,
@@ -219,6 +237,10 @@ const navigationConfig = [
         url: '/apps/profile',
       },
     ],
+  },
+  {
+    id: 'divider-2',
+    type: 'divider',
   },
   {
     id: 'pages',
@@ -745,6 +767,10 @@ const navigationConfig = [
     ],
   },
   {
+    id: 'divider-3',
+    type: 'divider',
+  },
+  {
     id: 'user-interface',
     title: 'User Interface',
     subtitle: 'Building blocks of the UI & UX',
@@ -974,13 +1000,62 @@ const navigationConfig = [
     ],
   },
   {
-    id: 'divider-1',
+    id: 'divider-4',
     type: 'divider',
   },
   DocumentationNavigation,
   {
+    id: 'divider-5',
+    type: 'divider',
+  },
+  {
+    id: 'settings',
+    title: 'Ajustes',
+    type: 'group',
+    icon: 'heroicons-outline:share',
+    children: [
+      {
+        id: 'settings.users',
+        title: 'Usuarios',
+        type: 'item',
+        // icon: 'heroicons-outline:user-group',
+        icon: 'material-outline:people_alt',
+        url: '/settings/users',
+        end: true
+      },
+      {
+        id: 'settings.company',
+        title: 'Empresa',
+        type: 'item',
+        icon: 'material-outline:location_city',
+        url: '/settings/company',
+        end: true
+      },
+      {
+        id: 'settings.roles',
+        title: 'Roles',
+        type: 'item',
+        icon: 'material-outline:share',
+        url: '/settings/roles',
+        end: true
+      },
+      {
+        id: 'settings.permissions',
+        title: 'Permisos',
+        type: 'item',
+        icon: 'material-outline:settings_accessibility',
+        url: '/settings/permissions',
+        end: true
+      }
+    ]
+  },
+  {
+    id: 'divider-6',
+    type: 'divider',
+  },
+  {
     id: 'auth',
-    title: 'Auth',
+    title: 'Autenticación',
     type: 'group',
     icon: 'verified_user',
     children: [
@@ -1056,8 +1131,8 @@ const navigationConfig = [
     ],
   },
   {
+    id: 'divider-7',
     type: 'divider',
-    id: 'divider-2',
   },
   {
     id: 'navigation-features',

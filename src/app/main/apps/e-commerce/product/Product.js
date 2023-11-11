@@ -1,28 +1,28 @@
-import FuseLoading from '@fuse/core/FuseLoading';
-import FusePageCarded from '@fuse/core/FusePageCarded';
-import { useDeepCompareEffect } from '@fuse/hooks';
-import Button from '@mui/material/Button';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
-import Typography from '@mui/material/Typography';
-import withReducer from 'app/store/withReducer';
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import _ from '@lodash';
-import { FormProvider, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
-import { getProduct, newProduct, resetProduct, selectProduct } from '../store/productSlice';
-import reducer from '../store';
-import ProductHeader from './ProductHeader';
-import BasicInfoTab from './tabs/BasicInfoTab';
-import InventoryTab from './tabs/InventoryTab';
-import PricingTab from './tabs/PricingTab';
-import ProductImagesTab from './tabs/ProductImagesTab';
-import ShippingTab from './tabs/ShippingTab';
+import FuseLoading from '@fuse/core/FuseLoading'
+import FusePageCarded from '@fuse/core/FusePageCarded'
+import { useDeepCompareEffect } from '@fuse/hooks'
+import Button from '@mui/material/Button'
+import Tab from '@mui/material/Tab'
+import Tabs from '@mui/material/Tabs'
+import Typography from '@mui/material/Typography'
+import withReducer from 'app/store/withReducer'
+import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useParams } from 'react-router-dom'
+import _ from '@lodash'
+import { FormProvider, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery'
+import { getProduct, newProduct, resetProduct, selectProduct } from '../store/productSlice'
+import reducer from '../store'
+import ProductHeader from './ProductHeader'
+import BasicInfoTab from './tabs/BasicInfoTab'
+import InventoryTab from './tabs/InventoryTab'
+import PricingTab from './tabs/PricingTab'
+import ProductImagesTab from './tabs/ProductImagesTab'
+import ShippingTab from './tabs/ShippingTab'
 
 /**
  * Form Validation Schema
@@ -32,33 +32,33 @@ const schema = yup.object().shape({
     .string()
     .required('You must enter a product name')
     .min(5, 'The product name must be at least 5 characters'),
-});
+})
 
 function Product(props) {
-  const dispatch = useDispatch();
-  const product = useSelector(selectProduct);
-  const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
+  const dispatch = useDispatch()
+  const product = useSelector(selectProduct)
+  const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'))
 
-  const routeParams = useParams();
-  const [tabValue, setTabValue] = useState(0);
-  const [noProduct, setNoProduct] = useState(false);
+  const routeParams = useParams()
+  const [tabValue, setTabValue] = useState(0)
+  const [noProduct, setNoProduct] = useState(false)
   const methods = useForm({
     mode: 'onChange',
     defaultValues: {},
     resolver: yupResolver(schema),
-  });
-  const { reset, watch, control, onChange, formState } = methods;
-  const form = watch();
+  })
+  const { reset, watch, control, onChange, formState } = methods
+  const form = watch()
 
   useDeepCompareEffect(() => {
     function updateProductState() {
-      const { productId } = routeParams;
+      const { productId } = routeParams
 
       if (productId === 'new') {
         /**
          * Create New Product data
          */
-        dispatch(newProduct());
+        dispatch(newProduct())
       } else {
         /**
          * Get Product data
@@ -68,40 +68,40 @@ function Product(props) {
            * If the requested product is not exist show message
            */
           if (!action.payload) {
-            setNoProduct(true);
+            setNoProduct(true)
           }
-        });
+        })
       }
     }
 
-    updateProductState();
-  }, [dispatch, routeParams]);
+    updateProductState()
+  }, [dispatch, routeParams])
 
   useEffect(() => {
     if (!product) {
-      return;
+      return
     }
     /**
      * Reset the form on product state changes
      */
-    reset(product);
-  }, [product, reset]);
+    reset(product)
+  }, [product, reset])
 
   useEffect(() => {
     return () => {
       /**
        * Reset Product on component unload
        */
-      dispatch(resetProduct());
-      setNoProduct(false);
-    };
-  }, [dispatch]);
+      dispatch(resetProduct())
+      setNoProduct(false)
+    }
+  }, [dispatch])
 
   /**
    * Tab Change
    */
   function handleTabChange(event, value) {
-    setTabValue(value);
+    setTabValue(value)
   }
 
   /**
@@ -127,7 +127,7 @@ function Product(props) {
           Go to Products Page
         </Button>
       </motion.div>
-    );
+    )
   }
 
   /**
@@ -137,7 +137,7 @@ function Product(props) {
     _.isEmpty(form) ||
     (product && routeParams.productId !== product.id && routeParams.productId !== 'new')
   ) {
-    return <FuseLoading />;
+    return <FuseLoading />
   }
 
   return (
@@ -187,7 +187,7 @@ function Product(props) {
         scroll={isMobile ? 'normal' : 'content'}
       />
     </FormProvider>
-  );
+  )
 }
 
-export default withReducer('eCommerceApp', reducer)(Product);
+export default withReducer('eCommerceApp', reducer)(Product)

@@ -6,77 +6,39 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
+import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import Typography from '@mui/material/Typography'
-import clsx from 'clsx'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-
-import { useDispatch, useSelector } from 'react-redux'
 import withRouter from '@fuse/core/withRouter'
 import FuseLoading from '@fuse/core/FuseLoading'
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
-import ProductsTableHead from './ProductsTableHead'
+import CategoriesTableHead from './CategoriesTableHead'
+import AddCategory from './AddCategory'
 
-import { getProducts, delProductMulti, selectProducts, selectProductsSearchText } from '../store/productsSlice'
-import FormModal from './FormModal'
-import { getCategories } from '../store/categoriesSlice'
-
-function ProductsTable({data, setData, maxId, setPage, page, dataToEdit, setDataToEdit, createData, updateData, deleteData}) {
-  const dispatch = useDispatch()
-  const products = useSelector(selectProducts)
-  const searchText = useSelector(selectProductsSearchText)
-
-  const [loading, setLoading] = useState(true)
+function CategoriesTable({maxId,data,createData,updateData,dataToEdit,loading,setDataToEdit,deleteData,deleteMultiple}) {
   const [selected, setSelected] = useState([])
-  const [dCategory, setDCategory] = useState([])
   const [open, setOpen] = useState(false)
+  const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
     direction: 'asc',
     id: null,
   })
-
-  const handleClickOpen = () => {
-    setOpen(true)
+  
+  const handleClickOpen = (value) => {
+    setOpen(true);
   }
   const handleClose = () => {
-    setOpen(false)
+    setOpen(false);
   }
 
   useEffect(() => {
-    dispatch(getProducts())
-    .then((response) => {
-      setData(response.payload)
-      setLoading(false)
-    })
-    getCategories().then((response) => setDCategory(response))
-    .catch((error) => {
-      console.error('Error al obtener productos', error)
-      setLoading(false)
-    })
-  }, [dispatch])
-
-  useEffect(() => {
-    if (searchText.length !== 0) {
-      setData(
-        _.filter(products, (item) => item.prodName.toLowerCase().includes(searchText.toLowerCase()))
-      )
-      setPage(0)
-    } else {
-      setData(products)
-    }
-  }, [products, searchText])
-
-  const deleteMultiple = (dataMulti) => {
-    delProductMulti(dataMulti)
-    const newData = data.filter((el) => !dataMulti.includes(el.prodId))
-    setData(newData)
-  }
+    setPage(0)
+  })
 
   function handleRequestSort(event, property) {
     const id = property
     let direction = 'desc'
-
     if (order.id === property && order.direction === 'desc') {
       direction = 'asc'
     }
@@ -88,7 +50,7 @@ function ProductsTable({data, setData, maxId, setPage, page, dataToEdit, setData
 
   function handleSelectAllClick(event) {
     if (event.target.checked) {
-      setSelected(data.map((n) => n.prodId))
+      setSelected(data.map((n) => n.cateId))
       return
     }
     setSelected([])
@@ -126,21 +88,6 @@ function ProductsTable({data, setData, maxId, setPage, page, dataToEdit, setData
     setRowsPerPage(event.target.value)
   }
 
-  const encontrarPalabraEnTexto = (texto, palabra) => {
-    const textoMin = texto.toLowerCase()
-    const palabraMin = palabra.toLowerCase()
-    if (textoMin.includes(palabraMin)) {
-      const posicionPalabra = textoMin.indexOf(palabraMin)
-      if (posicionPalabra !== -1) {
-        return textoMin.substring(posicionPalabra)
-      } else {
-        return textoMin
-      }
-    } else {
-      return texto
-    }
-  }
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -157,7 +104,7 @@ function ProductsTable({data, setData, maxId, setPage, page, dataToEdit, setData
         className="flex flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          No hay productos
+          No hay categorías
         </Typography>
       </motion.div>
     )
@@ -167,8 +114,8 @@ function ProductsTable({data, setData, maxId, setPage, page, dataToEdit, setData
     <div className="w-full flex flex-col min-h-full">
       <FuseScrollbars className="grow overflow-x-auto">
         <Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
-          <ProductsTableHead
-            selectedProductIds={selected}
+          <CategoriesTableHead
+            selectedCategoryIds={selected}
             order={order}
             onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
@@ -178,35 +125,32 @@ function ProductsTable({data, setData, maxId, setPage, page, dataToEdit, setData
           />
           <TableBody>
             {_.orderBy(
-              data,
-              [
-                (o) => {
-                  switch (order.id) {
-                    case 'products': {
-                      return o.products[0]
+                data,
+                [
+                  (o) => {
+                    switch (order.id) {
+                      case 'cateName': {
+                        return o.cateName[0]
+                      }
+                      default: {
+                        return o[order.id]
+                      }
                     }
-                    default: {
-                      return o[order.id]
-                    }
-                  }
-                },
-              ],
-              [order.direction]
-            )
+                  },
+                ],
+                [order.direction]
+              )
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((n) => {
-                const isSelected = selected.indexOf(n.prodId) !== -1
-                const url = `https://sismova.tech/backsis/public/images/${n.prodImage}`
-                const palabraBuscada = "blob"
-                const nuevo = encontrarPalabraEnTexto(url, palabraBuscada)
-                return (
+                const isSelected = selected.indexOf(n.cateId) !== -1
+                return ( 
                   <TableRow
                     className="h-72 cursor-pointer"
                     hover
                     role="checkbox"
                     aria-checked={isSelected}
                     tabIndex={-1}
-                    key={n.prodId}
+                    key={n.cateId}
                     selected={isSelected}
                     onClick={() => handleClickOpen( setDataToEdit(n) )}
                   >
@@ -214,46 +158,19 @@ function ProductsTable({data, setData, maxId, setPage, page, dataToEdit, setData
                       <Checkbox
                         checked={isSelected}
                         onClick={(event) => event.stopPropagation()}
-                        onChange={(event) => handleCheck(event, n.prodId)}
-                      />
+                        onChange={(event) => handleCheck(event, n.cateId)}
+                        />
                     </TableCell>
 
-                    <TableCell
-                      className="w-52 px-4 md:px-0"
-                      component="th"
-                      scope="row"
-                      padding="none"
-                    >
-                      { n.prodImage ? <img src={nuevo} /> : <img src='' alt='sin imagen' /> }
+                    <TableCell className='w-40'>
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.prodName}
+                      {n.cateName}
                     </TableCell>
-
-                    <TableCell className="p-4 md:p-16 truncate" component="th" scope="row">
-                      {dCategory.find((c) => c.cateId === n.CategoryId)?.cateName}
-                    </TableCell>
-
+            
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      <span>S/.</span>
-                      {n.prodPurchasePrice}
-                    </TableCell>
-
-                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.prodStock}
-                      <i
-                        className={clsx(
-                          'inline-block w-8 h-8 rounded mx-8',
-                          n.prodStock <= 5 && 'bg-red',
-                          n.prodStock > 5 && n.prodStock <= 25 && 'bg-orange',
-                          n.prodStock > 25 && 'bg-green'
-                        )}
-                      />
-                    </TableCell>
-
-                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.prodState ? (
+                      {n.cateState ? (
                         <FuseSvgIcon className="text-green" size={20}>
                           heroicons-outline:check-circle
                         </FuseSvgIcon>
@@ -265,11 +182,12 @@ function ProductsTable({data, setData, maxId, setPage, page, dataToEdit, setData
                     </TableCell>
                   </TableRow>
                 )
-              })}
+              })
+            }
           </TableBody>
         </Table>
       </FuseScrollbars>
-      <FormModal
+      <AddCategory
         open={open}
         maxId={maxId}
         onClose={handleClose}
@@ -281,8 +199,6 @@ function ProductsTable({data, setData, maxId, setPage, page, dataToEdit, setData
       />
       <TablePagination
         className="shrink-0 border-t-1"
-        labelRowsPerPage="Filas por página"
-        labelDisplayedRows={({ from, to, count }) => `${from}-${to} de ${count}`}
         component="div"
         count={data.length}
         rowsPerPage={rowsPerPage}
@@ -300,4 +216,4 @@ function ProductsTable({data, setData, maxId, setPage, page, dataToEdit, setData
   )
 }
 
-export default withRouter(ProductsTable)
+export default withRouter(CategoriesTable)

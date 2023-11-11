@@ -1,3 +1,4 @@
+import FuseExample from '@fuse/core/FuseExample'
 import Button from '@mui/material/Button'
 import Input from '@mui/material/Input'
 import Paper from '@mui/material/Paper'
@@ -5,15 +6,15 @@ import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
-import { selectProductsSearchText, setProductsSearchText } from '../store/productsSlice'
-import FormModal from './FormModal'
+import { selectCategoriesSearchText, setCategoriesSearchText } from '../store/categoriesSlice'
+import AddCategory from './AddCategory'
 
-function ProductsHeader({maxId,createData,updateData,dataToEdit,setDataToEdit,deleteData}) {
+function CategoriesHeader({maxId,createData,updateData,dataToEdit,setDataToEdit,deleteData}) {
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
-  const searchText = useSelector(selectProductsSearchText)
+  // const searchText = useSelector(selectCategoriesSearchText)
+  // console.log(selectCategoriesSearchText)
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -22,6 +23,7 @@ function ProductsHeader({maxId,createData,updateData,dataToEdit,setDataToEdit,de
   const handleClose = () => {
     setOpen(false)
   }
+  
 
   return (
     <div className="flex flex-col sm:flex-row space-y-16 sm:space-y-0 flex-1 w-full items-center justify-between py-32 px-24 md:px-32">
@@ -32,7 +34,7 @@ function ProductsHeader({maxId,createData,updateData,dataToEdit,setDataToEdit,de
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Productos
+        Categorías
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -45,15 +47,15 @@ function ProductsHeader({maxId,createData,updateData,dataToEdit,setDataToEdit,de
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Search products"
+            placeholder="Buscar categoría"
             className="flex flex-1"
             disableUnderline
             fullWidth
-            value={searchText}
+            // value={searchText}
             inputProps={{
               'aria-label': 'Search',
             }}
-            onChange={(ev) => dispatch(setProductsSearchText(ev))}
+            onChange={(ev) => dispatch(setCategoriesSearchText(ev))}
           />
         </Paper>
         <motion.div
@@ -69,7 +71,7 @@ function ProductsHeader({maxId,createData,updateData,dataToEdit,setDataToEdit,de
           >
             Agregar
           </Button>
-          <FormModal
+          <AddCategory
             open={open}
             maxId={maxId}
             onClose={handleClose}
@@ -85,4 +87,4 @@ function ProductsHeader({maxId,createData,updateData,dataToEdit,setDataToEdit,de
   )
 }
 
-export default ProductsHeader
+export default CategoriesHeader

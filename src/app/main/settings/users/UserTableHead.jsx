@@ -15,16 +15,8 @@ import { Box } from '@mui/system'
 import TableHead from '@mui/material/TableHead'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
-import { removeProducts } from '../store/productsSlice'
 
 const rows = [
-  {
-    id: 'image',
-    align: 'left',
-    disablePadding: true,
-    label: '',
-    sort: false,
-  },
   {
     id: 'name',
     align: 'left',
@@ -33,24 +25,10 @@ const rows = [
     sort: true,
   },
   {
-    id: 'category',
+    id: 'password',
     align: 'left',
-    disablePadding: false,
-    label: 'Categoría',
-    sort: true,
-  },
-  {
-    id: 'price',
-    align: 'right',
-    disablePadding: false,
-    label: 'Precio',
-    sort: true,
-  },
-  {
-    id: 'stock',
-    align: 'right',
-    disablePadding: false,
-    label: 'Stock',
+    disablePadding: true,
+    label: 'Contraseña',
     sort: true,
   },
   {
@@ -62,28 +40,15 @@ const rows = [
   },
 ]
 
-function ProductsTableHead(props) {
-  const { selectedProductIds } = props
-  const numSelected = selectedProductIds.length
-
-  const [selectedProductsMenu, setSelectedProductsMenu] = useState(null)
-
+const UserTableHead = (props) => {
   const createSortHandler = (property) => (event) => {
     props.onRequestSort(event, property)
-  }
-
-  function openSelectedProductsMenu(event) {
-    setSelectedProductsMenu(event.currentTarget)
-  }
-
-  function closeSelectedProductsMenu() {
-    setSelectedProductsMenu(null)
   }
 
   return (
     <TableHead>
       <TableRow className="h-48 sm:h-64">
-        <TableCell
+        {/* <TableCell
           sx={{
             backgroundColor: (theme) =>
               theme.palette.mode === 'light'
@@ -137,7 +102,7 @@ function ProductsTableHead(props) {
               </Menu>
             </Box>
           )}
-        </TableCell>
+        </TableCell> */}
         {rows.map((row) => {
           return (
             <TableCell
@@ -177,4 +142,4 @@ function ProductsTableHead(props) {
   )
 }
 
-export default ProductsTableHead
+export default UserTableHead

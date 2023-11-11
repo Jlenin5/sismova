@@ -15,46 +15,24 @@ import { Box } from '@mui/system'
 import TableHead from '@mui/material/TableHead'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
-import { removeProducts } from '../store/productsSlice'
 
 const rows = [
   {
-    id: 'image',
+    id: 'icon',
     align: 'left',
-    disablePadding: true,
+    disablePadding: false,
     label: '',
     sort: false,
   },
   {
-    id: 'name',
+    id: 'cateName',
     align: 'left',
     disablePadding: false,
     label: 'Nombre',
     sort: true,
   },
   {
-    id: 'category',
-    align: 'left',
-    disablePadding: false,
-    label: 'Categoría',
-    sort: true,
-  },
-  {
-    id: 'price',
-    align: 'right',
-    disablePadding: false,
-    label: 'Precio',
-    sort: true,
-  },
-  {
-    id: 'stock',
-    align: 'right',
-    disablePadding: false,
-    label: 'Stock',
-    sort: true,
-  },
-  {
-    id: 'state',
+    id: 'cateState',
     align: 'left',
     disablePadding: false,
     label: 'Estado',
@@ -62,22 +40,22 @@ const rows = [
   },
 ]
 
-function ProductsTableHead(props) {
-  const { selectedProductIds } = props
-  const numSelected = selectedProductIds.length
-
-  const [selectedProductsMenu, setSelectedProductsMenu] = useState(null)
+function CategoriesTableHead(props) {
+  const { selectedCategoryIds } = props
+  const numSelected = selectedCategoryIds.length
+  
+  const [selectedCategoriesMenu, setSelectedCategoriesMenu] = useState(null)
 
   const createSortHandler = (property) => (event) => {
     props.onRequestSort(event, property)
   }
 
-  function openSelectedProductsMenu(event) {
-    setSelectedProductsMenu(event.currentTarget)
+  function openSelectedCategoriesMenu(event) {
+    setSelectedCategoriesMenu(event.currentTarget)
   }
 
-  function closeSelectedProductsMenu() {
-    setSelectedProductsMenu(null)
+  function closeSelectedCategoriesMenu() {
+    setSelectedCategoriesMenu(null)
   }
 
   return (
@@ -106,26 +84,25 @@ function ProductsTableHead(props) {
               }}
             >
               <IconButton
-                aria-owns={selectedProductsMenu ? 'selectedProductsMenu' : null}
+                aria-owns={selectedCategoriesMenu ? 'selectedCategoriesMenu' : null}
                 aria-haspopup="true"
-                onClick={openSelectedProductsMenu}
+                onClick={openSelectedCategoriesMenu}
                 size="large"
               >
                 <FuseSvgIcon>heroicons-outline:dots-horizontal</FuseSvgIcon>
               </IconButton>
               <Menu
-                id="selectedProductsMenu"
-                anchorEl={selectedProductsMenu}
-                open={Boolean(selectedProductsMenu)}
-                onClose={closeSelectedProductsMenu}
+                id="selectedCategoriesMenu"
+                anchorEl={selectedCategoriesMenu}
+                open={Boolean(selectedCategoriesMenu)}
+                onClose={closeSelectedCategoriesMenu}
               >
                 <MenuList>
                   <MenuItem
                     onClick={() => {
-                      props.deleteMultiple(selectedProductIds)
-                      // dispatch(removeProducts(selectedProductIds))
+                      props.deleteMultiple(selectedCategoryIds)
                       props.onMenuItemClick()
-                      closeSelectedProductsMenu()
+                      closeSelectedCategoriesMenu()
                     }}
                   >
                     <ListItemIcon className="min-w-40">
@@ -177,4 +154,4 @@ function ProductsTableHead(props) {
   )
 }
 
-export default ProductsTableHead
+export default CategoriesTableHead

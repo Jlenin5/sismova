@@ -21,14 +21,14 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
   if (!user) {
     error.push({
       type: 'email',
-      message: 'Check your email address',
+      message: 'Comprueba tu dirección de correo electrónico',
     });
   }
 
   if (user && user.password !== password) {
     error.push({
       type: 'password',
-      message: 'Check your password',
+      message: 'Comprueba tu contraseña',
     });
   }
 
@@ -68,7 +68,7 @@ mock.onGet('/api/auth/access-token').reply((config) => {
 
     return [200, response];
   }
-  const error = 'Invalid access token detected';
+  const error = 'Se detectó un token de acceso no válido';
   return [401, { error }];
 });
 
@@ -81,7 +81,7 @@ mock.onPost('/api/auth/sign-up').reply((request) => {
   if (isEmailExists) {
     error.push({
       type: 'email',
-      message: 'The email address is already in use',
+      message: 'La dirección de correo electrónico ya está en uso',
     });
   }
 
