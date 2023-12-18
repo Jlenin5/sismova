@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom'
 
 const Images = lazy(() => import('./images/Images'))
 const Categories = lazy(() => import('./categories/Categories'))
+const Clients = lazy(() => import('./clients/Index'))
 const Products = lazy(() => import('./products/Products'))
 const Product = lazy(() => import('./product/Product'))
 const Order = lazy(() => import('./order/Order'))
@@ -20,6 +21,10 @@ const ECommerceAppConfig = {
     {
       path: 'apps/e-commerce/categories',
       element: <Categories />,
+    },
+    {
+      path: 'apps/e-commerce/clients',
+      element: <Clients />,
     },
     {
       path: 'apps/e-commerce/products',

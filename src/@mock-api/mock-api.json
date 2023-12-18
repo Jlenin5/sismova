@@ -7317,12 +7317,12 @@
           "example-1": {
             "uuid": "XgbuVEXBU5gtSKdbQRP1Zbbby1i1",
             "from": "custom-db",
-            "password": "admin",
+            "password": "admins",
             "role": "admin",
             "data": {
               "displayName": "Abbott Keitch",
               "photoURL": "assets/images/avatars/brian-hughes.jpg",
-              "email": "admin@sismova.tech",
+              "email": "lenin@tecmova.tech",
               "settings": {
                 "layout": {},
                 "theme": {}

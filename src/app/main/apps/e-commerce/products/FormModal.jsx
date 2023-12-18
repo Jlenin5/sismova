@@ -12,6 +12,8 @@ import Box from '@mui/material/Box'
 import { getCategories } from '../store/categoriesSlice'
 import FormImages from './FormImages'
 import { FormProvider, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,6 +52,10 @@ const initialForm = {
   prodState: true
 }
 
+const formG = {
+  formImages: []
+}
+
 const generateProductCode = (maxId) => {
   if (maxId === 0) {
     return 'PRD00001'
@@ -59,6 +65,13 @@ const generateProductCode = (maxId) => {
   return `PRD${formattedId}`
 }
 
+const schema = yup.object().shape({
+  name: yup
+    .string()
+    .required('Debes ingresar un nombre de producto')
+    .min(5, 'El nombre del producto debe tener al menos 5 caracteres.'),
+})
+
 function FormModal({maxId,onClose, open,createData,updateData,dataToEdit,setDataToEdit,deleteData}) {
   const [form, setForm] = useState(initialForm)
   const [generatedCode, setGeneratedCode] = useState('')
@@ -67,7 +80,11 @@ function FormModal({maxId,onClose, open,createData,updateData,dataToEdit,setData
   const [fileName, setFileName] = useState("Seleccionar archivo")
   const theme = useTheme()
   const [value, setValue] = useState(0)
-  const methods = useForm()
+  const methods = useForm({
+    mode: 'onChange',
+    defaultValues: formG,
+    resolver: yupResolver(schema),
+  })
 
   const handleSubmit = (e) => {
     form.prodState = form.prodState ? 1 : 0
@@ -102,7 +119,7 @@ function FormModal({maxId,onClose, open,createData,updateData,dataToEdit,setData
     setImage(null)
     setFileName("Seleccionar archivo")
     setForm(initialForm)
-    setDataToEdit(null);
+    setDataToEdit(null)
   }
 
   const handleChange = (e) => {
@@ -186,7 +203,7 @@ function FormModal({maxId,onClose, open,createData,updateData,dataToEdit,setData
           backgroundColor: 'white'
         }}
       >
-        <AppBar position="static" color="default">
+        {/* <AppBar position="static" color="default">
           <Tabs
             value={value}
             onChange={handleChangeTabs}
@@ -198,13 +215,13 @@ function FormModal({maxId,onClose, open,createData,updateData,dataToEdit,setData
             <Tab label="Producto" {...a11yProps(0)} />
             <Tab label="Imágenes" {...a11yProps(1)} />
           </Tabs>
-        </AppBar>
-        <SwipeableViews
+        </AppBar> */}
+        {/* <SwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
           index={value}
           onChangeIndex={handleChangeIndex}
-        >
-          <TabPanel value={value} index={0} dir={theme.direction}>
+        > */}
+          {/* <TabPanel value={value} index={0} dir={theme.direction}> */}
           <FormProduct
             form={form}
             generatedCode={generatedCode}
@@ -219,13 +236,13 @@ function FormModal({maxId,onClose, open,createData,updateData,dataToEdit,setData
             dataToEdit={dataToEdit}
             handleClose={handleClose}
           />
-          </TabPanel>
+          {/* </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
             <FormProvider {...methods}>
               <FormImages />
             </FormProvider>
-          </TabPanel>
-        </SwipeableViews>
+          </TabPanel> */}
+        {/* </SwipeableViews> */}
       </Box>
     </Dialog>
   )

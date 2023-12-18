@@ -101,11 +101,18 @@ const navigationConfig = [
         icon: 'heroicons-outline:shopping-cart',
         translate: 'ECOMMERCE',
         children: [
+          // {
+          //   id: 'e-commerce-images',
+          //   title: 'Imágenes',
+          //   type: 'item',
+          //   url: 'apps/e-commerce/images',
+          //   end: true,
+          // },
           {
-            id: 'e-commerce-images',
-            title: 'Imágenes',
+            id: 'e-commerce-clients',
+            title: 'Clientes',
             type: 'item',
-            url: 'apps/e-commerce/images',
+            url: 'apps/e-commerce/clients',
             end: true,
           },
           {
@@ -122,18 +129,18 @@ const navigationConfig = [
             url: 'apps/e-commerce/products',
             end: true,
           },
-          {
-            id: 'e-commerce-product-detail',
-            title: 'Product Detail',
-            type: 'item',
-            url: 'apps/e-commerce/products/1/a-walk-amongst-friends-canvas-print',
-          },
-          {
-            id: 'e-commerce-new-product',
-            title: 'New Product',
-            type: 'item',
-            url: 'apps/e-commerce/products/new',
-          },
+          // {
+          //   id: 'e-commerce-product-detail',
+          //   title: 'Product Detail',
+          //   type: 'item',
+          //   url: 'apps/e-commerce/products/1/a-walk-amongst-friends-canvas-print',
+          // },
+          // {
+          //   id: 'e-commerce-new-product',
+          //   title: 'New Product',
+          //   type: 'item',
+          //   url: 'apps/e-commerce/products/new',
+          // },
           {
             id: 'e-commerce-orders',
             title: 'Orders',

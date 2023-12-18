@@ -23,7 +23,12 @@ export const getMaxId = async () => {
 
 export const postImage = async (dataJson) => {
   try {
-    const response = await axios.post(API_URL+'postimage', dataJson)
+    const response = await axios.post(API_URL+'postimage', dataJson, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    })
+    console.log(response.data)
     return await response.data
   } catch(error) {
     throw error

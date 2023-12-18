@@ -15,69 +15,69 @@ import { Box } from '@mui/system'
 import TableHead from '@mui/material/TableHead'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
-import { removeProducts } from '../store/productsSlice'
 
 const rows = [
   {
-    id: 'image',
+    id: 'icon',
     align: 'left',
-    disablePadding: true,
+    disablePadding: false,
     label: '',
     sort: false,
   },
   {
-    id: 'name',
+    id: 'cliFirstName',
     align: 'left',
     disablePadding: false,
     label: 'Nombre',
     sort: true,
   },
   {
-    id: 'category',
+    id: 'cliDocument',
     align: 'left',
     disablePadding: false,
-    label: 'Categoría',
+    label: 'Documento',
     sort: true,
   },
   {
-    id: 'price',
-    align: 'right',
+    id: 'cliEmail',
+    align: 'left',
     disablePadding: false,
-    label: 'Precio',
+    label: 'Correo electrónico',
     sort: true,
   },
   {
-    id: 'stock',
-    align: 'right',
+    id: 'cliGender',
+    align: 'left',
     disablePadding: false,
-    label: 'Stock',
+    label: 'Sexo',
     sort: true,
   },
   {
-    id: 'state',
+    id: 'cliState',
     align: 'left',
     disablePadding: false,
     label: 'Estado',
     sort: true,
-  },
+  }
 ]
 
-function ProductsTableHead(props) {
-  const { selectedProductIds } = props
-  const numSelected = selectedProductIds.length
+export const ClientsTableHead = (props) => {
 
-  const [selectedProductsMenu, setSelectedProductsMenu] = useState(null)
+  const { selectedClientIds } = props
+  const numSelected = selectedClientIds.length
+  
+  const [selectedClientsMenu, setSelectedClientsMenu] = useState(null)
 
   const createSortHandler = (property) => (event) => {
     props.onRequestSort(event, property)
   }
 
-  function openSelectedProductsMenu(event) {
-    setSelectedProductsMenu(event.currentTarget)
+  const openSelectedClientsMenu = (event) => {
+    setSelectedClientsMenu(event.currentTarget)
   }
 
-  function closeSelectedProductsMenu() {
-    setSelectedProductsMenu(null)
+  const closeSelectedClientsMenu = () => {
+    setSelectedClientsMenu(null)
   }
 
   return (
@@ -106,26 +106,25 @@ function ProductsTableHead(props) {
               }}
             >
               <IconButton
-                aria-owns={selectedProductsMenu ? 'selectedProductsMenu' : null}
+                aria-owns={selectedClientsMenu ? 'selectedClientsMenu' : null}
                 aria-haspopup="true"
-                onClick={openSelectedProductsMenu}
+                onClick={openSelectedClientsMenu}
                 size="large"
               >
                 <FuseSvgIcon>heroicons-outline:dots-horizontal</FuseSvgIcon>
               </IconButton>
               <Menu
-                id="selectedProductsMenu"
-                anchorEl={selectedProductsMenu}
-                open={Boolean(selectedProductsMenu)}
-                onClose={closeSelectedProductsMenu}
+                id="selectedClientsMenu"
+                anchorEl={selectedClientsMenu}
+                open={Boolean(selectedClientsMenu)}
+                onClose={closeSelectedClientsMenu}
               >
                 <MenuList>
                   <MenuItem
                     onClick={() => {
-                      props.deleteMultiple(selectedProductIds)
-                      // dispatch(removeProducts(selectedProductIds))
+                      props.deleteMultiple(selectedClientIds)
                       props.onMenuItemClick()
-                      closeSelectedProductsMenu()
+                      closeSelectedClientsMenu()
                     }}
                   >
                     <ListItemIcon className="min-w-40">
@@ -176,5 +175,3 @@ function ProductsTableHead(props) {
     </TableHead>
   )
 }
-
-export default ProductsTableHead

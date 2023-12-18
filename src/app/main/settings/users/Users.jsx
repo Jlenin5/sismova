@@ -53,19 +53,19 @@ const Users = (props) => {
     )
   }
 
-  if (data.length === 0) {
-    return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1, transition: { delay: 0.1 } }}
-        className="flex flex-1 items-center justify-center h-full"
-      >
-        <Typography color="text.secondary" variant="h5">
-          No hay usuarios
-        </Typography>
-      </motion.div>
-    )
-  }
+  // if (data.length === 0) {
+  //   return (
+  //     <motion.div
+  //       initial={{ opacity: 0 }}
+  //       animate={{ opacity: 1, transition: { delay: 0.1 } }}
+  //       className="flex flex-1 items-center justify-center h-full"
+  //     >
+  //       <Typography color="text.secondary" variant="h5">
+  //         No hay usuarios
+  //       </Typography>
+  //     </motion.div>
+  //   )
+  // }
 
   return (
     <div className="w-full flex flex-col min-h-full">

@@ -1,4 +1,7 @@
-import Users from "./users"
+import User from "./users"
+import Company from "./company"
+import Permission from "./permissions"
+import Rol from "./roles"
 
 const settingConfig = {
   settings: {
@@ -7,7 +10,19 @@ const settingConfig = {
   routes: [
     {
       path: 'settings/users',
-      element: <Users />
+      element: <User />
+    },
+    {
+      path: 'settings/company',
+      element: <Company />
+    },
+    {
+      path: 'settings/roles',
+      element: <Rol />
+    },
+    {
+      path: 'settings/permissions',
+      element: <Permission />
     }
   ]
 }

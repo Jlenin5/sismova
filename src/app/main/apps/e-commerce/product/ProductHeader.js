@@ -1,33 +1,34 @@
-import Button from '@mui/material/Button';
-import { useTheme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import { motion } from 'framer-motion';
-import { useFormContext } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import _ from '@lodash';
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import { removeProduct, saveProduct } from '../store/productSlice';
+import Button from '@mui/material/Button'
+import { useTheme } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import { motion } from 'framer-motion'
+import { useFormContext } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import _ from '@lodash'
+import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
+import { removeProduct, saveProduct } from '../store/productSlice'
 
 function ProductHeader(props) {
-  const dispatch = useDispatch();
-  const methods = useFormContext();
-  const { formState, watch, getValues } = methods;
-  const { isValid, dirtyFields } = formState;
-  const featuredImageId = watch('featuredImageId');
-  const images = watch('images');
-  const name = watch('name');
-  const theme = useTheme();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const methods = useFormContext()
+  const { formState, watch, getValues } = methods
+  const { isValid, dirtyFields } = formState
+  const featuredImageId = watch('featuredImageId')
+  const images = watch('images')
+  const name = watch('name')
+  const theme = useTheme()
+  const navigate = useNavigate()
 
   function handleSaveProduct() {
-    dispatch(saveProduct(getValues()));
+    console.log(getValues())
+    dispatch(saveProduct(getValues()))
   }
 
   function handleRemoveProduct() {
     dispatch(removeProduct()).then(() => {
-      navigate('/apps/e-commerce/products');
-    });
+      navigate('/apps/e-commerce/products')
+    })
   }
 
   return (
@@ -49,12 +50,12 @@ function ProductHeader(props) {
                 ? 'heroicons-outline:arrow-sm-left'
                 : 'heroicons-outline:arrow-sm-right'}
             </FuseSvgIcon>
-            <span className="flex mx-4 font-medium">Products</span>
+            <span className="flex mx-4 font-medium">Productos</span>
           </Typography>
         </motion.div>
 
         <div className="flex items-center max-w-full">
-          <motion.div
+          {/* <motion.div
             className="hidden sm:flex"
             initial={{ scale: 0 }}
             animate={{ scale: 1, transition: { delay: 0.3 } }}
@@ -72,17 +73,17 @@ function ProductHeader(props) {
                 alt={name}
               />
             )}
-          </motion.div>
+          </motion.div> */}
           <motion.div
             className="flex flex-col items-center sm:items-start min-w-0 mx-8 sm:mx-16"
             initial={{ x: -20 }}
             animate={{ x: 0, transition: { delay: 0.3 } }}
           >
             <Typography className="text-16 sm:text-20 truncate font-semibold">
-              {name || 'New Product'}
+              {name || 'Nuevo producto'}
             </Typography>
             <Typography variant="caption" className="font-medium">
-              Product Detail
+              Detalles de producto
             </Typography>
           </motion.div>
         </div>
@@ -99,7 +100,7 @@ function ProductHeader(props) {
           onClick={handleRemoveProduct}
           startIcon={<FuseSvgIcon className="hidden sm:flex">heroicons-outline:trash</FuseSvgIcon>}
         >
-          Remove
+          Eliminar
         </Button>
         <Button
           className="whitespace-nowrap mx-4"
@@ -108,11 +109,11 @@ function ProductHeader(props) {
           disabled={_.isEmpty(dirtyFields) || !isValid}
           onClick={handleSaveProduct}
         >
-          Save
+          Guardar
         </Button>
       </motion.div>
     </div>
-  );
+  )
 }
 
-export default ProductHeader;
+export default ProductHeader

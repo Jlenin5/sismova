@@ -4,12 +4,8 @@ import axios from 'axios'
 const API_URL = 'https://sismova.tech/backsis/public/api/'
 
 export const getProducts = createAsyncThunk( 'eCommerceApp/products/getProductos', async () => {
-    try {
-      const response = await axios.get(API_URL+'prod')
-      return await response.data
-    } catch(error) {
-      throw error
-    }
+  const response = await axios.get(API_URL+'prod')
+  return await response.data
 })
 
 export const getMaxId = async () => {
@@ -55,6 +51,7 @@ export const postProduct = async (dataJson) => {
         "Content-Type": "multipart/form-data"
       }
     })
+    console.log(response)
     return await response.data
   } catch(error) {
     throw error
@@ -105,10 +102,6 @@ const productsSlice = createSlice({
     [getProducts.fulfilled]: productsAdapter.setAll,
     // [getMaxId.fulfilled]: productsAdapter.setAll,
     // [getProduct.fulfilled]: productsAdapter.setAll,
-    // [putProduct.fulfilled]: productsAdapter.setAll,
-    // [postProduct.fulfilled]: productsAdapter.setAll,
-    // [deleteProduct.fulfilled]: productsAdapter.setAll,
-    // [delProductMulti.fulfilled]: productsAdapter.setAll,
   },
 })
 

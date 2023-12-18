@@ -24,21 +24,18 @@ import PricingTab from './tabs/PricingTab'
 import ProductImagesTab from './tabs/ProductImagesTab'
 import ShippingTab from './tabs/ShippingTab'
 
-/**
- * Form Validation Schema
- */
 const schema = yup.object().shape({
   name: yup
     .string()
-    .required('You must enter a product name')
-    .min(5, 'The product name must be at least 5 characters'),
+    .required('Debes ingresar un nombre de producto')
+    .min(5, 'El nombre del producto debe tener al menos 5 caracteres.'),
 })
 
 function Product(props) {
   const dispatch = useDispatch()
   const product = useSelector(selectProduct)
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'))
-
+  
   const routeParams = useParams()
   const [tabValue, setTabValue] = useState(0)
   const [noProduct, setNoProduct] = useState(false)
@@ -53,27 +50,17 @@ function Product(props) {
   useDeepCompareEffect(() => {
     function updateProductState() {
       const { productId } = routeParams
-
       if (productId === 'new') {
-        /**
-         * Create New Product data
-         */
         dispatch(newProduct())
       } else {
-        /**
-         * Get Product data
-         */
         dispatch(getProduct(productId)).then((action) => {
-          /**
-           * If the requested product is not exist show message
-           */
           if (!action.payload) {
             setNoProduct(true)
           }
         })
       }
     }
-
+    
     updateProductState()
   }, [dispatch, routeParams])
 
@@ -81,41 +68,29 @@ function Product(props) {
     if (!product) {
       return
     }
-    /**
-     * Reset the form on product state changes
-     */
     reset(product)
   }, [product, reset])
 
   useEffect(() => {
     return () => {
-      /**
-       * Reset Product on component unload
-       */
       dispatch(resetProduct())
       setNoProduct(false)
     }
   }, [dispatch])
 
-  /**
-   * Tab Change
-   */
   function handleTabChange(event, value) {
     setTabValue(value)
   }
 
-  /**
-   * Show Message if the requested products is not exists
-   */
   if (noProduct) {
     return (
       <motion.div
-        initial={{ opacity: 0 }}
+      initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: { delay: 0.1 } }}
         className="flex flex-col flex-1 items-center justify-center h-full"
-      >
+        >
         <Typography color="text.secondary" variant="h5">
-          There is no such product!
+          No hay tal producto!
         </Typography>
         <Button
           className="mt-24"
@@ -123,20 +98,14 @@ function Product(props) {
           variant="outlined"
           to="/apps/e-commerce/products"
           color="inherit"
-        >
-          Go to Products Page
+          >
+          Ir a la página de productos
         </Button>
       </motion.div>
     )
   }
 
-  /**
-   * Wait while product data is loading and form is setted
-   */
-  if (
-    _.isEmpty(form) ||
-    (product && routeParams.productId !== product.id && routeParams.productId !== 'new')
-  ) {
+  if ( _.isEmpty(form) || (product && routeParams.productId !== product.id && routeParams.productId !== 'new') ) {
     return <FuseLoading />
   }
 
@@ -155,11 +124,11 @@ function Product(props) {
               scrollButtons="auto"
               classes={{ root: 'w-full h-64 border-b-1' }}
             >
-              <Tab className="h-64" label="Basic Info" />
-              <Tab className="h-64" label="Product Images" />
-              <Tab className="h-64" label="Pricing" />
-              <Tab className="h-64" label="Inventory" />
-              <Tab className="h-64" label="Shipping" />
+              <Tab className="h-64" label="Información básica" />
+              <Tab className="h-64" label="Imágenes" />
+              <Tab className="h-64" label="Precios" />
+              <Tab className="h-64" label="Inventario" />
+              <Tab className="h-64" label="Medidas  " />
             </Tabs>
             <div className="p-16 sm:p-24 max-w-3xl">
               <div className={tabValue !== 0 ? 'hidden' : ''}>

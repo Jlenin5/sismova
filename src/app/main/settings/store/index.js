@@ -1,9 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit'
 import users from './UserSlice'
-// import categories from './categoriesSlice'
+import company from './CompanySlice'
 
 const reducer = combineReducers({
-  // categories,
+  company,
   users,
   // product,
   // orders,
