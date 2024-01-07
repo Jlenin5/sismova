@@ -55,7 +55,7 @@ function QuickPanel(props) {
       disableSwipeToOpen
     >
       <FuseScrollbars>
-        <ListSubheader component="div">Today</ListSubheader>
+        <ListSubheader component="div">Hoy</ListSubheader>
 
         <div className="mb-0 py-16 px-24">
           <Typography className="mb-12 text-32" color="text.secondary">
@@ -75,7 +75,7 @@ function QuickPanel(props) {
         </div>
         <Divider />
         <List>
-          <ListSubheader component="div">Events</ListSubheader>
+          <ListSubheader component="div">Eventos</ListSubheader>
           {data &&
             data.events.map((event) => (
               <ListItem key={event.id}>
@@ -85,7 +85,7 @@ function QuickPanel(props) {
         </List>
         <Divider />
         <List>
-          <ListSubheader component="div">Notes</ListSubheader>
+          <ListSubheader component="div">Notas</ListSubheader>
           {data &&
             data.notes.map((note) => (
               <ListItem key={note.id}>
@@ -95,12 +95,12 @@ function QuickPanel(props) {
         </List>
         <Divider />
         <List>
-          <ListSubheader component="div">Quick Settings</ListSubheader>
+          <ListSubheader component="div">Ajustes rápidos</ListSubheader>
           <ListItem>
             <ListItemIcon className="min-w-40">
               <FuseSvgIcon>material-outline:notifications</FuseSvgIcon>
             </ListItemIcon>
-            <ListItemText primary="Notifications" />
+            <ListItemText primary="Notificaciones" />
             <ListItemSecondaryAction>
               <Switch
                 color="primary"
@@ -113,7 +113,7 @@ function QuickPanel(props) {
             <ListItemIcon className="min-w-40">
               <FuseSvgIcon>material-outline:cloud</FuseSvgIcon>
             </ListItemIcon>
-            <ListItemText primary="Cloud Sync" />
+            <ListItemText primary="Sincronización en nube" />
             <ListItemSecondaryAction>
               <Switch
                 color="secondary"
@@ -126,7 +126,7 @@ function QuickPanel(props) {
             <ListItemIcon className="min-w-40">
               <FuseSvgIcon>material-outline:brightness_high</FuseSvgIcon>
             </ListItemIcon>
-            <ListItemText primary="Retro Thrusters" />
+            <ListItemText primary="Propulsores retro" />
             <ListItemSecondaryAction>
               <Switch
                 color="primary"

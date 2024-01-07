@@ -1,5 +1,6 @@
 import User from "./users"
 import Company from "./company"
+import BranchOffice from "./branchoffices"
 import Permission from "./permissions"
 import Rol from "./roles"
 
@@ -15,6 +16,10 @@ const settingConfig = {
     {
       path: 'settings/company',
       element: <Company />
+    },
+    {
+      path: 'settings/branchoffices',
+      element: <BranchOffice />
     },
     {
       path: 'settings/roles',

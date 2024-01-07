@@ -2,11 +2,17 @@ import _ from '@lodash';
 import FuseUtils from '@fuse/utils';
 import mockApi from '../mock-api.json';
 import mock from '../mock';
+import axios from 'axios';
 
 let productsDB = mockApi.components.examples.ecommerce_products.value;
 let ordersDB = mockApi.components.examples.ecommerce_orders.value;
 
-mock.onGet('/api/ecommerce/products').reply((config) => {
+let url = 'https://sismova.tech/backsis/public/api/prod'
+
+mock.onGet('/api/ecommerce/products').reply( async (config) => {
+  const response = await axios.get(url)
+  // return response.data
+  // console.log(response.data)
   return [200, productsDB];
 });
 

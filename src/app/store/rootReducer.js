@@ -1,8 +1,9 @@
-import { combineReducers } from '@reduxjs/toolkit';
-import fuse from './fuse';
-import i18n from './i18nSlice';
-import user from './userSlice';
-import categories from '../main/apps/academy/store/categoriesSlice';
+import { combineReducers } from '@reduxjs/toolkit'
+import fuse from './fuse'
+import i18n from './i18nSlice'
+import user from './userSlice'
+import role from './roleSlice'
+import categories from '../main/apps/academy/store/categoriesSlice'
 
 const createReducer = (asyncReducers) => (state, action) => {
   const combinedReducer = combineReducers({
@@ -10,17 +11,18 @@ const createReducer = (asyncReducers) => (state, action) => {
     fuse,
     i18n,
     user,
+    role,
     ...asyncReducers,
-  });
+  })
 
   /*
 	Reset the redux store when user logged out
 	 */
   if (action.type === 'user/userLoggedOut') {
-    // state = undefined;
+    // state = undefined
   }
 
-  return combinedReducer(state, action);
-};
+  return combinedReducer(state, action)
+}
 
-export default createReducer;
+export default createReducer

@@ -9,7 +9,7 @@ import ProductsTable from './ProductsTable'
 import { getMaxId, putProduct, postProduct, deleteProduct, delProductMulti } from '../store/productsSlice'
 
 function Products() {
-  const [data, setData] = useState()
+  const [data, setData] = useState([])
   const [page, setPage] = useState(0)
   const [dataToEdit, setDataToEdit] = useState(null)
   const [maxId, setMaxId] = useState(null)

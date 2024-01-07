@@ -1,45 +1,10 @@
 .form-dialog-category .MuiPaper-root {
-  max-width: 600px !important;
+  max-width: 500px !important;
   width: 100%;
-  max-height: 650px !important;
+  max-height: 300px !important;
   height: 100%;
   margin: auto;
   /* background-color: black; */
-}
-
-.form-dialog-category .box-nav-form header {
-  box-shadow: 0 0 0 white !important;
-}
-
-.form-dialog-category .box-nav-form button {
-  background-color: white !important;
-}
-
-.form-dialog-category .form-image {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 2px dashed #1475cf;
-  height: 200px;
-  width: 200px;
-  cursor: pointer;
-  border-radius: 8px;
-  margin-left: 10px;
-  margin-top: 8px;
-}
-
-.form-dialog-category .fc-input-t {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.form-dialog-category .tf-purp,
-.form-dialog-category .tf-salep,
-.form-dialog-category .tf-name {
-  margin-top: 18px;
 }
 
 

@@ -1,28 +1,30 @@
-import '@mock-api';
-import BrowserRouter from '@fuse/core/BrowserRouter';
-import FuseLayout from '@fuse/core/FuseLayout';
-import FuseTheme from '@fuse/core/FuseTheme';
-import { SnackbarProvider } from 'notistack';
-import { useSelector } from 'react-redux';
-import rtlPlugin from 'stylis-plugin-rtl';
-import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/react';
-import { selectCurrentLanguageDirection } from 'app/store/i18nSlice';
-import { selectUser } from 'app/store/userSlice';
-import themeLayouts from 'app/theme-layouts/themeLayouts';
-import { selectMainTheme } from 'app/store/fuse/settingsSlice';
-import FuseAuthorization from '@fuse/core/FuseAuthorization';
-import settingsConfig from 'app/configs/settingsConfig';
-import withAppProviders from './withAppProviders';
-import { AuthProvider } from './auth/AuthContext';
+import '@mock-api'
+import BrowserRouter from '@fuse/core/BrowserRouter'
+import FuseLayout from '@fuse/core/FuseLayout'
+import FuseTheme from '@fuse/core/FuseTheme'
+import { SnackbarProvider } from 'notistack'
+import { useSelector } from 'react-redux'
+import rtlPlugin from 'stylis-plugin-rtl'
+import createCache from '@emotion/cache'
+import { CacheProvider } from '@emotion/react'
+import { selectCurrentLanguageDirection } from 'app/store/i18nSlice'
+import { selectUser } from 'app/store/userSlice'
+import themeLayouts from 'app/theme-layouts/themeLayouts'
+import { selectMainTheme } from 'app/store/fuse/settingsSlice'
+import FuseAuthorization from '@fuse/core/FuseAuthorization'
+import settingsConfig from 'app/configs/settingsConfig'
+import withAppProviders from './withAppProviders'
+import { AuthProvider } from './auth/AuthContext'
 
-// import axios from 'axios';
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+// import axios from 'axios'
 /**
  * Axios HTTP Request defaults
  */
-// axios.defaults.baseURL = "";
-// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-// axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
+// axios.defaults.baseURL = ""
+// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+// axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded'
 
 const emotionCacheOptions = {
   rtl: {
@@ -35,12 +37,27 @@ const emotionCacheOptions = {
     stylisPlugins: [],
     insertionPoint: document.getElementById('emotion-insertion-point'),
   },
-};
+}
 
 function App() {
-  const user = useSelector(selectUser);
-  const langDirection = useSelector(selectCurrentLanguageDirection);
-  const mainTheme = useSelector(selectMainTheme);
+  const [data,setData] = useState([])
+  const user = useSelector(selectUser)
+  const langDirection = useSelector(selectCurrentLanguageDirection)
+  const mainTheme = useSelector(selectMainTheme)
+
+  const url = 'https://sismova.tech/backsis/public/api/rol'
+
+  const getRoles = async () => {
+    const response = await axios.get(url)
+    return response.data
+  }
+
+  const filtrado = data.find(r => r.rolId === user.Rol)
+
+  useEffect(() => {
+    getRoles().
+    then(r => setData(r))
+  }, [])
 
   return (
     <CacheProvider value={createCache(emotionCacheOptions[langDirection])}>
@@ -48,7 +65,7 @@ function App() {
         <AuthProvider>
           <BrowserRouter>
             <FuseAuthorization
-              userRole={user.role}
+              userRole={filtrado ? filtrado.rolName : ''}
               loginRedirectUrl={settingsConfig.loginRedirectUrl}
             >
               <SnackbarProvider
@@ -68,7 +85,7 @@ function App() {
         </AuthProvider>
       </FuseTheme>
     </CacheProvider>
-  );
+  )
 }
 
-export default withAppProviders(App)();
+export default withAppProviders(App)()

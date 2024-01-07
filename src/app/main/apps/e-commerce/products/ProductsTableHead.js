@@ -19,42 +19,42 @@ import { removeProducts } from '../store/productsSlice'
 
 const rows = [
   {
-    id: 'image',
+    id: 'prodImage',
     align: 'left',
     disablePadding: true,
     label: '',
     sort: false,
   },
   {
-    id: 'name',
+    id: 'prodName',
     align: 'left',
     disablePadding: false,
     label: 'Nombre',
     sort: true,
   },
   {
-    id: 'category',
+    id: 'Category',
     align: 'left',
     disablePadding: false,
     label: 'Categoría',
     sort: true,
   },
   {
-    id: 'price',
+    id: 'prodSalePrice',
     align: 'right',
     disablePadding: false,
     label: 'Precio',
     sort: true,
   },
   {
-    id: 'stock',
+    id: 'prodStock',
     align: 'right',
     disablePadding: false,
     label: 'Stock',
     sort: true,
   },
   {
-    id: 'state',
+    id: 'prodState',
     align: 'left',
     disablePadding: false,
     label: 'Estado',
@@ -151,16 +151,16 @@ function ProductsTableHead(props) {
               key={row.id}
               align={row.align}
               padding={row.disablePadding ? 'none' : 'normal'}
-              sortDirection={props.order.id === row.id ? props.order.direction : false}
+              sortDirection={props.order.prodId === row.id ? props.order.direction : false}
             >
               {row.sort && (
                 <Tooltip
-                  title="Sort"
+                  // title="Sort"
                   placement={row.align === 'right' ? 'bottom-end' : 'bottom-start'}
                   enterDelay={300}
                 >
                   <TableSortLabel
-                    active={props.order.id === row.id}
+                    active={props.order.prodId === row.id}
                     direction={props.order.direction}
                     onClick={createSortHandler(row.id)}
                     className="font-semibold"

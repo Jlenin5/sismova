@@ -65,14 +65,14 @@ const themesConfig = {
         contrastText: darkPaletteText.primary,
       },
       secondary: {
-        light: '#818cf8',
+        light: '#FF444A',
         main: '#4f46e5',
         dark: '#3730a3',
         contrastText: darkPaletteText.primary,
       },
       background: {
         paper: '#1e293b',
-        default: '#111827',
+        default: '#580606',
       },
       error: {
         light: '#ffcdd2',

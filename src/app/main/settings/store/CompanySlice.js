@@ -3,32 +3,32 @@ import axios from 'axios'
 
 const API_URL = 'https://sismova.tech/backsis/public/api/'
 
-export const getCompany = createAsyncThunk( 'eCommerceApp/company/getCompany', async () => {
-    try {
-      const response = await axios.get(API_URL+'com')
-      return await response.data
-    } catch(error) {
-      throw error
-    }
+export const getCompany = createAsyncThunk( 'settingsApp/company/getCompany', async () => {
+    const response = await axios.get(API_URL+'com')
+    return response.data
 })
 
-export const putCompany = async (data) => {
-  try {
-    const {comId, comName, comRUC, comEmail, comAddress, comPhone} = data
-    const response = await axios.put(API_URL+'updatecom/'+comId, {comName, comRUC, comEmail, comAddress, comPhone})
-    return await response.data
-  } catch(error) {
-    throw error
+export const putCompany = async (data, updateFile) => {
+  const formData = new FormData()
+  formData.append('comImage', updateFile)
+  for(const key in data) {
+    formData.append(key, data[key])
   }
+  const response = await axios.post(API_URL+'updatecom/'+data.comId, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  })
+  return response.data
 }
 
 const companyAdapter = createEntityAdapter({})
 
 export const { selectAll: selectCompany, selectById: selectClientById } =
-  companyAdapter.getSelectors((state) => state.eCommerceApp.company)
+  companyAdapter.getSelectors((state) => state.settingsApp.company)
 
 const companySlice = createSlice({
-  name: 'eCommerceApp/company',
+  name: 'settingsApp/company',
   initialState: companyAdapter.getInitialState({
     searchText: '',
   }),
@@ -47,6 +47,6 @@ const companySlice = createSlice({
 
 export const { setCompanySearchText } = companySlice.actions
 
-export const selectCompanySearchText = ({ eCommerceApp }) => eCommerceApp.company.searchText
+export const selectCompanySearchText = ({ settingsApp }) => settingsApp.company.searchText
 
 export default companySlice.reducer

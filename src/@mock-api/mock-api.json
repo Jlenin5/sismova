@@ -25553,20 +25553,20 @@
         "value": {
           "summary": {
             "ranges": {
-              "DY": "Yesterday",
-              "DT": "Today",
-              "DTM": "Tomorrow"
+              "DY": "Ayer",
+              "DT": "Hoy",
+              "DTM": "Mañana"
             },
             "currentRange": "DT",
             "data": {
-              "name": "Due Tasks",
+              "name": "Tareas debidas",
               "count": {
                 "DY": 21,
                 "DT": 25,
                 "DTM": 19
               },
               "extra": {
-                "name": "Completed",
+                "name": "Completado",
                 "count": {
                   "DY": 6,
                   "DT": 7,
@@ -25577,36 +25577,36 @@
             "detail": "You can show some detailed information about this widget in here."
           },
           "overdue": {
-            "title": "Overdue",
+            "title": "Atrasado",
             "data": {
-              "name": "Tasks",
+              "name": "Tareas",
               "count": 4,
               "extra": {
-                "name": "Yesterday's overdue",
+                "name": "El retraso de ayer",
                 "count": 2
               }
             },
             "detail": "You can show some detailed information about this widget in here."
           },
           "issues": {
-            "title": "Issues",
+            "title": "Asuntos",
             "data": {
-              "name": "Open",
+              "name": "Abierto",
               "count": 32,
               "extra": {
-                "name": "Closed today",
+                "name": "Cerrado hoy",
                 "count": 0
               }
             },
             "detail": "You can show some detailed information about this widget in here."
           },
           "features": {
-            "title": "Features",
+            "title": "Características",
             "data": {
-              "name": "Proposals",
+              "name": "Propuestas",
               "count": 42,
               "extra": {
-                "name": "Implemented",
+                "name": "Implementado",
                 "count": 8
               }
             },
@@ -32638,12 +32638,11 @@
           {
             "uuid": "XgbuVEXBU5gtSKdbQRP1Zbbby1i1",
             "from": "custom-db",
-            "password": "admin",
-            "role": "admin",
+            "userPassword": "admin",
             "data": {
               "displayName": "Abbott Keitch",
               "photoURL": "assets/images/avatars/brian-hughes.jpg",
-              "email": "admin@sismova.tech",
+              "userEmail": "admin@sismova.tech",
               "settings": {
                 "layout": {},
                 "theme": {}
@@ -32658,12 +32657,11 @@
           {
             "uuid": "XgbuVEXBU6gtSKdbTYR1Zbbby1i3",
             "from": "custom-db",
-            "password": "staff",
-            "role": "staff",
+            "userPassword": "staff",
             "data": {
               "displayName": "Arnold Matlock",
               "photoURL": "assets/images/avatars/Arnold.jpg",
-              "email": "staff@fusetheme.com",
+              "userEmail": "staff@fusetheme.com",
               "settings": {
                 "layout": {
                   "style": "layout2",

@@ -1,0 +1,291 @@
+$transparente: transparent;
+$global: #FF444A;
+$rojo-claro: #ff969a;
+$azul: #1f1cd8;
+$blanco: #fff;
+$negro: #000;
+$gris0: #ccc;
+$gris1: #ebebeb;
+$gris2: #929090;
+$gris3: #f7f7f7;
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.form-dialog-product .MuiPaper-root {
+  max-width: 1070px;
+  width: 100%;
+  max-height: 570px !important;
+  height: 100%;
+  margin: auto;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  &::-webkit-scrollbar-track {
+      background:$blanco;
+  }
+  &::-webkit-scrollbar-thumb {
+      background-color: $global;
+      border-radius: 20px;
+      border: 3px solid $blanco;
+  }
+  .box-nav-form {
+    max-width: 1070px !important;
+    width: 100%;
+    max-height: 540px !important;
+    height: 100%;
+    .ctn-info-product {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: auto;
+      align-items: center;
+      .form-product {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1070px;
+        width: 100%;
+        .ctn-image-form {
+          display: flex;
+          flex-direction: column;
+          max-width: 300px;
+          width: 100%;
+          .form-image {
+            max-width: 300px;
+            width: 100%;
+            height: 300px;
+          }
+          .tf-input {
+            margin-top: 30px;
+          }
+          .tf-state-1 {
+            margin-top: 3px;
+            margin-left: 5px;
+          }
+          .tf-webhome-1 {
+            margin-top: 0;
+          }
+        }
+        .ctn-inputs-form {
+          max-width: 695px;
+          width: 100%;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 2px 10px;
+          .tf-category, .tf-state, .tf-webhome {
+            display: none;
+          }
+          .tf-description {
+            height: 220px;
+          }
+        }
+      }
+      .ctn-buttons-form {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        .btn-form {
+          width: 120px;
+          height: 30px;
+          border-radius: 15px;
+          &.btn-candel {
+            border: 1px solid $global !important;
+            color: $global;
+            transition: all ease .4s;
+            &:hover {
+              background-color: $global !important;
+              color: $blanco;
+            }
+          }
+          &.btn-submit {
+            border: 1px solid $azul !important;
+            color: $azul;
+            transition: all ease .4s;
+            &:hover {
+              background-color: $azul !important;
+              color: $blanco;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.form-dialog-product .box-nav-form header {
+  box-shadow: 0 0 0 white !important;
+}
+
+.form-dialog-product .box-nav-form button {
+  background-color: white !important;
+}
+
+.form-dialog-product .form-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #1475cf;
+  height: 200px;
+  width: 200px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-right: 10px;
+  margin-top: 8px;
+}
+
+.form-dialog-product .fc-input-t {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  font-size: 12px;
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+  margin-left: 20px;
+  margin-top: 20px;
+ }
+ 
+ /* Hide default HTML checkbox */
+ .switch input {
+  opacity: 1;
+  width: 0;
+  height: 0;
+ }
+ 
+ /* The slider */
+ .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  background: #fff;
+  transition: .4s;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+ }
+ 
+ .slider:before {
+  position: absolute;
+  content: "";
+  height: 1.9em;
+  width: 1.9em;
+  border-radius: 16px;
+  left: 1.2px;
+  top: 0;
+  bottom: 0;
+  background-color: white;
+  box-shadow: 0 2px 5px #999999;
+  transition: .4s;
+ }
+ 
+ input:checked + .slider {
+  background-color: #5fdd54;
+  border: 1px solid transparent;
+ }
+ 
+ input:checked + .slider:before {
+  transform: translateX(1.9em);
+ }
+
+
+@media only screen and (max-width: 450px) {
+  .form-dialog-product .MuiPaper-root {
+    width: 370px;
+    max-height: 600px !important;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+    &::-webkit-scrollbar-track {
+      margin: 20px 0;        
+      background: $transparente;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: $global;
+        border-radius: 20px;
+        border: none;
+    }
+    .box-nav-form {
+      width: 360px;
+      min-height: 600px;
+      max-height: 600px;
+      height: 100%;
+      margin: auto;
+      .ctn-info-product {
+        overflow-x: hidden;
+        .form-product {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-direction: column;
+          .ctn-image-form {
+            margin-bottom: 20px;
+            .tf-category-1, .tf-state-1, .tf-webhome-1 {
+              display: none;
+            }
+          }
+          .ctn-inputs-form {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 5px;
+            .tf-category, .tf-state, .tf-webhome {
+              display: block;
+            }
+            .tf-input {
+              width: 150px;
+            }
+            .tf-name, .tf-webhome {
+              width: 320px;
+            }
+            .tf-category {
+              .select-category {
+                width: 150px !important;
+              }
+            }
+            .tf-description {
+              width: 320px;
+            }
+          }
+        }
+        .ctn-buttons-form {
+          margin-top: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          flex-wrap: wrap;
+          .btn-form {
+            width: 120px;
+            height: 30px;
+            border-radius: 15px;
+            &.btn-candel {
+              background-color: $global !important;
+              color: $blanco;
+            }
+            &.btn-submit {
+              background-color: $azul !important;
+              color: $blanco;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -15,7 +15,7 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     jwtService.on('onAutoLogin', () => {
-      dispatch(showMessage({ message: 'Signing in with JWT' }));
+      dispatch(showMessage({ message: 'Iniciar sesión con JWT' }));
 
       /**
        * Sign in and retrieve user data with stored token
@@ -23,7 +23,7 @@ function AuthProvider({ children }) {
       jwtService
         .signInWithToken()
         .then((user) => {
-          success(user, 'Signed in with JWT');
+          success(user, 'Iniciado sesión con JWT');
         })
         .catch((error) => {
           pass(error.message);
@@ -31,11 +31,12 @@ function AuthProvider({ children }) {
     });
 
     jwtService.on('onLogin', (user) => {
-      success(user, 'Signed in');
+      // console.log(user)
+      success(user, 'Registrado');
     });
 
     jwtService.on('onLogout', () => {
-      pass('Signed out');
+      pass('Cerró sesión');
 
       dispatch(logoutUser());
     });
@@ -86,7 +87,7 @@ function AuthProvider({ children }) {
 function useAuth() {
   const context = React.useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within a AuthProvider');
+    throw new Error('useAuth debe usarse dentro de un AuthProvider');
   }
   return context;
 }

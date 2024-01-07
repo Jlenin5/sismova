@@ -1,0 +1,129 @@
+$transparente: transparent;
+$global: #FF444A;
+$rojo-claro: #ff969a;
+$azul: #1f1cd8;
+$blanco: #fff;
+$negro: #000;
+$gris0: #ccc;
+$gris1: #ebebeb;
+$gris2: #929090;
+$gris3: #f7f7f7;
+
+.ctn-g-company {
+  display: grid;
+  place-items: center;
+  position: relative;
+  width: 1000px;
+  height: 48vh;
+  margin: auto;
+  padding: 60px 60px 110px 60px;
+  border-radius: 15px;
+  box-shadow: 1px 2px 5px #ccc;
+  background-color: #fff;
+  .card-content {
+    .card-box-company {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      height: 300px;
+      .card-ctn-left {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2px;
+      }
+      .card-ctn-right {
+        .form-image {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid #b8b8b8;
+          height: 290px;
+          width: 290px;
+          cursor: pointer;
+          border-radius: 8px;
+          img {
+            height: 290px;
+            width: 290px;
+            object-fit: contain;
+          }
+        }
+      }
+    }
+    .box-button {
+      position: absolute;
+      right: 70px;
+      button {
+        margin-top: 15px;
+        background-color: white;
+        height: 40px;
+        width: 110px;
+        border: 1px solid blue;
+        border-radius: 8px;
+        color: blue;
+        cursor: pointer;
+        margin-left: 150px;
+        &:hover {
+          background-color: blue;
+          color: white;
+          transition: all ease-in-out .3s;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width:450px) {
+  .ctn-g-company {
+    margin: auto;
+    height: 750px;
+    width: 350px;
+    padding: 20px;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+    &::-webkit-scrollbar-track {
+      margin: 20px 0;
+      background: $transparente;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $global;
+      border-radius: 20px;
+      border: none;
+    }
+    .card-content {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      .card-box-company {
+        position: relative;
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+        margin: auto;
+        height: 750px;
+        .card-ctn-left {
+          .tf-code, .tf-ruc, .tf-phone {
+            width: 47%;
+          }
+          .tf-email, .tf-website {
+            width: 100%;
+          }
+        }
+        .card-ctn-right {
+          display: grid;
+          place-items: center;
+        }
+      }
+      .box-button {
+        display: grid;
+        place-items: center;
+        position: relative;
+      }
+    }
+  }
+}

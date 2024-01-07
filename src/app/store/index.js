@@ -1,20 +1,20 @@
-import { configureStore } from '@reduxjs/toolkit';
-import createReducer from './rootReducer';
+import { configureStore } from '@reduxjs/toolkit'
+import createReducer from './rootReducer'
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('./rootReducer', () => {
-    const newRootReducer = require('./rootReducer').default;
-    store.replaceReducer(newRootReducer.createReducer());
-  });
+    const newRootReducer = require('./rootReducer').default
+    store.replaceReducer(newRootReducer.createReducer())
+  })
 }
 
-const middlewares = [];
+const middlewares = []
 
 if (process.env.NODE_ENV === 'development') {
-  const { createLogger } = require(`redux-logger`);
-  const logger = createLogger({ collapsed: (getState, action, logEntry) => !logEntry.error });
+  const { createLogger } = require(`redux-logger`)
+  const logger = createLogger({ collapsed: (getState, action, logEntry) => !logEntry.error })
 
-  middlewares.push(logger);
+  middlewares.push(logger)
 }
 
 const store = configureStore({
@@ -25,17 +25,17 @@ const store = configureStore({
       serializableCheck: false,
     }).concat(middlewares),
   devTools: process.env.NODE_ENV === 'development',
-});
+})
 
-store.asyncReducers = {};
+store.asyncReducers = {}
 
 export const injectReducer = (key, reducer) => {
   if (store.asyncReducers[key]) {
-    return false;
+    return false
   }
-  store.asyncReducers[key] = reducer;
-  store.replaceReducer(createReducer(store.asyncReducers));
-  return store;
-};
+  store.asyncReducers[key] = reducer
+  store.replaceReducer(createReducer(store.asyncReducers))
+  return store
+}
 
-export default store;
+export default store

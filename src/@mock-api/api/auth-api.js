@@ -1,88 +1,128 @@
-import FuseUtils from '@fuse/utils';
-import _ from '@lodash';
-import Base64 from 'crypto-js/enc-base64';
-import HmacSHA256 from 'crypto-js/hmac-sha256';
-import Utf8 from 'crypto-js/enc-utf8';
-import jwtDecode from 'jwt-decode';
-import mock from '../mock';
-import mockApi from '../mock-api.json';
+import FuseUtils from '@fuse/utils'
+import _ from '@lodash'
+import Base64 from 'crypto-js/enc-base64'
+import HmacSHA256 from 'crypto-js/hmac-sha256'
+import Utf8 from 'crypto-js/enc-utf8'
+import jwtDecode from 'jwt-decode'
+import mock from '../mock'
+import mockApi from '../mock-api.json'
+import axios from 'axios'
 
-let usersApi = mockApi.components.examples.auth_users.value;
+let usersApi = mockApi.components.examples.auth_users.value
+let url_user = 'https://sismova.tech/backsis/public/api/user'
+let url_emp = 'https://sismova.tech/backsis/public/api/emp'
 
 /* eslint-disable camelcase */
 
 mock.onGet('/api/auth/sign-in').reply(async (config) => {
-  const data = JSON.parse(config.data);
-  const { email, password } = data;
-  const user = _.cloneDeep(usersApi.find((_user) => _user.data.email === email));
+  const data = JSON.parse(config.data)
+  const { email, password } = data
+  const userPromise = new Promise((resolve) => {
+    const user = _.cloneDeep(usersApi.find((_user) => _user.data.userEmail === email))
+    resolve(user)
+  })
 
-  const error = [];
+  const hrPromise = axios.get(url_emp).then(r => {
+    const hrapi = _.cloneDeep(r.data.find((h) => h.empEmail === email))
+    return hrapi
+  })
 
-  if (!user) {
+  const promhr = await Promise.all([hrPromise])
+
+  const axiosPromise = axios.get(url_user)
+    .then(response => {
+      const userapi = _.cloneDeep(response.data.find((_user) => _user.Employee === promhr[0].empId))
+      return userapi
+    })
+    .catch(error => {
+      console.error('Error al obtener el JSON:', error)
+      return null
+    })
+
+  const [user, userapi] = await Promise.all([userPromise, axiosPromise])
+
+  const error = []
+
+  if (!userapi) {
     error.push({
       type: 'email',
       message: 'Comprueba tu dirección de correo electrónico',
-    });
+    })
   }
 
-  if (user && user.password !== password) {
+  if (userapi && userapi.userPassword !== password) {
     error.push({
       type: 'password',
       message: 'Comprueba tu contraseña',
-    });
+    })
   }
 
   if (error.length === 0) {
-    delete user.password;
-
-    const access_token = generateJWTToken({ id: user.uuid });
+    delete userapi.userPassword
+    
+    const access_token = generateJWTToken({ id: userapi.uuid })
 
     const response = {
+      userapi,
       user,
       access_token,
-    };
+    }
 
-    return [200, response];
+    return [200, response]
   }
 
-  return [200, { error }];
-});
+  return [200, { error }]
+})
 
-mock.onGet('/api/auth/access-token').reply((config) => {
-  const data = JSON.parse(config.data);
-  const { access_token } = data;
+mock.onGet('/api/auth/access-token').reply(async (config) => {
+  const data = JSON.parse(config.data)
+  const { access_token } = data
 
   if (verifyJWTToken(access_token)) {
-    const { id } = jwtDecode(access_token);
+    const { id } = jwtDecode(access_token)
 
-    const user = _.cloneDeep(usersApi.find((_user) => _user.uuid === id));
+    const userPromise = new Promise((resolve) => {
+      const user = _.cloneDeep(usersApi.find((_user) => _user.uuid === id))
+      resolve(user)
+    })
+    const axiosPromise = axios.get(url_user)
+    .then(response => {
+      const userapi = _.cloneDeep(response.data.find((_user) => _user.uuid === id))
+      return userapi
+    })
+    .catch(error => {
+      console.error('Error al obtener el JSON:', error)
+      return null
+    })
+    const [user, userapi] = await Promise.all([userPromise, axiosPromise])
 
-    delete user.password;
+    delete userapi.userPassword
 
-    const updatedAccessToken = generateJWTToken({ id: user.uuid });
+    const updatedAccessToken = generateJWTToken({ id: userapi.uuid })
 
     const response = {
+      userapi,
       user,
       access_token: updatedAccessToken,
-    };
+    }
 
-    return [200, response];
+    return [200, response]
   }
-  const error = 'Se detectó un token de acceso no válido';
-  return [401, { error }];
-});
+  const error = 'Se detectó un token de acceso no válido'
+  return [401, { error }]
+})
 
 mock.onPost('/api/auth/sign-up').reply((request) => {
-  const data = JSON.parse(request.data);
-  const { displayName, password, email } = data;
-  const isEmailExists = usersApi.find((_user) => _user.data.email === email);
-  const error = [];
+  const data = JSON.parse(request.data)
+  const { displayName, password, email } = data
+  const isEmailExists = usersApi.find((_user) => _user.data.email === email)
+  const error = []
 
   if (isEmailExists) {
     error.push({
       type: 'email',
       message: 'La dirección de correo electrónico ya está en uso',
-    });
+    })
   }
 
   if (error.length === 0) {
@@ -98,60 +138,60 @@ mock.onPost('/api/auth/sign-up').reply((request) => {
         settings: {},
         shortcuts: [],
       },
-    };
+    }
 
-    usersApi = [...usersApi, newUser];
+    usersApi = [...usersApi, newUser]
 
-    const user = _.cloneDeep(newUser);
+    const user = _.cloneDeep(newUser)
 
-    delete user.password;
+    delete user.password
 
-    const access_token = generateJWTToken({ id: user.uuid });
+    const access_token = generateJWTToken({ id: user.uuid })
 
     const response = {
       user,
       access_token,
-    };
+    }
 
-    return [200, response];
+    return [200, response]
   }
-  return [200, { error }];
-});
+  return [200, { error }]
+})
 
 mock.onPost('/api/auth/user/update').reply((config) => {
-  const data = JSON.parse(config.data);
-  const { user } = data;
+  const data = JSON.parse(config.data)
+  const { user } = data
 
   usersApi = usersApi.map((_user) => {
     if (user.uuid === user.id) {
-      return _.merge(_user, user);
+      return _.merge(_user, user)
     }
-    return _user;
-  });
+    return _user
+  })
 
-  return [200, user];
-});
+  return [200, user]
+})
 
 /**
  * JWT Token Generator/Verifier Helpers
  * !! Created for Demonstration Purposes, cannot be used for PRODUCTION
  */
 
-const jwtSecret = 'some-secret-code-goes-here';
+const jwtSecret = 'some-secret-code-goes-here'
 
 function base64url(source) {
   // Encode in classical base64
-  let encodedSource = Base64.stringify(source);
+  let encodedSource = Base64.stringify(source)
 
   // Remove padding equal characters
-  encodedSource = encodedSource.replace(/=+$/, '');
+  encodedSource = encodedSource.replace(/=+$/, '')
 
   // Replace characters according to base64url specifications
-  encodedSource = encodedSource.replace(/\+/g, '-');
-  encodedSource = encodedSource.replace(/\//g, '_');
+  encodedSource = encodedSource.replace(/\+/g, '-')
+  encodedSource = encodedSource.replace(/\//g, '_')
 
   // Return the base64 encoded string
-  return encodedSource;
+  return encodedSource
 }
 
 function generateJWTToken(tokenPayload) {
@@ -159,12 +199,12 @@ function generateJWTToken(tokenPayload) {
   const header = {
     alg: 'HS256',
     typ: 'JWT',
-  };
+  }
 
   // Calculate the issued at and expiration dates
-  const date = new Date();
-  const iat = Math.floor(date.getTime() / 1000);
-  const exp = Math.floor(date.setDate(date.getDate() + 7) / 1000);
+  const date = new Date()
+  const iat = Math.floor(date.getTime() / 1000)
+  const exp = Math.floor(date.setDate(date.getDate() + 7) / 1000)
 
   // Define token payload
   const payload = {
@@ -172,35 +212,35 @@ function generateJWTToken(tokenPayload) {
     iss: 'Fuse',
     exp,
     ...tokenPayload,
-  };
+  }
 
   // Stringify and encode the header
-  const stringifiedHeader = Utf8.parse(JSON.stringify(header));
-  const encodedHeader = base64url(stringifiedHeader);
+  const stringifiedHeader = Utf8.parse(JSON.stringify(header))
+  const encodedHeader = base64url(stringifiedHeader)
 
   // Stringify and encode the payload
-  const stringifiedPayload = Utf8.parse(JSON.stringify(payload));
-  const encodedPayload = base64url(stringifiedPayload);
+  const stringifiedPayload = Utf8.parse(JSON.stringify(payload))
+  const encodedPayload = base64url(stringifiedPayload)
 
   // Sign the encoded header and mock-api
-  let signature = `${encodedHeader}.${encodedPayload}`;
-  signature = HmacSHA256(signature, jwtSecret);
-  signature = base64url(signature);
+  let signature = `${encodedHeader}.${encodedPayload}`
+  signature = HmacSHA256(signature, jwtSecret)
+  signature = base64url(signature)
 
   // Build and return the token
-  return `${encodedHeader}.${encodedPayload}.${signature}`;
+  return `${encodedHeader}.${encodedPayload}.${signature}`
 }
 
 function verifyJWTToken(token) {
   // Split the token into parts
-  const parts = token.split('.');
-  const header = parts[0];
-  const payload = parts[1];
-  const signature = parts[2];
+  const parts = token.split('.')
+  const header = parts[0]
+  const payload = parts[1]
+  const signature = parts[2]
 
   // Re-sign and encode the header and payload using the secret
-  const signatureCheck = base64url(HmacSHA256(`${header}.${payload}`, jwtSecret));
+  const signatureCheck = base64url(HmacSHA256(`${header}.${payload}`, jwtSecret))
 
   // Verify that the resulting signature is valid
-  return signature === signatureCheck;
+  return signature === signatureCheck
 }

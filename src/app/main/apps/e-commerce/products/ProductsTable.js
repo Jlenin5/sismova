@@ -33,7 +33,7 @@ function ProductsTable({data, setData, maxId, setPage, page, dataToEdit, setData
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
     direction: 'asc',
-    id: null,
+    prodId: null,
   })
 
   const handleClickOpen = () => {
@@ -74,15 +74,15 @@ function ProductsTable({data, setData, maxId, setPage, page, dataToEdit, setData
   }
 
   function handleRequestSort(event, property) {
-    const id = property
+    const prodId = property
     let direction = 'desc'
 
-    if (order.id === property && order.direction === 'desc') {
+    if (order.prodId === property && order.direction === 'desc') {
       direction = 'asc'
     }
     setOrder({
       direction,
-      id,
+      prodId,
     })
   }
 
@@ -181,12 +181,12 @@ function ProductsTable({data, setData, maxId, setPage, page, dataToEdit, setData
               data,
               [
                 (o) => {
-                  switch (order.id) {
+                  switch (order.prodId) {
                     case 'products': {
                       return o.products[0]
                     }
                     default: {
-                      return o[order.id]
+                      return o[order.prodId]
                     }
                   }
                 },
@@ -224,7 +224,11 @@ function ProductsTable({data, setData, maxId, setPage, page, dataToEdit, setData
                       scope="row"
                       padding="none"
                     >
-                      { n.prodImage ? <img src={nuevo} /> : <img src='' alt='sin imagen' /> }
+                      { n.prodImage ?
+                        <img className="w-full block rounded" src={nuevo} />
+                        :
+                        <img className="w-full block rounded" src='https://sismova.tech/backsis/public/images/nocamera.png' />
+                      }
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">

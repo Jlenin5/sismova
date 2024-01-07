@@ -1,6 +1,10 @@
 const locale = {
   APPLICATIONS: 'Applications',
   DASHBOARDS: 'Dashboards',
+  DASHBOARDS_PROJECT: 'Project',
+  DASHBOARDS_ANALYTICS: 'Analytics',
+  DASHBOARDS_FINANCE: 'Finance',
+  DASHBOARDS_CRYPTO: 'Crypto',
   CALENDAR: 'Calendar',
   ECOMMERCE: 'E-Commerce',
   ACADEMY: 'Academy',
@@ -8,9 +12,15 @@ const locale = {
   TASKS: 'Tasks',
   FILE_MANAGER: 'File Manager',
   CONTACTS: 'Contacts',
+  HUMAN_RESOURCES: 'Human Resources',
   CHAT: 'Chat',
   SCRUMBOARD: 'Scrumboard',
   NOTES: 'Notes',
-};
+  SETTINGS: 'Settings',
+  SETTINGS_USERS: 'Users',
+  SETTINGS_COMPANY: 'Company',
+  SETTINGS_ROLES: 'Roles',
+  SETTINGS_PERMISSIONS: 'Permissions',
+}
 
-export default locale;
+export default locale

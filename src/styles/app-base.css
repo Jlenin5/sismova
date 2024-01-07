@@ -152,3 +152,15 @@ input:-webkit-autofill:active
 .fc-scrollgrid-section-liquid {
     height: 1px !important;
 }
+
+.ctn-sidebar::-webkit-scrollbar {
+    width: 12px !important;
+}
+.ctn-sidebar::-webkit-scrollbar-track {
+    background:#fff !important;
+}
+.ctn-sidebar::-webkit-scrollbar-thumb {
+    background-color: #FF444A !important;
+    border-radius: 20px !important;
+    border: 3px solid #fff !important;
+}

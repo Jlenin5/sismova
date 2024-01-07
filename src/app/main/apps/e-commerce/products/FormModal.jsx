@@ -1,4 +1,4 @@
-import './form.css'
+import './form.scss'
 import { useEffect, useState } from 'react'
 import { Dialog, DialogTitle } from '@mui/material'
 import FormProduct from './FormProduct'
@@ -49,7 +49,12 @@ const initialForm = {
   prodStock: 0,
   prodPurchasePrice: 0.00,
   prodSalePrice: 0.00,
-  prodState: true
+  prodWidth: 0.00,
+  prodHeight: 0.00,
+  prodLong: 0.00,
+  prodWeight: 0.00,
+  prodState: true,
+  prodWebHome: false
 }
 
 const formG = {
@@ -141,7 +146,7 @@ function FormModal({maxId,onClose, open,createData,updateData,dataToEdit,setData
         setImage(URL.createObjectURL(e.target.files[0]))
       } else {
         setFileName('Archivo no seleccionado')
-        setImage(null)
+        setImage(URL.createObjectURL('https://sismova.tech/backsis/public/images/nocamera.png'))
       }
     }
     setForm({
@@ -159,7 +164,16 @@ function FormModal({maxId,onClose, open,createData,updateData,dataToEdit,setData
   useEffect(() => {
     getCategories().then((response) => {setData(response)})
     if(dataToEdit) {
-      setForm(dataToEdit)
+      const updatedDataToEdit = {
+        ...dataToEdit,
+        prodImage: dataToEdit.prodImage || 'nocamera.png',
+        prodWidth: dataToEdit.prodWidth || '',
+        prodHeight: dataToEdit.prodHeight || '',
+        prodLong: dataToEdit.prodLong || '',
+        prodWeight: dataToEdit.prodWeight || '',
+        prodDescription: dataToEdit.prodDescription || '',
+      }
+      setForm(updatedDataToEdit)
     } else {
       const productCode = generateProductCode(maxId)
       setForm({ ...initialForm, prodCode: productCode })
@@ -191,9 +205,9 @@ function FormModal({maxId,onClose, open,createData,updateData,dataToEdit,setData
     <Dialog
       onClose={handleClose}
       open={open}
-      className='form-dialog-category'
+      className='form-dialog-product'
     >
-      <DialogTitle>Formulario</DialogTitle>
+      {/* <DialogTitle>Formulario</DialogTitle> */}
       <Box
         className='box-nav-form'
         sx={{

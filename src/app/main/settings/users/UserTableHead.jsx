@@ -18,37 +18,58 @@ import { lighten } from '@mui/material/styles'
 
 const rows = [
   {
-    id: 'name',
+    id: 'userId',
+    align: 'left',
+    disablePadding: true,
+    label: '',
+    sort: false,
+  },
+  {
+    id: 'hrFirstName',
     align: 'left',
     disablePadding: false,
     label: 'Nombre',
     sort: true,
   },
   {
-    id: 'password',
+    id: 'hrEmail',
     align: 'left',
-    disablePadding: true,
-    label: 'Contraseña',
+    disablePadding: false,
+    label: 'Correo electrónico',
     sort: true,
   },
   {
-    id: 'state',
+    id: 'RolId',
     align: 'left',
-    disablePadding: false,
-    label: 'Estado',
+    disablePadding: true,
+    label: 'Rol',
     sort: true,
-  },
+  }
 ]
 
 const UserTableHead = (props) => {
+
+  const { selectedUserIds } = props
+  const numSelected = selectedUserIds.length
+
+  const [selectedUsersMenu, setSelectedUsersMenu] = useState(null)
+
   const createSortHandler = (property) => (event) => {
     props.onRequestSort(event, property)
+  }
+
+  function openSelectedUsersMenu(event) {
+    setSelectedUsersMenu(event.currentTarget)
+  }
+
+  function closeSelectedUsersMenu() {
+    setSelectedUsersMenu(null)
   }
 
   return (
     <TableHead>
       <TableRow className="h-48 sm:h-64">
-        {/* <TableCell
+        <TableCell
           sx={{
             backgroundColor: (theme) =>
               theme.palette.mode === 'light'
@@ -71,26 +92,26 @@ const UserTableHead = (props) => {
               }}
             >
               <IconButton
-                aria-owns={selectedProductsMenu ? 'selectedProductsMenu' : null}
+                aria-owns={selectedUsersMenu ? 'selectedUsersMenu' : null}
                 aria-haspopup="true"
-                onClick={openSelectedProductsMenu}
+                onClick={openSelectedUsersMenu}
                 size="large"
               >
                 <FuseSvgIcon>heroicons-outline:dots-horizontal</FuseSvgIcon>
               </IconButton>
               <Menu
-                id="selectedProductsMenu"
-                anchorEl={selectedProductsMenu}
-                open={Boolean(selectedProductsMenu)}
-                onClose={closeSelectedProductsMenu}
+                id="selectedUsersMenu"
+                anchorEl={selectedUsersMenu}
+                open={Boolean(selectedUsersMenu)}
+                onClose={closeSelectedUsersMenu}
               >
                 <MenuList>
                   <MenuItem
                     onClick={() => {
-                      props.deleteMultiple(selectedProductIds)
-                      // dispatch(removeProducts(selectedProductIds))
+                      props.deleteMultiple(selectedUserIds)
+                      // dispatch(removeUsers(selectedUserIds))
                       props.onMenuItemClick()
-                      closeSelectedProductsMenu()
+                      closeSelectedUsersMenu()
                     }}
                   >
                     <ListItemIcon className="min-w-40">
@@ -102,7 +123,7 @@ const UserTableHead = (props) => {
               </Menu>
             </Box>
           )}
-        </TableCell> */}
+        </TableCell>
         {rows.map((row) => {
           return (
             <TableCell

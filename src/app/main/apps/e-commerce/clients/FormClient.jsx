@@ -141,9 +141,9 @@ export const FormClient = ({data,maxId,onClose,open,createData,updateData,dataTo
       className='form-dialog-category'
     >
     <DialogContent>
-          <DialogTitle>Formulario</DialogTitle>
-      <div style={{ display: 'flex' }}>
-        <div className='fc-input-t'>
+      <DialogTitle>Formulario</DialogTitle>
+        <div style={{ display: 'flex' }}>
+          <div className='fc-input-t'>
             <TextField
               autoFocus
               error={!form.cliFirstName && clicked}

@@ -148,7 +148,7 @@ function SettingsPanel() {
           </IconButton>
 
           <Typography className="mb-32 font-semibold" variant="h6">
-            Theme Settings
+            Ajustes de tema
           </Typography>
 
           <FuseSettings />
@@ -178,13 +178,11 @@ function SettingsPanel() {
           </IconButton>
 
           <Typography className="mb-32" variant="h6">
-            Theme Color Schemes
+            Esquemas de colores del tema
           </Typography>
 
           <Typography className="mb-24 text-12 italic text-justify" color="text.secondary">
-            * Selected color scheme will be applied to all theme layout elements (navbar, toolbar,
-            etc.). You can also select a different color scheme for each layout element at theme
-            settings.
+            * La combinación de colores seleccionada se aplicará a todos los elementos de diseño del tema (barra de navegación, barra de herramientas, etc.). También puedes seleccionar una combinación de colores diferente para cada elemento de diseño en la configuración del tema.
           </Typography>
 
           <FuseThemeSchemes

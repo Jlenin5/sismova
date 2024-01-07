@@ -1,32 +1,32 @@
-import Button from '@mui/material/Button';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MenuItem from '@mui/material/MenuItem';
-import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { changeLanguage, selectCurrentLanguage, selectLanguages } from 'app/store/i18nSlice';
+import Button from '@mui/material/Button'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import MenuItem from '@mui/material/MenuItem'
+import Popover from '@mui/material/Popover'
+import Typography from '@mui/material/Typography'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { changeLanguage, selectCurrentLanguage, selectLanguages } from 'app/store/i18nSlice'
 
 function LanguageSwitcher(props) {
-  const currentLanguage = useSelector(selectCurrentLanguage);
-  const languages = useSelector(selectLanguages);
-  const [menu, setMenu] = useState(null);
-  const dispatch = useDispatch();
+  const currentLanguage = useSelector(selectCurrentLanguage)
+  const languages = useSelector(selectLanguages)
+  const [menu, setMenu] = useState(null)
+  const dispatch = useDispatch()
 
   const langMenuClick = (event) => {
-    setMenu(event.currentTarget);
-  };
+    setMenu(event.currentTarget)
+  }
 
   const langMenuClose = () => {
-    setMenu(null);
-  };
+    setMenu(null)
+  }
 
   function handleLanguageChange(lng) {
-    dispatch(changeLanguage(lng.id));
+    dispatch(changeLanguage(lng.id))
 
-    langMenuClose();
+    langMenuClose()
   }
 
   return (
@@ -71,18 +71,9 @@ function LanguageSwitcher(props) {
             <ListItemText primary={lng.title} />
           </MenuItem>
         ))}
-
-        <MenuItem
-          component={Link}
-          to="/documentation/configuration/multi-language"
-          onClick={langMenuClose}
-          role="button"
-        >
-          <ListItemText primary="Learn More" />
-        </MenuItem>
       </Popover>
     </>
-  );
+  )
 }
 
-export default LanguageSwitcher;
+export default LanguageSwitcher

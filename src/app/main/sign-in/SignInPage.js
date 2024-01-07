@@ -1,52 +1,45 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Controller, useForm } from 'react-hook-form';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
-import * as yup from 'yup';
-import _ from '@lodash';
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import AvatarGroup from '@mui/material/AvatarGroup';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import { useEffect } from 'react';
-import jwtService from '../../auth/services/jwtService';
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Controller, useForm } from 'react-hook-form'
+import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
+import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import * as yup from 'yup'
+import _ from '@lodash'
+import Box from '@mui/material/Box'
+import Paper from '@mui/material/Paper'
+import { useEffect } from 'react'
+import jwtService from '../../auth/services/jwtService'
 
-/**
- * Form Validation Schema
- */
 const schema = yup.object().shape({
-  email: yup.string().email('You must enter a valid email').required('You must enter a email'),
+  email: yup.string().email('Debes ingresar un correo electrónico válido').required('Debes ingresar un correo electrónico'),
   password: yup
     .string()
-    .required('Please enter your password.')
-    .min(4, 'Password is too short - must be at least 4 chars.'),
-});
+    .required('Por favor, introduzca su contraseña.')
+    .min(4, 'La contraseña es demasiado corta: debe tener al menos 4 caracteres.'),
+})
 
 const defaultValues = {
   email: '',
   password: '',
   remember: true,
-};
+}
 
 function SignInPage() {
   const { control, formState, handleSubmit, setError, setValue } = useForm({
     mode: 'onChange',
     defaultValues,
     resolver: yupResolver(schema),
-  });
+  })
 
-  const { isValid, dirtyFields, errors } = formState;
+  const { isValid, dirtyFields, errors } = formState
 
   useEffect(() => {
-    setValue('email', 'admin@sismova.tech', { shouldDirty: true, shouldValidate: true });
-    setValue('password', 'admin', { shouldDirty: true, shouldValidate: true });
-  }, [setValue]);
+    setValue('email', 'admin@sismova.tech', { shouldDirty: true, shouldValidate: true })
+    setValue('password', 'admin', { shouldDirty: true, shouldValidate: true })
+  }, [setValue])
 
   function onSubmit({ email, password }) {
     jwtService
@@ -59,16 +52,16 @@ function SignInPage() {
           setError(error.type, {
             type: 'manual',
             message: error.message,
-          });
-        });
-      });
+          })
+        })
+      })
   }
 
   return (
     <div className="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-1 min-w-0">
       <Paper className="h-full sm:h-auto md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none ltr:border-r-1 rtl:border-l-1">
         <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
-          <img className="w-48" src="assets/images/logo/logo.svg" alt="logo" />
+          <img className="w-48" src="assets/images/logo/logo.png" alt="logo" />
 
           <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
             Inicio de sesión
@@ -89,7 +82,7 @@ function SignInPage() {
                   className="mb-24"
                   label="Usuario"
                   autoFocus
-                  type="email"
+                  type="text"
                   error={!!errors.email}
                   helperText={errors?.email?.message}
                   variant="outlined"
@@ -130,10 +123,6 @@ function SignInPage() {
                   </FormControl>
                 )}
               />
-
-              <Link className="text-md font-medium" to="/pages/auth/forgot-password">
-                Olvidé mi contraseña
-              </Link>
             </div>
 
             <Button
@@ -153,7 +142,7 @@ function SignInPage() {
 
       <Box
         className="relative hidden md:flex flex-auto items-center justify-center h-full p-64 lg:px-112 overflow-hidden"
-        sx={{ backgroundColor: 'primary.main' }}
+        sx={{ backgroundColor: '#ef4444' }}
       >
         <svg
           className="absolute inset-0 pointer-events-none"
@@ -165,7 +154,7 @@ function SignInPage() {
         >
           <Box
             component="g"
-            sx={{ color: 'primary.light' }}
+            sx={{ color: '#850909' }}
             className="opacity-20"
             fill="none"
             stroke="currentColor"
@@ -178,10 +167,10 @@ function SignInPage() {
         <Box
           component="svg"
           className="absolute -top-64 -right-64 opacity-20"
-          sx={{ color: 'primary.light' }}
+          sx={{ color: 'primary.dark' }}
           viewBox="0 0 220 192"
           width="220px"
-          height="192px"
+          height="192px"  
           fill="none"
         >
           <defs>
@@ -205,13 +194,12 @@ function SignInPage() {
             <div>Tecmova</div>
           </div>
           <div className="mt-24 text-lg tracking-tight leading-6 text-gray-400">
-            Fuse helps developers to build organized and well coded dashboards full of beautiful and
-            rich modules. Join us and start building your application today.
+            Tecmova es un software ERP diseñado para llevar la eficiencia y la organización corporativa a un nivel superior. Con un enfoque centrado en las necesidades de las empresas, se erige como la solución integral que impulsará el éxito de tu organización.
           </div>
         </div>
       </Box>
     </div>
-  );
+  )
 }
 
-export default SignInPage;
+export default SignInPage
