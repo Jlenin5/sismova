@@ -1,6 +1,11 @@
 import { fuseDark, skyBlue } from '@fuse/colors';
 import { blueGrey } from '@mui/material/colors';
 
+const getSelectedTheme = () => {
+  const storedTheme = localStorage.getItem('selectedTheme');
+  return storedTheme || 'default'; // Si no hay un tema almacenado, se usa 'default'
+}
+
 export const lightPaletteText = {
   primary: 'rgb(17, 24, 39)',
   secondary: 'rgb(107, 114, 128)',
@@ -13,26 +18,50 @@ export const darkPaletteText = {
   disabled: 'rgb(156, 163, 175)',
 };
 
+export const textDefault = {
+  primary: 'rgb(17, 24, 39)',
+  secondary: 'rgb(107, 114, 128)',
+  disabled: 'rgb(149, 156, 169)',
+};
+
 const themesConfig = {
   default: {
     palette: {
       mode: 'light',
-      divider: '#e2e8f0',
-      text: lightPaletteText,
+      divider: 'rgba(241,245,249,.12)',
+      text: textDefault,
       common: {
         black: 'rgb(17, 24, 39)',
         white: 'rgb(255, 255, 255)',
       },
       primary: {
         light: '#64748b',
-        main: '#1e293b',
-        dark: '#0f172a',
+        main: '#FF424A',
+        dark: '#AA2C31',
         contrastText: darkPaletteText.primary,
       },
       secondary: {
-        light: '#818cf8',
+        light: '#FF443B',
         main: '#4f46e5',
         dark: '#3730a3',
+        contrastText: darkPaletteText.primary,
+      },
+      verified: {
+        light: '#13C246',
+        main: '#13C246',
+        dark: '#13C246',
+        contrastText: darkPaletteText.primary,
+      },
+      cream: {
+        light: '#13C246',
+        main: '#ECB15A',
+        dark: '#CA8F5D',
+        contrastText: darkPaletteText.primary,
+      },
+      creamyellow: {
+        light: '#13C246',
+        main: '#ECB15A',
+        dark: '#FFA726',
         contrastText: darkPaletteText.primary,
       },
       background: {
@@ -72,7 +101,7 @@ const themesConfig = {
       },
       background: {
         paper: '#1e293b',
-        default: '#580606',
+        default: '#111827',
       },
       error: {
         light: '#ffcdd2',
@@ -897,3 +926,4 @@ const themesConfig = {
 };
 
 export default themesConfig;
+export const selectedTheme = getSelectedTheme()

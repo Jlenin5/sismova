@@ -16,7 +16,6 @@ const navigationConfig = [
   {
     id: 'dashboards',
     title: 'Dashboards',
-    subtitle: 'Diseños de tablero únicos',
     type: 'group',
     icon: 'heroicons-outline:home',
     translate: 'DASHBOARDS',
@@ -60,12 +59,11 @@ const navigationConfig = [
     type: 'divider',
   },
   {
-    id: 'apps',
-    title: 'Applications',
-    subtitle: 'Diseños de aplicaciones a medida',
+    id: 'ecommerce',
+    title: 'Ecommerce',
     type: 'group',
     icon: 'heroicons-outline:cube',
-    translate: 'APPLICATIONS',
+    translate: 'ECOMMERCE',
     children: [
       // {
       //   id: 'apps.academy',
@@ -101,124 +99,115 @@ const navigationConfig = [
       //   translate: 'CONTACTS',
       // },
       {
-        id: 'apps.employees',
-        title: 'Employees',
-        type: 'item',
-        icon: 'heroicons-outline:user-group',
-        url: '/apps/employees',
-        translate: 'EMPLOYEES',
-      },
-      {
-        id: 'apps.ecommerce',
-        title: 'ECommerce',
+        id: 'ecommerce.inventory',
+        title: 'Inventory',
         type: 'collapse',
-        icon: 'heroicons-outline:shopping-cart',
-        translate: 'ECOMMERCE',
+        icon: 'material-outline:add_business',
+        translate: 'ECOMMERCE_INVENTORY',
         children: [
-          // {
-          //   id: 'e-commerce-images',
-          //   title: 'Imágenes',
-          //   type: 'item',
-          //   url: 'apps/e-commerce/images',
-          //   end: true,
-          // },
           {
-            id: 'e-commerce-clients',
-            title: 'Clientes',
+            id: 'ecommerce.inventory.categories',
+            title: 'Categories',
             type: 'item',
-            url: 'apps/e-commerce/clients',
-            end: true,
+            url: 'ecommerce/inventory/categories',
+            translate: 'EI_CATEGORIES',
           },
           {
-            id: 'e-commerce-categories',
-            title: 'Categorías',
-            type: 'item',
-            url: 'apps/e-commerce/categories',
-            end: true,
-          },
-          {
-            id: 'e-commerce-products',
+            id: 'ecommerce.inventory.products',
             title: 'Productos',
             type: 'item',
-            url: 'apps/e-commerce/products',
-            end: true,
+            url: 'ecommerce/inventory/products',
+            translate: 'EI_PRODUCTS',
           },
           // {
-          //   id: 'e-commerce-product-detail',
-          //   title: 'Product Detail',
+          //   id: 'e-commerce-orders',
+          //   title: 'Orders',
           //   type: 'item',
-          //   url: 'apps/e-commerce/products/1/a-walk-amongst-friends-canvas-print',
+          //   url: 'apps/e-commerce/orders',
+          //   end: true,
           // },
-          // {
-          //   id: 'e-commerce-new-product',
-          //   title: 'New Product',
-          //   type: 'item',
-          //   url: 'apps/e-commerce/products/new',
-          // },
-          {
-            id: 'e-commerce-orders',
-            title: 'Orders',
-            type: 'item',
-            url: 'apps/e-commerce/orders',
-            end: true,
-          },
-          {
-            id: 'e-commerce-order-detail',
-            title: 'Order Detail',
-            type: 'item',
-            url: 'apps/e-commerce/orders/1',
-          },
         ],
       },
       {
-        id: 'apps.sales',
+        id: 'ecommerce.sales',
         title: 'Sales',
         type: 'collapse',
-        icon: 'material-outline:remove_shopping_cart',
-        url: '/apps/sales',
-        translate: 'SALES',
+        icon: 'material-outline:point_of_sale',
+        translate: 'ECOMMERCE_SALES',
         children: [
           {
-            id: 'apps.sales.saleorders',
+            id: 'ecommerce.sales.saleorders',
             title: 'SaleOrders',
             type: 'item',
-            url: 'apps/sales/sale-orders',
-            translate: 'SALES_SALEORDER',
+            url: 'ecommerce/sales/sale-orders',
+            translate: 'ES_SALEORDER',
             end: true,
           },
           {
-            id: 'apps.sales.ticketinvoice',
-            title: 'TicketInvoice',
+            id: 'ecommerce.sales.ticket',
+            title: 'Ticket',
             type: 'item',
-            url: 'apps/sales/ticket-invoice',
-            translate: 'SALES_TICKETINVOICE',
+            url: 'ecommerce/sales/tickets',
+            translate: 'ES_TICKET',
             end: true,
           },
           {
-            id: 'apps.sales.quotes',
+            id: 'ecommerce.sales.invoice',
+            title: 'Invoice',
+            type: 'item',
+            url: 'ecommerce/sales/invoices',
+            translate: 'ES_INVOICE',
+            end: true,
+          },
+          {
+            id: 'ecommerce.sales.quotes',
             title: 'Quotes',
             type: 'item',
-            url: 'apps/sales/quotes',
-            translate: 'SALES_QUOTES',
+            url: 'ecommerce/sales/quotes',
+            translate: 'ES_QUOTES',
             end: true,
           },
         ]
       },
       {
-        id: 'apps.purchases',
+        id: 'ecommerce.purchases',
         title: 'Purchases',
         type: 'collapse',
         icon: 'material-outline:add_shopping_cart',
-        url: '/apps/purchases',
         translate: 'PURCHASES',
         children: [
           {
-            id: 'apps.purchases.purchaseorders',
+            id: 'ecommerce.purchases.purchaseorders',
             title: 'PurchaseOrders',
             type: 'item',
-            url: 'apps/sales/purchase-orders',
+            url: 'ecommerce/purchases/purchase-orders',
             translate: 'PURCHASES_PURCHASEORDER',
             end: true,
+          },
+        ]
+      },
+      {
+        id: 'ecommerce.finances',
+        title: 'Finances',
+        type: 'collapse',
+        icon: 'material-outline:attach_money',
+        translate: 'FINANCES',
+        children: [
+          {
+            id: 'ecommerce.finances.coins',
+            title: 'coins',
+            type: 'item',
+            url: '/ecommerce/finances/coins',
+            translate: 'FINANCES_COINS',
+            end: true
+          },
+          {
+            id: 'ecommerce.finances.taxes',
+            title: 'taxes',
+            type: 'item',
+            url: '/ecommerce/finances/taxes',
+            translate: 'FINANCES_TAXES',
+            end: true
           },
         ]
       },
@@ -314,6 +303,93 @@ const navigationConfig = [
   {
     id: 'divider-2',
     type: 'divider',
+  },
+  {
+    id: 'human-resources',
+    title: 'Human Resources',
+    type: 'group',
+    icon: 'material-outline:settings',
+    translate: 'HUMAN_RESOURCES',
+    children: [
+      {
+        id: 'human-resources.personal',
+        title: 'Personal',
+        type: 'collapse',
+        icon: 'heroicons-outline:user-group',
+        translate: 'HR_PERSONAL',
+        children: [
+          {
+            id: 'human-resources.personal.employees',
+            title: 'Employees',
+            type: 'item',
+            url: 'human-resources/personal/employees',
+            translate: 'HR_PERSONAL_EMPLOYEES',
+          },
+          {
+            id: 'human-resources.personal.clients',
+            title: 'Clients',
+            type: 'item',
+            url: 'human-resources/personal/clients',
+            translate: 'HR_PERSONAL_CLIENTS',
+          },
+          {
+            id: 'human-resources.personal.users',
+            title: 'Users',
+            type: 'item',
+            url: 'human-resources/personal/users',
+            translate: 'HR_PERSONAL_USERS'
+          },
+        ]
+      },
+      {
+        id: 'human-resources.transport',
+        title: 'Transport',
+        type: 'collapse',
+        icon: 'directions_car_filled',
+        translate: 'HR_TRANSPORT',
+        children: [
+          {
+            id: 'human-resources.transport.carriers',
+            title: 'Carriers',
+            type: 'item',
+            url: 'human-resources/transport/carrier',
+            translate: 'HR_TRANSPORT_CARRIER',
+          },
+          {
+            id: 'human-resources.transport.mobilities',
+            title: 'Mobilities',
+            type: 'item',
+            url: 'human-resources/transport/mobility',
+            translate: 'HR_TRANSPORT_MOBILITY',
+          },
+        ]
+      },
+      {
+        id: 'human-resources.ocupations',
+        title: 'Ocupations',
+        type: 'collapse',
+        icon: 'material-outline:person_pin',
+        translate: 'HR_OCUPATIONS',
+        children: [
+          {
+            id: 'human-resources.ocupations.workarea',
+            title: 'Workarea',
+            type: 'item',
+            url: 'human-resources/ocupations/work-areas',
+            translate: 'HR_OCUPATIONS_WORKAREA',
+            end: true
+          },
+          {
+            id: 'human-resources.ocupations.jobposition',
+            title: 'Jobposition',
+            type: 'item',
+            url: 'human-resources/ocupations/job-positions',
+            translate: 'HR_OCUPATIONS_JOBPOSITION',
+            end: true
+          },
+        ]
+      },
+    ]
   },
   // {
   //   id: 'pages',
@@ -839,10 +915,10 @@ const navigationConfig = [
   //     },
   //   ],
   // },
-  // {
-  //   id: 'divider-3',
-  //   type: 'divider',
-  // },
+  {
+    id: 'divider-3',
+    type: 'divider',
+  },
   // {
   //   id: 'user-interface',
   //   title: 'User Interface',
@@ -1090,50 +1166,63 @@ const navigationConfig = [
     translate: 'SETTINGS',
     children: [
       {
-        id: 'settings.users',
-        title: 'Users',
-        type: 'item',
-        icon: 'material-outline:people_alt',
-        url: '/settings/users',
-        translate: 'SETTINGS_USERS',
-        end: true
-      },
-      {
-        id: 'settings.company',
-        title: 'Company',
-        type: 'item',
+        id: 'settings.leadership',
+        title: 'Leadership',
+        type: 'collapse',
         icon: 'material-outline:location_city',
-        url: '/settings/company',
-        translate: 'SETTINGS_COMPANY',
-        end: true
+        translate: 'SETTINGS_LEADERSHIP',
+        children: [
+          {
+            id: 'settings.leadership.companies',
+            title: 'Company',
+            type: 'item',
+            url: 'settings/leadership/companies',
+            translate: 'SETTINGS_COMPANY',
+            end: true
+          },
+          {
+            id: 'settings.leadership.branch-offices',
+            title: 'BranchOffice',
+            type: 'item',
+            url: 'settings/leadership/branch-offices',
+            translate: 'SETTINGS_BRANCHOFFICE',
+            end: true
+          },
+        ]
       },
       {
-        id: 'settings.branchoffice',
-        title: 'branchoffice',
-        type: 'item',
-        icon: 'material-outline:add_business',
-        url: '/settings/branchoffices',
-        translate: 'SETTINGS_BRANCHOFFICE',
-        end: true
-      },
-      {
-        id: 'settings.roles',
-        title: 'Roles',
-        type: 'item',
+        id: 'settings.controls',
+        title: 'Controls',
+        type: 'collapse',
         icon: 'material-outline:share',
-        url: '/settings/roles',
-        translate: 'SETTINGS_ROLES',
-        end: true
+        translate: 'SETTINGS_CONTROL',
+        children: [
+          {
+            id: 'settings.controls.documents',
+            title: 'Documents',
+            type: 'item',
+            url: 'settings/controls/documents',
+            translate: 'SETTINGS_CONTROL_DOCUMENT',
+            end: true
+          },
+          {
+            id: 'settings.controls.permissions',
+            title: 'Permissions',
+            type: 'item',
+            url: 'settings/controls/permissions',
+            translate: 'SETTINGS_PERMISSIONS',
+            end: true
+          },
+          {
+            id: 'settings.controls.roles',
+            title: 'Roles',
+            type: 'item',
+            url: 'settings/controls/roles',
+            translate: 'SETTINGS_ROLES',
+            end: true
+          },
+        ]
       },
-      {
-        id: 'settings.permissions',
-        title: 'Permissions',
-        type: 'item',
-        icon: 'material-outline:settings_accessibility',
-        url: '/settings/permissions',
-        translate: 'SETTINGS_PERMISSIONS',
-        end: true
-      }
     ]
   },
   // {

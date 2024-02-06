@@ -96,7 +96,6 @@ function ProductImagesTab(props) {
                   }
 
                   const newImage = await readFileAsync();
-                  console.log([newImage, ...value])
 
                   onChange([newImage, ...value]);
                 }}

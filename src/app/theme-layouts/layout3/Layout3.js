@@ -68,9 +68,6 @@ function Layout3(props) {
             {props.children}
           </div>
 
-          {config.footer.display && (
-            <FooterLayout3 className={config.footer.style === 'fixed' && 'sticky bottom-0'} />
-          )}
         </main>
       </div>
 

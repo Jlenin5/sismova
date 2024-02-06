@@ -33,7 +33,7 @@ function UserMenu(props) {
     const response = await axios.get(url+'ava')
     return response.data
   }
-  const filtAva = dataAvatar.find(r => r.avaId === user.Avatar)
+  const filtAva = dataAvatar.find(r => r.id === user.Avatar)
 
   const userMenuClose = () => {
     setUserMenu(null)
@@ -47,7 +47,7 @@ function UserMenu(props) {
     getAvatar().then(r => setDataAvatar(r))
   }, [dispatch])
 
-  const rolapi = dataRol.find((e) => e.rolId === user.Rol)
+  const rolapi = dataRol.find((e) => e.id === user.Rol)
 
   return (
     <>

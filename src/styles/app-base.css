@@ -5,7 +5,7 @@
  * Custom base styles
  */
 
-* {
+ * {
     /* Text rendering */
     text-rendering: optimizeLegibility;
     -o-text-rendering: optimizeLegibility;
@@ -81,6 +81,11 @@ h6, .h6 {
 .ps > .ps__rail-y,
 .ps > .ps__rail-x {
     z-index: 99;
+    height: 0 !important;
+}
+.ps > .ps__rail-y .ps__thumb-y:hover,
+.ps > .ps__rail-y .ps__thumb-y:active {
+    width: 6px !important;
 }
 
 a[role=button] {
@@ -151,16 +156,4 @@ input:-webkit-autofill:active
 /*fullcalendar Fix*/
 .fc-scrollgrid-section-liquid {
     height: 1px !important;
-}
-
-.ctn-sidebar::-webkit-scrollbar {
-    width: 12px !important;
-}
-.ctn-sidebar::-webkit-scrollbar-track {
-    background:#fff !important;
-}
-.ctn-sidebar::-webkit-scrollbar-thumb {
-    background-color: #FF444A !important;
-    border-radius: 20px !important;
-    border: 3px solid #fff !important;
 }

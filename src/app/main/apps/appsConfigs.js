@@ -10,6 +10,8 @@ import ScrumboardAppConfig from './scrumboard/ScrumboardAppConfig';
 import TasksAppConfig from './tasks/TasksAppConfig';
 import HelpCenterAppConfig from './help-center/HelpCenterAppConfig';
 import ProfileAppConfig from './profile/profileAppConfig';
+import PurchaseAppConfig from './purchases/PurchaseAppConfig';
+import SaleAppConfig from './sales/SaleAppConfig';
 import EmployeeAppConfig from './employee/employeeAppConfig';
 
 const appsConfigs = [
@@ -25,6 +27,8 @@ const appsConfigs = [
   TasksAppConfig,
   HelpCenterAppConfig,
   ProfileAppConfig,
+  PurchaseAppConfig,
+  SaleAppConfig,
   EmployeeAppConfig
 ];
 

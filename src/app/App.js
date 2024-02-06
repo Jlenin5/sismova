@@ -52,7 +52,7 @@ function App() {
     return response.data
   }
 
-  const filtrado = data.find(r => r.rolId === user.Rol)
+  const filtrado = data.find(r => r.id === user.Rol)
 
   useEffect(() => {
     getRoles().

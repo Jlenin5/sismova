@@ -31,7 +31,7 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
 
   const axiosPromise = axios.get(url_user)
     .then(response => {
-      const userapi = _.cloneDeep(response.data.find((_user) => _user.Employee === promhr[0].empId))
+      const userapi = _.cloneDeep(response.data.find((_user) => _user.Employee === promhr[0].id))
       return userapi
     })
     .catch(error => {

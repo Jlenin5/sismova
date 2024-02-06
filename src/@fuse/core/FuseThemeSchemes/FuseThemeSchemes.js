@@ -75,6 +75,10 @@ function SchemePreview({ theme, className, id, onSelect }) {
 
 function FuseThemeSchemes(props) {
   const { themes } = props;
+  const handleThemeSelect = (selectedTheme) => {
+    localStorage.setItem('selectedTheme', selectedTheme);
+    props?.onSelect(themes[selectedTheme]);
+  }
 
   return (
     <div>
@@ -83,9 +87,10 @@ function FuseThemeSchemes(props) {
           .filter(([key, val]) => !(key === 'mainThemeDark' || key === 'mainThemeLight'))
           .map(([key, val]) => (
             <div key={key} className="w-1/2 p-8">
-              <SchemePreview id={key} theme={val} onSelect={() => props?.onSelect(val)} />
+              <SchemePreview id={key} theme={val} onSelect={() => handleThemeSelect(key)} />
             </div>
-          ))}
+          ))
+        }
       </div>
     </div>
   );

@@ -34,7 +34,7 @@ const StyledContent = styled(FuseScrollbars)(({ theme }) => ({
 
 function NavbarStyle1Content(props) {
   return (
-    <Root className={clsx('flex flex-auto flex-col overflow-hidden h-full ctn-sidebar', props.className)}>
+    <Root className={clsx('flex flex-auto flex-col overflow-hidden h-full', props.className)}>
       <div className="flex flex-row items-center shrink-0 h-48 md:h-72 px-20">
         <div className="flex flex-1 mx-4">
           <Logo />
@@ -51,9 +51,9 @@ function NavbarStyle1Content(props) {
 
         <Navigation layout="vertical" />
 
-        {/* <div className="flex flex-0 items-center justify-center py-48 opacity-10">
+        <div className="flex flex-0 items-center justify-center py-48 opacity-10">
           <img className="w-full max-w-64" src="assets/images/logo/logo.png" alt="footer logo" />
-        </div> */}
+        </div>
       </StyledContent>
     </Root>
   )

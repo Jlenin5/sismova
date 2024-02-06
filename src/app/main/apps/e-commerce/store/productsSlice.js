@@ -4,8 +4,6 @@ import axios from 'axios'
 const API_URL = 'https://sismova.tech/backsis/public/api/'
 
 export const getProducts = createAsyncThunk( 'eCommerceApp/products/getProductos', async () => {
-  // const response2 = await axios.get('/api/ecommerce/products')
-  // return response2.data
   const response = await axios.get(API_URL+'prod')
   return response.data.value
 })

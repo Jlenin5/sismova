@@ -1,0 +1,25 @@
+const ProductInterface = {
+  id: null,
+  SerialNumber: 1,
+  prodNumber: '00000',
+  featuredImageId: '',
+  prodName: '',
+  prodDescription: '',
+  categories: [],
+  product_images: [],
+  branch_offices: [],
+  serial_number: [],
+  unit: [],
+  Unit: 1,
+  prodStock: 1,
+  prodPurchasePrice: 0.00,
+  prodSalePrice: 0.00,
+  prodWidth: 0.00,
+  prodHeight: 0.00,
+  prodDepth: 0.00,
+  prodWeight: 0.00,
+  prodState: 1,
+  prodWebHome: 1,
+}
+
+export default ProductInterface

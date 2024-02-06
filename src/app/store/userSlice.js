@@ -55,7 +55,7 @@ export const updateUserShortcuts = createAsyncThunk(
 export const logoutUser = () => async (dispatch, getState) => {
   const { user } = getState()
 
-  if (!user.RolId || user.RolId.length === 0) {
+  if (!user.Rol || user.Rol.length === 0) {
     // is guest
     return null
   }

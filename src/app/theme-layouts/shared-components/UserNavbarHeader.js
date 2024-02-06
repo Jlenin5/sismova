@@ -44,13 +44,14 @@ function UserNavbarHeader(props) {
     return response.data
   }
 
-  const filtHr = dataEmployee.find(r => r.empId === user.Enployee)
-  const filtAva = dataAvatar.find(r => r.avaId === user.Avatar)
-
   useEffect(() => {
     getEmployee().then(r => setDataEmployee(r))
     getAvatar().then(r => setDataAvatar(r))
   }, [])
+
+  
+  const filtHr = dataEmployee.find(r => r.id === user.Employee)
+  const filtAva = dataAvatar.find(r => r.id === user.Avatar)
 
   return (
     <Root className="user relative flex flex-col items-center justify-center p-16 pb-14 shadow-0">
@@ -71,7 +72,7 @@ function UserNavbarHeader(props) {
         {user.userDisplayName}
       </Typography>
       <Typography className="email text-13 whitespace-nowrap font-medium" color="text.secondary">
-        {filtHr ? filtHr.hrEmail : ''}
+        {filtHr ? filtHr.empEmail : ''}
       </Typography>
     </Root>
   )
