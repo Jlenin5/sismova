@@ -8,11 +8,11 @@ import { useDispatch } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import _ from '@lodash'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
-import { deleteProduct, putProduct, getMaxId, postProduct } from '../store/productSlice'
+import { deleteQuote, putQuote, getMaxId, postQuote } from '../../store/quoteSlice'
 import { useEffect, useState } from 'react'
-import { postImage } from '../store/imageSlice'
 
-const ProductHeader = (props) => {
+const QuoteHead = () => {
+
   const dispatch = useDispatch()
   const methods = useFormContext()
   const { formState, watch, getValues } = methods
@@ -20,9 +20,9 @@ const ProductHeader = (props) => {
   const { isValid, dirtyFields } = formState
   const routeParams = useParams()
   const { id } = routeParams
-  const featuredImageId = watch('featuredImageId')
-  const productImages = watch('product_images')
-  const prodName = watch('prodName')
+  // const featuredImageId = watch('featuredImageId')
+  // const productImages = watch('product_images')
+  // const prodName = watch('prodName')
   const theme = useTheme()
   const navigate = useNavigate()
 
@@ -32,63 +32,23 @@ const ProductHeader = (props) => {
   
   const handleSaveProduct = async () => {
     if(getValues().id === null) {
-      const productData = getValues()
-      productData.id = maxId.ultimo_id + 1
-      const formData = new FormData()
-      await Promise.all(productData.product_images.map(async (image, index) => {
-        const response = await fetch(image.primPath)
-        const blob = await response.blob()
-        formData.append(`product_images[${index}][primPath]`, blob, `image${index}.jpg`)
-        formData.append(`product_images[${index}][Product]`, productData.id)
-        formData.append(`product_images[${index}][featured]`, image.featured)
-      }))
-      dispatch(postImage(formData))
-      dispatch(postProduct(productData))
+      const quoteData = getValues()
+      quoteData.id = maxId.ultimo_id + 1
+      dispatch(postQuote(quoteData))
     } else {
-      const productData = getValues()
-      const formData = new FormData()
-      await Promise.all(productData.product_images.map(async (image, index) => {
-        const response = await fetch(image.primPath)
-        const blob = await response.blob()
-        formData.append(`product_images[${index}][primPath]`, blob, `image${index}.jpg`)
-        formData.append(`product_images[${index}][Product]`, productData.id)
-        formData.append(`product_images[${index}][featured]`, image.featured)
-      }))
-      dispatch(postImage(formData))
-      dispatch(putProduct(getValues()))
+      dispatch(putQuote(getValues()))
     }
     returnProducts()
   }
 
   function handleRemoveProduct() {
-    dispatch(deleteProduct(getValues().id)).then(() => {
+    dispatch(deleteQuote(getValues().id)).then(() => {
       returnProducts()
     })
   }
 
   const returnProducts = () => {
     navigate(-1)
-  }
-
-  const findWordInText = (texto, palabra) => {
-    const minText = texto.toLowerCase()
-    const minWord = palabra.toLowerCase()
-    if (minText.includes(minWord)) {
-      const wordPosition = minText.indexOf(minWord)
-      if (wordPosition !== -1) {
-        return minText.substring(wordPosition)
-      } else {
-        return minText
-      }
-    } else {
-      return texto
-    }
-  }
-
-  const findImage = (findImage) => {
-    const url = `https://sismova.tech/backsis/public/images/products/${findImage}`
-    const palabraBuscada = "blob"
-    return findWordInText(url, palabraBuscada)
   }
 
   return (
@@ -110,7 +70,7 @@ const ProductHeader = (props) => {
                 ? 'heroicons-outline:arrow-sm-left'
                 : 'heroicons-outline:arrow-sm-right'}
             </FuseSvgIcon>
-            <span className="flex mx-4 font-medium">Productos</span>
+            <span className="flex mx-4 font-medium">Cotizaciones</span>
           </Typography>
         </motion.div>
 
@@ -120,7 +80,7 @@ const ProductHeader = (props) => {
             initial={{ scale: 0 }}
             animate={{ scale: 1, transition: { delay: 0.3 } }}
           >
-            {productImages.length > 0 && featuredImageId ? (
+            {/* {productImages.length > 0 && featuredImageId ? (
               <img
                 className="w-32 sm:w-48 rounded"
                 src={findImage(_.find(productImages, { featured: featuredImageId }).primPath)}
@@ -132,7 +92,7 @@ const ProductHeader = (props) => {
                 src="assets/images/apps/ecommerce/product-image-placeholder.png"
                 alt={prodName}
               />
-            )}
+            )} */}
           </motion.div>
           <motion.div
             className="flex flex-col items-center sm:items-start min-w-0 mx-8 sm:mx-16"
@@ -140,10 +100,10 @@ const ProductHeader = (props) => {
             animate={{ x: 0, transition: { delay: 0.3 } }}
           >
             <Typography className="text-16 sm:text-20 truncate font-semibold">
-              {prodName || 'Nuevo producto'}
+              {/* {prodName || 'Nuevo producto'} */}
             </Typography>
             <Typography variant="caption" className="font-medium">
-              Detalle de producto
+              Detalle de cotización
             </Typography>
           </motion.div>
         </div>
@@ -180,4 +140,4 @@ const ProductHeader = (props) => {
   )
 }
 
-export default ProductHeader
+export default QuoteHead

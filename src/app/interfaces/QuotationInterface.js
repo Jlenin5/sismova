@@ -11,6 +11,12 @@ const QuotationInterface = {
   qtTotal: true,
   qtCreatedAt: true,
   qtDeletedAt: true,
+  serial_number: [],
+  currencies: [],
+  companies: [],
+  clients: [],
+  employees: [],
+  products: []
 }
 
 export default QuotationInterface

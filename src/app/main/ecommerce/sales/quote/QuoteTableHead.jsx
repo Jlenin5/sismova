@@ -15,7 +15,7 @@ import { Box } from '@mui/system'
 import TableHead from '@mui/material/TableHead'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
-import { delQuoteMulti } from '../store/quoteSlice'
+import { delQuoteMulti } from '../store/quotesSlice'
 
 const rows = [
   {

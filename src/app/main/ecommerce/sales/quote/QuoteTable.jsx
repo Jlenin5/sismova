@@ -15,7 +15,7 @@ import withRouter from '@fuse/core/withRouter'
 import FuseLoading from '@fuse/core/FuseLoading'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import QuoteTableHead from './QuoteTableHead'
-import { getQuotes, selectQuote, selectQuoteSearchText } from '../store/quoteSlice'
+import { getQuotes, selectQuote, selectQuoteSearchText } from '../store/quotesSlice'
 // import { getCategories } from '../store/categorySlice'
 
 const QuoteTable = (props) => {
@@ -189,28 +189,28 @@ const QuoteTable = (props) => {
                     </TableCell>
  
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {n.SerialNumber + ' - ' + n.qtNumber}
+                      {n.serial_number.snSerie + ' - ' + n.qtNumber}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.Currency}
+                      {n.currencies.curName}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {/* <span>S/.</span> */}
-                      {n.Company}
+                      {n.companies.comName}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.Client}
+                      {n.clients.cliFirstName}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.Employee}
+                      {n.employees.empFirstName}
                     </TableCell>
                     
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="center">
-                      {n.qtIgv}
+                      {n.qtIgv === '1' ? 'No' : 'Sí'}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
