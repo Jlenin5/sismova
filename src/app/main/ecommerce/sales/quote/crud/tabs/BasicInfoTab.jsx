@@ -42,7 +42,7 @@ const BasicInfoTab = () => {
             error={!!errors.name}
             helperText={errors?.name?.message}
             label="Serie"
-            // disabled
+            disabled
             required
             autoFocus
             id="serialNumber"
@@ -61,7 +61,7 @@ const BasicInfoTab = () => {
             error={!!errors.name}
             helperText={errors?.name?.message}
             label="Número"
-            // disabled
+            disabled
             required
             autoFocus
             id="qtNumber"
@@ -79,7 +79,7 @@ const BasicInfoTab = () => {
             error={!!errors.name}
             helperText={errors?.name?.message}
             label="Moneda"
-            // disabled
+            disabled
             required
             autoFocus
             id="currency"
@@ -162,7 +162,7 @@ const BasicInfoTab = () => {
                 variant: 'outlined',
               },
             }}
-            // maxDate={end}
+            maxDate={new Date()}
           />
         )}
       />
@@ -181,7 +181,7 @@ const BasicInfoTab = () => {
                 variant: 'outlined',
               },
             }}
-            // minDate={start}
+            minDate={new Date()}
           />
         )}
       />

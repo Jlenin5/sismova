@@ -144,9 +144,13 @@ const ProductsTab = (props) => {
             <h2>Total productos</h2>
             <h2>Impuesto</h2>
             <h2>Subtotal</h2>
-            <h2>Total</h2>
+            <h2>Total Neto</h2>
+            <h2>Valor Final</h2>
           </div>
           <div className="w-1/3">
+            <b>S/.{getTotalPrice()}</b>
+            <b>S/.{getTotalPrice()}</b>
+            <b>S/.{getTotalPrice()}</b>
             <b>S/.{getTotalPrice()}</b>
           </div>
         </div>
