@@ -7,7 +7,7 @@ const ClientInterface = {
   cliEmail: '',
   cliPhone: '',
   cliGender: 0,
-  cliState: true,
+  cliState: 1,
 }
 
 export default ClientInterface
