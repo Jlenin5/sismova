@@ -1,8 +1,8 @@
 .form-dialog-category .MuiPaper-root {
-  max-width: 500px !important;
+  max-width: 550px !important;
   width: 100%;
-  max-height: 670px !important;
-  height: 100%;
+  /* max-height: 670px !important;
+  height: 100%; */
   margin: auto;
   /* background-color: black; */
 }

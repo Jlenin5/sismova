@@ -7,7 +7,7 @@ const EmployeeInterface = {
   empEmail: '',
   empPhone: '',
   empGender: 0,
-  empState: true,
+  empState: 1,
 }
 
 export default EmployeeInterface
