@@ -1,5 +1,11 @@
 import './detailQuote.scss'
 import _ from '@lodash'
+import FuseScrollbars from '@fuse/core/FuseScrollbars'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableRow from '@mui/material/TableRow'
+import TablePagination from '@mui/material/TablePagination'
 import TextField from '@mui/material/TextField'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import Autocomplete from '@mui/material/Autocomplete'
@@ -10,6 +16,8 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { getProducts } from 'src/app/main/ecommerce/inventory/store/productsSlice'
+import { getTaxes } from 'src/app/main/ecommerce/finances/store/taxSlice'
+import ProductTabHead from './ProductTabHead'
 
 const ProductsTab = (props) => {
   const dispatch = useDispatch()
@@ -66,6 +74,10 @@ const ProductsTab = (props) => {
     return totalPrice.toFixed(2)
   }
 
+  const getTax = () => {
+    return getTotalPrice() * 0.18
+  }
+
   return (
     <div className="flex flex-wrap -mx-4 w-full">
       <div className="w-2/3 px-16">
@@ -83,75 +95,92 @@ const ProductsTab = (props) => {
             />
           }
         />
-        <div className="w-full">
-          {
-            listProd.map((data) => 
-              <div key={data.id} className="mt-16 w-full rounded h-60 flex gap-10">
-                <div className="w-60 px-4 md:px-0">
-                  { data.product_images.length > 0 && data.featuredImageId ? (
-                    <img
-                      className="w-full block rounded h-60"
-                      src={`https://sismova.tech/backsis/public/images/products/${_.find(data.product_images, { featured: data.featuredImageId }).primPath}`}
-                      alt={data.prodName}
-                    />
-                  ) : (
-                    <img
-                      className="w-full block rounded"
-                      src="assets/images/apps/ecommerce/product-image-placeholder.png"
-                      alt={data.prodName}
-                    />
-                  )}
-                </div>
-                <h3 className="w-4/6">{data.prodName}</h3>
-                <div className="w-1/6 m-auto">
-                  <div className="grid grid-cols-3 w-full box-item-product">
-                    <button
-                      onClick={() => updatePrice(data.id, 'subtract')}
-                      className="max-w-1/3 btn-left"
-                    >
-                      <FuseSvgIcon className="text-16" size={22} color="action">material-outline:remove</FuseSvgIcon>
-                    </button>
-                    <input
-                      className='w-1/3 m-auto'
-                      value={quantities[data.id] || 1}
-                      onChange={(e) => updatePrice(data.id, 'change', parseInt(e.target.value, 10))}
-                      placeholder='1'
-                    />
-                    <button
-                      onClick={() => updatePrice(data.id, 'add')}
-                      className="max-w-1/3 btn-right"
-                    >
-                      <FuseSvgIcon className="text-16" size={22} color="action">material-outline:add</FuseSvgIcon>
-                    </button>
-                  </div>
-                </div>
-                <div className="w-1/6 m-auto">
-                  S/. {data.updatedPrice || data.prodSalePrice}
-                </div>
-                <div className="w-60"> 
-                  <IconButton aria-label="delete" size="large">
-                    <DeleteIcon fontSize="inherit" className="text-red-500" />
-                  </IconButton>
-                </div>
-              </div>
-            )
-          }
-        </div>
+        <FuseScrollbars className="grow overflow-x-auto">
+          <Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
+            <ProductTabHead
+              // ids={selected}
+              // order={order}
+              // onSelectAllClick={handleSelectAllClick}
+              // onRequestSort={handleRequestSort}
+              // rowCount={data.length}
+              // onMenuItemClick={handleDeselect}
+            />
+            <TableBody>
+              {
+                listProd.map((data) => 
+                  <TableRow
+                    key={data.id}
+                    className="h-72 cursor-pointer"
+                    hover
+                    role="checkbox"
+                  >
+                    <TableCell className="w-52 px-4 md:px-0" component="th" scope="row">
+                      {data.prodName}
+                    </TableCell>
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      S/. {data.prodPurchasePrice}
+                    </TableCell>
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      {data.prodStock}
+                    </TableCell>
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      <div className="grid grid-cols-3 w-full box-item-product">
+                        <button
+                          onClick={() => updatePrice(data.id, 'subtract')}
+                          className="max-w-1/3 btn-left"
+                        >
+                          <FuseSvgIcon className="text-16" size={22} color="action">material-outline:remove</FuseSvgIcon>
+                        </button>
+                        <input
+                          className='w-1/3 m-auto'
+                          value={quantities[data.id] || 1}
+                          onChange={(e) => updatePrice(data.id, 'change', parseInt(e.target.value, 10))}
+                          placeholder='1'
+                        />
+                        <button
+                          onClick={() => updatePrice(data.id, 'add')}
+                          className="max-w-1/3 btn-right"
+                        >
+                          <FuseSvgIcon className="text-16" size={22} color="action">material-outline:add</FuseSvgIcon>
+                        </button>
+                      </div>
+                    </TableCell>
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      S/. 0.00
+                    </TableCell>
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      18%
+                    </TableCell>
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      S/. {data.updatedPrice || data.prodSalePrice}
+                    </TableCell>
+                    <TableCell className="w-60" component="th" scope="row">
+                      <IconButton aria-label="delete" size="large">
+                        <DeleteIcon fontSize="inherit" className="text-red-500" />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                )
+              }
+            </TableBody>
+          </Table>
+        </FuseScrollbars>
       </div>
       <div className="w-1/3 px-16">
         <div className="w-full grid grid-cols-2">
           <div className="w-2/3">
-            <h2>Total productos</h2>
+            <h2>Prec. Total Prod.</h2>
             <h2>Impuesto</h2>
             <h2>Subtotal</h2>
             <h2>Total Neto</h2>
             <h2>Valor Final</h2>
           </div>
           <div className="w-1/3">
-            <b>S/.{getTotalPrice()}</b>
-            <b>S/.{getTotalPrice()}</b>
-            <b>S/.{getTotalPrice()}</b>
-            <b>S/.{getTotalPrice()}</b>
+            <h2>S/.{getTotalPrice()}</h2>
+            <h2>S/.{getTax()}</h2>
+            <h2>S/.{getTotalPrice()}</h2>
+            <h2>S/.{getTotalPrice()}</h2>
+            <h2>S/.{getTotalPrice()}</h2>
           </div>
         </div>
       </div>

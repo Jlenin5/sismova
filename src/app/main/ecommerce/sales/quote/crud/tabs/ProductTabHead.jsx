@@ -1,0 +1,122 @@
+import Checkbox from '@mui/material/Checkbox'
+import IconButton from '@mui/material/IconButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import MenuList from '@mui/material/MenuList'
+import TableCell from '@mui/material/TableCell'
+import TableRow from '@mui/material/TableRow'
+import TableSortLabel from '@mui/material/TableSortLabel'
+import Tooltip from '@mui/material/Tooltip'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Box } from '@mui/system'
+import TableHead from '@mui/material/TableHead'
+import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
+import { lighten } from '@mui/material/styles'
+// import { delQuoteMulti } from '../store/quotesSlice'
+
+const rows = [
+    {
+      id: 'product',
+      align: 'left',
+      disablePadding: false,
+      label: 'Producto',
+      sort: true,
+    },
+    {
+      id: 'unit price',
+      align: 'left',
+      disablePadding: false,
+      label: 'Precio unitario',
+      sort: true,
+    },
+    {
+      id: 'stock',
+      align: 'left',
+      disablePadding: false,
+      label: 'Stock actual',
+      sort: true,
+    },
+    {
+      id: 'quantity',
+      align: 'left',
+      disablePadding: false,
+      label: 'Cantidad',
+      sort: true,
+    },
+    {
+      id: 'descount',
+      align: 'left',
+      disablePadding: false,
+      label: 'Descuento',
+      sort: true,
+    },
+    {
+      id: 'taxnet',
+      align: 'center',
+      disablePadding: false,
+      label: 'Impuesto',
+      sort: true,
+    },
+    {
+      id: 'subtotal',
+      align: 'center',
+      disablePadding: false,
+      label: 'Sub Total',
+      sort: true,
+    },
+    {
+      id: 'actions',
+      align: 'left',
+      disablePadding: true,
+      label: '',
+      sort: false,
+    },
+]
+
+const ProductTabHead = () => {
+  return (
+    <TableHead className='w-full'>
+      <TableRow className="h-48 sm:h-64">
+        {rows.map((row) => {
+          return (
+            <TableCell
+              sx={{
+                backgroundColor: (theme) =>
+                  theme.palette.mode === 'light'
+                    ? lighten(theme.palette.background.default, 0.4)
+                    : lighten(theme.palette.background.default, 0.02),
+              }}
+              className="p-4 md:p-16"
+              key={row.id}
+              align={row.align}
+              padding={row.disablePadding ? 'none' : 'normal'}
+            //   sortDirection={props.order.prodId === row.id ? props.order.direction : false}
+            >
+              {row.sort && (
+                <Tooltip
+                  // title="Sort"
+                  placement={row.align === 'right' ? 'bottom-end' : 'bottom-start'}
+                  enterDelay={300}
+                >
+                  <TableSortLabel
+                    // active={props.order.prodId === row.id}
+                    // direction={props.order.direction}
+                    // onClick={createSortHandler(row.id)}
+                    className="font-semibold"
+                  >
+                    {row.label}
+                  </TableSortLabel>
+                </Tooltip>
+              )}
+            </TableCell>
+          )
+        }, this)}
+      </TableRow>
+    </TableHead>
+  )
+}
+
+export default ProductTabHead
