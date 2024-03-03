@@ -6,7 +6,7 @@ const BranchOfficeInterface = {
   District: 1,
   boAddress: '',
   User: 1,
-  boState: true
+  boState: 1
 }
 
 export default BranchOfficeInterface

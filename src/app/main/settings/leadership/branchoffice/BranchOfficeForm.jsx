@@ -1,14 +1,20 @@
 import './form.css'
 import React, { useEffect, useState } from 'react'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material'
 import BranchOfficeInterface from 'src/app/interfaces/BranchOfficeInterface'
 import { useDispatch } from 'react-redux'
 import { deleteBranchoffice, getMaxId, postBranchoffice, putBranchoffice } from '../store/branchofficeSlice'
+import { getUsers } from 'src/app/main/human-resources/personal/store/userSlice'
 
 const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   const dispatch = useDispatch()
   const [form, setForm] = useState(BranchOfficeInterface)
   const [maxId, setMaxId] = useState(null)
+  const [user, setUser] = useState([])
   
   const handleChange = (e) => {
     const name = e.target.name
@@ -52,6 +58,7 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
 
   useEffect(() => {
     dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
+    dispatch(getUsers()).then(response => setUser(response.payload))
     if(dataToEdit) {
       setForm(dataToEdit)
     } else {
@@ -65,86 +72,82 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
       open={open}
       className='form-dialog-bogory'
     >
-      <DialogTitle>Formulario</DialogTitle>
-      <DialogContent>
+      <DialogContent className='grid grid-flow-row-dense grid-cols-2 gap-32 mt-12'>
         <TextField
           autoFocus
-          margin="dense"
           id="name"
-          label="Nombre de la sucursal"
-          type="text"
+          label="Nombre de Sucursal"
           fullWidth
-          variant="standard"
+          variant="outlined"
           name='boName'
           value={form.boName}
           onChange={handleChange}
         />
         <TextField
-          margin="dense"
           id="name"
           label="Celular"
-          type="text"
           fullWidth
-          variant="standard"
+          variant="outlined"
           name='boPhone'
           value={form.boPhone}
           onChange={handleChange}
         />
         <TextField
-          margin="dense"
           id="name"
           label="Correo electrónico"
-          type="text"
           fullWidth
-          variant="standard"
+          variant="outlined"
           name='boEmail'
           value={form.boEmail}
           onChange={handleChange}
         />
         <TextField
-          margin="dense"
           id="name"
           label="Distrito"
-          type="text"
           fullWidth
-          variant="standard"
+          variant="outlined"
           name='District'
           value={form.District}
           onChange={handleChange}
         />
         <TextField
-          margin="dense"
           id="name"
           label="Dirección"
-          type="text"
           fullWidth
-          variant="standard"
+          variant="outlined"
           name='boAddress'
           value={form.boAddress}
           onChange={handleChange}
         />
-        <TextField
-          margin="dense"
-          id="name"
-          label="Encargado"
-          type="text"
-          fullWidth
-          variant="standard"
-          name='User'
-          value={form.User}
-          onChange={handleChange}
-        />
-        Estado:
-        <label className="switch">
-          <input
-            type="checkbox" 
-            name='boState'
-            value={form.boState}
-            checked={form.boState}
+        <FormControl fullWidth>
+          <InputLabel id="User">Encargado</InputLabel>
+          <Select
+            labelId="User"
+            id="demo-simple-select"
+            label="Encargado"
+            value={form.User}
+            name="User"
             onChange={handleChange}
-          />
-          <span className="slider"></span>
-        </label>
+          >
+            {
+              user.map(r => <MenuItem value={r.id} key={r.id}>{r.employees.empFirstName}</MenuItem>)
+            }
+          </Select>
+        </FormControl>
+        <FormControl fullWidth>
+          <InputLabel id="boState">Estado</InputLabel>
+          <Select
+            labelId="boState"
+            id="demo-simple-select"
+            label="Estado"
+            value={form.boState}
+            name="boState"
+            onChange={handleChange}
+          >
+            <MenuItem value={0}>Inactivo</MenuItem>
+            <MenuItem value={1}>Activo</MenuItem>
+          </Select>
+        </FormControl>
       </DialogContent>
       <DialogActions>
         {form.id!==null ? <Button onClick={() => handleClose(dataToEdit.id)}>Eliminar</Button> : <Button onClick={()=>handleClose(0)}>Cancelar</Button>}

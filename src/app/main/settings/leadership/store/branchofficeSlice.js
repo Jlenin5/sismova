@@ -1,42 +1,12 @@
-import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
+import asyncThunkWithAxios from 'src/app/services/api'
 
-const API_URL = 'https://sismova.tech/backsis/public/api/'
-
-export const getBranchoffices = createAsyncThunk( 'LeadershipSC/branchoffice/getBranchoffices', async () => {
-  const response = await axios.get(API_URL+'bo')
-  return response.data
-})
-
-export const getMaxId = createAsyncThunk( 'LeadershipSC/branchoffice/getMaxId', async () => {
-  const response = await axios.get(API_URL+'bomax')
-  return await response.data
-})
-
-export const putBranchoffice = createAsyncThunk( 'LeadershipSC/branchoffice/putBranchoffice', async (data) => {
-  const {id, boName,boPhone,boEmail,District,boAddress,User,boState} = data
-  axios.put(API_URL+'updatebo/'+id, {boName,boPhone,boEmail,District,boAddress,User,boState})
-  return data
-})
-
-export const postBranchoffice = createAsyncThunk( 'LeadershipSC/branchoffice/postBranchoffice', async (dataJson) => {
-  axios.post(API_URL+'postbo', dataJson)
-  return dataJson
-})
-
-export const deleteBranchoffice = createAsyncThunk( 'LeadershipSC/branchoffice/deleteBranchoffice', async (id) => {
-  axios.delete(API_URL+'deletebo/'+id)
-  return id
-})
-
-export const delBOMulti = createAsyncThunk( 'LeadershipSC/branchoffice/delBOMulti', async (ids) => {
-    axios.delete(API_URL + 'delbomulti', {
-      params: {
-        bo_id: ids,
-      },
-    })
-    return ids
-})
+export const getBranchoffices = asyncThunkWithAxios('bo', 'get', 'LeadershipSC/branchoffice/getBranchoffices', 'get')
+export const getMaxId = asyncThunkWithAxios('bomax', 'get', 'LeadershipSC/branchoffice/getMaxId', 'getmax')
+export const putBranchoffice = asyncThunkWithAxios('updatebo', 'put', 'LeadershipSC/branchoffice/putBranchoffice', 'put')
+export const postBranchoffice = asyncThunkWithAxios('postbo', 'post', 'LeadershipSC/branchoffice/postBranchoffice', 'post')
+export const deleteBranchoffice = asyncThunkWithAxios('deletebo', 'delete', 'LeadershipSC/branchoffice/deleteBranchoffice', 'delete')
+export const delBOMulti = asyncThunkWithAxios('delbomulti', 'delete', 'LeadershipSC/branchoffice/delBranchofficeMulti', 'deletemulti')
 
 const branchofficeAdapter = createEntityAdapter({})
 
