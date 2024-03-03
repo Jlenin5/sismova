@@ -5,16 +5,34 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material'
+import Autocomplete from '@mui/material/Autocomplete'
 import BranchOfficeInterface from 'src/app/interfaces/BranchOfficeInterface'
 import { useDispatch } from 'react-redux'
 import { deleteBranchoffice, getMaxId, postBranchoffice, putBranchoffice } from '../store/branchofficeSlice'
 import { getUsers } from 'src/app/main/human-resources/personal/store/userSlice'
+import axios from 'axios'
+import ModalSearchDistrict from './ModalSearchDistrict'
 
 const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   const dispatch = useDispatch()
   const [form, setForm] = useState(BranchOfficeInterface)
   const [maxId, setMaxId] = useState(null)
   const [user, setUser] = useState([])
+  const [dist, setDist] = useState([])
+  const [openDist, setOpenDist] = useState(false)
+
+  const openSearchDistrict = () => {
+    setOpenDist(true)
+  }
+  const closeSearchDistrict = () => {
+    setOpenDist(false)
+  }
+
+  const url = 'https://sismova.tech/backsis/public/api/dis'
+
+  const getDist = async () => {
+    return await axios.get(url)
+  }
   
   const handleChange = (e) => {
     const name = e.target.name
@@ -59,6 +77,7 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   useEffect(() => {
     dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
     dispatch(getUsers()).then(response => setUser(response.payload))
+    getDist().then(response => setDist(response.data))
     if(dataToEdit) {
       setForm(dataToEdit)
     } else {
@@ -109,6 +128,7 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           name='District'
           value={form.District}
           onChange={handleChange}
+          onClick={openSearchDistrict}
         />
         <TextField
           id="name"
@@ -153,6 +173,10 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
         {form.id!==null ? <Button onClick={() => handleClose(dataToEdit.id)}>Eliminar</Button> : <Button onClick={()=>handleClose(0)}>Cancelar</Button>}
         <Button onClick={handleSubmit}>Guardar</Button>
       </DialogActions>
+      <ModalSearchDistrict
+        open={openDist}
+        onClose={closeSearchDistrict}
+      />
     </Dialog>
   )
 }
