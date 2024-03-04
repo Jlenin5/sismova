@@ -48,6 +48,24 @@ const locale = {
   SETTINGS_CONTROL_DOCUMENT: 'Documentos',
   SETTINGS_ROLES: 'Roles',
   SETTINGS_PERMISSIONS: 'Permisos',
+
+  dashboard: {
+    project: {
+    },
+    analystic: {
+      purchase: {
+        purchase: 'Compras',
+        purchase_order: 'Órdenes de compra'
+      },
+      staff: {
+        staff: 'Personal',
+        employee: 'Empleados',
+        users: 'Usuarios',
+        clients: 'Clientes',
+        providers: 'Proveedores',
+      }
+    }
+  },
 }
 
 export default locale

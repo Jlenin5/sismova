@@ -54,7 +54,7 @@ function AnalyticsDashboardApp() {
                   animate="show"
                 >
                   <motion.div variants={item} className="sm:col-span-2 lg:col-span-3">
-                    <VisitorsOverviewWidget />
+                    {/* <VisitorsOverviewWidget /> */}
                   </motion.div>
 
                   <motion.div variants={item} className="sm:col-span-2 lg:col-span-1 ">
@@ -69,20 +69,32 @@ function AnalyticsDashboardApp() {
                     <VisitsWidget />
                   </motion.div>
 
-                  <motion.div variants={item} className="sm:col-span-2 lg:col-span-3">
-                    <VisitorsVsPageViewsWidget />
+                  <motion.div variants={item} className="sm:col-span-2 lg:col-span-1 ">
+                    <VisitsWidget />
                   </motion.div>
 
-                  <div className="w-full mt-16 sm:col-span-3">
+                  <motion.div variants={item} className="sm:col-span-2 lg:col-span-1 ">
+                    <VisitsWidget />
+                  </motion.div>
+
+                  <motion.div variants={item} className="sm:col-span-2 lg:col-span-1 ">
+                    <VisitsWidget />
+                  </motion.div>
+
+                  <motion.div variants={item} className="sm:col-span-2 lg:col-span-3">
+                    {/* <VisitorsVsPageViewsWidget /> */}
+                  </motion.div>
+
+                  {/* <div className="w-full mt-16 sm:col-span-3">
                     <Typography className="text-2xl font-semibold tracking-tight leading-6">
                       Your Audience
                     </Typography>
                     <Typography className="font-medium tracking-tight" color="text.secondary">
                       Demographic properties of your users
                     </Typography>
-                  </div>
+                  </div> */}
 
-                  <div className="sm:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-32 w-full">
+                  {/* <div className="sm:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-32 w-full">
                     <motion.div variants={item} className="">
                       <NewVsReturningWidget />
                     </motion.div>
@@ -95,7 +107,7 @@ function AnalyticsDashboardApp() {
                     <motion.div variants={item} className="">
                       <LanguageWidget />
                     </motion.div>
-                  </div>
+                  </div> */}
                 </motion.div>
               )
             )

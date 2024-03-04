@@ -1,3 +1,4 @@
+import es from 'app/configs/navigation-i18n/es'
 import { useTheme } from '@mui/material/styles';
 import ReactApexChart from 'react-apexcharts';
 import { useSelector } from 'react-redux';
@@ -7,10 +8,10 @@ import Typography from '@mui/material/Typography';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { selectWidgets } from '../store/widgetsSlice';
 
-function ConversionsWidget(props) {
+function Impressions(props) {
   const theme = useTheme();
   const widgets = useSelector(selectWidgets);
-  const { series, amount, labels } = widgets?.conversions;
+  const { series, amount, labels } = widgets?.impressions;
 
   const chartOptions = {
     chart: {
@@ -25,9 +26,9 @@ function ConversionsWidget(props) {
         enabled: true,
       },
     },
-    colors: [theme.palette.secondary.main],
+    colors: [theme.palette.success.main],
     fill: {
-      colors: [theme.palette.secondary.light],
+      colors: [theme.palette.success.light],
       opacity: 0.5,
     },
     stroke: {
@@ -47,39 +48,25 @@ function ConversionsWidget(props) {
     <Paper className="flex flex-col flex-auto shadow rounded-2xl overflow-hidden">
       <div className="flex items-start justify-between m-24 mb-0">
         <Typography className="text-lg font-medium tracking-tight leading-6 truncate">
-          Conversions
+          {es.dashboard.analystic.purchase.purchase}
         </Typography>
-        <div className="ml-8">
-          <Chip size="small" className="font-medium text-sm" label=" 30 days" />
-        </div>
       </div>
-      <div className="flex flex-col lg:flex-row lg:items-center mx-24 mt-12">
-        <Typography className="text-7xl font-bold tracking-tighter leading-tight">
-          {amount.toLocaleString('en-US')}
-        </Typography>
+      <div className="flex flex-col lg:flex-row lg:items-center m-24">
+        <FuseSvgIcon size={70} className="text-red-500">
+          material-outline:add_shopping_cart
+        </FuseSvgIcon>
         <div className="flex lg:flex-col lg:ml-12">
-          <FuseSvgIcon size={20} className="text-red-500">
-            heroicons-solid:trending-down
-          </FuseSvgIcon>
           <Typography
             className="flex items-center ml-4 lg:ml-0 lg:mt-2 text-md leading-none whitespace-nowrap"
             color="text.secondary"
           >
-            <span className="font-medium text-red-500">2%</span>
-            <span className="ml-4">below target</span>
+            <span className="font-medium text-red-500">{es.dashboard.analystic.purchase.purchase_order}</span>
+            <span className="ml-4">40</span>
           </Typography>
         </div>
-      </div>
-      <div className="flex flex-col flex-auto h-80">
-        <ReactApexChart
-          options={chartOptions}
-          series={series}
-          type={chartOptions.chart.type}
-          height={chartOptions.chart.height}
-        />
       </div>
     </Paper>
   );
 }
 
-export default ConversionsWidget;
+export default Impressions;
