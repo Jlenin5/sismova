@@ -108,7 +108,7 @@ function SettingsPanel() {
 
   return (
     <>
-      <Root id="fuse-settings-schemes" className="buttonWrapper">
+      {/* <Root id="fuse-settings-schemes" className="buttonWrapper">
         <Button
           className="settingsButton min-w-40 w-40 h-40 m-0"
           onClick={() => handleOpen('settings')}
@@ -130,7 +130,7 @@ function SettingsPanel() {
         >
           <FuseSvgIcon size={20}>heroicons-outline:color-swatch</FuseSvgIcon>
         </Button>
-      </Root>
+      </Root> */}
       <StyledDialog
         TransitionComponent={Transition}
         aria-labelledby="settings-panel"
