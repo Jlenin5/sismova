@@ -1,4 +1,35 @@
 const locale = {
+
+  dashboard: 'Panel de Control',
+  purchase: 'Compra',
+  purchases: 'Compras',
+  purchase_order: 'Orden de compra',
+  purchase_orders: 'Órdenes de compra',
+  staff: 'Personal',
+  employee: 'Empleado',
+  employees: 'Empleados',
+  user: 'Usuario',
+  users: 'Usuarios',
+  client: 'Cliente',
+  clients: 'Clientes',
+  provider: 'Proveedor',
+  providers: 'Proveedores',
+  sale: 'Venta',
+  sales: 'Ventas',
+  sale_order: 'Orden de venta',
+  sale_orders: 'Órdenes de venta',
+  ticket: 'Boleta',
+  tickets: 'Boletas',
+  invoice: 'Factura',
+  invoices: 'Facturas',
+  quote: 'Cotización',
+  quotes: 'Cotizaciones',
+  setting: 'Ajuste',
+  settings: 'Ajustes',
+  export: 'Exportar',
+  analytics_dashboard: 'Panel de Análisis',
+  subtitle_analytics_dashboard: 'Monitoree métricas, verifique informes y revise el desempeño',
+
   APPLICATIONS: 'Aplicaciones',
   DASHBOARDS: 'Panel de control',
   DASHBOARDS_PROJECT: 'Proyecto',
@@ -49,23 +80,6 @@ const locale = {
   SETTINGS_ROLES: 'Roles',
   SETTINGS_PERMISSIONS: 'Permisos',
 
-  dashboard: {
-    project: {
-    },
-    analystic: {
-      purchase: {
-        purchase: 'Compras',
-        purchase_order: 'Órdenes de compra'
-      },
-      staff: {
-        staff: 'Personal',
-        employee: 'Empleados',
-        users: 'Usuarios',
-        clients: 'Clientes',
-        providers: 'Proveedores',
-      }
-    }
-  },
 }
 
 export default locale

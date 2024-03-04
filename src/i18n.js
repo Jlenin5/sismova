@@ -1,14 +1,13 @@
+import es from 'app/configs/navigation-i18n/es'
+import en from 'app/configs/navigation-i18n/en'
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
 // the translations
 // (tip move them in a JSON file and import them)
 const resources = {
-  en: {
-    translation: {
-      'Welcome to React': 'Bienvenido a React y reaccionar-i18next',
-    },
-  },
+  en: { translation: en },
+  es: { translation: es }
 }
 
 i18n
@@ -16,8 +15,8 @@ i18n
   .init({
     resources,
     lng: 'es',
-
-    keySeparator: false, // we do not use keys in form messages.welcome
+    fallbackLng: 'es',
+    // keySeparator: false, // we do not use keys in form messages.welcome
 
     interpolation: {
       escapeValue: false, // react already safes from xss

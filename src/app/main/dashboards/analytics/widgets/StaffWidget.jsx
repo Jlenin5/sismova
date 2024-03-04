@@ -1,54 +1,17 @@
-import es from 'app/configs/navigation-i18n/es'
-import { useTheme } from '@mui/material/styles'
-import ReactApexChart from 'react-apexcharts'
-import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import Paper from '@mui/material/Paper'
-import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
-import { selectWidgets } from '../store/widgetsSlice'
 
-function Impressions(props) {
-  const theme = useTheme()
-  const widgets = useSelector(selectWidgets)
-  const { series, amount, labels } = widgets?.visits
+const StaffWidget = () => {
 
-  const chartOptions = {
-    chart: {
-      animations: {
-        enabled: false,
-      },
-      fontFamily: 'inherit',
-      foreColor: 'inherit',
-      height: '100%',
-      type: 'area',
-      sparkline: {
-        enabled: true,
-      },
-    },
-    colors: [theme.palette.error.main],
-    fill: {
-      colors: [theme.palette.error.light],
-      opacity: 0.5,
-    },
-    stroke: {
-      curve: 'smooth',
-    },
-    tooltip: {
-      followCursor: true,
-      theme: 'dark',
-    },
-    xaxis: {
-      type: 'category',
-      categories: labels,
-    },
-  }
+  const { t } = useTranslation()
 
   return (
     <Paper className="flex flex-col flex-auto shadow rounded-2xl overflow-hidden">
       <div className="flex items-start justify-between m-24 mb-0">
         <Typography className="text-lg font-medium tracking-tight leading-6 truncate">
-        {es.dashboard.analystic.staff.staff}
+          {t('staff')}
         </Typography>
       </div>
       <div className="flex flex-col lg:flex-row lg:items-center m-24">
@@ -61,7 +24,9 @@ function Impressions(props) {
               className="flex items-center ml-4 lg:ml-0 lg:mt-2 text-md leading-none whitespace-nowrap"
               color="text.secondary"
             >
-              <span className="font-medium text-red-500">{es.dashboard.analystic.staff.employee}</span>
+              <span className="font-medium text-red-500">
+                {t('employees')}
+              </span>
               <span className="ml-4">below target</span>
             </Typography>
           </div>
@@ -70,7 +35,9 @@ function Impressions(props) {
               className="flex items-center ml-4 lg:ml-0 lg:mt-2 text-md leading-none whitespace-nowrap"
               color="text.secondary"
             >
-              <span className="font-medium text-red-500">{es.dashboard.analystic.staff.users}</span>
+              <span className="font-medium text-red-500">
+                {t('users')}
+              </span>
               <span className="ml-4">below target</span>
             </Typography>
           </div>
@@ -79,7 +46,9 @@ function Impressions(props) {
               className="flex items-center ml-4 lg:ml-0 lg:mt-2 text-md leading-none whitespace-nowrap"
               color="text.secondary"
             >
-              <span className="font-medium text-red-500">{es.dashboard.analystic.staff.clients}</span>
+              <span className="font-medium text-red-500">
+                {t('clients')}
+              </span>
               <span className="ml-4">below target</span>
             </Typography>
           </div>
@@ -88,7 +57,9 @@ function Impressions(props) {
               className="flex items-center ml-4 lg:ml-0 lg:mt-2 text-md leading-none whitespace-nowrap"
               color="text.secondary"
             >
-              <span className="font-medium text-red-500">{es.dashboard.analystic.staff.providers}</span>
+              <span className="font-medium text-red-500">
+                {t('providers')}
+              </span>
               <span className="ml-4">below target</span>
             </Typography>
           </div>
@@ -98,4 +69,4 @@ function Impressions(props) {
   )
 }
 
-export default Impressions
+export default StaffWidget
