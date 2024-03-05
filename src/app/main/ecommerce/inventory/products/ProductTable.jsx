@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import FuseScrollbars from '@fuse/core/FuseScrollbars'
 import _ from '@lodash'
 import Checkbox from '@mui/material/Checkbox'
@@ -21,6 +22,7 @@ const ProductTable = (props) => {
   const dispatch = useDispatch()
   const products = useSelector(selectProduct)
   const searchText = useSelector(selectProductSearchText)
+  const { t } = useTranslation()
 
   const [isDelayOver, setIsDelayOver] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -144,7 +146,7 @@ const ProductTable = (props) => {
         className="flex flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          No hay productos
+          {t('there_is_no_data')}
         </Typography>
       </motion.div>
     )
@@ -275,8 +277,8 @@ const ProductTable = (props) => {
       </FuseScrollbars>
       <TablePagination
         className="shrink-0 border-t-1"
-        labelRowsPerPage="Filas por página"
-        labelDisplayedRows={({ from, to, count }) => `${from}-${to} de ${count}`}
+        labelRowsPerPage={t('rows_per_page')}
+        labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
         count={data.length}
         rowsPerPage={rowsPerPage}

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -17,35 +18,36 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
 import { delCategoryMulti } from '../store/categorySlice'
 
-const rows = [
-  {
-    id: 'id',
-    align: 'left',
-    disablePadding: false,
-    label: '',
-    sort: false,
-  },
-  {
-    id: 'cateName',
-    align: 'left',
-    disablePadding: false,
-    label: 'Nombre',
-    sort: true,
-  },
-  {
-    id: 'cateState',
-    align: 'left',
-    disablePadding: false,
-    label: 'Estado',
-    sort: true,
-  },
-]
-
 const CategoriesTableHead = (props) => {
+
   const dispatch = useDispatch()
   const numSelected = props.ids.length
-  
   const [selectedCategoryMenu, setSelectedCategoryMenu] = useState(null)
+  const { t } = useTranslation()
+
+  const rows = [
+    {
+      id: 'id',
+      align: 'left',
+      disablePadding: false,
+      label: '',
+      sort: false,
+    },
+    {
+      id: 'cateName',
+      align: 'left',
+      disablePadding: false,
+      label: t('name'),
+      sort: true,
+    },
+    {
+      id: 'cateState',
+      align: 'left',
+      disablePadding: false,
+      label: t('state'),
+      sort: true,
+    },
+  ]
 
   const createSortHandler = (property) => (event) => {
     props.onRequestSort(event, property)

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import TextField from '@mui/material/TextField'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
@@ -15,6 +16,7 @@ function InventoryTab(props) {
   const { control, watch, setValue } = methods
   const SerialNumber = watch('SerialNumber')
   const prodNumber = watch('prodNumber')
+  const { t } = useTranslation()
 
   const getSN = async () => {
     return await axios.get(url)
@@ -49,7 +51,7 @@ function InventoryTab(props) {
             <TextField
               {...field}
               className="mt-8 mb-16 mx-4"
-              label="Serie"
+              label={t('serie')}
               autoFocus
               id="serie"
               variant="outlined"
@@ -67,7 +69,7 @@ function InventoryTab(props) {
             <TextField
               {...field}
               className="mt-8 mb-16 mx-4"
-              label="Número"
+              label={t('number')}
               autoFocus
               id="number"
               variant="outlined"
@@ -86,7 +88,7 @@ function InventoryTab(props) {
           <TextField
             {...field}
             className="mt-8 mb-16"
-            label="Stock"
+            label={t('stock')}
             id="stock"
             variant="outlined"
             type="text"
@@ -103,7 +105,7 @@ function InventoryTab(props) {
           <TextField
             {...field}
             className="mt-8 mb-16"
-            label="Unidad de medidad"
+            label={t('unit_of_measurement')}
             id="unit"
             variant="outlined"
             type="text"

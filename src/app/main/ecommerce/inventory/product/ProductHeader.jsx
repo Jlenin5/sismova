@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { forceUpdate } from 'react'
 import Button from '@mui/material/Button'
 import { useTheme } from '@mui/material/styles'
@@ -25,6 +26,7 @@ const ProductHeader = (props) => {
   const prodName = watch('prodName')
   const theme = useTheme()
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   useEffect(() => {
     dispatch(getMaxId()).then(r => setMaxId(r.payload))
@@ -110,7 +112,7 @@ const ProductHeader = (props) => {
                 ? 'heroicons-outline:arrow-sm-left'
                 : 'heroicons-outline:arrow-sm-right'}
             </FuseSvgIcon>
-            <span className="flex mx-4 font-medium">Productos</span>
+            <span className="flex mx-4 font-medium">{t('products')}</span>
           </Typography>
         </motion.div>
 
@@ -140,10 +142,10 @@ const ProductHeader = (props) => {
             animate={{ x: 0, transition: { delay: 0.3 } }}
           >
             <Typography className="text-16 sm:text-20 truncate font-semibold">
-              {prodName || 'Nuevo producto'}
+              {prodName || t('new_product')}
             </Typography>
             <Typography variant="caption" className="font-medium">
-              Detalle de producto
+              {t('product_details')}
             </Typography>
           </motion.div>
         </div>
@@ -162,7 +164,7 @@ const ProductHeader = (props) => {
             onClick={handleRemoveProduct}
             startIcon={<FuseSvgIcon className="hidden sm:flex">heroicons-outline:trash</FuseSvgIcon>}
           >
-            Eliminar
+            {t('delete')}
           </Button>
           : ''
         }
@@ -173,7 +175,7 @@ const ProductHeader = (props) => {
           disabled={_.isEmpty(dirtyFields) || isValid}
           onClick={handleSaveProduct}
         >
-          Guardar
+          {t('save')}
         </Button>
       </motion.div>
     </div>

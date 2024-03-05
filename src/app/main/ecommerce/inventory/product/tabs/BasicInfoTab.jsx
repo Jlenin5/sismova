@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import TextField from '@mui/material/TextField'
 import axios from 'axios'
 import Autocomplete from '@mui/material/Autocomplete'
@@ -18,6 +19,7 @@ const BasicInfoTab = () => {
   const methods = useFormContext()
   const { control, formState } = methods
   const { errors } = formState
+  const { t } = useTranslation()
 
   const getBO = async () => {
     return await axios.get(url)
@@ -40,7 +42,7 @@ const BasicInfoTab = () => {
             error={!!errors.name}
             required
             helperText={errors?.name?.message}
-            label="Nombre"
+            label={t('name')}
             autoFocus
             id="name"
             variant="outlined"
@@ -92,8 +94,8 @@ const BasicInfoTab = () => {
               renderInput={(params) => (
                 <TextField
                 {...params}
-                label="Selección de múltiples categorías"
-                  placeholder="Añadir"
+                label={t('multiple_category_selection')}
+                  placeholder={t('append')}
                   />
               )}
             />
@@ -124,8 +126,8 @@ const BasicInfoTab = () => {
               renderInput={(params) => (
                 <TextField
                 {...params}
-                label="Selección de múltiples sucursales"
-                  placeholder="Añadir"
+                label={t('multiple_branch_selection')}
+                  placeholder={t('append')}
                   />
               )}
             />

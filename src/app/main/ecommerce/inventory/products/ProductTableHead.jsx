@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -17,63 +18,63 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
 import { delProductMulti } from '../store/productsSlice'
 
-const rows = [
-  {
-    id: 'prodImage',
-    align: 'left',
-    disablePadding: true,
-    label: '',
-    sort: false,
-  },
-  {
-    id: 'Code',
-    align: 'left',
-    disablePadding: false,
-    label: 'Código',
-    sort: true,
-  },
-  {
-    id: 'prodName',
-    align: 'left',
-    disablePadding: false,
-    label: 'Nombre',
-    sort: true,
-  },
-  {
-    id: 'Unit',
-    align: 'left',
-    disablePadding: false,
-    label: 'Unidad',
-    sort: true,
-  },
-  {
-    id: 'prodSalePrice',
-    align: 'right',
-    disablePadding: false,
-    label: 'Precio',
-    sort: true,
-  },
-  {
-    id: 'prodStock',
-    align: 'right',
-    disablePadding: false,
-    label: 'Stock',
-    sort: true,
-  },
-  {
-    id: 'prodState',
-    align: 'left',
-    disablePadding: false,
-    label: 'Estado',
-    sort: true,
-  },
-]
-
 const ProductTableHead = (props) => {
   const dispatch = useDispatch()
   const numSelected = props.ids.length
-
   const [selectedProductsMenu, setSelectedProductsMenu] = useState(null)
+  const { t } = useTranslation()
+
+  const rows = [
+    {
+      id: 'prodImage',
+      align: 'left',
+      disablePadding: true,
+      label: '',
+      sort: false,
+    },
+    {
+      id: 'Code',
+      align: 'left',
+      disablePadding: false,
+      label: t('code'),
+      sort: true,
+    },
+    {
+      id: 'prodName',
+      align: 'left',
+      disablePadding: false,
+      label: t('name'),
+      sort: true,
+    },
+    {
+      id: 'Unit',
+      align: 'left',
+      disablePadding: false,
+      label: t('unit'),
+      sort: true,
+    },
+    {
+      id: 'prodSalePrice',
+      align: 'right',
+      disablePadding: false,
+      label: t('price'),
+      sort: true,
+    },
+    {
+      id: 'prodStock',
+      align: 'right',
+      disablePadding: false,
+      label: t('stock'),
+      sort: true,
+    },
+    {
+      id: 'prodState',
+      align: 'left',
+      disablePadding: false,
+      label: t('state'),
+      sort: true,
+    },
+  ]
 
   const createSortHandler = (property) => (event) => {
     props.onRequestSort(event, property)

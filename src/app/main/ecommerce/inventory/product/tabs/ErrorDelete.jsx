@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -6,6 +7,9 @@ import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 
 const ErrorDelete = ({ open, handleClose }) => {
+
+  const { t } = useTranslation()
+
   return (
     <Dialog
       open={open}
@@ -13,15 +17,15 @@ const ErrorDelete = ({ open, handleClose }) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">Error!</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{t('error')}!</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Fije otra imagen como principal antes de eliminar esta.
+          {t('set_another_image_as_primary_before_deleting_this_one')}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} autoFocus>
-          Cerrar
+          {t('close')}
         </Button>
       </DialogActions>
     </Dialog>

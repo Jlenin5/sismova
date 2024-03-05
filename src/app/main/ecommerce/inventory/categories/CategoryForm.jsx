@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import './form.css'
 import React, { useEffect, useState } from 'react'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material'
@@ -6,9 +7,11 @@ import { useDispatch } from 'react-redux'
 import { deleteCategory, getMaxId, postCategory, putCategory } from '../store/categorySlice'
 
 const CategoryForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
+  
   const dispatch = useDispatch()
   const [form, setForm] = useState(CategoryInterface)
   const [maxId, setMaxId] = useState(null)
+  const { t } = useTranslation()
   
   const handleChange = (e) => {
     const name = e.target.name
@@ -65,13 +68,13 @@ const CategoryForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
       open={open}
       className='form-dialog-category'
     >
-      <DialogTitle>Formulario</DialogTitle>
+      <DialogTitle>{t('form')}</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
           margin="dense"
           id="name"
-          label="Nombre de la categoría"
+          label={t('category_name')}
           type="text"
           fullWidth
           variant="standard"
@@ -79,7 +82,7 @@ const CategoryForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           value={form.cateName}
           onChange={handleChange}
         />
-        Estado:
+        {t('state')}:
         <label className="switch">
           <input
             type="checkbox" 
@@ -92,8 +95,8 @@ const CategoryForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
         </label>
       </DialogContent>
       <DialogActions>
-        {form.id!==null ? <Button onClick={() => handleClose(dataToEdit.id)}>Eliminar</Button> : <Button onClick={()=>handleClose(0)}>Cancelar</Button>}
-        <Button onClick={handleSubmit}>Guardar</Button>
+        {form.id!==null ? <Button onClick={() => handleClose(dataToEdit.id)}>{t('delete')}</Button> : <Button onClick={()=>handleClose(0)}>{t('cancel')}</Button>}
+        <Button onClick={handleSubmit}>{t('save')}</Button>
       </DialogActions>
     </Dialog>
   )

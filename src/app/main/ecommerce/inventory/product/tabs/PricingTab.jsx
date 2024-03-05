@@ -1,10 +1,12 @@
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
-import { Controller, useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
+import { Controller, useFormContext } from 'react-hook-form'
 
 function PricingTab(props) {
-  const methods = useFormContext();
-  const { control } = methods;  
+  const methods = useFormContext()
+  const { control } = methods
+  const { t } = useTranslation()
 
   return (
     <div>
@@ -15,7 +17,7 @@ function PricingTab(props) {
           <TextField
             {...field}
             className="mt-8 mb-16"
-            label="Precio de compra"
+            label={t('purchase_price')}
             id="priceTaxExcl"
             InputProps={{
               startAdornment: <InputAdornment position="start">S/</InputAdornment>,
@@ -36,7 +38,7 @@ function PricingTab(props) {
           <TextField
             {...field}
             className="mt-8 mb-16"
-            label="Precio de venta"
+            label={t('sale_price')}
             id="priceTaxExcl"
             InputProps={{
               startAdornment: <InputAdornment position="start">S/</InputAdornment>,
@@ -128,7 +130,7 @@ function PricingTab(props) {
         )}
       /> */}
     </div>
-  );
+  )
 }
 
 export default PricingTab

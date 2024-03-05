@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import FuseScrollbars from '@fuse/core/FuseScrollbars'
 import _ from '@lodash'
 import Checkbox from '@mui/material/Checkbox'
@@ -18,6 +19,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getCategories, selectCategory, selectCategorySearchText } from '../store/categorySlice'
 
 const CategoriesTable = (props) => {
+
+  const { t } = useTranslation()
+
   const dispatch = useDispatch()
   const categories = useSelector(selectCategory)
   const searchText = useSelector(selectCategorySearchText)
@@ -123,7 +127,7 @@ const CategoriesTable = (props) => {
         className="flex flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          No hay categorías
+          {t('there_is_no_data')}
         </Typography>
       </motion.div>
     )
@@ -213,6 +217,8 @@ const CategoriesTable = (props) => {
       />
       <TablePagination
         className="shrink-0 border-t-1"
+        labelRowsPerPage={t('rows_per_page')}
+        labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
         count={data.length}
         rowsPerPage={rowsPerPage}

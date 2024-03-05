@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Dialog, DialogTitle, DialogContent } from '@mui/material'
 import Box from '@mui/material/Box'
 import { Controller, useFormContext } from 'react-hook-form'
@@ -7,6 +8,7 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 const ModalSelect = ({open, onClose, sendId, setSendId, clickNumber, setClickNumber, onRemoveImage}) => {
   const methods = useFormContext()
   const { control } = methods
+  const { t } = useTranslation()
 
   const returnClick = (press) => {
     if(press === 'click') {
@@ -58,7 +60,7 @@ const ModalSelect = ({open, onClose, sendId, setSendId, clickNumber, setClickNum
                 }}
                 startIcon={<FuseSvgIcon className="hidden sm:flex">material-outline:star_purple500</FuseSvgIcon>}
               >
-                Imagen principal
+                {t('main_image')}
               </Button>
             }
           />
@@ -72,7 +74,7 @@ const ModalSelect = ({open, onClose, sendId, setSendId, clickNumber, setClickNum
             }}
             startIcon={<FuseSvgIcon className="hidden sm:flex">heroicons-outline:trash</FuseSvgIcon>}
           >
-            Eliminar imagen
+            {t('delete_image')}
           </Button>
         </DialogContent>
       </Box>

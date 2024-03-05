@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import FuseLoading from '@fuse/core/FuseLoading'
 import FusePageCarded from '@fuse/core/FusePageCarded'
 import { useDeepCompareEffect } from '@fuse/hooks'
@@ -38,6 +39,7 @@ function Product(props) {
   const dispatch = useDispatch()
   const product = useSelector(selectProduct)
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'))
+  const { t } = useTranslation()
 
   const routeParams = useParams()
   const [tabValue, setTabValue] = useState(0)
@@ -117,7 +119,7 @@ function Product(props) {
         className="flex flex-col flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          No hay tal producto!
+          {t('product_not_found')}
         </Typography>
         <Button
           className="mt-24"
@@ -126,7 +128,7 @@ function Product(props) {
           to="/ecommerce/inventory/products"
           color="inherit"
         >
-          Ir a la página de productos
+          {t('go_back')}
         </Button>
       </motion.div>
     )
@@ -163,11 +165,11 @@ function Product(props) {
               scrollButtons="auto"
               classes={{ root: 'w-full h-64 border-b-1' }}
             >
-              <Tab className="h-64" label="Información básica" />
-              <Tab className="h-64" label="Imágenes" />
-              <Tab className="h-64" label="Precios" />
-              <Tab className="h-64" label="Inventario" />
-              <Tab className="h-64" label="Envío" />
+              <Tab className="h-64" label={t('basic_info')} />
+              <Tab className="h-64" label={t('images')} />
+              <Tab className="h-64" label={t('prices')} />
+              <Tab className="h-64" label={t('inventory')} />
+              <Tab className="h-64" label={t('shipment')} />
             </Tabs>
             <div className="p-16 sm:p-24 max-w-3xl">
               <div className={tabValue !== 0 ? 'hidden' : ''}>
