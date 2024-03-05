@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -17,84 +18,84 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
 import { delQuoteMulti } from '../store/quotesSlice'
 
-const rows = [
-  {
-    id: 'id',
-    align: 'left',
-    disablePadding: true,
-    label: '',
-    sort: false,
-  },
-  {
-    id: 'SerialNumber',
-    align: 'left',
-    disablePadding: false,
-    label: 'Código',
-    sort: true,
-  },
-  {
-    id: 'Currency',
-    align: 'left',
-    disablePadding: false,
-    label: 'Moneda',
-    sort: true,
-  },
-  {
-    id: 'Company',
-    align: 'left',
-    disablePadding: false,
-    label: 'Empresa',
-    sort: true,
-  },
-  {
-    id: 'Client',
-    align: 'left',
-    disablePadding: false,
-    label: 'Cliente',
-    sort: true,
-  },
-  {
-    id: 'Employee',
-    align: 'left',
-    disablePadding: false,
-    label: 'Usuario',
-    sort: true,
-  },
-  {
-    id: 'qtIgv',
-    align: 'center',
-    disablePadding: false,
-    label: 'IGV',
-    sort: true,
-  },
-  {
-    id: 'qtSubtotal',
-    align: 'right',
-    disablePadding: false,
-    label: 'Subtotal',
-    sort: true,
-  },
-  {
-    id: 'qtTotal',
-    align: 'right',
-    disablePadding: false,
-    label: 'Total',
-    sort: true,
-  },
-  {
-    id: 'qtCreatedAt',
-    align: 'right',
-    disablePadding: false,
-    label: 'Fecha de emisión',
-    sort: true,
-  },
-]
-
 const QuoteTableHead = (props) => {
   const dispatch = useDispatch()
   const numSelected = props.ids.length
-
   const [selectedProductsMenu, setSelectedProductsMenu] = useState(null)
+  const { t } = useTranslation()
+
+  const rows = [
+    {
+      id: 'id',
+      align: 'left',
+      disablePadding: true,
+      label: '',
+      sort: false,
+    },
+    {
+      id: 'SerialNumber',
+      align: 'left',
+      disablePadding: false,
+      label: t('code'),
+      sort: true,
+    },
+    {
+      id: 'Currency',
+      align: 'left',
+      disablePadding: false,
+      label: t('currency'),
+      sort: true,
+    },
+    {
+      id: 'Company',
+      align: 'left',
+      disablePadding: false,
+      label: t('company'),
+      sort: true,
+    },
+    {
+      id: 'Client',
+      align: 'left',
+      disablePadding: false,
+      label: t('client'),
+      sort: true,
+    },
+    {
+      id: 'Employee',
+      align: 'left',
+      disablePadding: false,
+      label: t('user'),
+      sort: true,
+    },
+    {
+      id: 'qtIgv',
+      align: 'center',
+      disablePadding: false,
+      label: t('tax'),
+      sort: true,
+    },
+    {
+      id: 'qtSubtotal',
+      align: 'right',
+      disablePadding: false,
+      label: t('sub_total'),
+      sort: true,
+    },
+    {
+      id: 'qtTotal',
+      align: 'right',
+      disablePadding: false,
+      label: t('total'),
+      sort: true,
+    },
+    {
+      id: 'qtCreatedAt',
+      align: 'right',
+      disablePadding: false,
+      label: t('created_at'),
+      sort: true,
+    },
+  ]
 
   const createSortHandler = (property) => (event) => {
     props.onRequestSort(event, property)
@@ -158,7 +159,7 @@ const QuoteTableHead = (props) => {
                     <ListItemIcon className="min-w-40">
                       <FuseSvgIcon>heroicons-outline:trash</FuseSvgIcon>
                     </ListItemIcon>
-                    <ListItemText primary="Eliminar" />
+                    <ListItemText primary={t('delete')} />
                   </MenuItem>
                 </MenuList>
               </Menu>

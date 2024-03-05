@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import TextField from '@mui/material/TextField'
 import axios from 'axios'
 import Autocomplete from '@mui/material/Autocomplete'
@@ -21,6 +22,7 @@ const BasicInfoTab = () => {
   const employees = watch('employees')
   const clients = watch('clients')
   const { errors } = formState
+  const { t } = useTranslation()
 
   // const getBO = async () => {
   //   return await axios.get(url)
@@ -41,7 +43,7 @@ const BasicInfoTab = () => {
             {...field}
             error={!!errors.name}
             helperText={errors?.name?.message}
-            label="Serie"
+            label={t('serie')}
             disabled
             required
             autoFocus
@@ -60,7 +62,7 @@ const BasicInfoTab = () => {
             {...field}
             error={!!errors.name}
             helperText={errors?.name?.message}
-            label="Número"
+            label={t('number')}
             disabled
             required
             autoFocus
@@ -78,7 +80,7 @@ const BasicInfoTab = () => {
             {...field}
             error={!!errors.name}
             helperText={errors?.name?.message}
-            label="Moneda"
+            label={t('currency')}
             disabled
             required
             autoFocus
@@ -97,7 +99,7 @@ const BasicInfoTab = () => {
             {...field}
             error={!!errors.name}
             helperText={errors?.name?.message}
-            label="Empresa"
+            label={t('company')}
             // disabled
             required
             autoFocus
@@ -117,7 +119,7 @@ const BasicInfoTab = () => {
             error={!!errors.name}
             required
             helperText={errors?.name?.message}
-            label="Usuario asignado"
+            label={t('assigned_user')}
             id="employee"
             variant="outlined"
             value={employees.empFirstName}
@@ -142,7 +144,7 @@ const BasicInfoTab = () => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Cliente"
+                label={t('client')}
               />
             )}
           />
@@ -158,7 +160,7 @@ const BasicInfoTab = () => {
             onChange={onChange}
             slotProps={{
               textField: {
-                label: 'Inicio',
+                label: t('start_date'),
                 variant: 'outlined',
               },
             }}
@@ -177,7 +179,7 @@ const BasicInfoTab = () => {
             onChange={onChange}
             slotProps={{
               textField: {
-                label: 'Fin',
+                label: t('end_date'),
                 variant: 'outlined',
               },
             }}

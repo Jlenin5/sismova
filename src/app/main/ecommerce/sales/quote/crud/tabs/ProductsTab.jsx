@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import './detailQuote.scss'
 import _ from '@lodash'
 import FuseScrollbars from '@fuse/core/FuseScrollbars'
@@ -24,6 +25,7 @@ const ProductsTab = (props) => {
   const [dProduct, setDProduct] = useState([])
   const [listProd, setListProd] = useState([])
   const [quantities, setQuantities] = useState({})
+  const { t } = useTranslation()
 
   useEffect(() => {
     dispatch(getProducts()).then((r) => setDProduct(r.payload))
@@ -91,7 +93,7 @@ const ProductsTab = (props) => {
           renderInput={(params) => 
             <TextField
               {...params}
-              label="Buscar producto"
+              label={t('search_product')}
             />
           }
         />
@@ -170,10 +172,10 @@ const ProductsTab = (props) => {
         <div className="w-full grid grid-cols-2">
           <div className="w-2/3">
             <h2>Prec. Total Prod.</h2>
-            <h2>Impuesto</h2>
-            <h2>Subtotal</h2>
-            <h2>Total Neto</h2>
-            <h2>Valor Final</h2>
+            <h2>{t('tax')}</h2>
+            <h2>{t('sub_total')}</h2>
+            <h2>{t('net_total')}</h2>
+            <h2>{t('final_value')}</h2>
           </div>
           <div className="w-1/3">
             <h2>S/.{getTotalPrice()}</h2>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -17,54 +18,58 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
 // import { delQuoteMulti } from '../store/quotesSlice'
 
-const rows = [
+const ProductTabHead = () => {
+
+  const { t } = useTranslation()
+
+  const rows = [
     {
       id: 'product',
       align: 'left',
       disablePadding: false,
-      label: 'Producto',
+      label: t('product'),
       sort: true,
     },
     {
       id: 'unit price',
       align: 'left',
       disablePadding: false,
-      label: 'Precio unitario',
+      label: t('unit_price'),
       sort: true,
     },
     {
       id: 'stock',
       align: 'left',
       disablePadding: false,
-      label: 'Stock actual',
+      label: t('stock'),
       sort: true,
     },
     {
       id: 'quantity',
       align: 'left',
       disablePadding: false,
-      label: 'Cantidad',
+      label: t('quantity'),
       sort: true,
     },
     {
       id: 'descount',
       align: 'left',
       disablePadding: false,
-      label: 'Descuento',
+      label: t('discount'),
       sort: true,
     },
     {
       id: 'taxnet',
       align: 'center',
       disablePadding: false,
-      label: 'Impuesto',
+      label: t('tax'),
       sort: true,
     },
     {
       id: 'subtotal',
       align: 'center',
       disablePadding: false,
-      label: 'Sub Total',
+      label: t('sub_total'),
       sort: true,
     },
     {
@@ -76,7 +81,6 @@ const rows = [
     },
 ]
 
-const ProductTabHead = () => {
   return (
     <TableHead className='w-full'>
       <TableRow className="h-48 sm:h-64">

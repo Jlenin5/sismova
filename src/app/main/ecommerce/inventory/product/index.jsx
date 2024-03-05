@@ -10,7 +10,7 @@ import withReducer from 'app/store/withReducer'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import _ from '@lodash'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -39,6 +39,7 @@ function Product(props) {
   const dispatch = useDispatch()
   const product = useSelector(selectProduct)
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'))
+  const navigate = useNavigate()
   const { t } = useTranslation()
 
   const routeParams = useParams()
@@ -101,6 +102,10 @@ function Product(props) {
     }
   }, [dispatch])
 
+  const returnProducts = () => {
+    navigate(-1)
+  }
+
   /**
    * Tab Change
    */
@@ -125,7 +130,7 @@ function Product(props) {
           className="mt-24"
           component={Link}
           variant="outlined"
-          to="/ecommerce/inventory/products"
+          onClick={returnProducts}
           color="inherit"
         >
           {t('go_back')}

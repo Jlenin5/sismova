@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { forceUpdate } from 'react'
 import Button from '@mui/material/Button'
 import { useTheme } from '@mui/material/styles'
@@ -22,9 +23,9 @@ const QuoteHead = () => {
   const { id } = routeParams
   // const featuredImageId = watch('featuredImageId')
   // const productImages = watch('product_images')
-  // const prodName = watch('prodName')
   const theme = useTheme()
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   useEffect(() => {
     dispatch(getMaxId()).then(r => setMaxId(r.payload))
@@ -70,7 +71,7 @@ const QuoteHead = () => {
                 ? 'heroicons-outline:arrow-sm-left'
                 : 'heroicons-outline:arrow-sm-right'}
             </FuseSvgIcon>
-            <span className="flex mx-4 font-medium">Cotizaciones</span>
+            <span className="flex mx-4 font-medium">{t('quotes')}</span>
           </Typography>
         </motion.div>
 
@@ -100,10 +101,10 @@ const QuoteHead = () => {
             animate={{ x: 0, transition: { delay: 0.3 } }}
           >
             <Typography className="text-16 sm:text-20 truncate font-semibold">
-              {/* {prodName || 'Nuevo producto'} */}
+              {t('quote')}
             </Typography>
             <Typography variant="caption" className="font-medium">
-              Detalle de cotización
+              {t('quote_details')}
             </Typography>
           </motion.div>
         </div>
@@ -122,7 +123,7 @@ const QuoteHead = () => {
             onClick={handleRemoveProduct}
             startIcon={<FuseSvgIcon className="hidden sm:flex">heroicons-outline:trash</FuseSvgIcon>}
           >
-            Eliminar
+            {t('delete')}
           </Button>
           : ''
         }
@@ -133,7 +134,7 @@ const QuoteHead = () => {
           disabled={_.isEmpty(dirtyFields) || isValid}
           onClick={handleSaveProduct}
         >
-          Guardar
+          {t('save')}
         </Button>
       </motion.div>
     </div>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import FuseLoading from '@fuse/core/FuseLoading'
 import FusePageCarded from '@fuse/core/FusePageCarded'
 import { useDeepCompareEffect } from '@fuse/hooks'
@@ -9,7 +10,7 @@ import withReducer from 'app/store/withReducer'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import _ from '@lodash'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -35,6 +36,8 @@ const Quote = (props) => {
   const dispatch = useDispatch()
   const product = useSelector(selectQuote)
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'))
+  const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const routeParams = useParams()
   const [tabValue, setTabValue] = useState(0)
@@ -79,6 +82,10 @@ const Quote = (props) => {
     }
   }, [dispatch])
 
+  const returnProducts = () => {
+    navigate(-1)
+  }
+
   function handleTabChange(event, value) {
     setTabValue(value)
   }
@@ -90,16 +97,16 @@ const Quote = (props) => {
         className="flex flex-col flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          No hay tal cotización!
+          {t('quote_not_found')}
         </Typography>
         <Button
           className="mt-24"
           component={Link}
           variant="outlined"
-          to="/ecommerce/sales/quotes"
+          onClick={returnProducts}
           color="inherit"
         >
-          Ir a la página de cotizaciones
+          {t('go_back')}
         </Button>
       </motion.div>
     )
@@ -133,8 +140,8 @@ const Quote = (props) => {
               scrollButtons="auto"
               classes={{ root: 'w-full h-64 border-b-1' }}
             >
-              <Tab className="h-64" label="Información básica" />
-              <Tab className="h-64" label="Productos" />
+              <Tab className="h-64" label={t('basic_info')} />
+              <Tab className="h-64" label={t('products')} />
               {/* <Tab className="h-64" label="Precios" />
               <Tab className="h-64" label="Inventario" />
               <Tab className="h-64" label="Envío" /> */}

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import FuseScrollbars from '@fuse/core/FuseScrollbars'
 import _ from '@lodash'
 import Checkbox from '@mui/material/Checkbox'
@@ -22,6 +23,7 @@ const QuoteTable = (props) => {
   const dispatch = useDispatch()
   const quotes = useSelector(selectQuote)
   const searchText = useSelector(selectQuoteSearchText)
+  const { t } = useTranslation()
 
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState([])
@@ -123,7 +125,7 @@ const QuoteTable = (props) => {
         className="flex flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          No hay cotizaciones
+          {t('there_is_no_data')}
         </Typography>
       </motion.div>
     )
@@ -233,8 +235,8 @@ const QuoteTable = (props) => {
       </FuseScrollbars>
       <TablePagination
         className="shrink-0 border-t-1"
-        labelRowsPerPage="Filas por página"
-        labelDisplayedRows={({ from, to, count }) => `${from}-${to} de ${count}`}
+        labelRowsPerPage={t('rows_per_page')}
+        labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
         count={data.length}
         rowsPerPage={rowsPerPage}

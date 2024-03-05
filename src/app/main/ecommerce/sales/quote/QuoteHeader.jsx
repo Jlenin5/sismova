@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Button from '@mui/material/Button'
 import Input from '@mui/material/Input'
 import Paper from '@mui/material/Paper'
@@ -11,6 +12,7 @@ import { selectQuoteSearchText, setQuoteSearchText } from '../store/quotesSlice'
 const QuoteHeader = (props) => {
   const dispatch = useDispatch()
   const searchText = useSelector(selectQuoteSearchText)
+  const { t } = useTranslation()
 
   return (
     <div className="flex flex-col sm:flex-row space-y-16 sm:space-y-0 flex-1 w-full items-center justify-between py-32 px-24 md:px-32">
@@ -21,7 +23,7 @@ const QuoteHeader = (props) => {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Cotizaciones
+        {t('quotes')}
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -34,7 +36,7 @@ const QuoteHeader = (props) => {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Buscar cotización"
+            placeholder={t('search')}
             className="flex flex-1"
             disableUnderline
             fullWidth
@@ -57,7 +59,7 @@ const QuoteHeader = (props) => {
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >
-            Agregar
+            {t('add')}
           </Button>
         </motion.div>
       </div>
