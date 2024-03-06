@@ -353,7 +353,7 @@ const navigationConfig = [
         title: 'Transport',
         type: 'collapse',
         icon: 'directions_car_filled',
-        translate: 'trasnport',
+        translate: 'transport',
         children: [
           {
             id: 'human-resources.transport.carriers',
@@ -376,7 +376,7 @@ const navigationConfig = [
         title: 'Ocupations',
         type: 'collapse',
         icon: 'material-outline:person_pin',
-        translate: 'ocupations',
+        translate: 'ocupation',
         children: [
           {
             id: 'human-resources.ocupations.workarea',
