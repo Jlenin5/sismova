@@ -18,7 +18,7 @@ const navigationConfig = [
     title: 'Dashboards',
     type: 'group',
     icon: 'heroicons-outline:home',
-    translate: 'DASHBOARDS',
+    translate: 'dashboard',
     children: [
       {
         id: 'dashboards.project',
@@ -26,7 +26,7 @@ const navigationConfig = [
         type: 'item',
         icon: 'heroicons-outline:clipboard-check',
         url: '/dashboards/project',
-        translate: 'DASHBOARDS_PROJECT',
+        translate: 'project',
       },
       {
         id: 'dashboards.analytics',
@@ -34,7 +34,7 @@ const navigationConfig = [
         type: 'item',
         icon: 'heroicons-outline:chart-pie',
         url: '/dashboards/analytics',
-        translate: 'DASHBOARDS_ANALYTICS',
+        translate: 'analytics',
       },
       // {
       //   id: 'dashboards.finance',
@@ -63,7 +63,7 @@ const navigationConfig = [
     title: 'Ecommerce',
     type: 'group',
     icon: 'heroicons-outline:cube',
-    translate: 'ECOMMERCE',
+    translate: 'e_commerce',
     children: [
       // {
       //   id: 'apps.academy',
@@ -80,7 +80,7 @@ const navigationConfig = [
         type: 'item',
         icon: 'heroicons-outline:calendar',
         url: '/apps/calendar',
-        translate: 'CALENDAR',
+        translate: 'calendar',
       },
       // {
       //   id: 'apps.chat',
@@ -103,21 +103,21 @@ const navigationConfig = [
         title: 'Inventory',
         type: 'collapse',
         icon: 'material-outline:add_business',
-        translate: 'ECOMMERCE_INVENTORY',
+        translate: 'inventory',
         children: [
           {
             id: 'ecommerce.inventory.categories',
             title: 'Categories',
             type: 'item',
             url: 'ecommerce/inventory/categories',
-            translate: 'EI_CATEGORIES',
+            translate: 'categories',
           },
           {
             id: 'ecommerce.inventory.products',
             title: 'Productos',
             type: 'item',
             url: 'ecommerce/inventory/products',
-            translate: 'EI_PRODUCTS',
+            translate: 'products',
           },
           // {
           //   id: 'e-commerce-orders',
@@ -133,14 +133,14 @@ const navigationConfig = [
         title: 'Sales',
         type: 'collapse',
         icon: 'material-outline:point_of_sale',
-        translate: 'ECOMMERCE_SALES',
+        translate: 'sale',
         children: [
           {
             id: 'ecommerce.sales.saleorders',
             title: 'SaleOrders',
             type: 'item',
             url: 'ecommerce/sales/sale-orders',
-            translate: 'ES_SALEORDER',
+            translate: 'sale_orders',
             end: true,
           },
           {
@@ -148,7 +148,7 @@ const navigationConfig = [
             title: 'Ticket',
             type: 'item',
             url: 'ecommerce/sales/tickets',
-            translate: 'ES_TICKET',
+            translate: 'tickets',
             end: true,
           },
           {
@@ -156,7 +156,7 @@ const navigationConfig = [
             title: 'Invoice',
             type: 'item',
             url: 'ecommerce/sales/invoices',
-            translate: 'ES_INVOICE',
+            translate: 'invoices',
             end: true,
           },
           {
@@ -164,7 +164,7 @@ const navigationConfig = [
             title: 'Quotes',
             type: 'item',
             url: 'ecommerce/sales/quotes',
-            translate: 'ES_QUOTES',
+            translate: 'quotes',
             end: true,
           },
         ]
@@ -174,14 +174,14 @@ const navigationConfig = [
         title: 'Purchases',
         type: 'collapse',
         icon: 'material-outline:add_shopping_cart',
-        translate: 'PURCHASES',
+        translate: 'purchase',
         children: [
           {
             id: 'ecommerce.purchases.purchaseorders',
             title: 'PurchaseOrders',
             type: 'item',
             url: 'ecommerce/purchases/purchase-orders',
-            translate: 'PURCHASES_PURCHASEORDER',
+            translate: 'purchase_orders',
             end: true,
           },
         ]
@@ -191,14 +191,14 @@ const navigationConfig = [
         title: 'Finances',
         type: 'collapse',
         icon: 'material-outline:attach_money',
-        translate: 'FINANCES',
+        translate: 'finance',
         children: [
           {
             id: 'ecommerce.finances.coins',
             title: 'coins',
             type: 'item',
             url: '/ecommerce/finances/coins',
-            translate: 'FINANCES_COINS',
+            translate: 'currency',
             end: true
           },
           {
@@ -206,7 +206,7 @@ const navigationConfig = [
             title: 'taxes',
             type: 'item',
             url: '/ecommerce/finances/taxes',
-            translate: 'FINANCES_TAXES',
+            translate: 'tax',
             end: true
           },
         ]
@@ -309,35 +309,42 @@ const navigationConfig = [
     title: 'Human Resources',
     type: 'group',
     icon: 'material-outline:settings',
-    translate: 'HUMAN_RESOURCES',
+    translate: 'human_resources',
     children: [
       {
         id: 'human-resources.personal',
         title: 'Personal',
         type: 'collapse',
         icon: 'heroicons-outline:user-group',
-        translate: 'HR_PERSONAL',
+        translate: 'staff',
         children: [
           {
             id: 'human-resources.personal.employees',
             title: 'Employees',
             type: 'item',
             url: 'human-resources/personal/employees',
-            translate: 'HR_PERSONAL_EMPLOYEES',
-          },
-          {
-            id: 'human-resources.personal.clients',
-            title: 'Clients',
-            type: 'item',
-            url: 'human-resources/personal/clients',
-            translate: 'HR_PERSONAL_CLIENTS',
+            translate: 'employees',
           },
           {
             id: 'human-resources.personal.users',
             title: 'Users',
             type: 'item',
             url: 'human-resources/personal/users',
-            translate: 'HR_PERSONAL_USERS'
+            translate: 'users'
+          },
+          {
+            id: 'human-resources.personal.clients',
+            title: 'Clients',
+            type: 'item',
+            url: 'human-resources/personal/clients',
+            translate: 'clients',
+          },
+          {
+            id: 'human-resources.personal.suppliers',
+            title: 'Suppliers',
+            type: 'item',
+            url: 'human-resources/personal/suppliers',
+            translate: 'suppliers'
           },
         ]
       },
@@ -346,21 +353,21 @@ const navigationConfig = [
         title: 'Transport',
         type: 'collapse',
         icon: 'directions_car_filled',
-        translate: 'HR_TRANSPORT',
+        translate: 'trasnport',
         children: [
           {
             id: 'human-resources.transport.carriers',
             title: 'Carriers',
             type: 'item',
             url: 'human-resources/transport/carrier',
-            translate: 'HR_TRANSPORT_CARRIER',
+            translate: 'carriers',
           },
           {
             id: 'human-resources.transport.mobilities',
             title: 'Mobilities',
             type: 'item',
             url: 'human-resources/transport/mobility',
-            translate: 'HR_TRANSPORT_MOBILITY',
+            translate: 'mobilities',
           },
         ]
       },
@@ -369,14 +376,14 @@ const navigationConfig = [
         title: 'Ocupations',
         type: 'collapse',
         icon: 'material-outline:person_pin',
-        translate: 'HR_OCUPATIONS',
+        translate: 'ocupations',
         children: [
           {
             id: 'human-resources.ocupations.workarea',
             title: 'Workarea',
             type: 'item',
             url: 'human-resources/ocupations/work-areas',
-            translate: 'HR_OCUPATIONS_WORKAREA',
+            translate: 'work_areas',
             end: true
           },
           {
@@ -384,7 +391,7 @@ const navigationConfig = [
             title: 'Jobposition',
             type: 'item',
             url: 'human-resources/ocupations/job-positions',
-            translate: 'HR_OCUPATIONS_JOBPOSITION',
+            translate: 'job_positions',
             end: true
           },
         ]
@@ -1163,21 +1170,21 @@ const navigationConfig = [
     subtitle: 'Controles de seguridad',
     type: 'group',
     icon: 'material-outline:settings',
-    translate: 'SETTINGS',
+    translate: 'setting',
     children: [
       {
         id: 'settings.leadership',
         title: 'Leadership',
         type: 'collapse',
         icon: 'material-outline:location_city',
-        translate: 'SETTINGS_LEADERSHIP',
+        translate: 'leadership',
         children: [
           {
             id: 'settings.leadership.companies',
             title: 'Company',
             type: 'item',
             url: 'settings/leadership/companies',
-            translate: 'SETTINGS_COMPANY',
+            translate: 'company',
             end: true
           },
           {
@@ -1185,7 +1192,7 @@ const navigationConfig = [
             title: 'BranchOffice',
             type: 'item',
             url: 'settings/leadership/branch-offices',
-            translate: 'SETTINGS_BRANCHOFFICE',
+            translate: 'branch_offices',
             end: true
           },
         ]
@@ -1195,14 +1202,14 @@ const navigationConfig = [
         title: 'Controls',
         type: 'collapse',
         icon: 'material-outline:share',
-        translate: 'SETTINGS_CONTROL',
+        translate: 'control',
         children: [
           {
             id: 'settings.controls.documents',
             title: 'Documents',
             type: 'item',
             url: 'settings/controls/documents',
-            translate: 'SETTINGS_CONTROL_DOCUMENT',
+            translate: 'document',
             end: true
           },
           {
@@ -1210,7 +1217,7 @@ const navigationConfig = [
             title: 'Permissions',
             type: 'item',
             url: 'settings/controls/permissions',
-            translate: 'SETTINGS_PERMISSIONS',
+            translate: 'permissions',
             end: true
           },
           {
@@ -1218,7 +1225,7 @@ const navigationConfig = [
             title: 'Roles',
             type: 'item',
             url: 'settings/controls/roles',
-            translate: 'SETTINGS_ROLES',
+            translate: 'roles',
             end: true
           },
         ]
