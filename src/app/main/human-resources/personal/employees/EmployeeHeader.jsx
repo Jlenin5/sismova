@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import FuseExample from '@fuse/core/FuseExample'
 import Button from '@mui/material/Button'
 import Input from '@mui/material/Input'
@@ -14,6 +15,7 @@ function EmployeeHeader(props) {
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
   const searchText = useSelector(selectEmployeeSearchText)
+  const { t } = useTranslation()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -33,7 +35,7 @@ function EmployeeHeader(props) {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Empleados
+        {t('employees')}
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -46,7 +48,7 @@ function EmployeeHeader(props) {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Buscar empleado"
+            placeholder={t('search')}
             className="flex flex-1"
             disableUnderline
             fullWidth
@@ -68,7 +70,7 @@ function EmployeeHeader(props) {
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >
-            Agregar
+            {t('add')}
           </Button>
           <EmployeeForm
             open={open}

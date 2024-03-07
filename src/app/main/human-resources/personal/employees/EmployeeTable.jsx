@@ -1,5 +1,8 @@
+import { useTranslation } from 'react-i18next'
 import FuseScrollbars from '@fuse/core/FuseScrollbars'
 import _ from '@lodash'
+import IconButton from '@mui/material/IconButton'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Checkbox from '@mui/material/Checkbox'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -16,28 +19,28 @@ import EmployeeTableHead from './EmployeeTableHead'
 import Employee from './EmployeeForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { getEmployees, selectEmployee, selectEmployeeSearchText } from '../store/employeeSlice'
+import OptionsAction from './OptionsAction'
 
 const EmployeeTable = (props) => {
   const dispatch = useDispatch()
   const employees = useSelector(selectEmployee)
   const searchText = useSelector(selectEmployeeSearchText)
+  const { t } = useTranslation()
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openOption = Boolean(anchorEl)
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState([])
   const [data, setData] = useState(employees)
   const [page, setPage] = useState(0)
-  const [open, setOpen] = useState(false)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
     direction: 'asc',
     id: null,
   })
-  
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
-  const handleClose = () => {
-    setOpen(false)
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   }
 
   useEffect(() => {
@@ -123,7 +126,7 @@ const EmployeeTable = (props) => {
         className="flex flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          No hay empleados
+          {t('there_is_no_data')}
         </Typography>
       </motion.div>
     )
@@ -163,14 +166,14 @@ const EmployeeTable = (props) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 return ( 
                   <TableRow
-                    className="h-72 cursor-pointer"
+                    // className="h-72 cursor-pointer"
                     hover
                     role="checkbox"
-                    aria-checked={isSelected}
-                    tabIndex={-1}
+                    // aria-checked={isSelected}
+                    // tabIndex={-1}
                     key={n.id}
-                    selected={isSelected}
-                    onClick={() => handleClickOpen( props.setDataToEdit(n) )}
+                    // selected={isSelected}
+                    onClick={() => props.setDataToEdit(n) }
                   >
                     <TableCell className="w-40 md:w-64 text-center" padding="none">
                       <Checkbox
@@ -200,7 +203,7 @@ const EmployeeTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.empGender === 0 ? 'Hombre' : 'Mujer'}
+                      {n.empGender === 0 ? t('male') : t('female')}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
@@ -215,6 +218,19 @@ const EmployeeTable = (props) => {
                       )}
                     </TableCell>
 
+                    <TableCell className="p-4 md:p-16" component="th" scope="row" padding="none">
+                      <IconButton
+                        aria-label="more"
+                        id="long-button"
+                        aria-controls={openOption ? 'long-menu' : undefined}
+                        aria-expanded={openOption ? 'true' : undefined}
+                        aria-haspopup="true"
+                        onClick={handleClick}
+                      >
+                        <MoreVertIcon />
+                      </IconButton>
+                    </TableCell>
+
                   </TableRow>
                 )
               })
@@ -222,9 +238,10 @@ const EmployeeTable = (props) => {
           </TableBody>
         </Table>
       </FuseScrollbars>
-      <Employee
-        open={open}
-        onClose={handleClose}
+      <OptionsAction
+        anchorEl={anchorEl}
+        setAnchorEl={setAnchorEl}
+        openOption={openOption}
         dataToEdit={props.dataToEdit}
         setDataToEdit={props.setDataToEdit}
       />

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -17,63 +18,70 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
 import { delEmployeeMulti } from '../store/employeeSlice'
 
-const rows = [
-  {
-    id: 'id',
-    align: 'left',
-    disablePadding: false,
-    label: '',
-    sort: false,
-  },
-  {
-    id: 'empFirstName',
-    align: 'left',
-    disablePadding: false,
-    label: 'Nombre',
-    sort: true,
-  },
-  {
-    id: 'empEmail',
-    align: 'left',
-    disablePadding: false,
-    label: 'Correo electrónico',
-    sort: true,
-  },
-  {
-    id: 'empDocument',
-    align: 'left',
-    disablePadding: false,
-    label: 'Documento',
-    sort: true,
-  },
-  {
-    id: 'empPhone',
-    align: 'left',
-    disablePadding: false,
-    label: 'Celular',
-    sort: true,
-  },
-  {
-    id: 'empGender',
-    align: 'left',
-    disablePadding: false,
-    label: 'Sexo',
-    sort: true,
-  },
-  {
-    id: 'empState',
-    align: 'left',
-    disablePadding: false,
-    label: 'Estado',
-    sort: true,
-  },
-]
-
 function EmployeeTableHead(props) {
   const dispatch = useDispatch()
   const numSelected = props.ids.length
-  
   const [selectedEmployeeMenu, setSelectedEmployeeMenu] = useState(null)
+  const { t } = useTranslation()
+
+  const rows = [
+    {
+      id: 'id',
+      align: 'left',
+      disablePadding: false,
+      label: '',
+      sort: false,
+    },
+    {
+      id: 'empFirstName',
+      align: 'left',
+      disablePadding: false,
+      label: t('name'),
+      sort: true,
+    },
+    {
+      id: 'empEmail',
+      align: 'left',
+      disablePadding: false,
+      label: t('e_mail'),
+      sort: true,
+    },
+    {
+      id: 'empDocument',
+      align: 'left',
+      disablePadding: false,
+      label: t('n_document'),
+      sort: true,
+    },
+    {
+      id: 'empPhone',
+      align: 'left',
+      disablePadding: false,
+      label: t('cell_phone'),
+      sort: true,
+    },
+    {
+      id: 'empGender',
+      align: 'left',
+      disablePadding: false,
+      label: t('sex'),
+      sort: true,
+    },
+    {
+      id: 'empState',
+      align: 'left',
+      disablePadding: false,
+      label: t('state'),
+      sort: true,
+    },
+    {
+      id: 'actions',
+      align: 'left',
+      disablePadding: false,
+      label: t('actions'),
+      sort: true,
+    },
+  ]
 
   const createSortHandler = (property) => (event) => {
     props.onRequestSort(event, property)
@@ -137,7 +145,7 @@ function EmployeeTableHead(props) {
                     <ListItemIcon className="min-w-40">
                       <FuseSvgIcon>heroicons-outline:trash</FuseSvgIcon>
                     </ListItemIcon>
-                    <ListItemText primary="Eliminar" />
+                    <ListItemText primary={t('delete')} />
                   </MenuItem>
                 </MenuList>
               </Menu>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import './form.css'
 import React, { useEffect, useState } from 'react'
 import FormControl from '@mui/material/FormControl'
@@ -15,6 +16,7 @@ function EmployeeForm({onClose,open,dataToEdit,setDataToEdit}) {
   const [form, setForm] = useState(EmployeeInterface)
   const [maxId, setMaxId] = useState(null)
   const [doc, setDoc] = useState([])
+  const { t } = useTranslation()
   
   const handleChange = (e) => {
     const name = e.target.name
@@ -76,7 +78,7 @@ function EmployeeForm({onClose,open,dataToEdit,setDataToEdit}) {
         <TextField
           autoFocus
           id="name"
-          label="Nombres"
+          label={t('names')}
           type="text"
           variant="outlined"
           name='empFirstName'
@@ -85,7 +87,7 @@ function EmployeeForm({onClose,open,dataToEdit,setDataToEdit}) {
         />
         <TextField
           id="name"
-          label="Apellidos"
+          label={t('surnames')}
           type="text"
           variant="outlined"
           name='empSecondName'
@@ -93,11 +95,11 @@ function EmployeeForm({onClose,open,dataToEdit,setDataToEdit}) {
           onChange={handleChange}
         />
         <FormControl fullWidth>
-          <InputLabel id="DocumentType">Tipo de Documento</InputLabel>
+          <InputLabel id="DocumentType">{t('document_type')}</InputLabel>
           <Select
             labelId="DocumentType"
             id="demo-simple-select"
-            label="Tipo de Documento"
+            label={t('document_type')}
             value={form.DocumentType}
             name="DocumentType"
             onChange={handleChange}
@@ -109,7 +111,7 @@ function EmployeeForm({onClose,open,dataToEdit,setDataToEdit}) {
         </FormControl>
         <TextField
           id="name"
-          label="N° de documento"
+          label={t('document_number')}
           type="text"
           variant="outlined"
           name='empDocument'
@@ -118,7 +120,7 @@ function EmployeeForm({onClose,open,dataToEdit,setDataToEdit}) {
         />
         <TextField
           id="name"
-          label="Correo electrónico"
+          label={t('e_mail')}
           type="text"
           variant="outlined"
           name='empEmail'
@@ -127,7 +129,7 @@ function EmployeeForm({onClose,open,dataToEdit,setDataToEdit}) {
         />
         <TextField
           id="name"
-          label="N° de celular"
+          label={t('cell_phone')}
           type="text"
           variant="outlined"
           name='empPhone'
@@ -135,37 +137,37 @@ function EmployeeForm({onClose,open,dataToEdit,setDataToEdit}) {
           onChange={handleChange}
         />
         <FormControl fullWidth>
-          <InputLabel id="empGender">Sexo</InputLabel>
+          <InputLabel id="empGender">{t('sex')}</InputLabel>
           <Select
             labelId="empGender"
             id="demo-simple-select"
-            label="Sexo"
+            label={t('sex')}
             value={form.empGender}
             name="empGender"
             onChange={handleChange}
           >
-            <MenuItem value={0}>Hombre</MenuItem>
-            <MenuItem value={1}>Mujer</MenuItem>
+            <MenuItem value={0}>{t('male')}</MenuItem>
+            <MenuItem value={1}>{t('female')}</MenuItem>
           </Select>
         </FormControl>
         <FormControl fullWidth>
-          <InputLabel id="empState">Estado</InputLabel>
+          <InputLabel id="empState">{t('state')}</InputLabel>
           <Select
             labelId="empState"
             id="demo-simple-select"
-            label="Estado"
+            label={t('state')}
             value={form.empState}
             name="empState"
             onChange={handleChange}
           >
-            <MenuItem value={0}>Inactivo</MenuItem>
-            <MenuItem value={1}>Activo</MenuItem>
+            <MenuItem value={0}>{t('inactive')}</MenuItem>
+            <MenuItem value={1}>{t('active')}</MenuItem>
           </Select>
         </FormControl>
       </DialogContent>
       <DialogActions>
-        {form.id!==null ? <Button onClick={() => handleClose(dataToEdit.id)}>Eliminar</Button> : <Button onClick={()=>handleClose(0)}>Cancelar</Button>}
-        <Button onClick={handleSubmit}>Guardar</Button>
+        {form.id!==null ? <Button onClick={() => handleClose(dataToEdit.id)}>{t('delete')}</Button> : <Button onClick={()=>handleClose(0)}>{t('cancel')}</Button>}
+        <Button onClick={handleSubmit}>{t('save')}</Button>
       </DialogActions>
     </Dialog>
   )
