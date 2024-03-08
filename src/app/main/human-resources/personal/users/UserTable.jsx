@@ -190,14 +190,6 @@ const UserTable = (props) => {
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {n.employees.empFirstName}
                     </TableCell>
-            
-                    <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.work_areas.waName}
-                    </TableCell>
-
-                    <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.job_positions.jpName}
-                    </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {n.roles.rolName}

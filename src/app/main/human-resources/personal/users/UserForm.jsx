@@ -7,10 +7,8 @@ import Select from '@mui/material/Select'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material'
 import UserInterface from 'src/app/interfaces/UserInterface'
 import { useDispatch } from 'react-redux'
-import { getMaxId, postUser, putUser } from '../store/userSlice'
+import { deleteUser, getMaxId, postUser, putUser } from '../store/userSlice'
 import { getRoles } from 'src/app/main/settings/controls/store/rolSlice'
-import { getJobPositions } from '../../ocupations/store/jpSlice'
-import { getWorkAreas } from '../../ocupations/store/waSlice'
 import { getEmployees } from '../store/employeeSlice'
 
 function UserForm({onClose,open,dataToEdit,setDataToEdit}) {
@@ -18,8 +16,6 @@ function UserForm({onClose,open,dataToEdit,setDataToEdit}) {
   const [form, setForm] = useState(UserInterface)
   const [maxId, setMaxId] = useState(null)
   const [role, setRole] = useState([])
-  const [jobPosition, setJobPosition] = useState([])
-  const [workArea, setWorkArea] = useState([])
   const [employee, setEmployee] = useState([])
   
   const handleChange = (e) => {
@@ -54,7 +50,7 @@ function UserForm({onClose,open,dataToEdit,setDataToEdit}) {
   }
   const handleClose = (id) => {
     if(id===form.id) {
-      deleteData(id)
+      dispatch(deleteUser(id))
       handleReset()
       onClose()
     }
@@ -65,8 +61,6 @@ function UserForm({onClose,open,dataToEdit,setDataToEdit}) {
   useEffect(() => {
     dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
     dispatch(getRoles()).then(response => setRole(response.payload))
-    dispatch(getJobPositions()).then(response => setJobPosition(response.payload))
-    dispatch(getWorkAreas()).then(response => setWorkArea(response.payload))
     dispatch(getEmployees()).then(response => setEmployee(response.payload))
     if(dataToEdit) {
       setForm(dataToEdit)
@@ -94,44 +88,6 @@ function UserForm({onClose,open,dataToEdit,setDataToEdit}) {
           >
             {
               employee.map(r => <MenuItem value={r.id} key={r.id}>{r.empFirstName}</MenuItem>)
-            }
-          </Select>
-        </FormControl>
-        <TextField
-          id="name"
-          label="Imágen"
-          variant="outlined"
-          name='Avatar'
-          value={form.Avatar}
-          onChange={handleChange}
-        />
-        <FormControl fullWidth>
-          <InputLabel id="WorkArea">Área de Trabajo</InputLabel>
-          <Select
-            labelId="WorkArea"
-            id="demo-simple-select"
-            label="Área de Trabajo"
-            value={form.WorkArea}
-            name="WorkArea"
-            onChange={handleChange}
-          >
-            {
-              workArea.map(r => <MenuItem value={r.id} key={r.id}>{r.waName}</MenuItem>)
-            }
-          </Select>
-        </FormControl>
-        <FormControl fullWidth>
-          <InputLabel id="JobPosition">Posición Laboral</InputLabel>
-          <Select
-            labelId="JobPosition"
-            id="demo-simple-select"
-            label="Posición Laboral"
-            value={form.JobPosition}
-            name="JobPosition"
-            onChange={handleChange}
-          >
-            {
-              jobPosition.map(r => <MenuItem value={r.id} key={r.id}>{r.jpName}</MenuItem>)
             }
           </Select>
         </FormControl>

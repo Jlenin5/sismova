@@ -40,20 +40,6 @@ const rows = [
     sort: true,
   },
   {
-    id: 'WorkArea',
-    align: 'left',
-    disablePadding: false,
-    label: 'área de trabajo',
-    sort: true,
-  },
-  {
-    id: 'JobPosition',
-    align: 'left',
-    disablePadding: false,
-    label: 'Puesto',
-    sort: true,
-  },
-  {
     id: 'Rol',
     align: 'left',
     disablePadding: false,
