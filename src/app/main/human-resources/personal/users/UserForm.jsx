@@ -9,7 +9,7 @@ import UserInterface from 'src/app/interfaces/UserInterface'
 import { useDispatch } from 'react-redux'
 import { deleteUser, getMaxId, postUser, putUser } from '../store/userSlice'
 import { getRoles } from 'src/app/main/settings/controls/store/rolSlice'
-import { getEmployees } from '../store/employeeSlice'
+import { getEmployees } from '../store/employeesSlice'
 
 function UserForm({onClose,open,dataToEdit,setDataToEdit}) {
   const dispatch = useDispatch()

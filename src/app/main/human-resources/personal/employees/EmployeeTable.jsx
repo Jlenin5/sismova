@@ -16,9 +16,8 @@ import { useEffect, useState } from 'react'
 import withRouter from '@fuse/core/withRouter'
 import FuseLoading from '@fuse/core/FuseLoading'
 import EmployeeTableHead from './EmployeeTableHead'
-import Employee from './EmployeeForm'
 import { useDispatch, useSelector } from 'react-redux'
-import { getEmployees, selectEmployee, selectEmployeeSearchText } from '../store/employeeSlice'
+import { getEmployees, selectEmployee, selectEmployeeSearchText } from '../store/employeesSlice'
 import OptionsAction from './OptionsAction'
 
 const EmployeeTable = (props) => {
@@ -29,6 +28,7 @@ const EmployeeTable = (props) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const openOption = Boolean(anchorEl)
+  const [idE, setIdE] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState([])
   const [data, setData] = useState(employees)
@@ -166,14 +166,14 @@ const EmployeeTable = (props) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 return ( 
                   <TableRow
-                    // className="h-72 cursor-pointer"
+                    className="h-72"
                     hover
                     role="checkbox"
-                    // aria-checked={isSelected}
-                    // tabIndex={-1}
+                    aria-checked={isSelected}
+                    tabIndex={-1}
                     key={n.id}
-                    // selected={isSelected}
-                    onClick={() => props.setDataToEdit(n) }
+                    selected={isSelected}
+                    onClick={() => setIdE(n.id) }
                   >
                     <TableCell className="w-40 md:w-64 text-center" padding="none">
                       <Checkbox
@@ -243,10 +243,12 @@ const EmployeeTable = (props) => {
         setAnchorEl={setAnchorEl}
         openOption={openOption}
         dataToEdit={props.dataToEdit}
-        setDataToEdit={props.setDataToEdit}
+        idE={idE}
       />
       <TablePagination
         className="shrink-0 border-t-1"
+        labelRowsPerPage={t('rows_per_page')}
+        labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
         count={data.length}
         rowsPerPage={rowsPerPage}

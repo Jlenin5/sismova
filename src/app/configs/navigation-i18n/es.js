@@ -207,6 +207,14 @@ const locale = {
   man: 'Hombre',
   female: 'Femenino',
   woman: 'Mujer',
+  new_employee: 'Nuevo empleado',
+  employee_details: 'Detalles de empleado',
+  user_data: 'Datos del usuario',
+  full_name: 'Nombre completo',
+  user_name: 'Nombre de usuario',
+  password: 'Contraseña',
+  convert: 'Convertir',
+  select_rol: 'Seleccionar rol',
 
 }
 

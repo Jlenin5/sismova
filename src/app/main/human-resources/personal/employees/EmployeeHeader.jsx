@@ -1,30 +1,18 @@
 import { useTranslation } from 'react-i18next'
-import FuseExample from '@fuse/core/FuseExample'
 import Button from '@mui/material/Button'
 import Input from '@mui/material/Input'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
-import { selectEmployeeSearchText, setEmployeeSearchText } from '../store/employeeSlice'
-import EmployeeForm from './EmployeeForm'
+import { selectEmployeeSearchText, setEmployeeSearchText } from '../store/employeesSlice'
 
-function EmployeeHeader(props) {
+const EmployeeHeader = (props) => {
   const dispatch = useDispatch()
-  const [open, setOpen] = useState(false)
   const searchText = useSelector(selectEmployeeSearchText)
-  const { t } = useTranslation()
-
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
-  
+  const { t } = useTranslation()  
 
   return (
     <div className="flex flex-col sm:flex-row space-y-16 sm:space-y-0 flex-1 w-full items-center justify-between py-32 px-24 md:px-32">
@@ -66,18 +54,13 @@ function EmployeeHeader(props) {
           <Button
             className=""
             variant="contained"
-            onClick={() => handleClickOpen()}
+            component={Link}
+            to="/human-resources/personal/employee/new"
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >
             {t('add')}
           </Button>
-          <EmployeeForm
-            open={open}
-            onClose={handleClose}
-            dataToEdit={props.dataToEdit}
-            setDataToEdit={props.setDataToEdit}
-          />
         </motion.div>
       </div>
     </div>

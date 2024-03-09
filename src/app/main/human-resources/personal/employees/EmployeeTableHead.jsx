@@ -16,7 +16,7 @@ import { Box } from '@mui/system'
 import TableHead from '@mui/material/TableHead'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
-import { delEmployeeMulti } from '../store/employeeSlice'
+import { delEmployeeMulti } from '../store/employeesSlice'
 
 function EmployeeTableHead(props) {
   const dispatch = useDispatch()

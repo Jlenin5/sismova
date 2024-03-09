@@ -1,26 +1,33 @@
 import { useTranslation } from 'react-i18next'
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Employee from './EmployeeForm'
-import { useState } from 'react';
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import ModalConvertToUser from './ModalConvertToUser'
 
 const ITEM_HEIGHT = 48
 
-const OptionsAction = ({dataToEdit, setDataToEdit, openOption, anchorEl, setAnchorEl}) => {
+const OptionsAction = ({idE, openOption, anchorEl, setAnchorEl}) => {
 
-  const [open, setOpen] = useState(false)
+  const navigate = useNavigate()
+  const [openCovertUser, setOpenConvertUser] = useState(false)
   const { t } = useTranslation()
 
-  const handleClickOpen = () => {
+  const editEmployee = () => {
     handleClose()
-    setOpen(true)
+    navigate(`/human-resources/personal/employee/${idE}`)
   }
-  const handleCloseEdit = () => {
-    setOpen(false)
+
+  const openModalConvertUser = () => {
+    handleClose()
+    setOpenConvertUser(true)
+  }
+  const closeModalConvertUser = () => {
+    setOpenConvertUser(false)
   }
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorEl(null)
   }
 
   return (
@@ -40,7 +47,7 @@ const OptionsAction = ({dataToEdit, setDataToEdit, openOption, anchorEl, setAnch
           },
         }}
       >
-        <MenuItem onClick={handleClickOpen}>
+        <MenuItem onClick={editEmployee}>
           {t('edit')}
         </MenuItem>
         <MenuItem onClick={handleClose}>
@@ -49,15 +56,14 @@ const OptionsAction = ({dataToEdit, setDataToEdit, openOption, anchorEl, setAnch
         <MenuItem onClick={handleClose}>
           {t('show_details')}
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={openModalConvertUser}>
           {t('convert_to_user')}
         </MenuItem>
       </Menu>
-      <Employee
-        open={open}
-        onClose={handleCloseEdit}
-        dataToEdit={dataToEdit}
-        setDataToEdit={setDataToEdit}
+      <ModalConvertToUser
+        open={openCovertUser}
+        close={closeModalConvertUser}
+        idE={idE}
       />
     </>
   )
