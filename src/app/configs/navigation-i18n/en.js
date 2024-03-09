@@ -224,6 +224,11 @@ const locale = {
   sign_in: 'Sign in',
   welcome_to: 'Welcome to',
   description_login_page: 'Tecmova is an ERP software designed to take efficiency and corporate organization to a higher level. With an approach focused on the needs of companies, it stands as the comprehensive solution that will boost the success of your organization.',
+  mail: 'Mail',
+  sign_out: 'Sign out',
+  sign_up: 'Sign up',
+  perfil: 'Profile',
+  my_profile: 'My profile',
   
 }
 
