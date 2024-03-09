@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Controller, useForm } from 'react-hook-form'
 import Button from '@mui/material/Button'
@@ -13,14 +14,6 @@ import Paper from '@mui/material/Paper'
 import { useEffect } from 'react'
 import jwtService from '../../auth/services/jwtService'
 
-const schema = yup.object().shape({
-  email: yup.string().email('Debes ingresar un correo electrónico válido').required('Debes ingresar un correo electrónico'),
-  password: yup
-    .string()
-    .required('Por favor, introduzca su contraseña.')
-    .min(4, 'La contraseña es demasiado corta: debe tener al menos 4 caracteres.'),
-})
-
 const defaultValues = {
   email: '',
   password: '',
@@ -28,6 +21,19 @@ const defaultValues = {
 }
 
 function SignInPage() {
+  const { t } = useTranslation()
+
+  const schema = yup.object().shape({
+    email: yup
+      .string()
+      .email(t('you_must_enter_a_valid_email'))
+      .required(t('you_must_enter_an_email')),
+    password: yup
+      .string()
+      .required(t('please_enter_your_password'))
+      .min(4, t('the_password_is_too_short_it_must_be_at_least_4_characters')),
+  })
+  
   const { control, formState, handleSubmit, setError, setValue } = useForm({
     mode: 'onChange',
     defaultValues,
@@ -37,8 +43,8 @@ function SignInPage() {
   const { isValid, dirtyFields, errors } = formState
 
   useEffect(() => {
-    setValue('email', 'admin@sismova.tech', { shouldDirty: true, shouldValidate: true })
-    setValue('password', 'admin', { shouldDirty: true, shouldValidate: true })
+    // setValue('email', 'admin@sismova.tech', { shouldDirty: true, shouldValidate: true })
+    // setValue('password', 'admin', { shouldDirty: true, shouldValidate: true })
   }, [setValue])
 
   function onSubmit({ email, password }) {
@@ -64,7 +70,7 @@ function SignInPage() {
           <img className="w-48" src="assets/images/logo/logo.png" alt="logo" />
 
           <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
-            Inicio de sesión
+            {t('login')}
           </Typography>
 
           <form
@@ -80,9 +86,9 @@ function SignInPage() {
                 <TextField
                   {...field}
                   className="mb-24"
-                  label="Usuario"
+                  label={t('e_mail')}
                   autoFocus
-                  type="text"
+                  type="email"
                   error={!!errors.email}
                   helperText={errors?.email?.message}
                   variant="outlined"
@@ -99,7 +105,7 @@ function SignInPage() {
                 <TextField
                   {...field}
                   className="mb-24"
-                  label="Contraseña"
+                  label={t('password')}
                   type="password"
                   error={!!errors.password}
                   helperText={errors?.password?.message}
@@ -117,7 +123,7 @@ function SignInPage() {
                 render={({ field }) => (
                   <FormControl>
                     <FormControlLabel
-                      label="Recordar"
+                      label={t('remember')}
                       control={<Checkbox size="small" {...field} />}
                     />
                   </FormControl>
@@ -134,7 +140,7 @@ function SignInPage() {
               type="submit"
               size="large"
             >
-              Ingresar
+              {t('sign_in')}
             </Button>
           </form>
         </div>
@@ -190,11 +196,11 @@ function SignInPage() {
 
         <div className="z-10 relative w-full max-w-2xl">
           <div className="text-7xl font-bold leading-none text-gray-100">
-            <div>Bienvenido a</div>
+            <div>{t('welcome_to')}</div>
             <div>Tecmova</div>
           </div>
           <div className="mt-24 text-lg tracking-tight leading-6 text-gray-400">
-            Tecmova es un software ERP diseñado para llevar la eficiencia y la organización corporativa a un nivel superior. Con un enfoque centrado en las necesidades de las empresas, se erige como la solución integral que impulsará el éxito de tu organización.
+            {t('description_login_page')}
           </div>
         </div>
       </Box>

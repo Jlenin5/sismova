@@ -215,6 +215,15 @@ const locale = {
   password: 'Contraseña',
   convert: 'Convertir',
   select_rol: 'Seleccionar rol',
+  please_enter_your_password: 'Por favor, introduzca su contraseña.',
+  the_password_is_too_short_it_must_be_at_least_4_characters: 'La contraseña es demasiado corta: debe tener al menos 4 caracteres.',
+  you_must_enter_a_valid_email: 'Debe ingresar un correo electrónico válido',
+  you_must_enter_an_email: 'Debes ingresar un correo electrónico',
+  login: 'Inicio de sesión',
+  remember: 'Recordar',
+  sign_in: 'Ingresar',
+  welcome_to: 'Bienvenido a',
+  description_login_page: 'Tecmova es un software ERP diseñado para llevar la eficiencia y la organización corporativa a un nivel superior. Con un enfoque centrado en las necesidades de las empresas, se erige como la solución integral que impulsará el éxito de tu organización.',
 
 }
 
