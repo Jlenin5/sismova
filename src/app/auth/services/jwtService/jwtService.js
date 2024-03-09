@@ -71,10 +71,10 @@ class JwtService extends FuseUtils.EventEmitter {
           },
         })
         .then((response) => {
-          if (response.data.userapi) {
+          if (response.data.user) {
             this.setSession(response.data.access_token)
-            resolve(response.data.userapi)
-            this.emit('onLogin', response.data.userapi)
+            resolve(response.data.user)
+            this.emit('onLogin', response.data.user)
           } else {
             reject(response.data.error)
           }
@@ -91,9 +91,9 @@ class JwtService extends FuseUtils.EventEmitter {
           },
         })
         .then((response) => {
-          if (response.data.userapi) {
+          if (response.data.user) {
             this.setSession(response.data.access_token)
-            resolve(response.data.userapi)
+            resolve(response.data.user)
           } else {
             this.logout()
             reject(new Error('No se pudo iniciar sesión con el token.'))

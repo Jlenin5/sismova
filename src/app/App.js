@@ -16,8 +16,6 @@ import settingsConfig from 'app/configs/settingsConfig'
 import withAppProviders from './withAppProviders'
 import { AuthProvider } from './auth/AuthContext'
 
-import axios from 'axios'
-import { useEffect, useState } from 'react'
 // import axios from 'axios'
 /**
  * Axios HTTP Request defaults
@@ -40,24 +38,9 @@ const emotionCacheOptions = {
 }
 
 function App() {
-  const [data,setData] = useState([])
   const user = useSelector(selectUser)
   const langDirection = useSelector(selectCurrentLanguageDirection)
   const mainTheme = useSelector(selectMainTheme)
-
-  const url = 'https://sismova.tech/backsis/public/api/rol'
-
-  const getRoles = async () => {
-    const response = await axios.get(url)
-    return response.data
-  }
-
-  const filtrado = data.find(r => r.id === user.Rol)
-
-  useEffect(() => {
-    getRoles().
-    then(r => setData(r))
-  }, [])
 
   return (
     <CacheProvider value={createCache(emotionCacheOptions[langDirection])}>
@@ -65,7 +48,7 @@ function App() {
         <AuthProvider>
           <BrowserRouter>
             <FuseAuthorization
-              userRole={filtrado ? filtrado.rolName : ''}
+              userRole={user.roles.rolName}
               loginRedirectUrl={settingsConfig.loginRedirectUrl}
             >
               <SnackbarProvider

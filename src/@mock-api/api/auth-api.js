@@ -17,10 +17,6 @@ let url_emp = 'https://sismova.tech/backsis/public/api/emp'
 mock.onGet('/api/auth/sign-in').reply(async (config) => {
   const data = JSON.parse(config.data)
   const { email, password } = data
-  const userPromise = new Promise((resolve) => {
-    const user = _.cloneDeep(usersApi.find((_user) => _user.data.userEmail === email))
-    resolve(user)
-  })
 
   const hrPromise = axios.get(url_emp).then(r => {
     const hrapi = _.cloneDeep(r.data.find((h) => h.empEmail === email))
@@ -29,7 +25,7 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
 
   const promhr = await Promise.all([hrPromise])
 
-  const axiosPromise = axios.get(url_user)
+  const userPromise = axios.get(url_user)
     .then(response => {
       const userapi = _.cloneDeep(response.data.find((_user) => _user.Employee === promhr[0].id))
       return userapi
@@ -39,18 +35,18 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
       return null
     })
 
-  const [user, userapi] = await Promise.all([userPromise, axiosPromise])
+  const [user] = await Promise.all([userPromise])
 
   const error = []
 
-  if (!userapi) {
+  if (!user) {
     error.push({
       type: 'email',
       message: 'Comprueba tu dirección de correo electrónico',
     })
   }
 
-  if (userapi && userapi.userPassword !== password) {
+  if (user && user.userPassword !== password) {
     error.push({
       type: 'password',
       message: 'Comprueba tu contraseña',
@@ -58,12 +54,11 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
   }
 
   if (error.length === 0) {
-    delete userapi.userPassword
+    delete user.userPassword
     
-    const access_token = generateJWTToken({ id: userapi.uuid })
+    const access_token = generateJWTToken({ id: user.uuid })
 
     const response = {
-      userapi,
       user,
       access_token,
     }
@@ -81,12 +76,7 @@ mock.onGet('/api/auth/access-token').reply(async (config) => {
   if (verifyJWTToken(access_token)) {
     const { id } = jwtDecode(access_token)
 
-    const userPromise = new Promise((resolve) => {
-      const user = _.cloneDeep(usersApi.find((_user) => _user.uuid === id))
-      resolve(user)
-    })
-    const axiosPromise = axios.get(url_user)
-    .then(response => {
+    const userPromise = axios.get(url_user).then(response => {
       const userapi = _.cloneDeep(response.data.find((_user) => _user.uuid === id))
       return userapi
     })
@@ -94,14 +84,13 @@ mock.onGet('/api/auth/access-token').reply(async (config) => {
       console.error('Error al obtener el JSON:', error)
       return null
     })
-    const [user, userapi] = await Promise.all([userPromise, axiosPromise])
+    const [user] = await Promise.all([userPromise])
 
-    delete userapi.userPassword
+    delete user.userPassword
 
-    const updatedAccessToken = generateJWTToken({ id: userapi.uuid })
+    const updatedAccessToken = generateJWTToken({ id: user.uuid })
 
     const response = {
-      userapi,
       user,
       access_token: updatedAccessToken,
     }

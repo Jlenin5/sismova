@@ -8,6 +8,7 @@ import settingsConfig from 'app/configs/settingsConfig'
 import jwtService from '../auth/services/jwtService'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import UserInterface from '../interfaces/UserInterface'
 
 const url = 'https://sismova.tech/backsis/public/api/rol'
 
@@ -85,15 +86,7 @@ export const updateUserData = (user) => async (dispatch, getState) => {
     })
 }
 
-const initialState = {
-  role: [], // guest
-  data: {
-    userDisplayName: 'Jlenin',
-    photoURL: 'assets/images/avatars/brian-hughes.jpg',
-    userEmail: 'admin@sismova.com',
-    shortcuts: ['apps.calendar', 'apps.mailbox', 'apps.contacts', 'apps.tasks'],
-  },
-}
+const initialState = UserInterface
 
 const userSlice = createSlice({
   name: 'user',
