@@ -11,7 +11,7 @@ import { forwardRef, memo, useEffect, useState } from 'react';
 import FuseThemeSchemes from '@fuse/core/FuseThemeSchemes';
 import { useSwipeable } from 'react-swipeable';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import themesConfig, { selectedTheme } from 'app/configs/themesConfig';
+import themesConfig from 'app/configs/themesConfig';
 import { changeFuseTheme } from 'app/store/fuse/settingsSlice';
 import { useDispatch } from 'react-redux';
 import FuseSettingsViewerDialog from './FuseSettingsViewerDialog';
@@ -101,11 +101,6 @@ function SettingsPanel() {
     setOpen(false);
   };
 
-  useEffect(() => {
-    // Configura el tema al cargar la aplicación
-    dispatch(changeFuseTheme(themesConfig[selectedTheme]));
-  }, [])
-
   return (
     <>
       {/* <Root id="fuse-settings-schemes" className="buttonWrapper">
@@ -192,8 +187,8 @@ function SettingsPanel() {
 
           <FuseThemeSchemes
             themes={themesConfig}
-            onSelect={(theme) => {
-              dispatch(changeFuseTheme(theme));
+            onSelect={(_theme) => {
+              dispatch(changeFuseTheme(_theme));
             }}
           />
         </FuseScrollbars>

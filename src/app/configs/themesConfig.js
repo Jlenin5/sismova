@@ -1,11 +1,6 @@
 import { fuseDark, skyBlue } from '@fuse/colors';
 import { blueGrey } from '@mui/material/colors';
 
-const getSelectedTheme = () => {
-  const storedTheme = localStorage.getItem('selectedTheme');
-  return storedTheme || 'default'; // Si no hay un tema almacenado, se usa 'default'
-}
-
 export const lightPaletteText = {
   primary: 'rgb(17, 24, 39)',
   secondary: 'rgb(107, 114, 128)',
@@ -926,4 +921,3 @@ const themesConfig = {
 };
 
 export default themesConfig;
-export const selectedTheme = getSelectedTheme()
