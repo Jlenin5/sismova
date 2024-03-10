@@ -208,7 +208,7 @@ const QuoteTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.employees.empFirstName}
+                      {n.users.employees.empFirstName}
                     </TableCell>
                     
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="center">

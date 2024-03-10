@@ -35,8 +35,7 @@ const QuoteHead = () => {
     if(getValues().id === null) {
       const quoteData = getValues()
       quoteData.id = maxId.ultimo_id + 1
-      console.log(quoteData)
-      // dispatch(postQuote(quoteData))
+      dispatch(postQuote(quoteData))
     } else {
       dispatch(putQuote(getValues()))
     }
