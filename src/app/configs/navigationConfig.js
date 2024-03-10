@@ -1228,6 +1228,14 @@ const navigationConfig = [
             translate: 'roles',
             end: true
           },
+          {
+            id: 'settings.controls.series',
+            title: 'Series',
+            type: 'item',
+            url: 'settings/controls/series',
+            translate: 'series',
+            end: true
+          },
         ]
       },
     ]

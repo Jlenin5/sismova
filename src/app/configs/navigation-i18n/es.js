@@ -234,6 +234,7 @@ const locale = {
   choose_district: 'Escoger distrito',
   address: 'Dirección',
   responsible: 'Encargado',
+  series: 'Series',
 
 }
 
