@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import _ from '@lodash'
 import Checkbox from '@mui/material/Checkbox'
 import { useEffect, useState } from 'react'
@@ -21,6 +22,7 @@ const BranchOfficeTable = (props) => {
   const dispatch = useDispatch()
   const branchoffices = useSelector(selectBranchOffice)
   const searchText = useSelector(selectBranchOfficeSearchText)
+  const { t } = useTranslation()
 
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState([])
@@ -127,7 +129,7 @@ const BranchOfficeTable = (props) => {
         className="flex flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          No hay sucursales
+          {t('there_is_no_data')}
         </Typography>
       </motion.div>
     )
@@ -151,8 +153,8 @@ const BranchOfficeTable = (props) => {
               [
                 (o) => {
                   switch (order.id) {
-                    case 'users': {
-                      return o.users[0]
+                    case 'branch_offices': {
+                      return o.branch_offices[0]
                     }
                     default: {
                       return o[order.id]
@@ -200,11 +202,7 @@ const BranchOfficeTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.districts.disName}
-                    </TableCell>
-
-                    <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.users.employees.empFirstName}
+                      {n.boAddress}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">

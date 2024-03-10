@@ -229,6 +229,11 @@ const locale = {
   sign_up: 'Sign up',
   perfil: 'Profile',
   my_profile: 'My profile',
+  choose_department: 'Choose department',
+  choose_province: 'Choose province',
+  choose_district: 'Choose district',
+  address: 'Address',
+  responsible: 'Responsible',
   
 }
 

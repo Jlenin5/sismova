@@ -1,16 +1,18 @@
-import { useTimeout } from '@fuse/hooks';
-import Typography from '@mui/material/Typography';
-import PropTypes from 'prop-types';
-import { useState } from 'react';
-import clsx from 'clsx';
-import Box from '@mui/material/Box';
+import { useTranslation } from 'react-i18next'
+import { useTimeout } from '@fuse/hooks'
+import Typography from '@mui/material/Typography'
+import PropTypes from 'prop-types'
+import { useState } from 'react'
+import clsx from 'clsx'
+import Box from '@mui/material/Box'
 
 function FuseLoading(props) {
-  const [showLoading, setShowLoading] = useState(!props.delay);
+  const [showLoading, setShowLoading] = useState(!props.delay)
+  const { t } = useTranslation()
 
   useTimeout(() => {
-    setShowLoading(true);
-  }, props.delay);
+    setShowLoading(true)
+  }, props.delay)
 
   return (
     <div
@@ -20,7 +22,7 @@ function FuseLoading(props) {
       )}
     >
       <Typography className="text-13 sm:text-20 font-medium -mb-16" color="text.secondary">
-        Cargando
+        {t('loading')}
       </Typography>
       <Box
         id="spinner"
@@ -35,15 +37,15 @@ function FuseLoading(props) {
         <div className="bounce3" />
       </Box>
     </div>
-  );
+  )
 }
 
 FuseLoading.propTypes = {
   delay: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
-};
+}
 
 FuseLoading.defaultProps = {
   delay: false,
-};
+}
 
-export default FuseLoading;
+export default FuseLoading

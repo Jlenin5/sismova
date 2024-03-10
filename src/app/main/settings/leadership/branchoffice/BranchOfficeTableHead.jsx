@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -17,63 +18,56 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
 import { delBOMulti } from '../store/branchofficeSlice'
 
-const rows = [
-  {
-    id: 'id',
-    align: 'left',
-    disablePadding: true,
-    label: '',
-    sort: false,
-  },
-  {
-    id: 'boName',
-    align: 'left',
-    disablePadding: false,
-    label: 'Nombre',
-    sort: true,
-  },
-  {
-    id: 'boPhone',
-    align: 'left',
-    disablePadding: false,
-    label: 'Celular',
-    sort: true,
-  },
-  {
-    id: 'boEmail',
-    align: 'left',
-    disablePadding: false,
-    label: 'Correo electrónico',
-    sort: true,
-  },
-  {
-    id: 'District',
-    align: 'left',
-    disablePadding: true,
-    label: 'Distrito',
-    sort: true,
-  },
-  {
-    id: 'User',
-    align: 'left',
-    disablePadding: true,
-    label: 'Encargado',
-    sort: true,
-  },
-  {
-    id: 'boState',
-    align: 'left',
-    disablePadding: true,
-    label: 'Estado',
-    sort: true,
-  }
-]
-
 const BranchOfficeTableHead = (props) => {
   const dispatch = useDispatch()
   const numSelected = props.ids.length
-
   const [selectedBOMenu, setSelectedBOMenu] = useState(null)
+  const { t } = useTranslation()
+
+  const rows = [
+    {
+      id: 'id',
+      align: 'left',
+      disablePadding: true,
+      label: '',
+      sort: false,
+    },
+    {
+      id: 'boName',
+      align: 'left',
+      disablePadding: false,
+      label: t('name'),
+      sort: true,
+    },
+    {
+      id: 'boPhone',
+      align: 'left',
+      disablePadding: false,
+      label: t('cell_phone'),
+      sort: true,
+    },
+    {
+      id: 'boEmail',
+      align: 'left',
+      disablePadding: false,
+      label: t('e_mail'),
+      sort: true,
+    },
+    {
+      id: 'boAddress',
+      align: 'left',
+      disablePadding: true,
+      label: t('address'),
+      sort: true,
+    },
+    {
+      id: 'boState',
+      align: 'left',
+      disablePadding: true,
+      label: t('state'),
+      sort: true,
+    }
+  ]
 
   const createSortHandler = (property) => (event) => {
     props.onRequestSort(event, property)
@@ -137,7 +131,7 @@ const BranchOfficeTableHead = (props) => {
                     <ListItemIcon className="min-w-40">
                       <FuseSvgIcon>heroicons-outline:trash</FuseSvgIcon>
                     </ListItemIcon>
-                    <ListItemText primary="Eliminar" />
+                    <ListItemText primary={t('delete')} />
                   </MenuItem>
                 </MenuList>
               </Menu>

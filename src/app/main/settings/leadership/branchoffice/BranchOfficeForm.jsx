@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import './form.css'
 import React, { useEffect, useState } from 'react'
 import FormControl from '@mui/material/FormControl'
@@ -11,28 +12,55 @@ import { useDispatch } from 'react-redux'
 import { deleteBranchoffice, getMaxId, postBranchoffice, putBranchoffice } from '../store/branchofficeSlice'
 import { getUsers } from 'src/app/main/human-resources/personal/store/userSlice'
 import axios from 'axios'
-import ModalSearchDistrict from './ModalSearchDistrict'
+
+const url = 'https://sismova.tech/backsis/public/api/';
 
 const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   const dispatch = useDispatch()
   const [form, setForm] = useState(BranchOfficeInterface)
   const [maxId, setMaxId] = useState(null)
   const [user, setUser] = useState([])
-  const [dist, setDist] = useState([])
-  const [openDist, setOpenDist] = useState(false)
+  const [dep, setDep] = useState([]);
+  const [prov, setProv] = useState([]);
+  const [dist, setDist] = useState([]);
+  const [filteredProv, setFilteredProv] = useState([]);
+  const [filteredDist, setFilteredDist] = useState([]);
+  const { t } = useTranslation()
 
-  const openSearchDistrict = () => {
-    setOpenDist(true)
-  }
-  const closeSearchDistrict = () => {
-    setOpenDist(false)
+  const getDepartments = async () => {
+    const response = await axios.get(url + 'dep');
+    setDep(response.data);
+  };
+
+  const getProvinces = async () => {
+    const response = await axios.get(url + 'prov');
+    setProv(response.data);
+  };
+
+  const getDistricts = async () => {
+    const response = await axios.get(url + 'dis');
+    setDist(response.data);
+  };
+
+  const filterProv = (event, value) => {
+    if(value !== null) {
+      const filteredProvinces = value ? prov.filter((r) => r.Department === value.id) : [];
+      setFilteredProv(filteredProvinces);
+      setFilteredDist([]);
+    } else {
+      setFilteredProv([]);
+      setFilteredDist([]);
+    }
   }
 
-  const url = 'https://sismova.tech/backsis/public/api/dis'
-
-  const getDist = async () => {
-    return await axios.get(url)
-  }
+  const filterDist = (event, value) => {
+    if(value !== null) {
+      const filteredDistricts = dist.filter((r) => r.Province === value.id);
+      setFilteredDist(filteredDistricts);
+    } else {
+      setFilteredDist([]);
+    }
+  };
   
   const handleChange = (e) => {
     const name = e.target.name
@@ -75,15 +103,28 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   }
 
   useEffect(() => {
-    dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
-    dispatch(getUsers()).then(response => setUser(response.payload))
-    getDist().then(response => setDist(response.data))
+    const fetchData = async () => {
+      try {
+        await dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
+        await dispatch(getUsers()).then(response => setUser(response.payload))
+      } catch (error) {
+        console.error('Error al obtener el maxId', error);
+      }
+    }
+    if (open) {
+      fetchData();
+    }
+    // dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
+    // dispatch(getUsers()).then(response => setUser(response.payload))
+    getProvinces();
+    getDepartments();
+    getDistricts();
     if(dataToEdit) {
       setForm(dataToEdit)
     } else {
       setForm(BranchOfficeInterface)
     }
-  }, [dispatch, dataToEdit])
+  }, [dispatch, dataToEdit, open])
 
   return (
     <Dialog
@@ -95,7 +136,7 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
         <TextField
           autoFocus
           id="name"
-          label="Nombre de Sucursal"
+          label={t('name')}
           fullWidth
           variant="outlined"
           name='boName'
@@ -103,8 +144,8 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           onChange={handleChange}
         />
         <TextField
-          id="name"
-          label="Celular"
+          id="cell_phone"
+          label={t('cell_phone')}
           fullWidth
           variant="outlined"
           name='boPhone'
@@ -112,27 +153,67 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           onChange={handleChange}
         />
         <TextField
-          id="name"
-          label="Correo electrónico"
+          id="e_mail"
+          label={t('e_mail')}
           fullWidth
           variant="outlined"
           name='boEmail'
           value={form.boEmail}
           onChange={handleChange}
         />
-        <TextField
-          id="name"
-          label="Distrito"
+        <Autocomplete
+          freeSolo
           fullWidth
-          variant="outlined"
-          name='District'
-          value={form.District}
-          onChange={handleChange}
-          onClick={openSearchDistrict}
+          id="combo-box-department"
+          options={dep}
+          getOptionLabel={(option) => option.depName}
+          onChange={(_, data) => {
+            setForm({ ...form, Department: data ? data.id : 0 })
+            filterProv(_, data)
+            return data
+          }}
+          name="Department"
+          value={dep.find((option) => option.id === form.Department) || null}
+          renderInput={(params) => (
+            <TextField {...params} label={t('choose_department')} />
+          )}
+        />
+        <Autocomplete
+          freeSolo
+          fullWidth
+          id="combo-box-province"
+          options={filteredProv}
+          getOptionLabel={(option) => option.provName}
+          onChange={(_, data) => {
+            setForm({ ...form, Province: data ? data.id : 0 })
+            filterDist(_, data)
+            return data
+          }}
+          name="Province"
+          value={prov.find((option) => option.id === form.Province) || null}
+          renderInput={(params) => (
+            <TextField {...params} label={t('choose_province')} />
+          )}
+        />
+        <Autocomplete
+          freeSolo
+          fullWidth
+          id="combo-box-district"
+          options={filteredDist}
+          getOptionLabel={(option) => option.disName}
+          onChange={(_, data) => {
+            setForm({ ...form, District: data ? data.id : 0 })
+            return data
+          }}
+          name="District"
+          value={dist.find((option) => option.id === form.District) || null}
+          renderInput={(params) => (
+            <TextField {...params} label={t('choose_district')} />
+          )}
         />
         <TextField
-          id="name"
-          label="Dirección"
+          id="address"
+          label={t('address')}
           fullWidth
           variant="outlined"
           name='boAddress'
@@ -140,11 +221,11 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           onChange={handleChange}
         />
         <FormControl fullWidth>
-          <InputLabel id="User">Encargado</InputLabel>
+          <InputLabel id="User">{t('responsible')}</InputLabel>
           <Select
             labelId="User"
             id="demo-simple-select"
-            label="Encargado"
+            label={t('responsible')}
             value={form.User}
             name="User"
             onChange={handleChange}
@@ -155,28 +236,27 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           </Select>
         </FormControl>
         <FormControl fullWidth>
-          <InputLabel id="boState">Estado</InputLabel>
+          <InputLabel id="boState">{t('state')}</InputLabel>
           <Select
             labelId="boState"
             id="demo-simple-select"
-            label="Estado"
+            label={t('state')}
             value={form.boState}
             name="boState"
             onChange={handleChange}
           >
-            <MenuItem value={0}>Inactivo</MenuItem>
-            <MenuItem value={1}>Activo</MenuItem>
+            <MenuItem value={0}>{t('inactive')}</MenuItem>
+            <MenuItem value={1}>{t('active')}</MenuItem>
           </Select>
         </FormControl>
       </DialogContent>
       <DialogActions>
-        {form.id!==null ? <Button onClick={() => handleClose(dataToEdit.id)}>Eliminar</Button> : <Button onClick={()=>handleClose(0)}>Cancelar</Button>}
-        <Button onClick={handleSubmit}>Guardar</Button>
+        {form.id!==null ?
+        <Button onClick={() => handleClose(dataToEdit.id)}>{t('delete')}</Button>
+        :
+        <Button onClick={()=>handleClose(0)}>{t('cancel')}</Button>}
+        <Button onClick={handleSubmit}>{t('save')}</Button>
       </DialogActions>
-      <ModalSearchDistrict
-        open={openDist}
-        onClose={closeSearchDistrict}
-      />
     </Dialog>
   )
 }

@@ -3,9 +3,15 @@ const BranchOfficeInterface = {
   boName: '',
   boPhone: '',
   boEmail: '',
-  District: 1,
+  Department: 0,
+  departments: {},
+  Province: 0,
+  provinces: {},
+  District: 0,
+  districts: {},
   boAddress: '',
   User: 1,
+  users: {},
   boState: 1
 }
 
