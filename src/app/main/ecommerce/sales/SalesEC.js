@@ -1,8 +1,8 @@
 import { lazy } from 'react'
 import { Navigate } from 'react-router-dom'
 
-const Quote = lazy(() => import('./quote/crud'))
-const Quotes = lazy(() => import('./quote'))
+const Quote = lazy(() => import('./quote'))
+const Quotes = lazy(() => import('./quotes'))
 const SaleOrder = lazy(() => import('./saleorder'))
 const Ticket = lazy(() => import('./ticket'))
 const Invoice = lazy(() => import('./invoice'))

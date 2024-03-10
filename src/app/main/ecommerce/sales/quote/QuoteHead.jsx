@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import _ from '@lodash'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
-import { deleteQuote, putQuote, getMaxId, postQuote } from '../../store/quoteSlice'
+import { deleteQuote, putQuote, getMaxId, postQuote } from '../store/quoteSlice'
 import { useEffect, useState } from 'react'
 
 const QuoteHead = () => {
@@ -35,7 +35,8 @@ const QuoteHead = () => {
     if(getValues().id === null) {
       const quoteData = getValues()
       quoteData.id = maxId.ultimo_id + 1
-      dispatch(postQuote(quoteData))
+      console.log(quoteData)
+      // dispatch(postQuote(quoteData))
     } else {
       dispatch(putQuote(getValues()))
     }
