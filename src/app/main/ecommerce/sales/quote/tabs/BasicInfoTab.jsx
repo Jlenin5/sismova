@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { utcToZonedTime } from 'date-fns-tz'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
@@ -6,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import axios from 'axios'
 import Autocomplete from '@mui/material/Autocomplete'
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUser } from 'app/store/userSlice'
@@ -15,40 +16,55 @@ import { getClients } from 'src/app/main/human-resources/personal/store/clientSl
 import { getCoins } from '../../../finances/store/coinSlice'
 import { getCompany } from 'src/app/main/settings/leadership/store/CompanySlice'
 import { getBranchoffices } from 'src/app/main/settings/leadership/store/branchofficeSlice'
-
-const url = 'https://sismova.tech/backsis/public/api/bo'
+import { getSeries } from 'src/app/main/settings/controls/store/serieSlice'
+import { getMaxId } from '../../store/quoteSlice'
 
 const BasicInfoTab = () => {
   const dispatch = useDispatch()
+  const [maxId, setMaxId] = useState(null)
   const user = useSelector(selectUser)
   const [dClient, setDClient] = useState([])
   const [dCurrency, setDCurrency] = useState([])
   const [dCompany, setDCompany] = useState([])
   const [dBO, setDBO] = useState([])
+  const [dSerie, setDSerie] = useState([])
   const methods = useFormContext()
-  const { control, formState, watch } = methods
-  const serial_number = watch('serial_number')
-  const currencies = watch('currencies')
-  const companies = watch('companies')
-  const employees = watch('employees')
-  const clients = watch('clients')
+  const { control, formState, watch, setValue } = methods
   const { errors } = formState
+  const qtNumber = watch('qtNumber')
   const { t } = useTranslation()
 
   useEffect(() => {
-    // getBO().then(r => setDBO(r.data))
     dispatch(getClients()).then((r) => setDClient(r.payload))
     dispatch(getCoins()).then(r => setDCurrency(r.payload))
     dispatch(getCompany()).then(r => setDCompany(r.payload))
     dispatch(getBranchoffices()).then(r => setDBO(r.payload))
+    dispatch(getSeries()).then(r => setDSerie(r.payload))
+    dispatch(getMaxId()).then(r => setMaxId(r.payload.ultimo_id))
   }, [dispatch])
+
+  useEffect(() => {
+    if (maxId !== null) {
+      var addQtNumber = 0
+      if (qtNumber === '00000') {
+        addQtNumber = (Number(maxId) + 1).toString().padStart(5, '0')
+      } else {
+        addQtNumber = qtNumber
+      }
+      setValue('qtNumber', addQtNumber)
+    }  
+  }, [qtNumber, maxId, setValue])
 
   var companyName = ''
   if(dCompany.length > 0) {
     companyName = dCompany[0].comName
   }
 
-  console.log(serial_number)
+  var serieName = ''
+  if(dSerie.length > 0) {
+    const findSerie = dSerie.find(r => r.id === 2)
+    serieName = findSerie.snSerie
+  }
 
   return (
     <div className="grid grid-flow-row-dense grid-cols-3 gap-32 -mx-4 max-w-4xl">
@@ -66,7 +82,7 @@ const BasicInfoTab = () => {
             autoFocus
             id="serialNumber"
             variant="outlined"
-            value={serial_number.snSerie}
+            value={serieName}
           />
         )}
       />
@@ -85,6 +101,7 @@ const BasicInfoTab = () => {
             autoFocus
             id="qtNumber"
             variant="outlined"
+            value={qtNumber}
           />
         )}
       />
@@ -206,8 +223,8 @@ const BasicInfoTab = () => {
         name="qtStartDate"
         control={control}
         render={({ field: { onChange, value } }) => (
-          <DateTimePicker
-            value={new Date(value)}
+          <DatePicker
+            value={utcToZonedTime(new Date(value))}
             onChange={onChange}
             slotProps={{
               textField: {
@@ -225,8 +242,8 @@ const BasicInfoTab = () => {
         control={control}
         defaultValue=""
         render={({ field: { onChange, value } }) => (
-          <DateTimePicker
-            value={new Date(value)}
+          <DatePicker
+            value={utcToZonedTime(new Date(value))}
             onChange={onChange}
             slotProps={{
               textField: {

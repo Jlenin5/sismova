@@ -23,6 +23,7 @@ import BasicInfoTab from '../quote/tabs/BasicInfoTab'
 // import InventoryTab from './tabs/InventoryTab'
 // import PricingTab from './tabs/PricingTab'
 import ProductsTab from '../quote/tabs/ProductsTab'
+import ControllerProduct from './tabs/ControllerProduct'
 // import ShippingTab from './tabs/ShippingTab'
 
 const schema = yup.object().shape({
@@ -152,7 +153,7 @@ const Quote = (props) => {
               </div>
 
               <div className={tabValue !== 1 ? 'hidden' : ''}>
-                <ProductsTab />
+                <ControllerProduct />
               </div>
 
               <div className={tabValue !== 2 ? 'hidden' : ''}>

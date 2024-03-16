@@ -35,11 +35,14 @@ const QuoteHead = () => {
     if(getValues().id === null) {
       const quoteData = getValues()
       quoteData.id = maxId.ultimo_id + 1
-      dispatch(postQuote(quoteData))
+      console.log(quoteData)
+      // dispatch(postQuote(quoteData))
     } else {
-      dispatch(putQuote(getValues()))
+      const quoteData = getValues()
+      console.log(quoteData)
+      // dispatch(putQuote(getValues()))
     }
-    returnProducts()
+    // returnProducts()
   }
 
   function handleRemoveProduct() {

@@ -92,7 +92,7 @@ const QuoteTableHead = (props) => {
       id: 'qtCreatedAt',
       align: 'right',
       disablePadding: false,
-      label: t('created_at'),
+      label: t('start_date'),
       sort: true,
     },
   ]

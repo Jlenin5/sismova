@@ -224,7 +224,7 @@ const QuoteTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.qtCreatedAt}
+                      {n.qtStartDate}
                     </TableCell>
 
                   </TableRow>

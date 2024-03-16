@@ -8,6 +8,7 @@ const asyncThunkWithAxios = (endpoint, method, actionName, changeMethod) => {
     var response = null
     if (changeMethod === 'put') {
       response = await axios[method](API_URL + endpoint + '/'+ data.id, data)
+      // console.log(response.data)
     } else if (changeMethod === 'postFormData') {
       if(method==='post') {
         response = await axios.post(API_URL + endpoint, data, {
@@ -32,12 +33,12 @@ const asyncThunkWithAxios = (endpoint, method, actionName, changeMethod) => {
       })
     } else {
       response = await axios[method](API_URL + endpoint, data)
+      // console.log(response.data)
     }
     if (method === 'get') {
       return response.data
     } else if (method === 'post' || method === 'put') {
       if (changeMethod === 'postFormData') {
-        // console.log(data)
         return data
       } else {
         // console.log(data)

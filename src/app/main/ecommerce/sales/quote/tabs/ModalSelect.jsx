@@ -1,45 +1,83 @@
-import { Dialog, DialogTitle, DialogContent } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'
+import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import { Controller, useFormContext } from 'react-hook-form'
 import Button from '@mui/material/Button'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
+import { useEffect, useState } from 'react'
+import ProductInterface from 'src/app/interfaces/ProductInterface'
 
-const ModalSelect = ({open, onClose, sendId, setSendId, clickNumber, setClickNumber, onRemoveImage}) => {
+const ModalSelect = ({open, onClose, listProd}) => {
+  const [form, setForm] = useState(ProductInterface)
   const methods = useFormContext()
   const { control } = methods
+  const { t } = useTranslation()
 
-  const returnClick = (press) => {
-    if(press === 'click') {
-      setSendId(sendId)
-      setClickNumber(sendId)
-    } else {
-      if(clickNumber === sendId) {
-        setClickNumber(sendId)
-      } else {
-        setClickNumber(clickNumber)
-        setSendId(null)
-      }
-    }
-    onClose()
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    handleClose()
   }
+
+  const handleChange = (e) => {
+    const name = e.target.name
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+    setForm({
+      ...form,
+      [name]: value
+    })
+  }
+
+  const handleClose = () => {
+    onClose(form, listProd)
+  }
+
+  useEffect(() => {
+    if(listProd) {
+      setForm({ ...listProd, prodName: listProd.prodName || '' })
+      setForm({ ...listProd, prodSalePrice: listProd.prodSalePrice || '' })
+    } else {
+      setForm(ProductInterface)
+    }
+  }, [listProd])
 
   return (
     <Dialog
-      onClose={returnClick}
+      onClose={handleClose}
       open={open}
       className='form-dialog-product'
     >
       <Box
         className='box-nav-form'
         sx={{
-          width: 230,
-          minHeight: 100,
+          width: 300,
+          minHeight: 250,
           position: 'relative',
           backgroundColor: 'white'
         }}
       >
-        <DialogContent>
-          <Controller
+        <DialogContent className='grid grid-flow-row-dense grid-cols-1 gap-32 mt-12'>
+          <TextField
+            label={t('name')}
+            required
+            autoFocus
+            id="prodName"
+            variant="outlined"
+            name="prodName"
+            value={form.prodName}
+            onChange={handleChange}
+          />
+          <TextField
+            label={t('sale_price')}
+            required
+            autoFocus
+            id="prodSalePrice"
+            variant="outlined"
+            name="prodSalePrice"
+            value={form.prodSalePrice}
+            onChange={handleChange}
+          />
+          {/* <Controller
             name="featuredImageId"
             control={control}
             defaultValue=""
@@ -61,19 +99,11 @@ const ModalSelect = ({open, onClose, sendId, setSendId, clickNumber, setClickNum
                 Imagen principal
               </Button>
             }
-          />
-          <Button
-            className="whitespace-nowrap mx-4 mt-10"
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              onRemoveImage(sendId);
-              returnClick();
-            }}
-            startIcon={<FuseSvgIcon className="hidden sm:flex">heroicons-outline:trash</FuseSvgIcon>}
-          >
-            Eliminar imagen
-          </Button>
+          /> */}
+          <DialogActions>
+            <Button onClick={() => handleClose()}>Eliminar</Button>
+            <Button onClick={handleSubmit}>Guardar</Button>
+          </DialogActions>
         </DialogContent>
       </Box>
     </Dialog>
