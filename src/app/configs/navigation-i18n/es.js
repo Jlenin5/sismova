@@ -235,6 +235,7 @@ const locale = {
   address: 'Dirección',
   responsible: 'Encargado',
   series: 'Series',
+  purchase_order_details: 'Detalles de la orden de compra',
 
 }
 

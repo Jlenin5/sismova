@@ -1,0 +1,28 @@
+.box-item-product {
+    // background-color: #e40000;
+    border: 1px solid #2352ec;
+    height: 40px;
+    border-radius: 10px;
+    button {
+        font-size: 2em;
+        border-radius: 10px;
+        svg {
+            margin: auto;
+            color: #2352ec;
+        }
+        &.btn-left {
+            border-radius: 10px 0 0 10px;
+            border-right: 1px solid #2352ec;
+        }
+        &.btn-right {
+            border-radius: 0 10px 10px 0;
+            border-left: 1px solid #2352ec;
+        }
+        &:hover {
+            background-color: #2352ec;
+            svg {
+                color: #fff;
+            }
+        }
+    }
+}

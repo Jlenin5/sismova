@@ -234,7 +234,8 @@ const locale = {
   choose_district: 'Choose district',
   address: 'Address',
   responsible: 'Responsible',
-  series: 'Series'
+  series: 'Series',
+  purchase_order_details: 'Purchase order details',
   
 }
 
