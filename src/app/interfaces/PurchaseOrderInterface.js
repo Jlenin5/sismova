@@ -5,7 +5,7 @@ const PurchaseOrderInterface = {
   Currency: 1,
   Company: 1,
   BranchOffice: 1,
-  Client: 1,
+  Supplier: 1,
   User: 1,
   puorSubtotal: 0.00,
   puorIgv: 0.00,
@@ -16,7 +16,7 @@ const PurchaseOrderInterface = {
   currencies: [],
   companies: [],
   branch_offices: [],
-  clients: [],
+  suppliers: [],
   users: [],
   quote_details: []
 }

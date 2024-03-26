@@ -12,7 +12,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUser } from 'app/store/userSlice'
 import { useEffect, useState } from 'react'
-import { getClients } from 'src/app/main/human-resources/personal/store/clientSlice'
+import { getSuppliers } from 'src/app/main/human-resources/personal/store/supplierSlice'
 import { getCoins } from '../../../finances/store/coinSlice'
 import { getCompany } from 'src/app/main/settings/leadership/store/CompanySlice'
 import { getBranchoffices } from 'src/app/main/settings/leadership/store/branchofficeSlice'
@@ -23,7 +23,7 @@ const BasicInfoTab = () => {
   const dispatch = useDispatch()
   const [maxId, setMaxId] = useState(null)
   const user = useSelector(selectUser)
-  const [dClient, setDClient] = useState([])
+  const [dSupplier, setDSupplier] = useState([])
   const [dCurrency, setDCurrency] = useState([])
   const [dCompany, setDCompany] = useState([])
   const [dBO, setDBO] = useState([])
@@ -35,7 +35,7 @@ const BasicInfoTab = () => {
   const { t } = useTranslation()
 
   useEffect(() => {
-    dispatch(getClients()).then((r) => setDClient(r.payload))
+    dispatch(getSuppliers()).then((r) => setDSupplier(r.payload))
     dispatch(getCoins()).then(r => setDCurrency(r.payload))
     dispatch(getCompany()).then(r => setDCompany(r.payload))
     dispatch(getBranchoffices()).then(r => setDBO(r.payload))
@@ -193,25 +193,25 @@ const BasicInfoTab = () => {
       />
 
       <Controller
-        name="Client"
+        name="Supploer"
         control={control}
         render={({ field: { onChange, value } }) => (
           <Autocomplete
             freeSolo
             id="tags-outlined"
-            options={dClient}
-            getOptionLabel={(option) => option.cliFirstName}
+            options={dSupplier}
+            getOptionLabel={(option) => option.suppCompanyName}
             onChange={(_, data) => {
               onChange(data)
-              methods.setValue("Client", data?.id || null)
+              methods.setValue("Supploer", data?.id || null)
               return data
             }}
-            value={dClient.find((option) => option.id === value) || null}
+            value={dSupplier.find((option) => option.id === value) || null}
             renderInput={(params) => (
               <TextField
                 required
                 {...params}
-                label={t('client')}
+                label={t('supplier')}
               />
             )}
             fullWidth
