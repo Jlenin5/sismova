@@ -4,7 +4,7 @@ const PurchaseOrderInterface = {
   puorNumber: '00000',
   Currency: 1,
   Company: 1,
-  BranchOffice: 1,
+  Warehouse: 1,
   Supplier: 1,
   User: 1,
   puorSubtotal: 0.00,
@@ -15,10 +15,10 @@ const PurchaseOrderInterface = {
   serial_number: [],
   currencies: [],
   companies: [],
-  branch_offices: [],
+  warehouses: [],
   suppliers: [],
   users: [],
-  quote_details: []
+  purchase_order_details: []
 }
 
 export default PurchaseOrderInterface

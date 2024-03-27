@@ -236,6 +236,8 @@ const locale = {
   responsible: 'Responsible',
   series: 'Series',
   purchase_order_details: 'Purchase order details',
+  warehouse: 'Warehouse',
+  warehouses: 'Wareshouses',
   
 }
 

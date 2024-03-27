@@ -44,7 +44,7 @@ const PurchaseOrderTable = (props) => {
   useEffect(() => {
     if (searchText.length !== 0) {
       setData(
-        _.filter(purchaseOrders, (item) => item.qtNumber.toLowerCase().includes(searchText.toLowerCase()))
+        _.filter(purchaseOrders, (item) => item.puorNumber.toLowerCase().includes(searchText.toLowerCase()))
       )
       setPage(0)
     } else {
@@ -191,7 +191,7 @@ const PurchaseOrderTable = (props) => {
                     </TableCell>
  
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {n.serial_number.snSerie + ' - ' + n.qtNumber}
+                      {n.serial_number.snSerie + ' - ' + n.puorNumber}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
@@ -204,7 +204,7 @@ const PurchaseOrderTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.clients.cliFirstName}
+                      {n.suppliers.suppCompanyName}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
@@ -212,19 +212,19 @@ const PurchaseOrderTable = (props) => {
                     </TableCell>
                     
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="center">
-                      {n.qtIgv === '1' ? 'No' : 'Sí'}
+                      {n.puorTax === '1' ? 'No' : 'Sí'}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.qtSubtotal}
+                      {n.puorSubtotal}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.qtTotal}
+                      {n.puorTotal}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.qtStartDate}
+                      {n.puorStartDate}
                     </TableCell>
 
                   </TableRow>

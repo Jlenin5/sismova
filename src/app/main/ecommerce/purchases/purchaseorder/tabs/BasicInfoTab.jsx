@@ -31,7 +31,7 @@ const BasicInfoTab = () => {
   const methods = useFormContext()
   const { control, formState, watch, setValue } = methods
   const { errors } = formState
-  const qtNumber = watch('qtNumber')
+  const puorNumber = watch('puorNumber')
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -45,15 +45,15 @@ const BasicInfoTab = () => {
 
   useEffect(() => {
     if (maxId !== null) {
-      var addQtNumber = 0
-      if (qtNumber === '00000') {
-        addQtNumber = (Number(maxId) + 1).toString().padStart(5, '0')
+      var addPuorNumber = 0
+      if (puorNumber === '00000') {
+        addPuorNumber = (Number(maxId) + 1).toString().padStart(5, '0')
       } else {
-        addQtNumber = qtNumber
+        addPuorNumber = puorNumber
       }
-      setValue('qtNumber', addQtNumber)
+      setValue('puorNumber', addPuorNumber)
     }  
-  }, [qtNumber, maxId, setValue])
+  }, [puorNumber, maxId, setValue])
 
   var companyName = ''
   if(dCompany.length > 0) {
@@ -88,7 +88,7 @@ const BasicInfoTab = () => {
       />
 
       <Controller
-        name="qtNumber"
+        name="puorNumber"
         control={control}
         render={({ field }) => (
           <TextField
@@ -99,9 +99,9 @@ const BasicInfoTab = () => {
             disabled
             required
             autoFocus
-            id="qtNumber"
+            id="puorNumber"
             variant="outlined"
-            value={qtNumber}
+            value={puorNumber}
           />
         )}
       />
@@ -148,7 +148,7 @@ const BasicInfoTab = () => {
       />
 
       <Controller
-        name="BranchOffice"
+        name="Warehouse"
         control={control}
         render={({ field: { onChange, value } }) => (
           <Autocomplete
@@ -158,7 +158,7 @@ const BasicInfoTab = () => {
             getOptionLabel={(option) => option.boName}
             onChange={(_, data) => {
               onChange(data)
-              methods.setValue("BranchOffice", data?.id || null)
+              methods.setValue("Warehouse", data?.id || null)
               return data
             }}
             value={dBO.find((option) => option.id === value) || null}
@@ -166,7 +166,7 @@ const BasicInfoTab = () => {
               <TextField
                 required
                 {...params}
-                label={t('branch_office')}
+                label={t('warehouse')}
               />
             )}
             fullWidth
@@ -193,7 +193,7 @@ const BasicInfoTab = () => {
       />
 
       <Controller
-        name="Supploer"
+        name="Supplier"
         control={control}
         render={({ field: { onChange, value } }) => (
           <Autocomplete
@@ -203,7 +203,7 @@ const BasicInfoTab = () => {
             getOptionLabel={(option) => option.suppCompanyName}
             onChange={(_, data) => {
               onChange(data)
-              methods.setValue("Supploer", data?.id || null)
+              methods.setValue("Supplier", data?.id || null)
               return data
             }}
             value={dSupplier.find((option) => option.id === value) || null}
@@ -220,7 +220,7 @@ const BasicInfoTab = () => {
       />
 
       <Controller
-        name="qtStartDate"
+        name="puorStartDate"
         control={control}
         render={({ field: { onChange, value } }) => (
           <DatePicker
@@ -238,7 +238,7 @@ const BasicInfoTab = () => {
       />
 
       <Controller
-        name="qtEndDate"
+        name="puorEndDate"
         control={control}
         defaultValue=""
         render={({ field: { onChange, value } }) => (
