@@ -1195,6 +1195,14 @@ const navigationConfig = [
             translate: 'branch_offices',
             end: true
           },
+          {
+            id: 'settings.leadership.warehouses',
+            title: 'Warehouse',
+            type: 'item',
+            url: 'settings/leadership/warehouses',
+            translate: 'warehouses',
+            end: true
+          },
         ]
       },
       {
