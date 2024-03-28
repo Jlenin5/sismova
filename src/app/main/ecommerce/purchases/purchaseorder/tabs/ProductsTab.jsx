@@ -27,7 +27,6 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
   const [dProduct, setDProduct] = useState([])
   const [open, setOpen] = useState(false)
   const [listProd, setListProd] = useState([])
-  const [listQuoteDetails, setListQuoteDetails] = useState([])
   const [listModalProd, setListModalProd] = useState(ProductInterface)
   const [quantities, setQuantities] = useState({})
   const { t } = useTranslation()
@@ -41,6 +40,7 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
 
   const handleModalClose = (updatedForm, selectedProduct) => {
     // Busca el producto en la lista y actualiza sus datos
+    console.log(updatedForm)
     const updatedListProd = listProd.map((prod) => {
       if (prod.id === selectedProduct.id) {
         return { ...prod, ...updatedForm };
@@ -49,31 +49,29 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
     })
 
     setListProd(updatedListProd);
-    // updateProduct(selectedProduct.id, updatedForm)
+    updateProduct(selectedProduct.id, updatedForm)
     handleClose()
   }
 
   useEffect(() => {
     dispatch(getProducts()).then((r) => setDProduct(r.payload))
     setListProd(allProducts)
-    setListQuoteDetails(allProducts)
   }, [allProducts, dispatch])
 
   const handleProductChange = (_, selectedValue) => {
     if (selectedValue) {
       const findProduct = dProduct.find((r) => r.id === selectedValue.id)
       const updatedProduct = { ...findProduct, prodName: selectedValue.prodName }
-      // setListProd((prevList) => [...prevList, updatedProduct])
-      let quoteDetailInterface = {
+      setListProd((prevList) => [...prevList, updatedProduct])
+      let purchaseOrderDetailInterface = {
         id: updatedProduct.id,
-        qtdProdName: updatedProduct.prodName,
-        qtdProdPrice: updatedProduct.prodSalePrice,
-        qtdQuantity: 1,
-        qtdSubtotal: updatedProduct.prodSalePrice,
-        qtdTotal: 0
+        podProdName: updatedProduct.prodName,
+        podProdPrice: updatedProduct.prodSalePrice,
+        podQuantity: 1,
+        podSubtotal: updatedProduct.prodSalePrice,
+        podTotal: 0
       }
-      setListQuoteDetails((prevList) => [...prevList, quoteDetailInterface])
-      onChange([...selectedProducts, quoteDetailInterface])
+      onChange([...selectedProducts, purchaseOrderDetailInterface])
     }
   }
 
@@ -119,8 +117,6 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
     // return getTotalPrice() * 0.18
   }
 
-  // console.log(listQuoteDetails)
-
   return (
     <div className="flex flex-wrap -mx-4 w-full">
       <div className="w-2/3 px-16">
@@ -152,66 +148,62 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
             />
             <TableBody>
               {
-                listQuoteDetails.map((data) => {
-                  // console.log(data.qtdProdName)
-                  return (
-                    <TableRow
-                      key={data.id}
-                      className="h-72 cursor-pointer"
-                      hover
-                      role="checkbox"
-                      onClick={() => handleClickOpen( setListModalProd(data) )}
-                    >
-                      <TableCell className="w-52 px-4 md:px-0" component="th" scope="row">
-                        {data.qtdProdName}
-                      </TableCell>
-                      <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        S/. {data.updatedPrice || data.qtdProdPrice}
-                      </TableCell>
-                      <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        {/* {data.prodStock} */}
-                      </TableCell>
-                      <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        {data.qtdQuantity}
-                        {/* <div className="grid grid-cols-3 w-full box-item-product">
-                          <button
-                            onClick={() => updatePrice(data.id, 'subtract')}
-                            className="max-w-1/3 btn-left"
-                          >
-                            <FuseSvgIcon className="text-16" size={22} color="action">material-outline:remove</FuseSvgIcon>
-                          </button>
-                          <input
-                            className='w-1/3 m-auto'
-                            value={quantities[data.id] || 1}
-                            onChange={(e) => updatePrice(data.id, 'change', parseInt(e.target.value, 10))}
-                            placeholder='1'
-                          />
-                          <button
-                            onClick={() => updatePrice(data.id, 'add')}
-                            className="max-w-1/3 btn-right"
-                          >
-                            <FuseSvgIcon className="text-16" size={22} color="action">material-outline:add</FuseSvgIcon>
-                          </button>
-                        </div> */}
-                      </TableCell>
-                      <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        S/. 0.00
-                      </TableCell>
-                      <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        18%
-                      </TableCell>
-                      <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        S/. {data.qtdSubtotal}
-                      </TableCell>
-                      <TableCell className="w-60" component="th" scope="row">
-                        <IconButton aria-label="delete" size="large">
-                          <DeleteIcon fontSize="inherit" className="text-red-500" />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  )
-                }
-                )
+                listProd.map((data) => (
+                  <TableRow
+                    key={data.id}
+                    className="h-72 cursor-pointer"
+                    hover
+                    role="checkbox"
+                    onClick={() => handleClickOpen( setListModalProd(data) )}
+                  >
+                    <TableCell className="w-52 px-4 md:px-0" component="th" scope="row">
+                      {data.podProdName}
+                    </TableCell>
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      S/. {data.updatedPrice || data.podProdPrice}
+                    </TableCell>
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      {/* {data.prodStock} */}
+                    </TableCell>
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      {data.podQuantity}
+                      {/* <div className="grid grid-cols-3 w-full box-item-product">
+                        <button
+                          onClick={() => updatePrice(data.id, 'subtract')}
+                          className="max-w-1/3 btn-left"
+                        >
+                          <FuseSvgIcon className="text-16" size={22} color="action">material-outline:remove</FuseSvgIcon>
+                        </button>
+                        <input
+                          className='w-1/3 m-auto'
+                          value={quantities[data.id] || 1}
+                          onChange={(e) => updatePrice(data.id, 'change', parseInt(e.target.value, 10))}
+                          placeholder='1'
+                        />
+                        <button
+                          onClick={() => updatePrice(data.id, 'add')}
+                          className="max-w-1/3 btn-right"
+                        >
+                          <FuseSvgIcon className="text-16" size={22} color="action">material-outline:add</FuseSvgIcon>
+                        </button>
+                      </div> */}
+                    </TableCell>
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      S/. 0.00
+                    </TableCell>
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      18%
+                    </TableCell>
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      S/. {data.podSubtotal}
+                    </TableCell>
+                    <TableCell className="w-60" component="th" scope="row">
+                      <IconButton aria-label="delete" size="large">
+                        <DeleteIcon fontSize="inherit" className="text-red-500" />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
               }
             </TableBody>
           </Table>

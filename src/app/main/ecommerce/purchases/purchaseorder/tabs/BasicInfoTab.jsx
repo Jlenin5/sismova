@@ -15,9 +15,9 @@ import { useEffect, useState } from 'react'
 import { getSuppliers } from 'src/app/main/human-resources/personal/store/supplierSlice'
 import { getCoins } from '../../../finances/store/coinSlice'
 import { getCompany } from 'src/app/main/settings/leadership/store/CompanySlice'
-import { getBranchoffices } from 'src/app/main/settings/leadership/store/branchofficeSlice'
 import { getSeries } from 'src/app/main/settings/controls/store/serieSlice'
 import { getMaxId } from '../../store/purchaseorderSlice'
+import { getWarehouses } from 'src/app/main/settings/leadership/store/warehouseSlice'
 
 const BasicInfoTab = () => {
   const dispatch = useDispatch()
@@ -26,7 +26,7 @@ const BasicInfoTab = () => {
   const [dSupplier, setDSupplier] = useState([])
   const [dCurrency, setDCurrency] = useState([])
   const [dCompany, setDCompany] = useState([])
-  const [dBO, setDBO] = useState([])
+  const [dWarehouse, setWarehouse] = useState([])
   const [dSerie, setDSerie] = useState([])
   const methods = useFormContext()
   const { control, formState, watch, setValue } = methods
@@ -38,7 +38,7 @@ const BasicInfoTab = () => {
     dispatch(getSuppliers()).then((r) => setDSupplier(r.payload))
     dispatch(getCoins()).then(r => setDCurrency(r.payload))
     dispatch(getCompany()).then(r => setDCompany(r.payload))
-    dispatch(getBranchoffices()).then(r => setDBO(r.payload))
+    dispatch(getWarehouses()).then(r => setWarehouse(r.payload))
     dispatch(getSeries()).then(r => setDSerie(r.payload))
     dispatch(getMaxId()).then(r => setMaxId(r.payload.ultimo_id))
   }, [dispatch])
@@ -154,14 +154,14 @@ const BasicInfoTab = () => {
           <Autocomplete
             freeSolo
             id="tags-outlined"
-            options={dBO}
-            getOptionLabel={(option) => option.boName}
+            options={dWarehouse}
+            getOptionLabel={(option) => option.whName}
             onChange={(_, data) => {
               onChange(data)
               methods.setValue("Warehouse", data?.id || null)
               return data
             }}
-            value={dBO.find((option) => option.id === value) || null}
+            value={dWarehouse.find((option) => option.id === value) || null}
             renderInput={(params) => (
               <TextField
                 required

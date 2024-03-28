@@ -5,30 +5,28 @@ const ControllerProduct = () => {
 
   const methods = useFormContext()
   const { control, formState, watch, setValue } = methods
-  const quote_details = watch('quote_details');
+  const purchase_order_details = watch('purchase_order_details');
   
   const updateProductName = (productId, newName) => {
-    const updatedProducts = quote_details.map(product => {
+    const updatedProducts = purchase_order_details.map(product => {
       if (product.id === productId) {
         return { ...product, ...newName };
       }
       return product;
     });
-    setValue('quote_details', updatedProducts);
+    setValue('purchase_order_details', updatedProducts);
   }
-
-  // console.log(quote_details)
 
   return (
     <Controller
-      name="quote_details"
+      name="purchase_order_details"
       control={control}
       render={({ field: { onChange, value } }) => (
         <ProductsTab
           onChange={onChange}
-          allProducts={quote_details}
+          allProducts={purchase_order_details}
           selectedProducts={value}
-          updateProductName={updateProductName}
+          updateProduct={updateProductName}
         />
       )}
     />

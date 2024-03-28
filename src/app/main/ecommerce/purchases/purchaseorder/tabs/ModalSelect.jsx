@@ -6,10 +6,10 @@ import { Controller, useFormContext } from 'react-hook-form'
 import Button from '@mui/material/Button'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { useEffect, useState } from 'react'
-import ProductInterface from 'src/app/interfaces/ProductInterface'
+import PurchaseOrderDetailInterface from 'src/app/interfaces/PurchaseOrderDetailInterface'
 
 const ModalSelect = ({open, onClose, listProd}) => {
-  const [form, setForm] = useState(ProductInterface)
+  const [form, setForm] = useState(PurchaseOrderDetailInterface)
   const methods = useFormContext()
   const { control } = methods
   const { t } = useTranslation()
@@ -20,12 +20,11 @@ const ModalSelect = ({open, onClose, listProd}) => {
   }
 
   const handleChange = (e) => {
-    const name = e.target.name
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-    setForm({
-      ...form,
+    const { name, value } = e.target
+    setForm( prevState => ({
+      ...prevState,
       [name]: value
-    })
+    }))
   }
 
   const handleClose = () => {
@@ -34,12 +33,18 @@ const ModalSelect = ({open, onClose, listProd}) => {
 
   useEffect(() => {
     if(listProd) {
-      setForm({ ...listProd, prodName: listProd.prodName || '' })
-      setForm({ ...listProd, prodSalePrice: listProd.prodSalePrice || '' })
+      console.log(listProd)
+      setForm({
+        podProdName: listProd.podProdName || '',
+        podProdPrice: listProd.podProdPrice || ''
+      })
+      // setForm({ ...listProd, podProdName: listProd.podProdName || '' })
+      // setForm({ ...listProd, podProdPrice: listProd.podProdPrice || '' })
     } else {
-      setForm(ProductInterface)
+      setForm(PurchaseOrderDetailInterface)
     }
   }, [listProd])
+  console.log(form)
 
   return (
     <Dialog
@@ -61,20 +66,20 @@ const ModalSelect = ({open, onClose, listProd}) => {
             label={t('name')}
             required
             autoFocus
-            id="prodName"
+            id="podProdName"
             variant="outlined"
-            name="prodName"
-            value={form.prodName}
+            name="podProdName"
+            value={form.podProdName}
             onChange={handleChange}
           />
           <TextField
             label={t('sale_price')}
             required
             autoFocus
-            id="prodSalePrice"
+            id="podProdPrice"
             variant="outlined"
-            name="prodSalePrice"
-            value={form.prodSalePrice}
+            name="podProdPrice"
+            value={form.podProdPrice}
             onChange={handleChange}
           />
           {/* <Controller

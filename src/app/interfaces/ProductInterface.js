@@ -7,7 +7,7 @@ const ProductInterface = {
   prodDescription: '',
   categories: [],
   product_images: [],
-  branch_offices: [],
+  warehouses: [],
   serial_number: [],
   unit: [],
   Unit: 1,

@@ -78,7 +78,7 @@ const PurchaseOrderTable = (props) => {
   }
 
   function handleClick(item) {
-    props.navigate(`/ecommerce/sales/quote/${item}`);
+    props.navigate(`/ecommerce/purchases/purchase-order/${item}`);
   }
 
   function handleCheck(event, id) {
