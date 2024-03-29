@@ -238,6 +238,12 @@ const locale = {
   purchase_order_details: 'Purchase order details',
   warehouse: 'Warehouse',
   warehouses: 'Wareshouses',
+  quantity_exceeds_stock: 'Quantity exceeds stock',
+  saved: 'Saved',
+  success: 'Success',
+  data_saved_successfully: 'Data saved successfully',
+  info: 'Info',
+  warning: 'Warning',
   
 }
 

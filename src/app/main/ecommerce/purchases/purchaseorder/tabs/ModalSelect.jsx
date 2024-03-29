@@ -2,16 +2,25 @@ import { useTranslation } from 'react-i18next'
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
-import { Controller, useFormContext } from 'react-hook-form'
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar'
+import Collapse from '@mui/material/Collapse'
+import { useFormContext } from 'react-hook-form'
 import Button from '@mui/material/Button'
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { useEffect, useState } from 'react'
 import PurchaseOrderDetailInterface from 'src/app/interfaces/PurchaseOrderDetailInterface'
+import ResponseDialog from './ResponseDialog';
 
 const ModalSelect = ({open, onClose, listProd}) => {
+  const [openResponse, setOpenResponse] = useState({
+    open: false,
+    message: '',
+    title: '',
+    type: '',
+  })
   const [form, setForm] = useState(PurchaseOrderDetailInterface)
-  const methods = useFormContext()
-  const { control } = methods
   const { t } = useTranslation()
 
   const handleSubmit = (e) => {
@@ -27,24 +36,41 @@ const ModalSelect = ({open, onClose, listProd}) => {
     }))
   }
 
+  const handleCloseResponse = () => {
+    setOpenResponse({
+      open: false
+    })
+  }
+
   const handleClose = () => {
-    onClose(form, listProd)
+    if(form.podStock < form.podQuantity) {
+      setOpenResponse({
+        open: true,
+        message: t('quantity_exceeds_stock'),
+        title: t('error'),
+        type: 'error'
+      })
+    } else {
+      setOpenResponse({
+        open: true,
+        message: t('data_saved_successfully'),
+        title: t('success'),
+        type: 'success'
+      })
+      form.podTotal = parseFloat(form.podPrice) * parseInt(form.podQuantity)
+      setTimeout(() => {
+        onClose(form, listProd)
+      }, 1300)
+    }
   }
 
   useEffect(() => {
     if(listProd) {
-      console.log(listProd)
-      setForm({
-        podProdName: listProd.podProdName || '',
-        podProdPrice: listProd.podProdPrice || ''
-      })
-      // setForm({ ...listProd, podProdName: listProd.podProdName || '' })
-      // setForm({ ...listProd, podProdPrice: listProd.podProdPrice || '' })
+      setForm(listProd)
     } else {
       setForm(PurchaseOrderDetailInterface)
     }
   }, [listProd])
-  console.log(form)
 
   return (
     <Dialog
@@ -53,63 +79,52 @@ const ModalSelect = ({open, onClose, listProd}) => {
       className='form-dialog-product'
     >
       <Box
-        className='box-nav-form'
         sx={{
-          width: 300,
-          minHeight: 250,
+          width: 600,
+          minHeight: 300,
           position: 'relative',
-          backgroundColor: 'white'
         }}
       >
-        <DialogContent className='grid grid-flow-row-dense grid-cols-1 gap-32 mt-12'>
-          <TextField
-            label={t('name')}
-            required
-            autoFocus
-            id="podProdName"
-            variant="outlined"
-            name="podProdName"
-            value={form.podProdName}
-            onChange={handleChange}
-          />
-          <TextField
-            label={t('sale_price')}
-            required
-            autoFocus
-            id="podProdPrice"
-            variant="outlined"
-            name="podProdPrice"
-            value={form.podProdPrice}
-            onChange={handleChange}
-          />
-          {/* <Controller
-            name="featuredImageId"
-            control={control}
-            defaultValue=""
-            render={({ field: { onChange, value } }) =>
-              <Button
-                className="whitespace-nowrap mx-4"
-                variant="contained"
-                color="creamyellow"
-                onClick={() => {
-                  onChange(sendId)
-                  returnClick('click')
-                }}
-                onKeyDown={() => {
-                  onChange(sendId)
-                  returnClick('click')
-                }}
-                startIcon={<FuseSvgIcon className="hidden sm:flex">material-outline:star_purple500</FuseSvgIcon>}
-              >
-                Imagen principal
-              </Button>
-            }
-          /> */}
+        <DialogTitle>{listProd.podName}</DialogTitle>
+        <DialogContent>
+          <div className="grid grid-flow-row-dense grid-cols-2 gap-32 mt-12">
+            <TextField
+              label={t('sale_price')}
+              required
+              id="podPrice"
+              variant="outlined"
+              name="podPrice"
+              value={form.podPrice || ''}
+              onChange={handleChange}
+            />
+            <TextField
+              label={t('quantity')}
+              required
+              id="podQuantity"
+              variant="outlined"
+              name="podQuantity"
+              value={form.podQuantity || ''}
+              onChange={handleChange}
+            />
+            <TextField
+              label={t('discount')}
+              required
+              id="podDiscount"
+              variant="outlined"
+              name="podDiscount"
+              value={form.podDiscount || ''}
+              onChange={handleChange}
+            />
+          </div>
           <DialogActions>
-            <Button onClick={() => handleClose()}>Eliminar</Button>
-            <Button onClick={handleSubmit}>Guardar</Button>
+            <Button onClick={() => handleClose()}>{t('delete')}</Button>
+            <Button onClick={handleSubmit}>{t('save')}</Button>
           </DialogActions>
         </DialogContent>
+        <ResponseDialog
+          openResponse={openResponse}
+          onCloseResponse={handleCloseResponse}
+        />
       </Box>
     </Dialog>
   )

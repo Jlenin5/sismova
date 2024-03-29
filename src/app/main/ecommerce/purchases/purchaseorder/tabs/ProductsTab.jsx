@@ -39,8 +39,6 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
   }
 
   const handleModalClose = (updatedForm, selectedProduct) => {
-    // Busca el producto en la lista y actualiza sus datos
-    console.log(updatedForm)
     const updatedListProd = listProd.map((prod) => {
       if (prod.id === selectedProduct.id) {
         return { ...prod, ...updatedForm };
@@ -61,15 +59,18 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
   const handleProductChange = (_, selectedValue) => {
     if (selectedValue) {
       const findProduct = dProduct.find((r) => r.id === selectedValue.id)
-      const updatedProduct = { ...findProduct, prodName: selectedValue.prodName }
+      const updatedProduct = { ...findProduct, selectedValue }
+      console.log(updatedProduct)
       setListProd((prevList) => [...prevList, updatedProduct])
       let purchaseOrderDetailInterface = {
         id: updatedProduct.id,
-        podProdName: updatedProduct.prodName,
-        podProdPrice: updatedProduct.prodSalePrice,
+        podName: updatedProduct.prodName,
+        podPrice: updatedProduct.prodSalePrice,
+        podStock: updatedProduct.prodStock,
+        podTax: 0.18,
+        podDiscount: 0.00,
         podQuantity: 1,
-        podSubtotal: updatedProduct.prodSalePrice,
-        podTotal: 0
+        podTotal: updatedProduct.prodSalePrice
       }
       onChange([...selectedProducts, purchaseOrderDetailInterface])
     }
@@ -157,13 +158,13 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
                     onClick={() => handleClickOpen( setListModalProd(data) )}
                   >
                     <TableCell className="w-52 px-4 md:px-0" component="th" scope="row">
-                      {data.podProdName}
+                      {data.podName}
                     </TableCell>
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      S/. {data.updatedPrice || data.podProdPrice}
+                      S/. {data.podPrice}
                     </TableCell>
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {/* {data.prodStock} */}
+                      {data.podStock}
                     </TableCell>
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {data.podQuantity}
@@ -189,13 +190,13 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
                       </div> */}
                     </TableCell>
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      S/. 0.00
+                      {data.podTax}
                     </TableCell>
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      18%
+                      S/. {data.podDiscount}
                     </TableCell>
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      S/. {data.podSubtotal}
+                      S/. {data.podTotal}
                     </TableCell>
                     <TableCell className="w-60" component="th" scope="row">
                       <IconButton aria-label="delete" size="large">

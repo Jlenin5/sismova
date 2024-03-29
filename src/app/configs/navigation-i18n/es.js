@@ -238,6 +238,12 @@ const locale = {
   purchase_order_details: 'Detalles de la orden de compra',
   warehouse: 'Almacén',
   warehouses: 'Almacenes',
+  quantity_exceeds_stock: 'La cantidad excede al stock',
+  saved: 'Guardado',
+  success: 'Éxito',
+  data_saved_successfully: 'Datos guardados con éxito',
+  info: 'Información',
+  warning: 'Advertencia',
 
 }
 
