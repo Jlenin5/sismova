@@ -2,16 +2,14 @@ import { useTranslation } from 'react-i18next'
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import Stack from '@mui/material/Stack';
-import Snackbar from '@mui/material/Snackbar'
-import Collapse from '@mui/material/Collapse'
-import { useFormContext } from 'react-hook-form'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
 import { useEffect, useState } from 'react'
 import PurchaseOrderDetailInterface from 'src/app/interfaces/PurchaseOrderDetailInterface'
-import ResponseDialog from './ResponseDialog';
+import ResponseDialog from './ResponseDialog'
 
 const ModalSelect = ({open, onClose, listProd}) => {
   const [openResponse, setOpenResponse] = useState({
@@ -57,7 +55,15 @@ const ModalSelect = ({open, onClose, listProd}) => {
         title: t('success'),
         type: 'success'
       })
-      form.podTotal = parseFloat(form.podPrice) * parseInt(form.podQuantity)
+      if(form.podDiscountMethod === 1) {
+        form.podDiscount = form.podDiscount
+      } else {
+        form.podDiscount = form.podDiscount / 100
+      }
+      let subTotal = parseFloat(form.podPrice) * parseInt(form.podQuantity)
+      let discount = parseFloat(subTotal - form.podDiscount)
+      let tax = parseFloat(discount * form.podTax)
+      form.podTotal = discount + tax
       setTimeout(() => {
         onClose(form, listProd)
       }, 1300)
@@ -106,13 +112,27 @@ const ModalSelect = ({open, onClose, listProd}) => {
               value={form.podQuantity || ''}
               onChange={handleChange}
             />
+            <FormControl fullWidth>
+              <InputLabel id="podDiscountMethod">{t('discount_method')}</InputLabel>
+              <Select
+                labelId="podDiscountMethod"
+                id="demo-simple-select"
+                label={t('discount_method')}
+                value={form.podDiscountMethod || 1}
+                name="podDiscountMethod"
+                onChange={handleChange}
+              >
+                <MenuItem value={0}>{t('percentage')}</MenuItem>
+                <MenuItem value={1}>{t('fixed_value')}</MenuItem>
+              </Select>
+            </FormControl>
             <TextField
               label={t('discount')}
               required
               id="podDiscount"
               variant="outlined"
               name="podDiscount"
-              value={form.podDiscount || ''}
+              value={form.podDiscount || 0.00}
               onChange={handleChange}
             />
           </div>

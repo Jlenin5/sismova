@@ -244,6 +244,9 @@ const locale = {
   data_saved_successfully: 'Datos guardados con éxito',
   info: 'Información',
   warning: 'Advertencia',
+  discount_method: 'Método de descuento',
+  percentage: 'Porcentaje',
+  fixed_value: 'Valor fijo',
 
 }
 

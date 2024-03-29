@@ -52,17 +52,17 @@ const ProductTabHead = () => {
       sort: true,
     },
     {
-      id: 'taxnet',
-      align: 'center',
-      disablePadding: false,
-      label: t('tax'),
-      sort: true,
-    },
-    {
       id: 'descount',
       align: 'left',
       disablePadding: false,
       label: t('discount'),
+      sort: true,
+    },
+    {
+      id: 'taxnet',
+      align: 'center',
+      disablePadding: false,
+      label: t('tax'),
       sort: true,
     },
     {

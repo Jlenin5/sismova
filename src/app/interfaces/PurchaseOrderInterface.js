@@ -8,7 +8,7 @@ const PurchaseOrderInterface = {
   Supplier: 1,
   User: 1,
   puorSubtotal: 0.00,
-  puorIgv: 0.00,
+  puorTax: 0.00,
   puorTotal: 0.00,
   puorStartDate: new Date(),
   puorEndDate: new Date(),
