@@ -7,6 +7,7 @@ export const putPurchaseOrder = asyncThunkWithAxios('updatepuor', 'put', 'Purcha
 export const postPurchaseOrder = asyncThunkWithAxios('postpuor', 'post', 'PurchaseEC/purchaseorders/postPurchaseOrder', 'post')
 export const deletePurchaseOrder = asyncThunkWithAxios('deletepuor', 'delete', 'PurchaseEC/purchaseorders/deletePurchaseOrder', 'delete')
 export const delPurchaseOrderMulti = asyncThunkWithAxios('delpuormulti', 'delete', 'PurchaseEC/purchaseorders/delPurchaseOrderMulti', 'deletemulti')
+export const exportPurchaseOrderExcel = asyncThunkWithAxios('excelpuor', 'get', 'PurchaseEC/purchaseorders/exportPurchaseOrderExcel', 'get')
 
 const purchaseOrderAdapter = createEntityAdapter({})
 

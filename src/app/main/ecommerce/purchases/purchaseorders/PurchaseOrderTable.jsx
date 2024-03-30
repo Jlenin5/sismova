@@ -17,19 +17,24 @@ import FuseLoading from '@fuse/core/FuseLoading'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import PurchaseOrderTableHead from './PurchaseOrderTableHead'
 import { getPurhcaseOrders, selectPurchaseOrder, selectPurchaseOrderSearchText } from '../store/purchaseordersSlice'
+import { useNavigate } from 'react-router-dom'
 
-const PurchaseOrderTable = (props) => {
+const PurchaseOrderTable = ({
+    data, setData, loading, setLoading, page, setPage, rowsPerPage, setRowsPerPage
+  }) => {
+
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const purchaseOrders = useSelector(selectPurchaseOrder)
   const searchText = useSelector(selectPurchaseOrderSearchText)
   const { t } = useTranslation()
 
-  const [loading, setLoading] = useState(true)
+  // const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState([])
-  const [data, setData] = useState(purchaseOrders)
+  // const [data, setData] = useState(purchaseOrders)
   const [lengthPage, setLengthPage] = useState(data.length)
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
+  // const [page, setPage] = useState(0)
+  // const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
     direction: 'asc',
     id: null,
@@ -80,7 +85,7 @@ const PurchaseOrderTable = (props) => {
   }
 
   function handleClick(item) {
-    props.navigate(`/ecommerce/purchases/purchase-order/${item}`);
+    navigate(`/ecommerce/purchases/purchase-order/${item}`);
   }
 
   function handleCheck(event, id) {

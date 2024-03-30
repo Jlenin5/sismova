@@ -7,12 +7,23 @@ import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
-import { selectPurchaseOrderSearchText, setPurchaseOrderSearchText } from '../store/purchaseordersSlice'
+import { getPurhcaseOrders, selectPurchaseOrderSearchText, exportPurchaseOrderExcel } from '../store/purchaseordersSlice'
+import { useEffect, useState } from 'react'
 
-const PurchaseOrderHeader = (props) => {
+const PurchaseOrderHeader = ({
+    data, loading, setLoading, page, rowsPerPage
+  }) => {
+
   const dispatch = useDispatch()
   const searchText = useSelector(selectPurchaseOrderSearchText)
   const { t } = useTranslation()
+
+  const handleExportExcel = () => {
+    setLoading(true)
+    dispatch(exportPurchaseOrderExcel({ page, rowsPerPage })).then((response) => {
+      setLoading(false)
+    })
+  }
 
   return (
     <div className="flex flex-col sm:flex-row space-y-16 sm:space-y-0 flex-1 w-full items-center justify-between py-32 px-24 md:px-32">
@@ -54,8 +65,7 @@ const PurchaseOrderHeader = (props) => {
         <Button
           className=""
           variant="contained"
-          component={Link}
-          to="/ecommerce/purchases/purchase-order/new"
+          onClick={handleExportExcel}
           color="excel"
           startIcon={<FuseSvgIcon>material-outline:insert_drive_file</FuseSvgIcon>}
         >
