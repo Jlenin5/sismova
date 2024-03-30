@@ -84,16 +84,30 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
     onChange(updatedSelectedProducts)
   }
 
-  const getTotalPrice = () => {
-    const totalPrice = listProd.reduce((total, product) => {
-      let startPrice = parseFloat(Number(product.prodSalePrice).toFixed(2))
-      return total + (product.updatedPrice || startPrice)
+  const calculateSubTotal = () => {
+    const subtotal = listProd.reduce((total, product) => {
+      return total + parseFloat(Number(product.podTotal).toFixed(2))
     }, 0)
-    return totalPrice.toFixed(2)
+    return subtotal.toFixed(2)
   }
 
-  const getTax = () => {
-    // return getTotalPrice() * 0.18
+  const calculateTax = () => {
+    const tax = listProd.reduce((total, product) => {
+      return total + parseFloat(Number(product.podTax).toFixed(2) * product.podQuantity)
+    }, 0)
+    return tax.toFixed(2)
+  }
+
+  const calculateDiscount = () => {
+    const discount = listProd.reduce((total, product) => {
+      return total + parseFloat(Number(product.podDiscount).toFixed(2) * product.podQuantity)
+    }, 0)
+    return discount.toFixed(2)
+  }
+
+  const calculateTotal = () => {
+    const total = (calculateSubTotal() - calculateDiscount()) + (calculateDiscount() * calculateTax())
+    return total.toFixed(2)
   }
 
   return (
@@ -181,18 +195,16 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
       <div className="w-1/3 px-16">
         <div className="w-full grid grid-cols-2">
           <div className="w-2/3">
-            <h2>Prec. Total Prod.</h2>
-            <h2>{t('tax')}</h2>
             <h2>{t('sub_total')}</h2>
-            <h2>{t('net_total')}</h2>
+            <h2>{t('tax')}</h2>
+            <h2>{t('discount')}</h2>
             <h2>{t('final_value')}</h2>
           </div>
           <div className="w-1/3">
-            {/* <h2>S/.{getTotalPrice()}</h2>
-            <h2>S/.{getTax()}</h2>
-            <h2>S/.{getTotalPrice()}</h2>
-            <h2>S/.{getTotalPrice()}</h2>
-            <h2>S/.{getTotalPrice()}</h2> */}
+            <h2>S/.{calculateSubTotal()}</h2>
+            <h2>S/.{calculateTax()}</h2>
+            <h2>S/.{calculateDiscount()}</h2>
+            <h2>S/.{calculateTotal()}</h2>
           </div>
         </div>
       </div>

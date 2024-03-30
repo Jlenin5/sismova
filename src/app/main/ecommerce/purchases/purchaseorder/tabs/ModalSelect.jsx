@@ -64,7 +64,7 @@ const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDele
       let subTotal = parseFloat(form.podPrice) * parseInt(form.podQuantity)
       let discount = parseFloat(subTotal - form.podDiscount)
       let tax = parseFloat(discount * form.podTax)
-      form.podTotal = discount + tax
+      form.podTotal = (discount + tax).toFixed(2)
       setTimeout(() => {
         handleClose()
       }, 1300)
