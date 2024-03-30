@@ -54,10 +54,10 @@ const PurchaseOrderTableHead = (props) => {
       sort: true,
     },
     {
-      id: 'Client',
+      id: 'Supplier',
       align: 'left',
       disablePadding: false,
-      label: t('client'),
+      label: t('supplier'),
       sort: true,
     },
     {

@@ -27,7 +27,7 @@ const purchaseordersSlice = createSlice({
     },
   },
   extraReducers: {
-    [getPurhcaseOrders.fulfilled]: purchaseOrderAdapter.setAll,
+    [getPurhcaseOrders.fulfilled]: (state, action) => purchaseOrderAdapter.setAll(state, action.payload.data),
     [putPurchaseOrder.fulfilled]: (state, action) => purchaseOrderAdapter.updateOne(state, {
         id: action.payload.id,
         changes: action.payload

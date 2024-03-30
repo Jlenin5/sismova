@@ -17,7 +17,6 @@ import FuseLoading from '@fuse/core/FuseLoading'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import PurchaseOrderTableHead from './PurchaseOrderTableHead'
 import { getPurhcaseOrders, selectPurchaseOrder, selectPurchaseOrderSearchText } from '../store/purchaseordersSlice'
-// import { getCategories } from '../store/categorySlice'
 
 const PurchaseOrderTable = (props) => {
   const dispatch = useDispatch()
@@ -28,8 +27,8 @@ const PurchaseOrderTable = (props) => {
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState([])
   const [data, setData] = useState(purchaseOrders)
+  const [lengthPage, setLengthPage] = useState(data.length)
   const [page, setPage] = useState(0)
-  // const [dCategory, setDCategory] = useState([])
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
     direction: 'asc',
@@ -37,9 +36,12 @@ const PurchaseOrderTable = (props) => {
   })
 
   useEffect(() => {
-    dispatch(getPurhcaseOrders()).then(() => setLoading(false))
-    // dispatch(getCategories()).then((response) => setDCategory(response.payload))
-  }, [dispatch])
+    dispatch(getPurhcaseOrders({ page: page + 1, rowsPerPage })).then((response) => {
+      setData(response.payload.data)
+      setLengthPage(response.payload.totalRows)
+      setLoading(false)
+    })
+  }, [dispatch, page])
 
   useEffect(() => {
     if (searchText.length !== 0) {
@@ -102,11 +104,25 @@ const PurchaseOrderTable = (props) => {
   }
 
   function handleChangePage(event, value) {
-    setPage(value)
+    setLoading(true)
+
+    dispatch(getPurhcaseOrders({ page: value + 1, rowsPerPage })).then((response) => {
+      setPage(value)
+      setData(response.payload.data)
+      setLengthPage(response.payload.totalRows)
+      setLoading(false)
+    })
   }
 
   function handleChangeRowsPerPage(event) {
-    setRowsPerPage(event.target.value)
+    setLoading(true)
+    setPage(0)
+    dispatch(getPurhcaseOrders({ page, rowsPerPage: event.target.value })).then((response) => {
+      setRowsPerPage(event.target.value)
+      setData(response.payload.data)
+      setLengthPage(response.payload.totalRows)
+      setLoading(false)
+    })
   }
 
   if (loading) {
@@ -144,23 +160,7 @@ const PurchaseOrderTable = (props) => {
             onMenuItemClick={handleDeselect}
           />
           <TableBody>
-            {_.orderBy(
-              data,
-              [
-                (o) => {
-                  switch (order.id) {
-                    case 'purchaseOrders': {
-                      return o.purchaseOrders[0]
-                    }
-                    default: {
-                      return o[order.id]
-                    }
-                  }
-                },
-              ],
-              [order.direction]
-            )
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            {data
               .map((n) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 return (
@@ -238,7 +238,7 @@ const PurchaseOrderTable = (props) => {
         labelRowsPerPage={t('rows_per_page')}
         labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
-        count={data.length}
+        count={lengthPage}
         rowsPerPage={rowsPerPage}
         page={page}
         backIconButtonProps={{
