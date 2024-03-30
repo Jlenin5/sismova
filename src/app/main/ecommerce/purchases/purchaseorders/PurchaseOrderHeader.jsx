@@ -1,14 +1,11 @@
 import { useTranslation } from 'react-i18next'
 import Button from '@mui/material/Button'
-import Input from '@mui/material/Input'
-import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
-import { getPurhcaseOrders, selectPurchaseOrderSearchText, exportPurchaseOrderExcel } from '../store/purchaseordersSlice'
-import { useEffect, useState } from 'react'
+import { selectPurchaseOrderSearchText, exportPurchaseOrderExcel } from '../store/purchaseordersSlice'
 
 const PurchaseOrderHeader = ({
     data, loading, setLoading, page, rowsPerPage
@@ -20,10 +17,11 @@ const PurchaseOrderHeader = ({
 
   const handleExportExcel = () => {
     setLoading(true)
-    dispatch(exportPurchaseOrderExcel({ page, rowsPerPage })).then((response) => {
-      setLoading(false)
-    })
-  }
+    dispatch(exportPurchaseOrderExcel({ page, rowsPerPage }))
+      .then(response => {
+        setLoading(false)
+      })
+}
 
   return (
     <div className="flex flex-col sm:flex-row space-y-16 sm:space-y-0 flex-1 w-full items-center justify-between py-32 px-24 md:px-32">
