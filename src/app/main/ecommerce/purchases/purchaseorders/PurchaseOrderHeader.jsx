@@ -26,43 +26,52 @@ const PurchaseOrderHeader = (props) => {
         {t('purchase_orders')}
       </Typography>
 
-      <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
-        <Paper
-          component={motion.div}
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
-          className="flex items-center w-full sm:max-w-256 space-x-8 px-16 rounded-full border-1 shadow-0"
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
+        className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8" 
+      >
+        <Button
+          className=""
+          variant="contained"
+          component={Link}
+          to="/ecommerce/purchases/purchase-order/new"
+          color="filter"
+          startIcon={<FuseSvgIcon>material-outline:filter_alt</FuseSvgIcon>}
         >
-          <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
-
-          <Input
-            placeholder={t('search')}
-            className="flex flex-1"
-            disableUnderline
-            fullWidth
-            value={searchText}
-            inputProps={{
-              'aria-label': 'Search',
-            }}
-            onChange={(ev) => dispatch(setPurchaseOrderSearchText(ev))}
-          />
-        </Paper>
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
+          {t('filters')}
+        </Button>
+        <Button
+          className=""
+          variant="contained"
+          component={Link}
+          to="/ecommerce/purchases/purchase-order/new"
+          color="pdf"
+          startIcon={<FuseSvgIcon>material-outline:insert_drive_file</FuseSvgIcon>}
         >
-          <Button
-            className=""
-            variant="contained"
-            component={Link}
-            to="/ecommerce/purchases/purchase-order/new"
-            color="secondary"
-            startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
-          >
-            {t('add')}
-          </Button>
-        </motion.div>
-      </div>
+          {t('pdf')}
+        </Button>
+        <Button
+          className=""
+          variant="contained"
+          component={Link}
+          to="/ecommerce/purchases/purchase-order/new"
+          color="excel"
+          startIcon={<FuseSvgIcon>material-outline:insert_drive_file</FuseSvgIcon>}
+        >
+          {t('excel')}
+        </Button>
+        <Button
+          className=""
+          variant="contained"
+          component={Link}
+          to="/ecommerce/purchases/purchase-order/new"
+          color="secondary"
+          startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
+        >
+          {t('add')}
+        </Button>
+      </motion.div>
     </div>
   )
 }

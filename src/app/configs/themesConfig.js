@@ -9,12 +9,18 @@ export const lightPaletteText = {
 
 export const darkPaletteText = {
   primary: 'rgb(255,255,255)',
+  excel: 'rgb(67,160,71)',
+  pdf: 'rgb(229,57,53)',
+  filter: 'rgb(255,179,0)',
   secondary: 'rgb(148, 163, 184)',
   disabled: 'rgb(156, 163, 175)',
 };
 
 export const textDefault = {
   primary: 'rgb(17, 24, 39)',
+  excel: 'rgb(67,160,71)',
+  pdf: 'rgb(229,57,53)',
+  filter: 'rgb(255,179,0)',
   secondary: 'rgb(107, 114, 128)',
   disabled: 'rgb(149, 156, 169)',
 };
@@ -39,6 +45,24 @@ const themesConfig = {
         light: '#FF443B',
         main: '#4f46e5',
         dark: '#3730a3',
+        contrastText: darkPaletteText.primary,
+      },
+      pdf: {
+        light: '#E53935',
+        main: '#E53935',
+        dark: '#E53935',
+        contrastText: darkPaletteText.primary,
+      },
+      excel: {
+        light: '#43A047',
+        main: '#43A047',
+        dark: '#43A047',
+        contrastText: darkPaletteText.primary,
+      },
+      filter: {
+        light: '#FFB300',
+        main: '#FFB300',
+        dark: '#FFB300',
         contrastText: darkPaletteText.primary,
       },
       verified: {

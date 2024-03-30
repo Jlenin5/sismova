@@ -248,6 +248,9 @@ const locale = {
   percentage: 'Porcentaje',
   fixed_value: 'Valor fijo',
   was_successfully_removed: 'Se eliminó con éxito',
+  filters: 'Filtros',
+  excel: 'Excel',
+  pdf: 'PDF',
 
 }
 
