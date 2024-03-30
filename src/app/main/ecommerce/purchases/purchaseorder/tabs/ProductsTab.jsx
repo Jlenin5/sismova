@@ -78,6 +78,12 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
     }
   }
 
+  const handleDeleteItem = (productId) => {
+    // Elimina el producto seleccionado por su id
+    const updatedSelectedProducts = selectedProducts.filter(product => product.Product !== productId);
+    onChange(updatedSelectedProducts)
+  }
+
   const getTotalPrice = () => {
     const totalPrice = listProd.reduce((total, product) => {
       let startPrice = parseFloat(Number(product.prodSalePrice).toFixed(2))
@@ -156,11 +162,6 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
                         S/. {data.podTotal}
                       </TableCell>
-                      <TableCell className="w-60" component="th" scope="row">
-                        <IconButton aria-label="delete" size="large">
-                          <DeleteIcon fontSize="inherit" className="text-red-500" />
-                        </IconButton>
-                      </TableCell>
                     </TableRow>
                   )
                 })
@@ -170,11 +171,11 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
         </FuseScrollbars>
         <ModalSelect
           open={open}
-          onClose={(updatedProduct, selectedProduct) => {
-            handleModalClose(updatedProduct, selectedProduct)
-            handleClose()
-          }}
-          listProd={listModalProd}
+          modalClose={handleModalClose}
+          onClose={handleClose}
+          listProdTable={listModalProd}
+          listProd={changeProductByListFilter}
+          onDeleteItem={handleDeleteItem}
         />
       </div>
       <div className="w-1/3 px-16">

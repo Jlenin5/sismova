@@ -247,6 +247,7 @@ const locale = {
   discount_method: 'Discount method',
   percentage: 'percentage',
   fixed_value: 'Fixed value',
+  was_successfully_removed: 'Was successfully removed',
   
 }
 

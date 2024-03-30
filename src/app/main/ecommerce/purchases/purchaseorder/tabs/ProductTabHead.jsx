@@ -72,13 +72,6 @@ const ProductTabHead = () => {
       label: t('total'),
       sort: true,
     },
-    {
-      id: 'actions',
-      align: 'left',
-      disablePadding: true,
-      label: '',
-      sort: false,
-    },
 ]
 
   return (

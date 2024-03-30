@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import PurchaseOrderDetailInterface from 'src/app/interfaces/PurchaseOrderDetailInterface'
 import ResponseDialog from './ResponseDialog'
 
-const ModalSelect = ({open, onClose, listProd}) => {
+const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDeleteItem}) => {
   const [openResponse, setOpenResponse] = useState({
     open: false,
     message: '',
@@ -19,11 +19,12 @@ const ModalSelect = ({open, onClose, listProd}) => {
     type: '',
   })
   const [form, setForm] = useState(PurchaseOrderDetailInterface)
+  const [findProduct, setFindProduct] = useState([])
   const { t } = useTranslation()
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    handleClose()
+    handleForm()
   }
 
   const handleChange = (e) => {
@@ -40,7 +41,7 @@ const ModalSelect = ({open, onClose, listProd}) => {
     })
   }
 
-  const handleClose = () => {
+  const handleForm = () => {
     if(form.podStock < form.podQuantity) {
       setOpenResponse({
         open: true,
@@ -65,22 +66,39 @@ const ModalSelect = ({open, onClose, listProd}) => {
       let tax = parseFloat(discount * form.podTax)
       form.podTotal = discount + tax
       setTimeout(() => {
-        onClose(form, listProd)
+        handleClose()
       }, 1300)
     }
   }
 
+  const handleDeleteItem = () => {
+    onDeleteItem(findProduct.id)
+    // setOpenResponse({
+    //   open: true,
+    //   message: t('was_successfully_removed'),
+    //   title: t('success'),
+    //   type: 'success'
+    // })
+    onClose()
+  }
+  
+  const handleClose = () => {
+    modalClose(form, listProdTable)
+  }
+
   useEffect(() => {
-    if(listProd) {
-      setForm(listProd)
+    if(listProdTable) {
+      if(listProd) {
+        setFindProduct(listProd.find(r => r.id === listProdTable.Product) || [])
+      }
+      setForm(listProdTable)
     } else {
       setForm(PurchaseOrderDetailInterface)
     }
-  }, [listProd])
+  }, [listProdTable, listProd])
 
   return (
     <Dialog
-      onClose={handleClose}
       open={open}
       className='form-dialog-product'
     >
@@ -91,7 +109,10 @@ const ModalSelect = ({open, onClose, listProd}) => {
           position: 'relative',
         }}
       >
-        <DialogTitle>{listProd.podName}</DialogTitle>
+        <DialogTitle className='flex justify-between'>
+          {listProdTable.podName ? listProdTable.podName : findProduct.prodName}
+          <Button variant="outlined" color="error" onClick={handleClose}>X</Button>
+        </DialogTitle>
         <DialogContent>
           <div className="grid grid-flow-row-dense grid-cols-2 gap-32 mt-12">
             <TextField
@@ -137,7 +158,7 @@ const ModalSelect = ({open, onClose, listProd}) => {
             />
           </div>
           <DialogActions>
-            <Button onClick={() => handleClose()}>{t('delete')}</Button>
+            <Button onClick={() => handleDeleteItem()}>{t('delete')}</Button>
             <Button onClick={handleSubmit}>{t('save')}</Button>
           </DialogActions>
         </DialogContent>
