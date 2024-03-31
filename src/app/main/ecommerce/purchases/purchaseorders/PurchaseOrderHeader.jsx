@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
-import { selectPurchaseOrderSearchText, exportPurchaseOrderExcel } from '../store/purchaseordersSlice'
+import { selectPurchaseOrderSearchText, exportPurchaseOrderPDF, exportPurchaseOrderExcel } from '../store/purchaseordersSlice'
 
 const PurchaseOrderHeader = ({
     data, loading, setLoading, page, rowsPerPage
@@ -15,13 +15,23 @@ const PurchaseOrderHeader = ({
   const searchText = useSelector(selectPurchaseOrderSearchText)
   const { t } = useTranslation()
 
+  const handleFilters = () => {
+    setLoading(true)
+  }
+
+  const handleExportPdf = () => {
+    setLoading(true)
+    dispatch(exportPurchaseOrderPDF({ page, rowsPerPage })).then(() => {
+      setLoading(false)
+    })
+  }
+
   const handleExportExcel = () => {
     setLoading(true)
-    dispatch(exportPurchaseOrderExcel({ page, rowsPerPage }))
-      .then(response => {
-        setLoading(false)
-      })
-}
+    dispatch(exportPurchaseOrderExcel({ page, rowsPerPage })).then(() => {
+      setLoading(false)
+    })
+  }
 
   return (
     <div className="flex flex-col sm:flex-row space-y-16 sm:space-y-0 flex-1 w-full items-center justify-between py-32 px-24 md:px-32">
@@ -38,13 +48,12 @@ const PurchaseOrderHeader = ({
       <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
-        className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8" 
+        className="flex flex-wrap w-full sm:w-auto sm:flex-row sm:space-y-0 flex-1 items-center justify-end space-x-8" 
       >
         <Button
           className=""
           variant="contained"
-          component={Link}
-          to="/ecommerce/purchases/purchase-order/new"
+          onClick={handleFilters}
           color="filter"
           startIcon={<FuseSvgIcon>material-outline:filter_alt</FuseSvgIcon>}
         >
@@ -53,8 +62,7 @@ const PurchaseOrderHeader = ({
         <Button
           className=""
           variant="contained"
-          component={Link}
-          to="/ecommerce/purchases/purchase-order/new"
+          onClick={handleExportPdf}
           color="pdf"
           startIcon={<FuseSvgIcon>material-outline:insert_drive_file</FuseSvgIcon>}
         >
