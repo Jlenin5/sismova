@@ -251,6 +251,7 @@ const locale = {
   filters: 'Filters',
   excel: 'Excel',
   pdf: 'PDF',
+  reference: 'Reference',
   
 }
 

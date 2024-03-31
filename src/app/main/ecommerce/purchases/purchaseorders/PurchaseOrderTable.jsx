@@ -41,7 +41,7 @@ const PurchaseOrderTable = ({
   })
 
   useEffect(() => {
-    dispatch(getPurhcaseOrders({ page: page + 1, rowsPerPage })).then((response) => {
+    dispatch(getPurhcaseOrders({ page: page + 1, rowsPerPage, searchText:'' })).then((response) => {
       setData(response.payload.data)
       setLengthPage(response.payload.totalRows)
       setLoading(false)
@@ -111,7 +111,7 @@ const PurchaseOrderTable = ({
   function handleChangePage(event, value) {
     setLoading(true)
 
-    dispatch(getPurhcaseOrders({ page: value + 1, rowsPerPage })).then((response) => {
+    dispatch(getPurhcaseOrders({ page: value + 1, rowsPerPage, searchText:'' })).then((response) => {
       setPage(value)
       setData(response.payload.data)
       setLengthPage(response.payload.totalRows)
@@ -122,7 +122,7 @@ const PurchaseOrderTable = ({
   function handleChangeRowsPerPage(event) {
     setLoading(true)
     setPage(0)
-    dispatch(getPurhcaseOrders({ page, rowsPerPage: event.target.value })).then((response) => {
+    dispatch(getPurhcaseOrders({ page, rowsPerPage:event.target.value, searchText:'' })).then((response) => {
       setRowsPerPage(event.target.value)
       setData(response.payload.data)
       setLengthPage(response.payload.totalRows)

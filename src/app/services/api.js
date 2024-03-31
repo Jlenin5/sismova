@@ -31,12 +31,15 @@ const asyncThunkWithAxios = (endpoint, method, actionName, changeMethod) => {
         },
       })
     } else if(changeMethod === 'export') {
-      let url = API_URL + endpoint + `?page=${params.page}&per_page=${params.rowsPerPage}`
+      let url = API_URL + endpoint + `?page=${params.page}&per_page=${params.rowsPerPage}&search_text=${params.searchText}`
       response = await axios[method](url, params)
       window.open(url,'_blank')
     } else {
       if(params) {
-        response = await axios[method](API_URL + endpoint + `?page=${params.page}&per_page=${params.rowsPerPage}`, params)
+        response = await axios[method](
+          API_URL + endpoint + `?page=${params.page}&per_page=${params.rowsPerPage}&search_text=${params.searchText}`,
+          params
+        )
       } else {
         response = await axios[method](API_URL + endpoint, params)
       }
