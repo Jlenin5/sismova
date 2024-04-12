@@ -14,10 +14,13 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import withRouter from '@fuse/core/withRouter'
 import FuseLoading from '@fuse/core/FuseLoading'
+import IconButton from '@mui/material/IconButton'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import PurchaseOrderTableHead from './PurchaseOrderTableHead'
 import { getPurhcaseOrders, selectPurchaseOrder, selectPurchaseOrderSearchText } from '../store/purchaseordersSlice'
 import { useNavigate } from 'react-router-dom'
+import OptionsAction from './OptionsAction'
 
 const PurchaseOrderTable = ({
     data, setData, loading, setLoading, page, setPage, rowsPerPage, setRowsPerPage
@@ -27,6 +30,9 @@ const PurchaseOrderTable = ({
   const navigate = useNavigate()
   const purchaseOrders = useSelector(selectPurchaseOrder)
   const searchText = useSelector(selectPurchaseOrderSearchText)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const openOption = Boolean(anchorEl)
+  const [idE, setIdE] = useState(null)
   const { t } = useTranslation()
 
   // const [loading, setLoading] = useState(true)
@@ -84,8 +90,8 @@ const PurchaseOrderTable = ({
     setSelected([])
   }
 
-  function handleClick(item) {
-    navigate(`/ecommerce/purchases/purchase-order/${item}`);
+  function handleClick(event) {
+    setAnchorEl(event.currentTarget);
   }
 
   function handleCheck(event, id) {
@@ -170,14 +176,14 @@ const PurchaseOrderTable = ({
                 const isSelected = selected.indexOf(n.id) !== -1
                 return (
                   <TableRow
-                    className="h-72 cursor-pointer"
+                    className="h-72"
                     hover
                     role="checkbox"
                     aria-checked={isSelected}
                     tabIndex={-1}
                     key={n.id}
                     selected={isSelected}
-                    onClick={() => handleClick( n.id )}
+                    onClick={() => setIdE(n.id) }
                   >
                     <TableCell className="w-40 md:w-64 text-center" padding="none">
                       <Checkbox
@@ -232,12 +238,32 @@ const PurchaseOrderTable = ({
                       {n.puorStartDate}
                     </TableCell>
 
+                    <TableCell className="p-4 md:p-16" component="th" scope="row" padding="none">
+                      <IconButton
+                        aria-label="more"
+                        id="long-button"
+                        aria-controls={openOption ? 'long-menu' : undefined}
+                        aria-expanded={openOption ? 'true' : undefined}
+                        aria-haspopup="true"
+                        onClick={handleClick}
+                      >
+                        <MoreVertIcon />
+                      </IconButton>
+                    </TableCell>
+
                   </TableRow>
                 )
               })}
           </TableBody>
         </Table>
       </FuseScrollbars>
+      <OptionsAction
+        anchorEl={anchorEl}
+        setAnchorEl={setAnchorEl}
+        openOption={openOption}
+        // dataToEdit={data}
+        idE={idE}
+      />
       <TablePagination
         className="shrink-0 border-t-1"
         labelRowsPerPage={t('rows_per_page')}

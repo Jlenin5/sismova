@@ -95,6 +95,13 @@ const PurchaseOrderTableHead = (props) => {
       label: t('start_date'),
       sort: true,
     },
+    {
+      id: 'actions',
+      align: 'left',
+      disablePadding: false,
+      label: t('actions'),
+      sort: true,
+    },
   ]
 
   const createSortHandler = (property) => (event) => {

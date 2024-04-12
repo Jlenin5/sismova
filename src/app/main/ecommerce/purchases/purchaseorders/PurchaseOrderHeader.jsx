@@ -36,9 +36,9 @@ const PurchaseOrderHeader = ({
   }
 
   const handleExportPdf = () => {
-    setLoading(true)
+    // setLoading(true)
     dispatch(exportPurchaseOrderPDF({ page, rowsPerPage, searchText })).then(() => {
-      setLoading(false)
+      // setLoading(false)
     })
   }
 
