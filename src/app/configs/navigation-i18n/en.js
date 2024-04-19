@@ -132,7 +132,7 @@ const locale = {
   configuration: 'Configuration',
   configurations: 'Configurations',
   load: 'Load',
-  loading: 'Cargando',
+  loading: 'Loading',
   branch: 'Branch',
   branches: 'Branches',
   branch_office: 'Branch office',

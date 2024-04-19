@@ -1257,7 +1257,7 @@ const navigationConfig = [
             id: 'settings.reports.stock_report',
             title: 'StockReport',
             type: 'item',
-            url: 'settings/controls/stock-report',
+            url: 'settings/reports/stock-report',
             translate: 'stock_report',
             end: true
           },
@@ -1265,7 +1265,7 @@ const navigationConfig = [
             id: 'settings.reports.warehouse_report',
             title: 'WarehouseReport',
             type: 'item',
-            url: 'settings/controls/warehouse-report',
+            url: 'settings/reports/warehouse-report',
             translate: 'warehouse_report',
             end: true
           },
@@ -1273,7 +1273,7 @@ const navigationConfig = [
             id: 'settings.reports.product_report',
             title: 'ProductReport',
             type: 'item',
-            url: 'settings/controls/product-report',
+            url: 'settings/reports/product-report',
             translate: 'product_report',
             end: true
           },
@@ -1281,7 +1281,7 @@ const navigationConfig = [
             id: 'settings.reports.sales_report',
             title: 'SalesReport',
             type: 'item',
-            url: 'settings/controls/sales-report',
+            url: 'settings/reports/sales-report',
             translate: 'sales_report',
             end: true
           },
@@ -1289,7 +1289,7 @@ const navigationConfig = [
             id: 'settings.reports.purchasing_report',
             title: 'PurchasingReport',
             type: 'item',
-            url: 'settings/controls/purchasing-report',
+            url: 'settings/reports/purchasing-report',
             translate: 'purchasing_report',
             end: true
           },
@@ -1297,7 +1297,7 @@ const navigationConfig = [
             id: 'settings.reports.suppliers_report',
             title: 'SuppliersReport',
             type: 'item',
-            url: 'settings/controls/suppliers-report',
+            url: 'settings/reports/suppliers-report',
             translate: 'suppliers_report',
             end: true
           },
@@ -1305,7 +1305,7 @@ const navigationConfig = [
             id: 'settings.reports.customer_report',
             title: 'CustomerReport',
             type: 'item',
-            url: 'settings/controls/customer-report',
+            url: 'settings/reports/customer-report',
             translate: 'customer_report',
             end: true
           },

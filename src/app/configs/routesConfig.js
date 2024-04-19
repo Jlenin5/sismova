@@ -11,7 +11,7 @@ import appsConfigs from '../main/apps/appsConfigs'
 import pagesConfigs from '../main/pages/pagesConfigs'
 import authRoleExamplesConfigs from '../main/auth/authRoleExamplesConfigs'
 import DocumentationConfig from '../main/documentation/DocumentationConfig'
-import settingConfig from '../main/settings/settingConfig'
+import SettingConfig from '../main/settings/SettingConfig'
 import EcommerceConfig from '../main/ecommerce/EcommerceConfig'
 import HumanResourceConfig from '../main/human-resources/HumanResourceConfig'
 
@@ -23,7 +23,7 @@ const routeConfigs = [
   ...userInterfaceConfigs,
   ...EcommerceConfig,
   ...HumanResourceConfig,
-  ...settingConfig,
+  ...SettingConfig,
   DocumentationConfig,
   SignOutConfig,
   SignInConfig,
