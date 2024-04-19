@@ -252,6 +252,14 @@ const locale = {
   excel: 'Excel',
   pdf: 'PDF',
   reference: 'Referencia',
+  reports: 'Informes',
+  stock_report: 'Informe de existencias',
+  warehouse_report: 'Informe de almacenes',
+  product_report: 'Informe de productos',
+  sales_report: 'Informe de ventas',
+  purchasing_report: 'Informe de compras',
+  suppliers_report: 'Informe de proveedores',
+  customer_report: 'Informe de clientes'
 
 }
 
