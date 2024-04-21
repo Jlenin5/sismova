@@ -259,7 +259,11 @@ const locale = {
   sales_report: 'Sales report',
   purchasing_report: 'Purchasing report',
   suppliers_report: 'Suppliers report',
-  customer_report: 'Customer report'
+  customer_report: 'Customer report',
+  product_code: 'Product code',
+  current_stock: 'Current stock',
+  reserve_stock: 'Reserve stock',
+  action: 'Action',
   
 }
 

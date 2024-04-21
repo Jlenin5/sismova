@@ -45,7 +45,7 @@ const locale = {
   category_name: 'Nombre de la Categoría',
   products: 'Productos',
   product: 'Producto',
-  product_name: 'Nombre del Producto',
+  product_name: 'Nombre de Producto',
   code: 'Código',
   unit: 'Unidad',
   price: 'Precio',
@@ -259,7 +259,11 @@ const locale = {
   sales_report: 'Informe de ventas',
   purchasing_report: 'Informe de compras',
   suppliers_report: 'Informe de proveedores',
-  customer_report: 'Informe de clientes'
+  customer_report: 'Informe de clientes',
+  product_code: 'Código de producto',
+  current_stock: 'Stock actual',
+  reserve_stock: 'Stock de reserva',
+  action: 'Acción',
 
 }
 
