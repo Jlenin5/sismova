@@ -1,7 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-const API_URL = 'https://sismova.tech/backsis/public/api/'
+// api_web
+// const API_URL = 'https://sismova.tech/backsis/public/api/'
+// api local
+const API_URL = 'http://127.0.0.1:8000/api/'
 
 const asyncThunkWithAxios = (endpoint, method, actionName, changeMethod) => {
   return createAsyncThunk(actionName, async (params) => {
