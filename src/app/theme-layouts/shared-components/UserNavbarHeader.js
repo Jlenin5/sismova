@@ -28,7 +28,11 @@ const Root = styled('div')(({ theme }) => ({
 function UserNavbarHeader(props) {
   const user = useSelector(selectUser)
 
-  const avatar = user.employees.avatars.avaName
+  let avatar = ''
+
+  if(user.employees) {
+    avatar = user.employees.avatars.name
+  }
 
   return (
     <Root className="user relative flex flex-col items-center justify-center p-16 pb-14 shadow-0">
@@ -40,16 +44,16 @@ function UserNavbarHeader(props) {
           }}
           className="avatar text-32 font-bold w-96 h-96"
           src={`https://sismova.tech/backsis/public/images/avatars/${avatar ? avatar : 'nocamera.png'}`}
-          alt={user.userDisplayName}
+          alt={user.display_name}
         >
-          {user.userDisplayName.charAt(0)}
+          {user.display_name.charAt(0)}
         </Avatar>
       </div>
       <Typography className="username text-14 whitespace-nowrap font-medium">
-        {user.userDisplayName}
+        {user.display_name}
       </Typography>
       <Typography className="email text-13 whitespace-nowrap font-medium" color="text.secondary">
-        {user.employees.empEmail}
+        {user.display_email}
       </Typography>
     </Root>
   )

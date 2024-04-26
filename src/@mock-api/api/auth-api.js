@@ -9,8 +9,10 @@ import mockApi from '../mock-api.json'
 import axios from 'axios'
 
 let usersApi = mockApi.components.examples.auth_users.value
-let url_user = 'https://sismova.tech/backsis/public/api/user'
-let url_emp = 'https://sismova.tech/backsis/public/api/emp'
+// api_web
+// const url_user = 'https://sismova.tech/backsis/public/api/user'
+// api local
+const url_user = 'http://127.0.0.1:8000/api/user'
 
 /* eslint-disable camelcase */
 
@@ -18,16 +20,9 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
   const data = JSON.parse(config.data)
   const { email, password } = data
 
-  const hrPromise = axios.get(url_emp).then(r => {
-    const hrapi = _.cloneDeep(r.data.find((h) => h.empEmail === email))
-    return hrapi
-  })
-
-  const promhr = await Promise.all([hrPromise])
-
   const userPromise = axios.get(url_user)
     .then(response => {
-      const userapi = _.cloneDeep(response.data.find((_user) => _user.Employee === promhr[0].id))
+      const userapi = _.cloneDeep(response.data.find((_user) => _user.display_email === email))
       return userapi
     })
     .catch(error => {
@@ -46,7 +41,7 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
     })
   }
 
-  if (user && user.userPassword !== password) {
+  if (user && user.password !== password) {
     error.push({
       type: 'password',
       message: 'Comprueba tu contraseña',
@@ -54,7 +49,7 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
   }
 
   if (error.length === 0) {
-    delete user.userPassword
+    delete user.password
     
     const access_token = generateJWTToken({ id: user.uuid })
 
@@ -86,7 +81,7 @@ mock.onGet('/api/auth/access-token').reply(async (config) => {
     })
     const [user] = await Promise.all([userPromise])
 
-    delete user.userPassword
+    delete user.password
 
     const updatedAccessToken = generateJWTToken({ id: user.uuid })
 

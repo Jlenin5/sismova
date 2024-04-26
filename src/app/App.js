@@ -48,7 +48,7 @@ function App() {
         <AuthProvider>
           <BrowserRouter>
             <FuseAuthorization
-              userRole={user.roles.rolName}
+              userRole={user.roles.name}
               loginRedirectUrl={settingsConfig.loginRedirectUrl}
             >
               <SnackbarProvider
