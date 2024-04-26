@@ -51,7 +51,7 @@ const CategoriesTable = (props) => {
   useEffect(() => {
     if (searchText.length !== 0) {
       setData(
-        _.filter(categories, (item) => item.cateName.toLowerCase().includes(searchText.toLowerCase()))
+        _.filter(categories, (item) => item.name.toLowerCase().includes(searchText.toLowerCase()))
       )
       setPage(0)
     } else {
@@ -151,8 +151,8 @@ const CategoriesTable = (props) => {
                 [
                   (o) => {
                     switch (order.id) {
-                      case 'cateName': {
-                        return o.cateName[0]
+                      case 'name': {
+                        return o.name[0]
                       }
                       default: {
                         return o[order.id]
@@ -188,11 +188,11 @@ const CategoriesTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.cateName}
+                      {n.name}
                     </TableCell>
             
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.cateState ? (
+                      {n.status ? (
                         <FuseSvgIcon className="text-green" size={20}>
                           heroicons-outline:check-circle
                         </FuseSvgIcon>

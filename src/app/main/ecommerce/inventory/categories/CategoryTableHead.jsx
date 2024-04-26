@@ -34,14 +34,14 @@ const CategoriesTableHead = (props) => {
       sort: false,
     },
     {
-      id: 'cateName',
+      id: 'name',
       align: 'left',
       disablePadding: false,
       label: t('name'),
       sort: true,
     },
     {
-      id: 'cateState',
+      id: 'status',
       align: 'left',
       disablePadding: false,
       label: t('state'),

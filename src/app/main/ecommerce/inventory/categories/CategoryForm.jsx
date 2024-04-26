@@ -23,7 +23,7 @@ const CategoryForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(!form.cateName) {
+    if(!form.name) {
       alert("Datos incompletos")
       return
     }
@@ -78,17 +78,17 @@ const CategoryForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           type="text"
           fullWidth
           variant="standard"
-          name='cateName'
-          value={form.cateName}
+          name='name'
+          value={form.name}
           onChange={handleChange}
         />
         {t('state')}:
         <label className="switch">
           <input
             type="checkbox" 
-            name='cateState'
-            value={form.cateState}
-            checked={form.cateState}
+            name='status'
+            value={form.status}
+            checked={form.status}
             onChange={handleChange}
           />
           <span className="slider"></span>
