@@ -14,8 +14,8 @@ function InventoryTab(props) {
   const [dSN, setDSN] = useState([])
   const methods = useFormContext()
   const { control, watch, setValue } = methods
-  const SerialNumber = watch('SerialNumber')
-  const prodNumber = watch('prodNumber')
+  // const SerialNumber = watch('SerialNumber')
+  // const prodNumber = watch('prodNumber')
   const { t } = useTranslation()
 
   const getSN = async () => {
@@ -28,23 +28,23 @@ function InventoryTab(props) {
   },[dispatch])
 
   useEffect(() => {
-    if (prNumber !== null) {
-      var addProdNumber = 0
-      if (prodNumber === '00000') {
-        addProdNumber = (Number(prNumber) + 1).toString().padStart(5, '0')
-      } else {
-        addProdNumber = prodNumber
-      }
-      setValue('prodNumber', addProdNumber)
-    }  
-  }, [prodNumber, prNumber, setValue])
+    // if (prNumber !== null) {
+    //   var addProdNumber = 0
+    //   if (prodNumber === '00000') {
+    //     addProdNumber = (Number(prNumber) + 1).toString().padStart(5, '0')
+    //   } else {
+    //     addProdNumber = prodNumber
+    //   }
+    //   setValue('prodNumber', addProdNumber)
+    // }  
+  }, [prNumber, setValue])
 
-  const snFilter = dSN.find(r => r.id === SerialNumber)
+  // const snFilter = dSN.find(r => r.id === SerialNumber)
 
   return (
     <div>
       <div className="flex -mx-4">
-        <Controller
+        {/* <Controller
           name="SerialNumber"
           control={control}
           render={({ field }) => (
@@ -60,29 +60,11 @@ function InventoryTab(props) {
               value={snFilter?.snSerie || ''}
             />
           )}
-        />
-
-        <Controller
-          name="prodNumber"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              className="mt-8 mb-16 mx-4"
-              label={t('number')}
-              autoFocus
-              id="number"
-              variant="outlined"
-              fullWidth
-              disabled
-              value={prodNumber}
-            />
-          )}
-        />
+        /> */}
       </div>
 
       <Controller
-        name="prodStock"
+        name="stock_alert"
         control={control}
         render={({ field }) => (
           <TextField
@@ -97,9 +79,9 @@ function InventoryTab(props) {
           />
         )}
       />
-
+ 
       <Controller
-        name="Unit"
+        name="unit_id"
         control={control}
         render={({ field }) => (
           <TextField

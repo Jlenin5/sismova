@@ -33,7 +33,7 @@ const BasicInfoTab = () => {
   return (
     <div>
       <Controller
-        name="prodName"
+        name="name"
         control={control}
         render={({ field }) => (
           <TextField
@@ -52,7 +52,7 @@ const BasicInfoTab = () => {
       />
 
       <Controller
-        name="prodDescription"
+        name="description"
         control={control}
         render={({ field: { onChange, value } }) => (
           <>
@@ -71,7 +71,7 @@ const BasicInfoTab = () => {
         )}
       />
 
-      <Controller
+      {/* <Controller
         name="categories"
         control={control}
         render={({ field: { onChange, value } }) => {
@@ -101,9 +101,9 @@ const BasicInfoTab = () => {
             />
           )
         }}
-      />
+      /> */}
 
-      <Controller
+      {/* <Controller
         name="branch_offices"
         control={control}
         render={({ field: { onChange, value } }) => {
@@ -133,7 +133,7 @@ const BasicInfoTab = () => {
             />
           )
         }}
-      />
+      /> */}
     </div>
   )
 }

@@ -21,9 +21,9 @@ const ProductHeader = (props) => {
   const { isValid, dirtyFields } = formState
   const routeParams = useParams()
   const { id } = routeParams
-  const featuredImageId = watch('featuredImageId')
-  const productImages = watch('product_images')
-  const prodName = watch('prodName')
+  // const featuredImageId = watch('featuredImageId')
+  // const productImages = watch('product_images')
+  const name = watch('name')
   const theme = useTheme()
   const navigate = useNavigate()
   const { t } = useTranslation()
@@ -35,28 +35,28 @@ const ProductHeader = (props) => {
   const handleSaveProduct = async () => {
     if(getValues().id === null) {
       const productData = getValues()
-      productData.id = maxId.ultimo_id + 1
-      const formData = new FormData()
-      await Promise.all(productData.product_images.map(async (image, index) => {
-        const response = await fetch(image.primPath)
-        const blob = await response.blob()
-        formData.append(`product_images[${index}][primPath]`, blob, `image${index}.jpg`)
-        formData.append(`product_images[${index}][Product]`, productData.id)
-        formData.append(`product_images[${index}][featured]`, image.featured)
-      }))
-      dispatch(postImage(formData))
+      // productData.id = maxId.ultimo_id + 1
+      // const formData = new FormData()
+      // await Promise.all(productData.product_images.map(async (image, index) => {
+      //   const response = await fetch(image.primPath)
+      //   const blob = await response.blob()
+      //   formData.append(`product_images[${index}][primPath]`, blob, `image${index}.jpg`)
+      //   formData.append(`product_images[${index}][Product]`, productData.id)
+      //   formData.append(`product_images[${index}][featured]`, image.featured)
+      // }))
+      // dispatch(postImage(formData))
       dispatch(postProduct(productData))
     } else {
-      const productData = getValues()
-      const formData = new FormData()
-      await Promise.all(productData.product_images.map(async (image, index) => {
-        const response = await fetch(image.primPath)
-        const blob = await response.blob()
-        formData.append(`product_images[${index}][primPath]`, blob, `image${index}.jpg`)
-        formData.append(`product_images[${index}][Product]`, productData.id)
-        formData.append(`product_images[${index}][featured]`, image.featured)
-      }))
-      dispatch(postImage(formData))
+      // const productData = getValues()
+      // const formData = new FormData()
+      // await Promise.all(productData.product_images.map(async (image, index) => {
+      //   const response = await fetch(image.primPath)
+      //   const blob = await response.blob()
+      //   formData.append(`product_images[${index}][primPath]`, blob, `image${index}.jpg`)
+      //   formData.append(`product_images[${index}][Product]`, productData.id)
+      //   formData.append(`product_images[${index}][featured]`, image.featured)
+      // }))
+      // dispatch(postImage(formData))
       dispatch(putProduct(getValues()))
     }
     returnProducts()
@@ -122,19 +122,19 @@ const ProductHeader = (props) => {
             initial={{ scale: 0 }}
             animate={{ scale: 1, transition: { delay: 0.3 } }}
           >
-            {productImages.length > 0 && featuredImageId ? (
+            {/* {productImages.length > 0 && featuredImageId ? (
               <img
                 className="w-32 sm:w-48 rounded"
                 src={findImage(_.find(productImages, { featured: featuredImageId }).primPath)}
-                alt={prodName}
+                alt={name}
               />
             ) : (
               <img
                 className="w-32 sm:w-48 rounded"
                 src="assets/images/apps/ecommerce/product-image-placeholder.png"
-                alt={prodName}
+                alt={name}
               />
-            )}
+            )} */}
           </motion.div>
           <motion.div
             className="flex flex-col items-center sm:items-start min-w-0 mx-8 sm:mx-16"
@@ -142,7 +142,7 @@ const ProductHeader = (props) => {
             animate={{ x: 0, transition: { delay: 0.3 } }}
           >
             <Typography className="text-16 sm:text-20 truncate font-semibold">
-              {prodName || t('new_product')}
+              {name || t('new_product')}
             </Typography>
             <Typography variant="caption" className="font-medium">
               {t('product_details')}
@@ -172,7 +172,7 @@ const ProductHeader = (props) => {
           className="whitespace-nowrap mx-4"
           variant="contained"
           color="verified"
-          disabled={_.isEmpty(dirtyFields) || isValid}
+          // disabled={_.isEmpty(dirtyFields) || isValid}
           onClick={handleSaveProduct}
         >
           {t('save')}

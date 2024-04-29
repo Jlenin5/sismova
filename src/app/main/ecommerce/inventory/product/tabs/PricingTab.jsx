@@ -11,7 +11,7 @@ function PricingTab(props) {
   return (
     <div>
       <Controller
-        name="prodPurchasePrice"
+        name="purchase_price"
         control={control}
         render={({ field }) => (
           <TextField
@@ -32,7 +32,7 @@ function PricingTab(props) {
       />
 
       <Controller
-        name="prodSalePrice"
+        name="sale_price"
         control={control}
         render={({ field }) => (
           <TextField

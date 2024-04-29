@@ -25,7 +25,7 @@ const productsSlice = createSlice({
     },
   },
   extraReducers: {
-    [getProducts.fulfilled]: productsAdapter.setAll,
+    [getProducts.fulfilled]: (state, action) => productsAdapter.setAll(state, action.payload.data),
     [delProductMulti.fulfilled]: productsAdapter.removeMany,
   },
 })

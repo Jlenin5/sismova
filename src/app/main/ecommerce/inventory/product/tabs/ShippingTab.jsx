@@ -18,7 +18,7 @@ const ShippingTab = (props) => {
     <div>
       <div className="flex -mx-4">
         <Controller
-          name="prodWidth"
+          name="width"
           control={control}
           render={({ field }) => (
             <TextField
@@ -39,7 +39,7 @@ const ShippingTab = (props) => {
         />
 
         <Controller
-          name="prodHeight"
+          name="height"
           control={control}
           render={({ field }) => (
             <TextField
@@ -59,7 +59,7 @@ const ShippingTab = (props) => {
         />
 
         <Controller
-          name="prodDepth"
+          name="depth"
           control={control}
           render={({ field }) => (
             <TextField
@@ -82,7 +82,7 @@ const ShippingTab = (props) => {
 
       <div className="flex -mx-4">
         <Controller
-          name="prodWeight"
+          name="weight"
           control={control}
           render={({ field }) => (
             <TextField
@@ -102,14 +102,14 @@ const ShippingTab = (props) => {
         />
         
         <Controller
-          name="prodState"
+          name="status"
           control={control}
           render={({ field }) => (
             <FormControl className="mt-8 mx-4" fullWidth>
-              <InputLabel id="prodState">{t('state')}</InputLabel>
+              <InputLabel id="status">{t('state')}</InputLabel>
               <Select
                 {...field}
-                labelId="prodState"
+                labelId="status"
                 id="demo-simple-select"
                 label={t('state')}
               >
@@ -121,14 +121,14 @@ const ShippingTab = (props) => {
         />
 
         <Controller
-          name="prodWebHome"
+          name="web_site"
           control={control}
           render={({ field }) => (
             <FormControl className="mt-8 mx-4" fullWidth>
-              <InputLabel id="prodWebHome">{t('visible_on_web')}</InputLabel>
+              <InputLabel id="web_site">{t('visible_on_web')}</InputLabel>
               <Select
                 {...field}
-                labelId="prodWebHome"
+                labelId="web_site"
                 id="demo-simple-select"
                 label={t('visible_on_web')}
               >

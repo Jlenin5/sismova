@@ -50,7 +50,7 @@ const ProductTable = (props) => {
   useEffect(() => {
     if (searchText.length !== 0) {
       setData(
-        _.filter(products, (item) => item.prodName.toLowerCase().includes(searchText.toLowerCase()))
+        _.filter(products, (item) => item.name.toLowerCase().includes(searchText.toLowerCase()))
       )
       setPage(0)
     } else {
@@ -214,52 +214,52 @@ const ProductTable = (props) => {
                       scope="row"
                       padding="none"
                     >
-                      { n.product_images.length > 0 && n.featuredImageId ? (
+                      { n.product_images.length > 0 && n.featured ? (
                         <img
                           className="w-full block rounded h-52"
                           src={findImage(_.find(n.product_images, { featured: n.featuredImageId }).primPath)}
-                          alt={n.prodName}
+                          alt={n.name}
                         />
                       ) : (
                         <img
                           className="w-full block rounded"
                           src="assets/images/apps/ecommerce/product-image-placeholder.png"
-                          alt={n.prodName}
+                          alt={n.name}
                         />
                       )}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.serial_number.snSerie}-{n.prodNumber}
+                      {n.code}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.prodName}
+                      {n.name}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-8" component="th" scope="row">
-                      {n.unit.prunUnit}
+                      {/* {n.unit.prunUnit} */}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-8" component="th" scope="row" align="right">
                       <span>S/.</span>
-                      {n.prodPurchasePrice}
+                      {n.purchase_price}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-8" component="th" scope="row" align="right">
-                      {n.prodStock}
+                      {n.stock_alert}
                       <i
                         className={clsx(
                           'inline-block w-8 h-8 rounded mx-8',
-                          n.prodStock <= 5 && 'bg-red',
-                          n.prodStock > 5 && n.prodStock <= 25 && 'bg-orange',
-                          n.prodStock > 25 && 'bg-green'
+                          n.stock_alert <= 5 && 'bg-red',
+                          n.stock_alert > 5 && n.stock_alert <= 25 && 'bg-orange',
+                          n.stock_alert > 25 && 'bg-green'
                         )}
                       />
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.prodState ? (
+                      {n.status ? (
                         <FuseSvgIcon className="text-green" size={20}>
                           heroicons-outline:check-circle
                         </FuseSvgIcon>
