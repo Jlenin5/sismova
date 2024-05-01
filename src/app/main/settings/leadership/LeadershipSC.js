@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom'
 
 const Company = lazy(() => import('./company'))
 const BranchOffice = lazy(() => import('./branchoffice'))
+const Warehouse = lazy(() => import('./warehouse'))
 
 const SalesEC = {
   settings: {
@@ -16,6 +17,10 @@ const SalesEC = {
     {
       path: 'settings/leadership/branch-offices',
       element: <BranchOffice />,
+    },
+    {
+      path: 'settings/leadership/warehouses',
+      element: <Warehouse />,
     },
     {
       path: 'settings/leadership',

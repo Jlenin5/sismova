@@ -1,20 +1,20 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import asyncThunkWithAxios from 'src/app/services/api'
 
-export const getWarehouses = asyncThunkWithAxios('wh', 'get', 'settingsApp/warehouses/getWarehouses', 'get')
-export const getMaxId = asyncThunkWithAxios('whmax', 'get', 'settingsApp/warehouses/getMaxId', 'getmax')
-export const putWarehouse = asyncThunkWithAxios('updatewh', 'put', 'settingsApp/warehouses/putWarehouse', 'put')
-export const postWarehouse = asyncThunkWithAxios('postwh', 'post', 'settingsApp/warehouses/postWarehouse', 'post')
-export const deleteWarehouse = asyncThunkWithAxios('deletewh', 'delete', 'settingsApp/warehouses/deleteWarehouse', 'delete')
-export const delWarehouseMulti = asyncThunkWithAxios('delwhmulti', 'delete', 'settingsApp/warehouses/delWarehouseMulti', 'deletemulti')
+export const getWarehouses = asyncThunkWithAxios('warehouse', 'get', 'LeadershipSC/warehouses/getWarehouses', 'get')
+export const getMaxId = asyncThunkWithAxios('warehousemax', 'get', 'LeadershipSC/warehouses/getMaxId', 'getmax')
+export const putWarehouse = asyncThunkWithAxios('updatewarehouse', 'put', 'LeadershipSC/warehouses/putWarehouse', 'put')
+export const postWarehouse = asyncThunkWithAxios('postwarehouse', 'post', 'LeadershipSC/warehouses/postWarehouse', 'post')
+export const deleteWarehouse = asyncThunkWithAxios('deletewarehouse', 'delete', 'LeadershipSC/warehouses/deleteWarehouse', 'delete')
+export const delWarehouseMulti = asyncThunkWithAxios('delwarehousemulti', 'delete', 'LeadershipSC/warehouses/delWarehouseMulti', 'deletemulti')
 
 const warehouseAdapter = createEntityAdapter({})
 
 export const { selectAll: selectWarehouse, selectById: selectWarehouseById } =
-  warehouseAdapter.getSelectors((state) => state.settingsApp.warehouse)
+  warehouseAdapter.getSelectors((state) => state.LeadershipSC.warehouse)
 
 const warehouseSlice = createSlice({
-  name: 'settingsApp/warehouses',
+  name: 'LeadershipSC/warehouses',
   initialState: warehouseAdapter.getInitialState({
     searchText: '',
   }),
@@ -41,6 +41,6 @@ const warehouseSlice = createSlice({
 
 export const { setWarehouseSearchText } = warehouseSlice.actions
 
-export const selectWarehouseSearchText = ({ settingsApp }) => settingsApp.warehouse.searchText
+export const selectWarehouseSearchText = ({ LeadershipSC }) => LeadershipSC.warehouse.searchText
 
 export default warehouseSlice.reducer
