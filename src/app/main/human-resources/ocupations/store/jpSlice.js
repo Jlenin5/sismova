@@ -27,7 +27,7 @@ const jpSlice = createSlice({
     },
   },
   extraReducers: {
-    [getJobPositions.fulfilled]: jobpositionAdapter.setAll,
+    [getJobPositions.fulfilled]: (state, action) => jobpositionAdapter.setAll(state, action.payload.data),
     [putJobPosition.fulfilled]: (state, action) => jobpositionAdapter.updateOne(state, {
         id: action.payload.id,
         changes: action.payload

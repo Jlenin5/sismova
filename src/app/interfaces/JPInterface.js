@@ -1,7 +1,7 @@
 const JPInterface = {
   id: null,
-  jpName: '',
-  jpState: true
+  name: '',
+  status: true
 }
 
 export default JPInterface

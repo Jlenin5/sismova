@@ -48,7 +48,7 @@ const JPTable = (props) => {
   useEffect(() => {
     if (searchText.length !== 0) {
       setData(
-        _.filter(jobpositions, (item) => item.jpName.toLowerCase().includes(searchText.toLowerCase()))
+        _.filter(jobpositions, (item) => item.name.toLowerCase().includes(searchText.toLowerCase()))
       )
       setPage(0)
     } else {
@@ -148,8 +148,8 @@ const JPTable = (props) => {
                 [
                   (o) => {
                     switch (order.id) {
-                      case 'jpName': {
-                        return o.jpName[0]
+                      case 'name': {
+                        return o.name[0]
                       }
                       default: {
                         return o[order.id]
@@ -185,11 +185,11 @@ const JPTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.jpName}
+                      {n.name}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.jpState ? (
+                      {n.status ? (
                         <FuseSvgIcon className="text-green" size={20}>
                           heroicons-outline:check-circle
                         </FuseSvgIcon>

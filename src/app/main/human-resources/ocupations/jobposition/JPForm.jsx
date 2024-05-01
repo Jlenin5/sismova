@@ -20,7 +20,7 @@ const JPForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(!form.jpName) {
+    if(!form.name) {
       alert("Datos incompletos")
       return
     }
@@ -75,17 +75,17 @@ const JPForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           type="text"
           fullWidth
           variant="standard"
-          name='jpName'
-          value={form.jpName}
+          name='name'
+          value={form.name}
           onChange={handleChange}
         />
         Estado:
         <label className="switch">
           <input
             type="checkbox" 
-            name='jpState'
-            value={form.jpState}
-            checked={form.jpState}
+            name='status'
+            value={form.status}
+            checked={form.status}
             onChange={handleChange}
           />
           <span className="slider"></span>
