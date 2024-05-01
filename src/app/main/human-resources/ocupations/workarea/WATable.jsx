@@ -47,7 +47,7 @@ const WATable = (props) => {
   useEffect(() => {
     if (searchText.length !== 0) {
       setData(
-        _.filter(workareas, (item) => item.waName.toLowerCase().includes(searchText.toLowerCase()))
+        _.filter(workareas, (item) => item.name.toLowerCase().includes(searchText.toLowerCase()))
       )
       setPage(0)
     } else {
@@ -147,8 +147,8 @@ const WATable = (props) => {
                 [
                   (o) => {
                     switch (order.id) {
-                      case 'waName': {
-                        return o.waName[0]
+                      case 'name': {
+                        return o.name[0]
                       }
                       default: {
                         return o[order.id]
@@ -184,11 +184,11 @@ const WATable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.waName}
+                      {n.name}
                     </TableCell>
             
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.waState ? (
+                      {n.status ? (
                         <FuseSvgIcon className="text-green" size={20}>
                           heroicons-outline:check-circle
                         </FuseSvgIcon>

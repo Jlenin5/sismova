@@ -26,14 +26,14 @@ const rows = [
     sort: false,
   },
   {
-    id: 'waName',
+    id: 'name',
     align: 'left',
     disablePadding: false,
     label: 'Nombre',
     sort: true,
   },
   {
-    id: 'waState',
+    id: 'status',
     align: 'left',
     disablePadding: false,
     label: 'Estado',

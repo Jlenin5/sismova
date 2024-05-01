@@ -1,7 +1,7 @@
 const WAInterface = {
   id: null,
-  waName: '',
-  waState: true
+  name: '',
+  status: true
 }
 
 export default WAInterface

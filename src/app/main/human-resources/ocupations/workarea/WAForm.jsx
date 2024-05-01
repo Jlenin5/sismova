@@ -20,7 +20,7 @@ const WAForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(!form.waName) {
+    if(!form.name) {
       alert("Datos incompletos")
       return
     }
@@ -75,17 +75,17 @@ const WAForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           type="text"
           fullWidth
           variant="standard"
-          name='waName'
-          value={form.waName}
+          name='name'
+          value={form.name}
           onChange={handleChange}
         />
         Estado:
         <label className="switch">
           <input
             type="checkbox" 
-            name='waState'
-            value={form.waState}
-            checked={form.waState}
+            name='status'
+            value={form.status}
+            checked={form.status}
             onChange={handleChange}
           />
           <span className="slider"></span>

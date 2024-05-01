@@ -27,7 +27,7 @@ const waSlice = createSlice({
     },
   },
   extraReducers: {
-    [getWorkAreas.fulfilled]: workareaAdapter.setAll,
+    [getWorkAreas.fulfilled]: (state, action) => workareaAdapter.setAll(state, action.payload.data),
     [putWorkArea.fulfilled]: (state, action) => workareaAdapter.updateOne(state, {
         id: action.payload.id,
         changes: action.payload
