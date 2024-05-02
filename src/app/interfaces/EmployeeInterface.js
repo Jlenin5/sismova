@@ -6,7 +6,7 @@ const EmployeeInterface = {
   surname: '',
   second_surname: '',
   document_type: 1,
-  atavar: 1,
+  avatar_id: null,
   avatars: {},
   work_area_id: 1,
   work_areas: {},

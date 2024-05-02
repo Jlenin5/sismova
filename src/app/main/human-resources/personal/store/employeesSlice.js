@@ -27,7 +27,7 @@ const employeesSlice = createSlice({
     },
   },
   extraReducers: {
-    [getEmployees.fulfilled]: employeeAdapter.setAll,
+    [getEmployees.fulfilled]: (state, action) => employeeAdapter.setAll(state, action.payload.data),
     [putEmployee.fulfilled]: (state, action) => employeeAdapter.updateOne(state, {
         id: action.payload.id,
         changes: action.payload
