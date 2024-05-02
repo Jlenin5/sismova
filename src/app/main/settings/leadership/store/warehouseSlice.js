@@ -27,7 +27,7 @@ const warehouseSlice = createSlice({
     },
   },
   extraReducers: {
-    [getWarehouses.fulfilled]: warehouseAdapter.setAll,
+    [getWarehouses.fulfilled]: (state, action) => warehouseAdapter.setAll(state, action.payload.data),
     [putWarehouse.fulfilled]: (state, action) => warehouseAdapter.updateOne(state, {
         id: action.payload.id,
         changes: action.payload

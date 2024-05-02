@@ -15,14 +15,14 @@ const index = () => {
     <FusePageCarded
       header={
         <WarehouseHeader
-          // dataToEdit={dataToEdit}
-          // setDataToEdit={setDataToEdit}
+          dataToEdit={dataToEdit}
+          setDataToEdit={setDataToEdit}
         />
       }
       content={
         <WarehouseTable
-          // dataToEdit={dataToEdit}
-          // setDataToEdit={setDataToEdit}
+          dataToEdit={dataToEdit}
+          setDataToEdit={setDataToEdit}
         />
       }
       scroll={isMobile ? 'normal' : 'content'}

@@ -88,7 +88,7 @@ const WarehouseForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
     const fetchData = async () => {
       try {
         await dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
-        await dispatch(getEmployees()).then(response => setEmployee(response.payload))
+        await dispatch(getEmployees()).then(response => setEmployee(response.payload.data))
       } catch (error) {
         console.error('Error al obtener el maxId', error)
       }
@@ -96,10 +96,10 @@ const WarehouseForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
     if (open) {
       fetchData()
     }
-    // dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
-    // dispatch(getUsers()).then(response => setUser(response.payload))
     getDepartments()
     if(dataToEdit) {
+      getProvinces(dataToEdit.department_id)
+      getDistricts(dataToEdit.province_id)
       setForm(dataToEdit)
     } else {
       setForm(WarehouseInterface)
@@ -149,7 +149,7 @@ const WarehouseForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           getOptionLabel={(option) => option.name}
           onChange={(_, data) => {
             setForm({ ...form, department_id: data ? data.id : 0 })
-            getProvinces(data.id)
+            getProvinces(data?.id)
             return data
           }}
           name="department_id"
@@ -166,7 +166,7 @@ const WarehouseForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           getOptionLabel={(option) => option.name}
           onChange={(_, data) => {
             setForm({ ...form, province_id: data ? data.id : 0 })
-            getDistricts(data.id)
+            getDistricts(data?.id)
             return data
           }}
           name="province_id"
