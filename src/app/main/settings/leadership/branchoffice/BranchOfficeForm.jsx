@@ -10,57 +10,39 @@ import Autocomplete from '@mui/material/Autocomplete'
 import BranchOfficeInterface from 'src/app/interfaces/BranchOfficeInterface'
 import { useDispatch } from 'react-redux'
 import { deleteBranchoffice, getMaxId, postBranchoffice, putBranchoffice } from '../store/branchofficeSlice'
-import { getUsers } from 'src/app/main/human-resources/personal/store/userSlice'
+import { getEmployees } from 'src/app/main/human-resources/personal/store/employeesSlice'
 import axios from 'axios'
 
-const url = 'https://sismova.tech/backsis/public/api/';
+const url = 'http://127.0.0.1:8000/api/'
 
 const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   const dispatch = useDispatch()
   const [form, setForm] = useState(BranchOfficeInterface)
   const [maxId, setMaxId] = useState(null)
-  const [user, setUser] = useState([])
+  const [employee, setEmployee] = useState([])
   const [dep, setDep] = useState([]);
   const [prov, setProv] = useState([]);
   const [dist, setDist] = useState([]);
-  const [filteredProv, setFilteredProv] = useState([]);
-  const [filteredDist, setFilteredDist] = useState([]);
   const { t } = useTranslation()
 
   const getDepartments = async () => {
-    const response = await axios.get(url + 'dep');
-    setDep(response.data);
-  };
+    const response = await axios.get(url + 'departments')
+    setDep(response.data)
+  }
 
-  const getProvinces = async () => {
-    const response = await axios.get(url + 'prov');
-    setProv(response.data);
-  };
-
-  const getDistricts = async () => {
-    const response = await axios.get(url + 'dis');
-    setDist(response.data);
-  };
-
-  const filterProv = (event, value) => {
-    if(value !== null) {
-      const filteredProvinces = value ? prov.filter((r) => r.Department === value.id) : [];
-      setFilteredProv(filteredProvinces);
-      setFilteredDist([]);
-    } else {
-      setFilteredProv([]);
-      setFilteredDist([]);
+  const getProvinces = async (department) => {
+    if(department) {
+      const response = await axios.get(url + 'provinces/' + department)
+      setProv(response.data)
     }
   }
 
-  const filterDist = (event, value) => {
-    if(value !== null) {
-      const filteredDistricts = dist.filter((r) => r.Province === value.id);
-      setFilteredDist(filteredDistricts);
-    } else {
-      setFilteredDist([]);
+  const getDistricts = async (province) => {
+    if(province) {
+      const response = await axios.get(url + 'districts/' + province)
+      setDist(response.data)
     }
-  };
+  }
   
   const handleChange = (e) => {
     const name = e.target.name
@@ -72,7 +54,7 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(!form.boName) {
+    if(!form.name) {
       alert("Datos incompletos")
       return
     }
@@ -106,7 +88,7 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
     const fetchData = async () => {
       try {
         await dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
-        await dispatch(getUsers()).then(response => setUser(response.payload))
+        await dispatch(getEmployees()).then(response => setEmployee(response.payload.data))
       } catch (error) {
         console.error('Error al obtener el maxId', error);
       }
@@ -114,12 +96,10 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
     if (open) {
       fetchData();
     }
-    // dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
-    // dispatch(getUsers()).then(response => setUser(response.payload))
-    getProvinces();
-    getDepartments();
-    getDistricts();
+    getDepartments()
     if(dataToEdit) {
+      getProvinces(dataToEdit.department_id)
+      getDistricts(dataToEdit.province_id)
       setForm(dataToEdit)
     } else {
       setForm(BranchOfficeInterface)
@@ -133,32 +113,32 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
       className='form-dialog-bogory'
     >
       <DialogContent className='grid grid-flow-row-dense grid-cols-2 gap-32 mt-12'>
-        <TextField
+      <TextField
           autoFocus
           id="name"
           label={t('name')}
           fullWidth
           variant="outlined"
-          name='boName'
-          value={form.boName}
+          name='name'
+          value={form.name}
           onChange={handleChange}
         />
         <TextField
-          id="cell_phone"
+          id="phone"
           label={t('cell_phone')}
           fullWidth
           variant="outlined"
-          name='boPhone'
-          value={form.boPhone}
+          name='phone'
+          value={form.phone}
           onChange={handleChange}
         />
         <TextField
-          id="e_mail"
+          id="mail"
           label={t('e_mail')}
           fullWidth
           variant="outlined"
-          name='boEmail'
-          value={form.boEmail}
+          name='email'
+          value={form.email}
           onChange={handleChange}
         />
         <Autocomplete
@@ -166,14 +146,14 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           fullWidth
           id="combo-box-department"
           options={dep}
-          getOptionLabel={(option) => option.depName}
+          getOptionLabel={(option) => option.name}
           onChange={(_, data) => {
-            setForm({ ...form, Department: data ? data.id : 0 })
-            filterProv(_, data)
+            setForm({ ...form, department_id: data ? data.id : 0 })
+            getProvinces(data?.id)
             return data
           }}
-          name="Department"
-          value={dep.find((option) => option.id === form.Department) || null}
+          name="department_id"
+          value={dep.find((option) => option.id === form.department_id) || null}
           renderInput={(params) => (
             <TextField {...params} label={t('choose_department')} />
           )}
@@ -182,15 +162,15 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           freeSolo
           fullWidth
           id="combo-box-province"
-          options={filteredProv}
-          getOptionLabel={(option) => option.provName}
+          options={prov}
+          getOptionLabel={(option) => option.name}
           onChange={(_, data) => {
-            setForm({ ...form, Province: data ? data.id : 0 })
-            filterDist(_, data)
+            setForm({ ...form, province_id: data ? data.id : 0 })
+            getDistricts(data?.id)
             return data
           }}
-          name="Province"
-          value={prov.find((option) => option.id === form.Province) || null}
+          name="province_id"
+          value={prov.find((option) => option.id === form.province_id) || null}
           renderInput={(params) => (
             <TextField {...params} label={t('choose_province')} />
           )}
@@ -199,14 +179,14 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           freeSolo
           fullWidth
           id="combo-box-district"
-          options={filteredDist}
-          getOptionLabel={(option) => option.disName}
+          options={dist}
+          getOptionLabel={(option) => option.name}
           onChange={(_, data) => {
-            setForm({ ...form, District: data ? data.id : 0 })
+            setForm({ ...form, district_id: data ? data.id : 0 })
             return data
           }}
-          name="District"
-          value={dist.find((option) => option.id === form.District) || null}
+          name="district_id"
+          value={dist.find((option) => option.id === form.district_id) || null}
           renderInput={(params) => (
             <TextField {...params} label={t('choose_district')} />
           )}
@@ -216,33 +196,33 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           label={t('address')}
           fullWidth
           variant="outlined"
-          name='boAddress'
-          value={form.boAddress}
+          name='address'
+          value={form.address}
           onChange={handleChange}
         />
         <FormControl fullWidth>
-          <InputLabel id="User">{t('responsible')}</InputLabel>
+          <InputLabel id="employee_id">{t('responsible')}</InputLabel>
           <Select
-            labelId="User"
+            labelId="employee_id"
             id="demo-simple-select"
             label={t('responsible')}
-            value={form.User}
-            name="User"
+            value={form.employee_id}
+            name="employee_id"
             onChange={handleChange}
           >
             {
-              user.map(r => <MenuItem value={r.id} key={r.id}>{r.employees.empFirstName}</MenuItem>)
+              employee.map(r => <MenuItem value={r.id} key={r.id}>{r.first_name}</MenuItem>)
             }
           </Select>
         </FormControl>
         <FormControl fullWidth>
-          <InputLabel id="boState">{t('state')}</InputLabel>
+          <InputLabel id="status">{t('state')}</InputLabel>
           <Select
-            labelId="boState"
+            labelId="status"
             id="demo-simple-select"
             label={t('state')}
-            value={form.boState}
-            name="boState"
+            value={form.status}
+            name="status"
             onChange={handleChange}
           >
             <MenuItem value={0}>{t('inactive')}</MenuItem>

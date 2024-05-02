@@ -27,7 +27,7 @@ const branchofficeSlice = createSlice({
     },
   },
   extraReducers: {
-    [getBranchoffices.fulfilled]: branchofficeAdapter.setAll,
+    [getBranchoffices.fulfilled]: (state, action) => branchofficeAdapter.setAll(state, action.payload.data),
     [putBranchoffice.fulfilled]: (state, action) => branchofficeAdapter.updateOne(state, {
         id: action.payload.id,
         changes: action.payload

@@ -1,18 +1,14 @@
 const BranchOfficeInterface = {
   id: null,
-  boName: '',
-  boPhone: '',
-  boEmail: '',
-  Department: 0,
-  departments: {},
-  Province: 0,
-  provinces: {},
-  District: 0,
-  districts: {},
-  boAddress: '',
-  User: 1,
-  users: {},
-  boState: 1
+  name: '',
+  phone: '',
+  email: '',
+  department_id: 0,
+  province_id: 0,
+  district_id: 0,
+  address: '',
+  employee_id: 1,
+  status: 1,
 }
 
 export default BranchOfficeInterface
