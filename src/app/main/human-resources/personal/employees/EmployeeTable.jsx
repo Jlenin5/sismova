@@ -50,7 +50,7 @@ const EmployeeTable = (props) => {
   useEffect(() => {
     if (searchText.length !== 0) {
       setData(
-        _.filter(employees, (item) => item.empFirstName.toLowerCase().includes(searchText.toLowerCase()))
+        _.filter(employees, (item) => item.first_name.toLowerCase().includes(searchText.toLowerCase()))
       )
       setPage(0)
     } else {
@@ -150,8 +150,8 @@ const EmployeeTable = (props) => {
                 [
                   (o) => {
                     switch (order.id) {
-                      case 'empFirstName': {
-                        return o.empFirstName[0]
+                      case 'first_name': {
+                        return o.first_name[0]
                       }
                       default: {
                         return o[order.id]
@@ -187,27 +187,27 @@ const EmployeeTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.empFirstName}
+                      {n.first_name}
                     </TableCell>
             
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.empEmail}
+                      {n.email}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.empDocument}
+                      {n.document_number}
                     </TableCell>
             
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.empPhone}
+                      {n.phone}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.empGender === 0 ? t('male') : t('female')}
+                      {n.gender === 0 ? t('male') : t('female')}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.empState ? (
+                      {n.status ? (
                         <FuseSvgIcon className="text-green" size={20}>
                           heroicons-outline:check-circle
                         </FuseSvgIcon>

@@ -25,15 +25,15 @@ const BasicInfoTab = () => {
 
   useEffect(() => {
     dispatch(getDocuments()).then(r => setDoct(r.payload))
-    dispatch(getWorkAreas()).then(r => setWA(r.payload))
-    dispatch(getJobPositions()).then(r => setJP(r.payload))
+    dispatch(getWorkAreas()).then(r => setWA(r.payload.data))
+    dispatch(getJobPositions()).then(r => setJP(r.payload.data))
   }, [dispatch])
 
   return (
     <div>
       <div className="flex -mx-4">
         <Controller
-          name="empFirstName"
+          name="first_name"
           control={control}
           render={({ field }) => (
             <TextField
@@ -51,7 +51,7 @@ const BasicInfoTab = () => {
           )}
         />
         <Controller
-          name="empSecondName"
+          name="second_name"
           control={control}
           render={({ field }) => (
             <TextField
@@ -66,7 +66,7 @@ const BasicInfoTab = () => {
           )}
         />
         <Controller
-          name="empSurname"
+          name="surname"
           control={control}
           render={({ field }) => (
             <TextField
@@ -83,7 +83,7 @@ const BasicInfoTab = () => {
           )}
         />
         <Controller
-          name="empSecondSurname"
+          name="second_surname"
           control={control}
           render={({ field }) => (
             <TextField
@@ -103,28 +103,25 @@ const BasicInfoTab = () => {
 
       <div className="flex -mx-4">
         <Controller
-          name="DocumentType"
+          name="document_type"
           control={control}
-          render={({ field: { onChange, value } }) => (
+          render={({ field }) => (
             <FormControl className="mt-8 mb-16 mx-4" fullWidth>
-              <InputLabel id="DocumentType">{t('document')}</InputLabel>
+              <InputLabel id="document_type">{t('document_type')}</InputLabel>
               <Select
-                labelId="DocumentType"
-                label={t('document')}
-                value={value}
-                onChange={(event) => onChange(event.target.value)}
+                {...field}
+                labelId="document_type"
+                label={t('document_type')}
               >
-                {
-                  doct.map(r =>
-                    <MenuItem value={r.id} key={r.id}>{r.doctAbbreviation}</MenuItem>
-                  )
-                }
+                <MenuItem value={1}>{t('dni')}</MenuItem>
+                <MenuItem value={2}>{t('ruc')}</MenuItem>
+                <MenuItem value={3}>{t('ce')}</MenuItem>
               </Select>
             </FormControl>
           )}
         />
         <Controller
-          name="empDocument"
+          name="document_number"
           control={control}
           render={({ field }) => (
             <TextField
@@ -141,7 +138,7 @@ const BasicInfoTab = () => {
           )}
         />
         <Controller
-          name="empEmail"
+          name="email"
           control={control}
           render={({ field }) => (
             <TextField
@@ -156,7 +153,7 @@ const BasicInfoTab = () => {
           )}
         />
         <Controller
-          name="empPhone"
+          name="phone"
           control={control}
           render={({ field }) => (
             <TextField
@@ -174,7 +171,7 @@ const BasicInfoTab = () => {
 
       <div className="flex -mx-4">
         <Controller
-          name="WorkArea"
+          name="work_area_id"
           control={control}
           render={({ field: { onChange, value } }) => (
             <Autocomplete
@@ -182,10 +179,10 @@ const BasicInfoTab = () => {
               id="tags-outlined"
               required
               options={wa}
-              getOptionLabel={(option) => option.waName}
+              getOptionLabel={(option) => option.name}
               onChange={(_, data) => {
                 onChange(data)
-                methods.setValue("WorkArea", data?.id || null)
+                methods.setValue("work_area_id", data?.id || null)
                 return data
               }}
               value={wa.find((option) => option.id === value) || null}
@@ -201,7 +198,7 @@ const BasicInfoTab = () => {
           )}
         />
         <Controller
-          name="JobPosition"
+          name="job_position_id"
           control={control}
           render={({ field: { onChange, value } }) => (
             <Autocomplete
@@ -209,10 +206,10 @@ const BasicInfoTab = () => {
               id="tags-outlined"
               required
               options={jp}
-              getOptionLabel={(option) => option.jpName}
+              getOptionLabel={(option) => option.name}
               onChange={(_, data) => {
                 onChange(data)
-                methods.setValue("JobPosition", data?.id || null)
+                methods.setValue("job_position_id", data?.id || null)
                 return data
               }}
               value={jp.find((option) => option.id === value) || null}
@@ -229,14 +226,14 @@ const BasicInfoTab = () => {
         />
         <Controller
           multiple
-          name="empGender"
+          name="gender"
           control={control}
           render={({ field }) => (
             <FormControl className="mt-8 mx-4" fullWidth>
-              <InputLabel id="prodWebHome">{t('sex')}</InputLabel>
+              <InputLabel id="gender">{t('sex')}</InputLabel>
               <Select
                 {...field}
-                labelId="prodWebHome"
+                labelId="gender"
                 id="demo-simple-select"
                 label={t('sex')}
               >
@@ -248,14 +245,14 @@ const BasicInfoTab = () => {
         />
         <Controller
           multiple
-          name="empState"
+          name="status"
           control={control}
           render={({ field }) => (
             <FormControl className="mt-8 mx-4" fullWidth>
-              <InputLabel id="prodWebHome">{t('state')}</InputLabel>
+              <InputLabel id="status">{t('state')}</InputLabel>
               <Select
                 {...field}
-                labelId="prodWebHome"
+                labelId="status"
                 id="demo-simple-select"
                 label={t('state')}
               >

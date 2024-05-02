@@ -264,6 +264,9 @@ const locale = {
   current_stock: 'Stock actual',
   reserve_stock: 'Stock de reserva',
   action: 'Acción',
+  dni: 'DNI',
+  ruc: 'RUC',
+  ce: 'CE',
 
 }
 
