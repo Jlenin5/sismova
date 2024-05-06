@@ -1244,6 +1244,14 @@ const navigationConfig = [
             translate: 'series',
             end: true
           },
+          {
+            id: 'settings.controls.units',
+            title: 'Units',
+            type: 'item',
+            url: 'settings/controls/units',
+            translate: 'units',
+            end: true
+          },
         ]
       },
       {

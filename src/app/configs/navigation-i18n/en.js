@@ -267,6 +267,15 @@ const locale = {
   dni: 'DNI',
   ruc: 'RUC',
   ce: 'CE',
+  units: 'Units',
+  short_name: 'Short name',
+  base_unit: 'Base unit',
+  operator: 'Operator',
+  operator_value: 'Operator value',
+  addition: 'Addition',
+  subtraction: 'Subtraction',
+  multiplication: 'Multiplication',
+  division: 'Division',
   
 }
 
