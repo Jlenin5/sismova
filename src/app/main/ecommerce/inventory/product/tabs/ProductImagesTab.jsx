@@ -52,8 +52,8 @@ function ProductImagesTab(props) {
   const [openError, setOpenError] = useState(false)
   const [sendId, setSendId] = useState(null)
   const { control, watch, setValue } = methods
-  const productImages = watch('product_images') || []
-  const featuredImageId = watch('featuredImageId')
+  const product_images = watch('product_images') || []
+  const featured = watch('featured')
   const [clickNumber, setClickNumber] = useState(null)
 
   const handleChange = (newImages) => {
@@ -89,19 +89,19 @@ function ProductImagesTab(props) {
   }
 
   const handleRemoveImage = (itemImage) => {
-    let findImage = productImages.find((image) => image.featured === itemImage)
-    if(featuredImageId === findImage.featured) {
+    let findImage = product_images.find((image) => image.featured === itemImage)
+    if(featured === findImage.featured) {
       setOpenError(true)
     } else {
-      let updatedImages = productImages.filter((image) => image.featured !== itemImage)
+      let updatedImages = product_images.filter((image) => image.featured !== itemImage)
       handleChange(updatedImages)
       setClickNumber(null)
     }
   }
 
   var nuevo = []
-  for(let i=0; i<productImages.length; i++) {
-    const url = `https://sismova.tech/backsis/public/images/products/${productImages[i].primPath}`
+  for(let i=0; i<product_images.length; i++) {
+    const url = `http://127.0.0.1:8000/images/products/${product_images[i].path}`
     const palabraBuscada = "blob"
     nuevo.push(findWordInText(url, palabraBuscada))
   }
@@ -141,7 +141,7 @@ function ProductImagesTab(props) {
                       reader.onload = () => {
                         resolve({
                           featured: FuseUtils.generateGUID(),
-                          primPath: URL.createObjectURL(file),
+                          path: URL.createObjectURL(file),
                         })
                       }
 
@@ -163,14 +163,14 @@ function ProductImagesTab(props) {
             </Box>
           )}
         />
-        {productImages.map((media, index) => (
+        {product_images.map((media, index) => (
           <div
             onClick={() => handleClickOpen(media.featured)}
             role="button"
             tabIndex={0}
             className={clsx(
               'productImageItem flex items-center justify-center relative w-128 h-128 rounded-16 mx-12 mb-24 overflow-hidden cursor-pointer outline-none shadow hover:shadow-lg',
-              media.featured === clickNumber || media.featured === featuredImageId ? 'featured' : ''
+              media.featured === clickNumber || media.featured === featured ? 'featured' : ''
             )}
             key={media.featured}
           >

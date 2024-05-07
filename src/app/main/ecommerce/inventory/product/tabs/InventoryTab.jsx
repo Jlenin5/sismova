@@ -6,7 +6,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { getMaxId } from '../../store/productSlice'
 
-const url = 'https://sismova.tech/backsis/public/api/sn'
+// const url = 'https://sismova.tech/backsis/public/api/sn'
 
 function InventoryTab(props) {
   const dispatch = useDispatch()
@@ -18,12 +18,12 @@ function InventoryTab(props) {
   // const prodNumber = watch('prodNumber')
   const { t } = useTranslation()
 
-  const getSN = async () => {
-    return await axios.get(url)
-  }
+  // const getSN = async () => {
+  //   return await axios.get(url)
+  // }
 
   useEffect(() => {
-    getSN().then(r => setDSN(r.data))
+    // getSN().then(r => setDSN(r.data))
     dispatch(getMaxId()).then(r => setPrNumber(r.payload.ultimo_id))
   },[dispatch])
 

@@ -185,7 +185,7 @@ const ProductTable = (props) => {
               .map((n) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 const findImage = (findImage) => {
-                  const url = `https://sismova.tech/backsis/public/images/products/${findImage}`
+                  const url = `http://127.0.0.1:8000/images/products/${findImage}`
                   const palabraBuscada = "blob"
                   return findWordInText(url, palabraBuscada)
                 }
@@ -217,7 +217,7 @@ const ProductTable = (props) => {
                       { n.product_images.length > 0 && n.featured ? (
                         <img
                           className="w-full block rounded h-52"
-                          src={findImage(_.find(n.product_images, { featured: n.featuredImageId }).primPath)}
+                          src={findImage(_.find(n.product_images, { featured: n.featured }).path)}
                           alt={n.name}
                         />
                       ) : (
@@ -238,7 +238,7 @@ const ProductTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-8" component="th" scope="row">
-                      {/* {n.unit.prunUnit} */}
+                      {n.unit.short_name}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-8" component="th" scope="row" align="right">

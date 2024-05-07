@@ -14,6 +14,9 @@ const ProductInterface = {
   weight: 0.00,
   web_site: 1,
   status: 1,
+  categories: [],
+  // branch_offices: [],
+  product_images: [],
 }
 
 export default ProductInterface

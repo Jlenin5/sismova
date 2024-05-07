@@ -42,7 +42,7 @@ const ModalSelect = ({open, onClose, sendId, setSendId, clickNumber, setClickNum
       >
         <DialogContent>
           <Controller
-            name="featuredImageId"
+            name="featured"
             control={control}
             defaultValue=""
             render={({ field: { onChange, value } }) =>

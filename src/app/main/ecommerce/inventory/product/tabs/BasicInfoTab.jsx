@@ -6,11 +6,9 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { getCategories } from '../../store/categorySlice'
-
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-
-const url = 'https://sismova.tech/backsis/public/api/bo'
+import { getBranchoffices } from 'src/app/main/settings/leadership/store/branchofficeSlice'
 
 const BasicInfoTab = () => {
   const dispatch = useDispatch()
@@ -21,12 +19,8 @@ const BasicInfoTab = () => {
   const { errors } = formState
   const { t } = useTranslation()
 
-  const getBO = async () => {
-    return await axios.get(url)
-  }
-
   useEffect(() => {
-    getBO().then(r => setDBO(r.data))
+    dispatch(getBranchoffices()).then((r) => setDBO(r.payload.data))
     dispatch(getCategories()).then((r) => setDCate(r.payload))
   }, [dispatch])
 
@@ -71,7 +65,7 @@ const BasicInfoTab = () => {
         )}
       />
 
-      {/* <Controller
+      <Controller
         name="categories"
         control={control}
         render={({ field: { onChange, value } }) => {
@@ -85,7 +79,7 @@ const BasicInfoTab = () => {
               fullWidth
               id="tags-outlined"
               options={availableCategories}
-              getOptionLabel={(option) => option.cateName}
+              getOptionLabel={(option) => option.name}
               onChange={(_, data) => {
                 onChange(data)
                 return data
@@ -101,7 +95,7 @@ const BasicInfoTab = () => {
             />
           )
         }}
-      /> */}
+      />
 
       {/* <Controller
         name="branch_offices"
@@ -117,7 +111,7 @@ const BasicInfoTab = () => {
               fullWidth
               id="tags-outlined"
               options={availableBO}
-              getOptionLabel={(option) => option.boName}
+              getOptionLabel={(option) => option.name}
               onChange={(_, data) => {
                 onChange(data)
                 return data
