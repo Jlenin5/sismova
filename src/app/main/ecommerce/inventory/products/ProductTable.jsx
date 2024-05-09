@@ -17,6 +17,7 @@ import FuseLoading from '@fuse/core/FuseLoading'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import ProductTableHead from './ProductTableHead'
 import { getProducts, selectProduct, selectProductSearchText } from '../store/productsSlice'
+import { URL_PUBLIC } from 'src/app/services/url'
 
 const ProductTable = (props) => {
   const dispatch = useDispatch()
@@ -37,15 +38,9 @@ const ProductTable = (props) => {
 
   useEffect(() => {
     setTimeout(() => {
-      setIsDelayOver(true)
-    }, 2000)
-  }, [])
-
-  useEffect(() => {
-    if (isDelayOver) {
       dispatch(getProducts()).then(() => setLoading(false))
-    }
-  }, [isDelayOver, dispatch])
+    })
+  }, [dispatch])
 
   useEffect(() => {
     if (searchText.length !== 0) {
@@ -185,7 +180,7 @@ const ProductTable = (props) => {
               .map((n) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 const findImage = (findImage) => {
-                  const url = `http://127.0.0.1:8000/images/products/${findImage}`
+                  const url = `${URL_PUBLIC}images/products/${findImage}`
                   const palabraBuscada = "blob"
                   return findWordInText(url, palabraBuscada)
                 }

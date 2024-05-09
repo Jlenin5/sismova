@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { forceUpdate } from 'react'
 import Button from '@mui/material/Button'
 import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
@@ -9,15 +8,14 @@ import { useDispatch } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import _ from '@lodash'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
-import { deleteProduct, putProduct, getMaxId, postProduct } from '../store/productSlice'
-import { useEffect, useState } from 'react'
-import { postImage } from '../store/imageSlice'
+import { deleteProduct, putProduct, postProduct } from '../store/productSlice'
+import { useState } from 'react'
+import { URL_PUBLIC } from 'src/app/services/url'
 
 const ProductHeader = (props) => {
   const dispatch = useDispatch()
   const methods = useFormContext()
   const { formState, watch, getValues } = methods
-  const [maxId, setMaxId] = useState([])
   const { isValid, dirtyFields } = formState
   const routeParams = useParams()
   const { id } = routeParams
@@ -27,38 +25,19 @@ const ProductHeader = (props) => {
   const theme = useTheme()
   const navigate = useNavigate()
   const { t } = useTranslation()
-
-  useEffect(() => {
-    dispatch(getMaxId()).then(r => setMaxId(r.payload))
-  }, [dispatch])
   
   const handleSaveProduct = async () => {
-    if(getValues().id === null) {
-      const productData = getValues()
-      productData.id = maxId.ultimo_id + 1
-      const formData = new FormData()
-      await Promise.all(productData.product_images.map(async (image, index) => {
-        const response = await fetch(image.path)
-        const blob = await response.blob()
-        formData.append(`product_images[${index}][path]`, blob, `image${index}.jpg`)
-        formData.append(`product_images[${index}][product_id]`, productData.id)
-        formData.append(`product_images[${index}][featured]`, image.featured)
-      }))
-      dispatch(postImage(formData))
-      dispatch(postProduct(productData))
-    } else {
-      const productData = getValues()
-      const formData = new FormData()
-      await Promise.all(productData.product_images.map(async (image, index) => {
-        const response = await fetch(image.path)
-        const blob = await response.blob()
-        formData.append(`product_images[${index}][path]`, blob, `image${index}.jpg`)
-        formData.append(`product_images[${index}][product_id]`, productData.id)
-        formData.append(`product_images[${index}][featured]`, image.featured)
-      }))
-      dispatch(postImage(formData))
-      dispatch(putProduct(getValues()))
-    }
+    const productData = getValues()
+    const formData = new FormData()
+    await Promise.all(productData.product_images.map(async (image, index) => {
+      const response = await fetch(image.path)
+      const blob = await response.blob()
+      formData.append(`product_images[${index}][path]`, blob, `image${index}.jpg`)
+      formData.append(`product_images[${index}][product_id]`, productData.id)
+      formData.append(`product_images[${index}][featured]`, image.featured)
+    }))
+    formData.append('productData', JSON.stringify(productData))
+    !getValues().id ? dispatch(postProduct(formData)) : dispatch(putProduct(formData))
     returnProducts()
   }
 
@@ -88,7 +67,7 @@ const ProductHeader = (props) => {
   }
 
   const findImage = (findImage) => {
-    const url = `http://127.0.0.1:8000/images/products/${findImage}`
+    const url = `${URL_PUBLIC}images/products/${findImage}`
     const palabraBuscada = "blob"
     return findWordInText(url, palabraBuscada)
   }

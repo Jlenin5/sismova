@@ -3,9 +3,8 @@ import asyncThunkWithAxios from 'src/app/services/api'
 import ProductInterface from 'src/app/interfaces/ProductInterface'
 
 export const getProduct = asyncThunkWithAxios('prod', 'get', 'inventoryEC/products/getProduct', 'getid')
-export const getMaxId = asyncThunkWithAxios('prodmax', 'get', 'inventoryEC/products/getMaxId', 'getmax')
-export const putProduct = asyncThunkWithAxios('updateprod', 'put', 'inventoryEC/products/putProduct', 'put')
-export const postProduct = asyncThunkWithAxios('postprod', 'post', 'inventoryEC/products/postProduct', 'post')
+export const putProduct = asyncThunkWithAxios('updateprod', 'post', 'inventoryEC/products/putProduct', 'postFormData')
+export const postProduct = asyncThunkWithAxios('postprod', 'post', 'inventoryEC/products/postProduct', 'postFormData')
 export const deleteProduct = asyncThunkWithAxios('deleteprod', 'delete', 'inventoryEC/products/deleteProduct', 'delete')
 
 const productSlice = createSlice({

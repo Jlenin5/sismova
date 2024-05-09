@@ -8,6 +8,7 @@ import Box from '@mui/material/Box'
 import ModalSelect from './ModalSelect'
 import { useState } from 'react'
 import ErrorDelete from './ErrorDelete'
+import { URL_PUBLIC } from 'src/app/services/url'
 
 const Root = styled('div')(({ theme }) => ({
   '& .productImageFeaturedStar': {
@@ -101,7 +102,7 @@ function ProductImagesTab(props) {
 
   var nuevo = []
   for(let i=0; i<product_images.length; i++) {
-    const url = `http://127.0.0.1:8000/images/products/${product_images[i].path}`
+    const url = `${URL_PUBLIC}images/products/${product_images[i].path}`
     const palabraBuscada = "blob"
     nuevo.push(findWordInText(url, palabraBuscada))
   }

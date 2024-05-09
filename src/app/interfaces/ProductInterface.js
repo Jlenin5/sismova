@@ -1,6 +1,6 @@
 const ProductInterface = {
   id: null,
-  code: '',
+  code: '00000004',
   featured: '',
   name: '',
   description: '',

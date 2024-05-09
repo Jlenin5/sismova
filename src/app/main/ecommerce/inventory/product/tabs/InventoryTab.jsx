@@ -4,7 +4,6 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
-import { getMaxId } from '../../store/productSlice'
 
 // const url = 'https://sismova.tech/backsis/public/api/sn'
 
@@ -22,10 +21,9 @@ function InventoryTab(props) {
   //   return await axios.get(url)
   // }
 
-  useEffect(() => {
+  // useEffect(() => {
     // getSN().then(r => setDSN(r.data))
-    dispatch(getMaxId()).then(r => setPrNumber(r.payload.ultimo_id))
-  },[dispatch])
+  // },[dispatch])
 
   useEffect(() => {
     // if (prNumber !== null) {

@@ -3,7 +3,6 @@ import asyncThunkWithAxios from 'src/app/services/api'
 
 export const getProducts = asyncThunkWithAxios('prod', 'get', 'inventoryEC/products/getProducts', 'get')
 export const getProduct = asyncThunkWithAxios('prodmax', 'get', 'inventoryEC/products/getProduct', 'getmax')
-export const getMaxId = asyncThunkWithAxios('prodmax', 'get', 'inventoryEC/products/getMaxId', 'getmax')
 export const delProductMulti = asyncThunkWithAxios('delprodmulti', 'delete', 'inventoryEC/products/delProductMulti', 'deletemulti')
 
 const productsAdapter = createEntityAdapter({})
