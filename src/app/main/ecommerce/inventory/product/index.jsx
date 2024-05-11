@@ -25,9 +25,6 @@ import PricingTab from './tabs/PricingTab'
 import ProductImagesTab from './tabs/ProductImagesTab'
 import ShippingTab from './tabs/ShippingTab'
 
-/**
- * Form Validation Schema
- */
 const schema = yup.object().shape({
   name: yup
     .string()
@@ -56,22 +53,10 @@ function Product(props) {
   useDeepCompareEffect(() => {
     function updateProductState() {
       const { id } = routeParams
-
       if (id === 'new') {
-        /**
-         * Create New Product data
-         */
         dispatch(newProduct())
       } else {
-        /**
-         * Get Product data
-         */
         dispatch(getProduct(Number(id))).then((action) => {
-          /**
-           * If the requested product is not exist show message
-           */
-          // console.log(Number(id))
-          // console.log(!action.payload)
           if (!action.payload) {
             setNoProduct(true)
           }
@@ -86,17 +71,11 @@ function Product(props) {
     if (!product) {
       return
     }
-    /**
-     * Reset the form on product state changes
-     */
     reset(product)
   }, [product, reset, dispatch])
 
   useEffect(() => {
     return () => {
-      /**
-       * Reset Product on component unload
-       */
       dispatch(resetProduct())
       setNoProduct(false)
     }
@@ -105,17 +84,11 @@ function Product(props) {
   const returnProducts = () => {
     navigate(-1)
   }
-
-  /**
-   * Tab Change
-   */
+  
   function handleTabChange(event, value) {
     setTabValue(value)
   }
 
-  /**
-   * Show Message if the requested products is not exists
-   */
   if (noProduct) {
     return (
       <motion.div
@@ -141,17 +114,14 @@ function Product(props) {
 
   const handleKeyPress = (e) => {
     const keyCode = e.which || e.keyCode
-    const isNumber = (keyCode >= 48 && keyCode <= 57) 
+    const isNumber = (keyCode >= 48 && keyCode <= 57) || keyCode === 46
     const isControlKey = [8, 9, 13, 27, 37, 39].includes(keyCode)
     if (!(isNumber || isControlKey)) {
       e.preventDefault()
     }
   }
 
-  /**
-   * Wait while product data is loading and form is setted
-   */
-  if (_.isEmpty(form) || !product || (product && Number(routeParams.id) !== product.id && routeParams.id !== 'new')) {
+  if(_.isEmpty(form) || !product || (product && Number(routeParams.id) !== product.id && routeParams.id !== 'new')) {
     return <FuseLoading />
   }
 

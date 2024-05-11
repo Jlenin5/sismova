@@ -25,7 +25,6 @@ const ProductTable = (props) => {
   const searchText = useSelector(selectProductSearchText)
   const { t } = useTranslation()
 
-  const [isDelayOver, setIsDelayOver] = useState(false)
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState([])
   const [data, setData] = useState(products)
