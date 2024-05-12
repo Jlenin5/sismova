@@ -276,6 +276,7 @@ const locale = {
   subtraction: 'Subtraction',
   multiplication: 'Multiplication',
   division: 'Division',
+  choose_company: 'Choose company',
   
 }
 

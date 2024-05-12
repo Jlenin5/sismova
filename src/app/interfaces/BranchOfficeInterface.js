@@ -3,6 +3,7 @@ const BranchOfficeInterface = {
   name: '',
   phone: '',
   email: '',
+  company_id: 1,
   department_id: 0,
   province_id: 0,
   district_id: 0,

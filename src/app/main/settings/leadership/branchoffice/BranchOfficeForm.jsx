@@ -12,34 +12,35 @@ import { useDispatch } from 'react-redux'
 import { deleteBranchoffice, getMaxId, postBranchoffice, putBranchoffice } from '../store/branchofficeSlice'
 import { getEmployees } from 'src/app/main/human-resources/personal/store/employeesSlice'
 import axios from 'axios'
-
-const url = 'http://127.0.0.1:8000/api/'
+import { API_URL } from 'src/app/services/url'
+import { getCompany } from '../store/CompanySlice'
 
 const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   const dispatch = useDispatch()
   const [form, setForm] = useState(BranchOfficeInterface)
   const [maxId, setMaxId] = useState(null)
   const [employee, setEmployee] = useState([])
+  const [companies, setCompanies] = useState([])
   const [dep, setDep] = useState([]);
   const [prov, setProv] = useState([]);
   const [dist, setDist] = useState([]);
   const { t } = useTranslation()
 
   const getDepartments = async () => {
-    const response = await axios.get(url + 'departments')
+    const response = await axios.get(API_URL + 'departments')
     setDep(response.data)
   }
 
   const getProvinces = async (department) => {
     if(department) {
-      const response = await axios.get(url + 'provinces/' + department)
+      const response = await axios.get(API_URL + 'provinces/' + department)
       setProv(response.data)
     }
   }
 
   const getDistricts = async (province) => {
     if(province) {
-      const response = await axios.get(url + 'districts/' + province)
+      const response = await axios.get(API_URL + 'districts/' + province)
       setDist(response.data)
     }
   }
@@ -88,6 +89,7 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
     const fetchData = async () => {
       try {
         await dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
+        await dispatch(getCompany()).then(r => setCompanies(r.payload))
         await dispatch(getEmployees()).then(response => setEmployee(response.payload.data))
       } catch (error) {
         console.error('Error al obtener el maxId', error);
@@ -140,6 +142,23 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           name='email'
           value={form.email}
           onChange={handleChange}
+        />
+        <Autocomplete
+          freeSolo
+          fullWidth
+          id="combo-box-department"
+          options={companies}
+          getOptionLabel={(option) => option.name}
+          onChange={(_, data) => {
+            setForm({ ...form, company_id: data ? data.id : 0 })
+            getProvinces(data?.id)
+            return data
+          }}
+          name="company_id"
+          value={companies.find((option) => option.id === form.company_id) || null}
+          renderInput={(params) => (
+            <TextField {...params} label={t('choose_company')} />
+          )}
         />
         <Autocomplete
           freeSolo
