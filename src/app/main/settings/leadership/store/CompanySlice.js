@@ -1,7 +1,6 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-
-const API_URL = 'https://sismova.tech/backsis/public/api/'
+import { API_URL } from 'src/app/services/url'
 
 export const getCompany = createAsyncThunk( 'settingsApp/company/getCompany', async () => {
     const response = await axios.get(API_URL+'com')

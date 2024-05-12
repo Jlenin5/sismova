@@ -11,17 +11,18 @@ import { motion } from 'framer-motion';
 import Typography from '@mui/material/Typography';
 import { getCompany, putCompany } from '../store/CompanySlice'
 import { useEffect, useState } from 'react';
+import { URL_PUBLIC } from 'src/app/services/url';
 
 const initialForm = {
   id: null,
-  comCode: '',
-  comImage: '',
-  comName: '',
-  comRUC: '',
-  comEmail: '',
-  comAddress: '',
-  comWebSite: '',
-  comPhone: ''
+  code: '',
+  image: '',
+  name: '',
+  document_number: '',
+  email: '',
+  address: '',
+  web_site: '',
+  phone: ''
 }
 
 function Index() {
@@ -42,7 +43,7 @@ function Index() {
   const handleChange = (e) => {
     const name = e.target.name
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-    if (name === 'comImage') {
+    if (name === 'image') {
       if (e.target.files[0]) {
         setFileName(e.target.files[0].name)
         setImage(URL.createObjectURL(e.target.files[0]))
@@ -59,14 +60,14 @@ function Index() {
   
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(!form.comName) {
+    if(!form.name) {
       alert("Datos incompletos")
       return
     }
     if(form.id===null) {
-      form.comImage = image
+      form.image = image
       const formData = new FormData()
-      formData.append('comImage', fileName)
+      formData.append('image', fileName)
       for(const key in form) {
         formData.append(key, form[key])
       }
@@ -74,9 +75,9 @@ function Index() {
     } else {
       var updateFile = ''
       if(fileName === 'Seleccionar archivo') {
-        form.comImage = data[0].comImage
+        form.image = data[0].image
       } else {
-        form.comImage = image
+        form.image = image
         updateFile = fileName
       }
       updateData(form, updateFile)
@@ -109,8 +110,8 @@ function Index() {
     if(data && data.length > 0) {
       const updatedDataToEdit = {
         ...data[0],
-        comImage: data[0].comImage || 'nocamera.png',
-        comWebSite: data[0].comWebSite || '',
+        image: data[0].image || 'nocamera.png',
+        web_site: data[0].web_site || '',
       }
       setForm(updatedDataToEdit)
     } else {
@@ -120,7 +121,7 @@ function Index() {
 
   var nuevo = ''
   if(form.id !== null) {
-    const url = `https://sismova.tech/backsis/public/images/company/${form.comImage}`
+    const url = `${URL_PUBLIC}images/company/${form.image}`
     const palabraBuscada = "blob"
     nuevo = encontrarPalabraEnTexto(url, palabraBuscada)
   }
@@ -144,9 +145,9 @@ function Index() {
                     label="Código"
                     type="text"
                     className='tf-input tf-code'
-                    name='comCode'
+                    name='code'
                     sx={{ width: '20ch' }}
-                    value={form ? form.comCode : ''}
+                    value={form ? form.code : ''}
                     onChange={handleChange}
                   />
                   <TextField
@@ -156,9 +157,9 @@ function Index() {
                     label="R.U.C."
                     type="text"
                     className='tf-input tf-ruc'
-                    name='comRUC'
+                    name='document_number'
                     sx={{ width: '20ch' }}
-                    value={form ? form.comRUC : ''}
+                    value={form ? form.document_number : ''}
                     onChange={handleChange}
                   />
                   <TextField
@@ -168,9 +169,9 @@ function Index() {
                     label="Celular"
                     type="text"
                     className='tf-input tf-phone'
-                    name='comPhone'
+                    name='phone'
                     sx={{ width: '20ch' }}
-                    value={form ? form.comPhone : ''}
+                    value={form ? form.phone : ''}
                     onChange={handleChange}
                   />
                   <TextField
@@ -182,8 +183,8 @@ function Index() {
                     type="text"
                     className='tf-input'
                     fullWidth
-                    name='comName'
-                    value={form ? form.comName : ''}
+                    name='name'
+                    value={form ? form.name : ''}
                     onChange={handleChange}
                   />
                   <TextField
@@ -194,8 +195,8 @@ function Index() {
                     type="text"
                     className='tf-input'
                     fullWidth
-                    name='comAddress'
-                    value={form ? form.comAddress : ''}
+                    name='address'
+                    value={form ? form.address : ''}
                     onChange={handleChange}
                   />
                   <TextField
@@ -206,8 +207,8 @@ function Index() {
                     type="text"
                     className='tf-input tf-email'
                     sx={{ width: '31ch' }}
-                    name='comEmail'
-                    value={form ? form.comEmail : ''}
+                    name='email'
+                    value={form ? form.email : ''}
                     onChange={handleChange}
                   />
                   <TextField
@@ -218,8 +219,8 @@ function Index() {
                     type="text"
                     className='tf-input tf-website'
                     sx={{ width: '31ch' }}
-                    name='comWebSite'
-                    value={form ? form.comWebSite : ''}
+                    name='web_site'
+                    value={form ? form.web_site : ''}
                     onChange={handleChange}
                   />
                 </div>
@@ -228,7 +229,7 @@ function Index() {
                     <input
                       type="file"
                       accept="image/*"
-                      name="comImage"
+                      name="image"
                       className="input-field"
                       hidden
                       onChange={(e) => {
@@ -238,7 +239,7 @@ function Index() {
                           setImage(URL.createObjectURL(selectedFile))
                           setForm({
                             ...form,
-                            comImage: selectedFile,
+                            image: selectedFile,
                           })
                         }
                       }}
