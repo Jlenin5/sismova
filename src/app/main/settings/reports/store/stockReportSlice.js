@@ -27,7 +27,7 @@ const stockReportSlice = createSlice({
     },
   },
   extraReducers: {
-    [getStockReports.fulfilled]: stockReportAdapter.setAll,
+    [getStockReports.fulfilled]: (state, action) => stockReportAdapter.setAll(state, action.payload.data),
     [putStockReport.fulfilled]: (state, action) => stockReportAdapter.updateOne(state, {
         id: action.payload.id,
         changes: action.payload
