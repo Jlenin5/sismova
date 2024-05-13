@@ -277,6 +277,7 @@ const locale = {
   multiplication: 'Multiplicación',
   division: 'División',
   choose_company: 'Escoger empresa',
+  choose_branch_office: 'Escoger sucursal',
 
 }
 

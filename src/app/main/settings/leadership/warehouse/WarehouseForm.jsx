@@ -12,34 +12,35 @@ import { useDispatch } from 'react-redux'
 import { deleteWarehouse, getMaxId, postWarehouse, putWarehouse } from '../store/warehouseSlice'
 import { getEmployees } from 'src/app/main/human-resources/personal/store/employeesSlice'
 import axios from 'axios'
-
-const url = 'http://127.0.0.1:8000/api/'
+import { API_URL } from 'src/app/services/url'
+import { getBranchoffices } from '../store/branchofficeSlice'
 
 const WarehouseForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   const dispatch = useDispatch()
   const [form, setForm] = useState(WarehouseInterface)
   const [maxId, setMaxId] = useState(null)
   const [employee, setEmployee] = useState([])
+  const [branchOffices, setBranchOffices] = useState([])
   const [dep, setDep] = useState([])
   const [prov, setProv] = useState([])
   const [dist, setDist] = useState([])
   const { t } = useTranslation()
 
   const getDepartments = async () => {
-    const response = await axios.get(url + 'departments')
+    const response = await axios.get(API_URL + 'departments')
     setDep(response.data)
   }
 
   const getProvinces = async (department) => {
     if(department) {
-      const response = await axios.get(url + 'provinces/' + department)
+      const response = await axios.get(API_URL + 'provinces/' + department)
       setProv(response.data)
     }
   }
 
   const getDistricts = async (province) => {
     if(province) {
-      const response = await axios.get(url + 'districts/' + province)
+      const response = await axios.get(API_URL + 'districts/' + province)
       setDist(response.data)
     }
   }
@@ -88,6 +89,7 @@ const WarehouseForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
     const fetchData = async () => {
       try {
         await dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
+        await dispatch(getBranchoffices()).then(r => setBranchOffices(r.payload.data))
         await dispatch(getEmployees()).then(response => setEmployee(response.payload.data))
       } catch (error) {
         console.error('Error al obtener el maxId', error)
@@ -140,6 +142,23 @@ const WarehouseForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           name='email'
           value={form.email}
           onChange={handleChange}
+        />
+        <Autocomplete
+          freeSolo
+          fullWidth
+          id="combo-box-department"
+          options={branchOffices}
+          getOptionLabel={(option) => option.name}
+          onChange={(_, data) => {
+            setForm({ ...form, branch_office_id: data ? data.id : 0 })
+            getProvinces(data?.id)
+            return data
+          }}
+          name="branch_office_id"
+          value={branchOffices.find((option) => option.id === form.branch_office_id) || null}
+          renderInput={(params) => (
+            <TextField {...params} label={t('choose_warehouse')} />
+          )}
         />
         <Autocomplete
           freeSolo
