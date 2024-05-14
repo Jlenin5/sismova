@@ -48,9 +48,9 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
 
   useEffect(() => {
     dispatch(getProducts()).then((r) => {
-      setDProduct(r.payload)
-      if (allProducts && r.payload.length) {
-        const foundProduct = r.payload.filter(product => allProducts.some(p => p.Product === product.id))
+      setDProduct(r.payload.data)
+      if (allProducts && r.payload.data.length) {
+        const foundProduct = r.payload.filter(product => allProducts.some(p => p.product_id === product.id))
         setChangeProductByListFilter(foundProduct || [])
       }
     })
@@ -80,7 +80,7 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
 
   const handleDeleteItem = (productId) => {
     // Elimina el producto seleccionado por su id
-    const updatedSelectedProducts = selectedProducts.filter(product => product.Product !== productId);
+    const updatedSelectedProducts = selectedProducts.filter(product => product.product_id !== productId);
     onChange(updatedSelectedProducts)
   }
 
@@ -116,7 +116,7 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
         <Autocomplete
           id="tags-outlined"
           options={dProduct
-            .filter((o) => !selectedProducts.some((p) => p.Product === o.id))
+            .filter((o) => !selectedProducts.some((p) => p.product_id === o.id))
             .map((o) => ({
               id: o.id, prodName: o.prodName, prodSalePrice: o.prodSalePrice
             }))}
@@ -144,7 +144,7 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
                 listProd.map((data) => {
                   let listFindProduct = []
                   if(listFindProduct) {
-                    listFindProduct = changeProductByListFilter.find(r => r.id === data.Product)
+                    listFindProduct = changeProductByListFilter.find(r => r.id === data.product_id)
                     listFindProduct = listFindProduct || []
                   }
                   return (

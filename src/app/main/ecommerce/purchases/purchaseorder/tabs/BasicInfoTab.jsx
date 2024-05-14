@@ -18,77 +18,43 @@ import { getCompany } from 'src/app/main/settings/leadership/store/CompanySlice'
 import { getSeries } from 'src/app/main/settings/controls/store/serieSlice'
 import { getMaxId } from '../../store/purchaseorderSlice'
 import { getWarehouses } from 'src/app/main/settings/leadership/store/warehouseSlice'
+import { getEmployees } from 'src/app/main/human-resources/personal/store/employeesSlice'
 
 const BasicInfoTab = () => {
   const dispatch = useDispatch()
   const [maxId, setMaxId] = useState(null)
-  const user = useSelector(selectUser)
+  const [employees, setEmployees] = useState([])
   const [dSupplier, setDSupplier] = useState([])
-  const [dCurrency, setDCurrency] = useState([])
-  const [dCompany, setDCompany] = useState([])
   const [dWarehouse, setWarehouse] = useState([])
-  const [dSerie, setDSerie] = useState([])
   const methods = useFormContext()
   const { control, formState, watch, setValue } = methods
   const { errors } = formState
-  const puorNumber = watch('puorNumber')
+  const code = watch('code')
   const { t } = useTranslation()
 
   useEffect(() => {
+    dispatch(getEmployees()).then((r) => setEmployees(r.payload.data))
     dispatch(getSuppliers()).then((r) => setDSupplier(r.payload))
-    dispatch(getCoins()).then(r => setDCurrency(r.payload))
-    dispatch(getCompany()).then(r => setDCompany(r.payload))
-    dispatch(getWarehouses()).then(r => setWarehouse(r.payload))
-    dispatch(getSeries()).then(r => setDSerie(r.payload))
+    dispatch(getWarehouses()).then(r => setWarehouse(r.payload.data))
     dispatch(getMaxId()).then(r => setMaxId(r.payload.ultimo_id))
   }, [dispatch])
 
   useEffect(() => {
     if (maxId !== null) {
-      var addPuorNumber = 0
-      if (puorNumber === '00000') {
-        addPuorNumber = (Number(maxId) + 1).toString().padStart(5, '0')
+      var addcode = 0
+      if (code === '00000') {
+        addcode = (Number(maxId) + 1).toString().padStart(5, '0')
       } else {
-        addPuorNumber = puorNumber
+        addcode = code
       }
-      setValue('puorNumber', addPuorNumber)
+      setValue('code', addcode)
     }  
-  }, [puorNumber, maxId, setValue])
-
-  var companyName = ''
-  if(dCompany.length > 0) {
-    companyName = dCompany[0].comName
-  }
-
-  var serieName = ''
-  if(dSerie.length > 0) {
-    const findSerie = dSerie.find(r => r.id === 2)
-    serieName = findSerie.snSerie
-  }
+  }, [code, maxId, setValue])
 
   return (
     <div className="grid grid-flow-row-dense grid-cols-3 gap-32 -mx-4 max-w-4xl">
       <Controller
-        name="SerialNumber"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            error={!!errors.name}
-            helperText={errors?.name?.message}
-            label={t('serie')}
-            disabled
-            required
-            autoFocus
-            id="serialNumber"
-            variant="outlined"
-            value={serieName}
-          />
-        )}
-      />
-
-      <Controller
-        name="puorNumber"
+        name="code"
         control={control}
         render={({ field }) => (
           <TextField
@@ -99,56 +65,15 @@ const BasicInfoTab = () => {
             disabled
             required
             autoFocus
-            id="puorNumber"
+            id="code"
             variant="outlined"
-            value={puorNumber}
+            value={code}
           />
         )}
       />
 
       <Controller
-        multiple
-        name="Currency"
-        control={control}
-        render={({ field }) => (
-          <FormControl className="mt-8 mx-4" fullWidth>
-            <InputLabel id="prodWebHome">{t('currency')}</InputLabel>
-            <Select
-              {...field}
-              labelId="prodWebHome"
-              id="demo-simple-select"
-              label={t('currency')}
-            >
-              {
-                dCurrency.map(r => (
-                  <MenuItem value={r.id} key={r.id}>{r.curName}</MenuItem>
-                ))
-              }
-            </Select>
-          </FormControl>
-        )}
-      />
-
-      <Controller
-        name="Company"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            error={!!errors.name}
-            helperText={errors?.name?.message}
-            label={t('company')}
-            disabled
-            required
-            id="company"
-            variant="outlined"
-            value={companyName}
-          />
-        )}
-      />
-
-      <Controller
-        name="Warehouse"
+        name="warehouses"
         control={control}
         render={({ field: { onChange, value } }) => (
           <Autocomplete
@@ -158,7 +83,7 @@ const BasicInfoTab = () => {
             getOptionLabel={(option) => option.whName}
             onChange={(_, data) => {
               onChange(data)
-              methods.setValue("Warehouse", data?.id || null)
+              methods.setValue("warehouses", data?.id || null)
               return data
             }}
             value={dWarehouse.find((option) => option.id === value) || null}
@@ -175,7 +100,7 @@ const BasicInfoTab = () => {
       />
       
       <Controller
-        name="User"
+        name="employees"
         control={control}
         render={({ field }) => (
           <TextField
@@ -187,13 +112,13 @@ const BasicInfoTab = () => {
             label={t('assigned_user')}
             id="employee"
             variant="outlined"
-            value={user.employees.empFirstName}
+            value={employees.first_name}
           />
         )}
       />
 
       <Controller
-        name="Supplier"
+        name="suppliers"
         control={control}
         render={({ field: { onChange, value } }) => (
           <Autocomplete
@@ -203,7 +128,7 @@ const BasicInfoTab = () => {
             getOptionLabel={(option) => option.suppCompanyName}
             onChange={(_, data) => {
               onChange(data)
-              methods.setValue("Supplier", data?.id || null)
+              methods.setValue("suppliers", data?.id || null)
               return data
             }}
             value={dSupplier.find((option) => option.id === value) || null}
@@ -220,7 +145,7 @@ const BasicInfoTab = () => {
       />
 
       <Controller
-        name="puorStartDate"
+        name="date"
         control={control}
         render={({ field: { onChange, value } }) => (
           <DatePicker
@@ -238,7 +163,7 @@ const BasicInfoTab = () => {
       />
 
       <Controller
-        name="puorEndDate"
+        name="date_approved"
         control={control}
         defaultValue=""
         render={({ field: { onChange, value } }) => (
