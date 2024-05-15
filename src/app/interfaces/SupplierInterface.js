@@ -1,12 +1,12 @@
 const SupplierInterface = {
   id: null,
-  DocumentType: 1,
-  suppDocument: '',
-  suppCompanyName: '',
-  suppEmail: '',
-  suppAddress: '',
-  suppPhone: '',
-  suppState: 1,
+  document_type: 1,
+  document_number: '',
+  name: '',
+  email: '',
+  address: '',
+  phone: '',
+  status: 1,
 }
 
 export default SupplierInterface

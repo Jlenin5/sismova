@@ -15,7 +15,6 @@ function SupplierForm({onClose,open,dataToEdit,setDataToEdit}) {
   const dispatch = useDispatch()
   const [form, setForm] = useState(SupplierInterface)
   const [maxId, setMaxId] = useState(null)
-  const [doc, setDoc] = useState([])
   const { t } = useTranslation()
   
   const handleChange = (e) => {
@@ -28,7 +27,7 @@ function SupplierForm({onClose,open,dataToEdit,setDataToEdit}) {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(!form.suppCompanyName) {
+    if(!form.name) {
       alert("Datos incompletos")
       return
     }
@@ -60,7 +59,6 @@ function SupplierForm({onClose,open,dataToEdit,setDataToEdit}) {
 
   useEffect(() => {
     dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
-    dispatch(getDocuments()).then(response => setDoc(response.payload))
     if(dataToEdit) {
       setForm(dataToEdit)
     } else {
@@ -76,74 +74,74 @@ function SupplierForm({onClose,open,dataToEdit,setDataToEdit}) {
     >
       <DialogContent className='grid grid-flow-row-dense grid-cols-2 gap-32 mt-12'>
         <FormControl fullWidth>
-          <InputLabel id="DocumentType">{t('document')}</InputLabel>
+          <InputLabel id="document_type">{t('document')}</InputLabel>
           <Select
-            labelId="DocumentType"
+            labelId="document_type"
             id="demo-simple-select"
             label={t('document')}
-            value={form.DocumentType}
-            name="DocumentType"
+            value={form.document_type}
+            name="document_type"
             onChange={handleChange}
           >
-            {
-              doc.map(r => <MenuItem value={r.id} key={r.id}>{r.doctAbbreviation}</MenuItem>)
-            }
+            <MenuItem value={1}>{t('dni')}</MenuItem>
+            <MenuItem value={2}>{t('ruc')}</MenuItem>
+            <MenuItem value={3}>{t('ce')}</MenuItem>
           </Select>
         </FormControl>
         <TextField
-          id="name"
+          autoFocus
+          id="document_number"
           label={t('n_document')}
           type="text"
           variant="outlined"
-          name='suppDocument'
-          value={form.suppDocument}
+          name='document_number'
+          value={form.document_number}
           onChange={handleChange}
         />
         <TextField
-          autoFocus
           id="name"
           label={t('names')}
           type="text"
           variant="outlined"
-          name='suppCompanyName'
-          value={form.suppCompanyName}
+          name='name'
+          value={form.name}
           onChange={handleChange}
         />
         <TextField
-          id="name"
+          id="email"
           label={t('e_mail')}
           type="text"
           variant="outlined"
-          name='suppEmail'
-          value={form.suppEmail}
+          name='email'
+          value={form.email}
           onChange={handleChange}
         />
         <TextField
-          id="name"
+          id="address"
           label={t('address')}
           type="text"
           variant="outlined"
-          name='suppAddress'
-          value={form.suppAddress}
+          name='address'
+          value={form.address}
           onChange={handleChange}
         />
         <TextField
-          id="name"
+          id="phone"
           label={t('cell_phone')}
           type="text"
           variant="outlined"
-          name='suppPhone'
-          value={form.suppPhone}
+          name='phone'
+          value={form.phone}
           onChange={handleChange}
         />
         <FormControl fullWidth>
-          <InputLabel id="suppState">{t('state')}</InputLabel>
+          <InputLabel id="status">{t('state')}</InputLabel>
           <Select
-            labelId="suppState"
+            labelId="status"
             id="demo-simple-select"
             label={t('state')}
-            value={form.suppState}
-            name="suppState"
+            value={form.status}
+            name="status"
             onChange={handleChange}
           >
             <MenuItem value={1}>{t('active')}</MenuItem>

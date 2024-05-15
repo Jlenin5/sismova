@@ -186,23 +186,23 @@ const SupplierTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.suppCompanyName}
+                      {n.name}
                     </TableCell>
             
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.suppEmail}
+                      {n.email}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.suppDocument}
+                      {n.document_number}
                     </TableCell>
             
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.suppPhone}
+                      {n.phone}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.suppState ? (
+                      {n.status ? (
                         <FuseSvgIcon className="text-green" size={20}>
                           heroicons-outline:check-circle
                         </FuseSvgIcon>

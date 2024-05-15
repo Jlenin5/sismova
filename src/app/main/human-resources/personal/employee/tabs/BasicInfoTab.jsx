@@ -15,7 +15,6 @@ import { getJobPositions } from '../../../ocupations/store/jpSlice'
 
 const BasicInfoTab = () => {
   const dispatch = useDispatch()
-  const [doct, setDoct] = useState([])
   const [wa, setWA] = useState([])
   const [jp, setJP] = useState([])
   const methods = useFormContext()
@@ -24,7 +23,6 @@ const BasicInfoTab = () => {
   const { t } = useTranslation()
 
   useEffect(() => {
-    dispatch(getDocuments()).then(r => setDoct(r.payload))
     dispatch(getWorkAreas()).then(r => setWA(r.payload.data))
     dispatch(getJobPositions()).then(r => setJP(r.payload.data))
   }, [dispatch])

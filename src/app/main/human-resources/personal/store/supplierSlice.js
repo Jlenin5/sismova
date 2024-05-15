@@ -27,7 +27,7 @@ const supplierSlice = createSlice({
     },
   },
   extraReducers: {
-    [getSuppliers.fulfilled]: supplierAdapter.setAll,
+    [getSuppliers.fulfilled]: (state, action) => supplierAdapter.setAll(state, action.payload.data),
     [putSupplier.fulfilled]: (state, action) => supplierAdapter.updateOne(state, {
         id: action.payload.id,
         changes: action.payload
