@@ -1,6 +1,6 @@
 const PurchaseOrderInterface = {
   id: null,
-  code: '00000001',
+  code: '00000002',
   warehouse_id: 1,
   supplier_id: 1,
   employee_id: 1,

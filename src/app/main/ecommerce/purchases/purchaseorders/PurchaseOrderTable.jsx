@@ -202,40 +202,40 @@ const PurchaseOrderTable = ({
                     </TableCell>
  
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {n.serial_number.snSerie + ' - ' + n.puorNumber}
+                      {n.code}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.currencies.curName}
+                      {/* {n.currencies.curName} */}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {/* <span>S/.</span> */}
-                      {n.companies.comName}
+                      {n.warehouses.name}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.suppliers.suppCompanyName}
+                      {n.suppliers.name}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.users.employees.empFirstName}
+                      {n.employees.first_name}
                     </TableCell>
                     
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="center">
-                      {n.puorTax === '1' ? 'No' : 'Sí'}
+                      {/* {n.puorTax === '1' ? 'No' : 'Sí'} */}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.puorSubtotal}
+                      {n.sub_total}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.puorTotal}
+                      {n.total}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.puorStartDate}
+                      {n.date}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" padding="none">

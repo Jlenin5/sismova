@@ -50,7 +50,7 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
     dispatch(getProducts()).then((r) => {
       setDProduct(r.payload.data)
       if (allProducts && r.payload.data.length) {
-        const foundProduct = r.payload.filter(product => allProducts.some(p => p.product_id === product.id))
+        const foundProduct = r.payload.data.filter(product => allProducts.some(p => p.product_id === product.id))
         setChangeProductByListFilter(foundProduct || [])
       }
     })
@@ -64,15 +64,15 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
       setListProd((prevList) => [...prevList, updatedProduct])
       let purchaseOrderDetailInterface = {
         id: updatedProduct.id,
-        Product: updatedProduct.id,
-        podName: updatedProduct.prodName,
-        podPrice: updatedProduct.prodSalePrice,
+        product_id: updatedProduct.id,
+        podName: updatedProduct.name,
+        price: updatedProduct.sale_price,
         podStock: updatedProduct.prodStock,
         podTax: 0.18,
         podDiscountMethod: 1,
         podDiscount: 0.00,
-        podQuantity: 1,
-        podTotal: updatedProduct.prodSalePrice
+        quantity: 1,
+        total: updatedProduct.sale_price
       }
       onChange([...selectedProducts, purchaseOrderDetailInterface])
     }
@@ -86,21 +86,21 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
 
   const calculateSubTotal = () => {
     const subtotal = listProd.reduce((total, product) => {
-      return total + parseFloat(Number(product.podTotal).toFixed(2))
+      return total + parseFloat(Number(product.total).toFixed(2))
     }, 0)
     return subtotal.toFixed(2)
   }
 
   const calculateTax = () => {
     const tax = listProd.reduce((total, product) => {
-      return total + parseFloat(Number(product.podTax).toFixed(2) * product.podQuantity)
+      return total + parseFloat(Number(product.podTax).toFixed(2) * product.quantity)
     }, 0)
     return tax.toFixed(2)
   }
 
   const calculateDiscount = () => {
     const discount = listProd.reduce((total, product) => {
-      return total + parseFloat(Number(product.podDiscount).toFixed(2) * product.podQuantity)
+      return total + parseFloat(Number(product.podDiscount).toFixed(2) * product.quantity)
     }, 0)
     return discount.toFixed(2)
   }
@@ -118,9 +118,9 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
           options={dProduct
             .filter((o) => !selectedProducts.some((p) => p.product_id === o.id))
             .map((o) => ({
-              id: o.id, prodName: o.prodName, prodSalePrice: o.prodSalePrice
+              id: o.id, name: o.name, sale_price: o.sale_price
             }))}
-          getOptionLabel={(o) => o.prodName}
+          getOptionLabel={(o) => o.name}
           onChange={handleProductChange}
           renderInput={(params) => 
             <TextField
@@ -156,25 +156,25 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
                       onClick={() => handleClickOpen( setListModalProd(data) )}
                     >
                       <TableCell className="w-52 px-4 md:px-0" component="th" scope="row">
-                        {data.podName ? data.podName : listFindProduct.prodName}
+                        {data.podName ? data.podName : listFindProduct.name}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        S/. {data.podPrice}
+                        S/. {data.price}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
                         {data.podStock ? data.podStock : listFindProduct.prodStock}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        {data.podQuantity}
+                        {data.quantity}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        S/. {(data.podDiscount * data.podQuantity).toFixed(2)}
+                        S/. {(data.podDiscount * data.quantity).toFixed(2)}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        {(data.podTax * data.podQuantity).toFixed(2)}
+                        {(data.podTax * data.quantity).toFixed(2)}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        S/. {data.podTotal}
+                        S/. {data.total}
                       </TableCell>
                     </TableRow>
                   )

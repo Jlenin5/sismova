@@ -34,7 +34,7 @@ const BasicInfoTab = () => {
 
   useEffect(() => {
     dispatch(getEmployees()).then((r) => setEmployees(r.payload.data))
-    dispatch(getSuppliers()).then((r) => setDSupplier(r.payload))
+    dispatch(getSuppliers()).then((r) => setDSupplier(r.payload.data))
     dispatch(getWarehouses()).then(r => setWarehouse(r.payload.data))
     dispatch(getMaxId()).then(r => setMaxId(r.payload.ultimo_id))
   }, [dispatch])
@@ -80,7 +80,7 @@ const BasicInfoTab = () => {
             freeSolo
             id="tags-outlined"
             options={dWarehouse}
-            getOptionLabel={(option) => option.whName}
+            getOptionLabel={(option) => option.name}
             onChange={(_, data) => {
               onChange(data)
               methods.setValue("warehouses", data?.id || null)
@@ -102,17 +102,26 @@ const BasicInfoTab = () => {
       <Controller
         name="employees"
         control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            error={!!errors.name}
-            disabled
-            required
-            helperText={errors?.name?.message}
-            label={t('assigned_user')}
-            id="employee"
-            variant="outlined"
-            value={employees.first_name}
+        render={({ field: { onChange, value } }) => (
+          <Autocomplete
+            freeSolo
+            id="tags-outlined"
+            options={employees}
+            getOptionLabel={(option) => option.first_name}
+            onChange={(_, data) => {
+              onChange(data)
+              methods.setValue("employees", data?.id || null)
+              return data
+            }}
+            value={employees.find((option) => option.id === value) || null}
+            renderInput={(params) => (
+              <TextField
+                required
+                {...params}
+                label={t('employees')}
+              />
+            )}
+            fullWidth
           />
         )}
       />
@@ -125,7 +134,7 @@ const BasicInfoTab = () => {
             freeSolo
             id="tags-outlined"
             options={dSupplier}
-            getOptionLabel={(option) => option.suppCompanyName}
+            getOptionLabel={(option) => option.name}
             onChange={(_, data) => {
               onChange(data)
               methods.setValue("suppliers", data?.id || null)
