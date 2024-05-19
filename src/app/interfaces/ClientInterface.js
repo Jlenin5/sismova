@@ -1,13 +1,12 @@
 const ClientInterface = {
   id: null,
-  cliFirstName: '',
-  cliSecondName: '',
-  DocumentType: 1,
-  cliDocument: '',
-  cliEmail: '',
-  cliPhone: '',
-  cliGender: 0,
-  cliState: 1,
+  name: '',
+  document_type: 1,
+  document_number: '',
+  email: '',
+  phone: '',
+  gender: 0,
+  status: 1
 }
 
 export default ClientInterface

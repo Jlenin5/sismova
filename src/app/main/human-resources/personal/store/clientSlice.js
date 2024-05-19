@@ -27,7 +27,7 @@ const clientSlice = createSlice({
     },
   },
   extraReducers: {
-    [getClients.fulfilled]: clientAdapter.setAll,
+    [getClients.fulfilled]: (state, action) => clientAdapter.setAll(state, action.payload.data),
     [putClient.fulfilled]: (state, action) => clientAdapter.updateOne(state, {
         id: action.payload.id,
         changes: action.payload

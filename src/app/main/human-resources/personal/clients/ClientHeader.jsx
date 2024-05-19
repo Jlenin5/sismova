@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Button from '@mui/material/Button'
 import Input from '@mui/material/Input'
 import Paper from '@mui/material/Paper'
@@ -13,6 +14,7 @@ const ClientHeader = (props) => {
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
   const searchText = useSelector(selectClientSearchText)
+  const { t } = useTranslation()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -31,7 +33,7 @@ const ClientHeader = (props) => {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Clientes
+        {t('clients')}
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -44,7 +46,7 @@ const ClientHeader = (props) => {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Buscar cliente"
+            placeholder={t('search')}
             className="flex flex-1"
             disableUnderline
             fullWidth
@@ -66,7 +68,7 @@ const ClientHeader = (props) => {
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >
-            Agregar
+            {t('add')}
           </Button>
           <ClientForm
             open={open}

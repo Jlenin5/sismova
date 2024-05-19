@@ -47,7 +47,7 @@ const ClientTable = (props) => {
   useEffect(() => {
     if (searchText.length !== 0) {
       setData(
-        _.filter(clients, (item) => item.cliFirstName.toLowerCase().includes(searchText.toLowerCase()))
+        _.filter(clients, (item) => item.name.toLowerCase().includes(searchText.toLowerCase()))
       )
       setPage(0)
     } else {
@@ -147,8 +147,8 @@ const ClientTable = (props) => {
                 [
                   (o) => {
                     switch (order.id) {
-                      case 'cliName': {
-                        return o.cliName[0]
+                      case 'name': {
+                        return o.name[0]
                       }
                       default: {
                         return o[order.id]
@@ -184,27 +184,27 @@ const ClientTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.cliFirstName}
+                      {n.name}
                     </TableCell>
             
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.cliEmail}
+                      {n.email}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.cliDocument}
+                      {n.document_number}
                     </TableCell>
             
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.cliPhone}
+                      {n.phone}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.cliGender === 0 ? 'Hombre' : 'Mujer'}
+                      {n.gender === 0 ? 'Hombre' : 'Mujer'}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.cliState ? (
+                      {n.status ? (
                         <FuseSvgIcon className="text-green" size={20}>
                           heroicons-outline:check-circle
                         </FuseSvgIcon>

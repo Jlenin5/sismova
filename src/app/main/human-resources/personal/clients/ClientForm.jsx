@@ -1,4 +1,4 @@
-import './form.css'
+import { useTranslation } from 'react-i18next'
 import React, { useEffect, useState } from 'react'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
@@ -8,13 +8,12 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } 
 import ClientInterface from 'src/app/interfaces/ClientInterface'
 import { useDispatch } from 'react-redux'
 import { deleteClient, getMaxId, postClient, putClient } from '../store/clientSlice'
-import { getDocuments } from 'src/app/main/settings/controls/store/documentSlice'
 
 function ClientForm({onClose,open,dataToEdit,setDataToEdit}) {
   const dispatch = useDispatch()
   const [form, setForm] = useState(ClientInterface)
   const [maxId, setMaxId] = useState(null)
-  const [doc, setDoc] = useState([])
+  const { t } = useTranslation()
   
   const handleChange = (e) => {
     const name = e.target.name
@@ -26,7 +25,7 @@ function ClientForm({onClose,open,dataToEdit,setDataToEdit}) {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(!form.cliFirstName) {
+    if(!form.name) {
       alert("Datos incompletos")
       return
     }
@@ -58,7 +57,6 @@ function ClientForm({onClose,open,dataToEdit,setDataToEdit}) {
 
   useEffect(() => {
     dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
-    dispatch(getDocuments()).then(response => setDoc(response.payload))
     if(dataToEdit) {
       setForm(dataToEdit)
     } else {
@@ -79,32 +77,23 @@ function ClientForm({onClose,open,dataToEdit,setDataToEdit}) {
           label="Nombres"
           type="text"
           variant="outlined"
-          name='cliFirstName'
-          value={form.cliFirstName}
-          onChange={handleChange}
-        />
-        <TextField
-          id="name"
-          label="Apellidos"
-          type="text"
-          variant="outlined"
-          name='cliSecondName'
-          value={form.cliSecondName}
+          name='name'
+          value={form.name}
           onChange={handleChange}
         />
         <FormControl fullWidth>
-          <InputLabel id="DocumentType">Tipo de Documento</InputLabel>
+          <InputLabel id="document_type">Estado</InputLabel>
           <Select
-            labelId="DocumentType"
+            labelId="document_type"
             id="demo-simple-select"
-            label="Tipo de Documento"
-            value={form.DocumentType}
-            name="DocumentType"
+            label="Estado"
+            value={form.document_type}
+            name="document_type"
             onChange={handleChange}
           >
-            {
-              doc.map(r => <MenuItem value={r.id} key={r.id}>{r.doctAbbreviation}</MenuItem>)
-            }
+            <MenuItem value={1}>{t('dni')}</MenuItem>
+            <MenuItem value={2}>{t('ruc')}</MenuItem>
+            <MenuItem value={3}>{t('ce')}</MenuItem>
           </Select>
         </FormControl>
         <TextField
@@ -112,8 +101,8 @@ function ClientForm({onClose,open,dataToEdit,setDataToEdit}) {
           label="N° de documento"
           type="text"
           variant="outlined"
-          name='cliDocument'
-          value={form.cliDocument}
+          name='document_number'
+          value={form.document_number}
           onChange={handleChange}
         />
         <TextField
@@ -121,8 +110,8 @@ function ClientForm({onClose,open,dataToEdit,setDataToEdit}) {
           label="Correo electrónico"
           type="text"
           variant="outlined"
-          name='cliEmail'
-          value={form.cliEmail}
+          name='email'
+          value={form.email}
           onChange={handleChange}
         />
         <TextField
@@ -130,18 +119,18 @@ function ClientForm({onClose,open,dataToEdit,setDataToEdit}) {
           label="N° de celular"
           type="text"
           variant="outlined"
-          name='cliPhone'
-          value={form.cliPhone}
+          name='phone'
+          value={form.phone}
           onChange={handleChange}
         />
         <FormControl fullWidth>
-          <InputLabel id="cliGender">Sexo</InputLabel>
+          <InputLabel id="gender">Sexo</InputLabel>
           <Select
-            labelId="cliGender"
+            labelId="gender"
             id="demo-simple-select"
             label="Sexo"
-            value={form.cliGender}
-            name="cliGender"
+            value={form.gender}
+            name="gender"
             onChange={handleChange}
           >
             <MenuItem value={0}>Hombre</MenuItem>
@@ -149,13 +138,13 @@ function ClientForm({onClose,open,dataToEdit,setDataToEdit}) {
           </Select>
         </FormControl>
         <FormControl fullWidth>
-          <InputLabel id="cliState">Estado</InputLabel>
+          <InputLabel id="status">Estado</InputLabel>
           <Select
-            labelId="cliState"
+            labelId="status"
             id="demo-simple-select"
             label="Estado"
-            value={form.cliState}
-            name="cliState"
+            value={form.status}
+            name="status"
             onChange={handleChange}
           >
             <MenuItem value={0}>Inactivo</MenuItem>
