@@ -39,39 +39,8 @@ const BasicInfoTab = () => {
     dispatch(getMaxId()).then(r => setMaxId(r.payload.ultimo_id))
   }, [dispatch])
 
-  useEffect(() => {
-    if (maxId !== null) {
-      var addcode = 0
-      if (code === '00000') {
-        addcode = (Number(maxId) + 1).toString().padStart(5, '0')
-      } else {
-        addcode = code
-      }
-      setValue('code', addcode)
-    }  
-  }, [code, maxId, setValue])
-
   return (
     <div className="grid grid-flow-row-dense grid-cols-3 gap-32 -mx-4 max-w-4xl">
-      <Controller
-        name="code"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            error={!!errors.name}
-            helperText={errors?.name?.message}
-            label={t('number')}
-            disabled
-            required
-            autoFocus
-            id="code"
-            variant="outlined"
-            value={code}
-          />
-        )}
-      />
-
       <Controller
         name="warehouses"
         control={control}
@@ -149,6 +118,23 @@ const BasicInfoTab = () => {
               />
             )}
             fullWidth
+          />
+        )}
+      />
+
+      <Controller
+        name="supplier_document"
+        control={control}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            error={!!errors.name}
+            helperText={errors?.name?.message}
+            label={t('supplier_document')}
+            required
+            autoFocus
+            id="supplier_document"
+            variant="outlined"
           />
         )}
       />

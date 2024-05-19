@@ -35,12 +35,13 @@ const PurchaseOrderHead = () => {
     if(getValues().id === null) {
       const quoteData = getValues()
       quoteData.id = maxId.ultimo_id + 1
-      dispatch(postPurchaseOrder(quoteData))
+      console.log(quoteData)
+      // dispatch(postPurchaseOrder(quoteData))
     } else {
       const quoteData = getValues()
-      dispatch(putPurchaseOrder(getValues()))
+      // dispatch(putPurchaseOrder(getValues()))
     }
-    returnProducts()
+    // returnProducts()
   }
 
   function handleRemoveProduct() {
