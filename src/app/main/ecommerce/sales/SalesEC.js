@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom'
 
 const Quote = lazy(() => import('./quote'))
 const Quotes = lazy(() => import('./quotes'))
+const SaleOrders = lazy(() => import('./saleorders'))
 const SaleOrder = lazy(() => import('./saleorder'))
 const Ticket = lazy(() => import('./ticket'))
 const Invoice = lazy(() => import('./invoice'))
@@ -22,6 +23,10 @@ const SalesEC = {
     },
     {
       path: 'ecommerce/sales/sale-orders',
+      element: <SaleOrders />,
+    },
+    {
+      path: 'ecommerce/sales/sale-order/:id',
       element: <SaleOrder />,
     },
     {

@@ -1,46 +1,35 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import asyncThunkWithAxios from 'src/app/services/api'
+import SaleOrderInterface from 'src/app/interfaces/SaleOrderInterface'
 
-export const getSaleOrders = asyncThunkWithAxios('tic', 'get', 'SalesEC/saleorders/getSaleOrders', 'get')
-export const getMaxId = asyncThunkWithAxios('ticmax', 'get', 'SalesEC/saleorders/getMaxId', 'getmax')
-export const putSaleOrder = asyncThunkWithAxios('updatetic', 'put', 'SalesEC/saleorders/putSaleOrder', 'put')
-export const postSaleOrder = asyncThunkWithAxios('posttic', 'post', 'SalesEC/saleorders/postSaleOrder', 'post')
-export const deleteSaleOrder = asyncThunkWithAxios('deletetic', 'delete', 'SalesEC/saleorders/deleteSaleOrder', 'delete')
-export const delSaleOrderMulti = asyncThunkWithAxios('delticmulti', 'delete', 'SalesEC/saleorders/delSaleOrderMulti', 'deletemulti')
-
-const saleOrderAdapter = createEntityAdapter({})
-
-export const { selectAll: selectSaleOrder, selectById: selectSaleOrderById } =
-  saleOrderAdapter.getSelectors((state) => state.SalesEC.saleorder)
+export const getSaleOrder = asyncThunkWithAxios('saor', 'get', 'SalesEC/saleorder/getSaleOrder', 'getid')
+export const getMaxId = asyncThunkWithAxios('saormax', 'get', 'SalesEC/saleorder/getMaxId', 'getmax')
+export const putSaleOrder = asyncThunkWithAxios('updatesaor', 'put', 'SalesEC/saleorder/putSaleOrder', 'put')
+export const postSaleOrder = asyncThunkWithAxios('postsaor', 'post', 'SalesEC/saleorder/postSaleOrder', 'post')
+export const deleteSaleOrder = asyncThunkWithAxios('deletesaor', 'delete', 'SalesEC/saleorder/deleteSaleOrder', 'delete')
 
 const saleorderSlice = createSlice({
-  name: 'SalesEC/saleorders',
-  initialState: saleOrderAdapter.getInitialState({
-    searchText: '',
-  }),
+  name: 'SalesEC/saleorder',
+  initialState: null,
   reducers: {
-    setsaleordersearchText: {
-      reducer: (state, action) => {
-        state.searchText = action.payload
-      },
-      prepare: (event) => ({ payload: event.target.value || '' }),
+    resetSaleOrder: () => null,
+    newSaleOrder: {
+      reducer: (state, action) => action.payload,
+      prepare: (event) => ({
+        payload: SaleOrderInterface,
+      }),
     },
   },
   extraReducers: {
-    [getSaleOrders.fulfilled]: saleOrderAdapter.setAll,
-    [putSaleOrder.fulfilled]: (state, action) => saleOrderAdapter.updateOne(state, {
-        id: action.payload.id,
-        changes: action.payload
-      }
-    ),
-    [postSaleOrder.fulfilled]: saleOrderAdapter.addOne,
-    [deleteSaleOrder.fulfilled]: saleOrderAdapter.removeOne,
-    [delSaleOrderMulti.fulfilled]: saleOrderAdapter.removeMany,
+    [getSaleOrder.fulfilled]: (state, action) => action.payload,
+    [putSaleOrder.fulfilled]: (state, action) => action.payload,
+    [deleteSaleOrder.fulfilled]: (state, action) => null,
+    [postSaleOrder.fulfilled]: (state, action) => action.payload
   },
 })
 
-export const { setsaleordersearchText } = saleorderSlice.actions
+export const { newSaleOrder, resetSaleOrder } = saleorderSlice.actions;
 
-export const selectsaleordersearchText = ({ SalesEC }) => SalesEC.saleorder.searchText
+export const selectSaleOrder = ({ SalesEC }) => SalesEC.saleorder;
 
 export default saleorderSlice.reducer
