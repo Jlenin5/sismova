@@ -42,7 +42,7 @@ const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDele
   }
 
   const handleForm = () => {
-    if(form.podStock < form.podQuantity) {
+    if(form.podStock < form.quantity) {
       setOpenResponse({
         open: true,
         message: t('quantity_exceeds_stock'),
@@ -56,13 +56,13 @@ const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDele
         title: t('success'),
         type: 'success'
       })
-      if(form.podDiscountMethod === 1) {
-        form.podDiscount = form.podDiscount
+      if(form.discount_method === 1) {
+        form.discount = form.discount
       } else {
-        form.podDiscount = form.podDiscount / 100
+        form.discount = form.discount / 100
       }
-      let subTotal = parseFloat(form.podPrice) * parseInt(form.podQuantity)
-      let discount = parseFloat(subTotal - form.podDiscount)
+      let subTotal = parseFloat(form.price) * parseInt(form.quantity)
+      let discount = parseFloat(subTotal - form.discount)
       let tax = parseFloat(discount * form.podTax)
       form.podTotal = (discount + tax).toFixed(2)
       setTimeout(() => {
@@ -89,7 +89,7 @@ const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDele
   useEffect(() => {
     if(listProdTable) {
       if(listProd) {
-        setFindProduct(listProd.find(r => r.id === listProdTable.Product) || [])
+        setFindProduct(listProd.find(r => r.id === listProdTable.id) || [])
       }
       setForm(listProdTable)
     } else {
@@ -110,7 +110,7 @@ const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDele
         }}
       >
         <DialogTitle className='flex justify-between'>
-          {listProdTable.podName ? listProdTable.podName : findProduct.prodName}
+          {listProdTable.product_name ? listProdTable.product_name : findProduct.product_name}
           <Button variant="outlined" color="error" onClick={handleClose}>X</Button>
         </DialogTitle>
         <DialogContent>
@@ -118,29 +118,29 @@ const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDele
             <TextField
               label={t('sale_price')}
               required
-              id="podPrice"
+              id="price"
               variant="outlined"
-              name="podPrice"
-              value={form.podPrice || ''}
+              name="price"
+              value={form.price || listProdTable.sale_price}
               onChange={handleChange}
             />
             <TextField
               label={t('quantity')}
               required
-              id="podQuantity"
+              id="quantity"
               variant="outlined"
-              name="podQuantity"
-              value={form.podQuantity || ''}
+              name="quantity"
+              value={form.quantity || ''}
               onChange={handleChange}
             />
             <FormControl fullWidth>
-              <InputLabel id="podDiscountMethod">{t('discount_method')}</InputLabel>
+              <InputLabel id="discount_method">{t('discount_method')}</InputLabel>
               <Select
-                labelId="podDiscountMethod"
+                labelId="discount_method"
                 id="demo-simple-select"
                 label={t('discount_method')}
-                value={form.podDiscountMethod || 1}
-                name="podDiscountMethod"
+                value={form.discount_method || 1}
+                name="discount_method"
                 onChange={handleChange}
               >
                 <MenuItem value={0}>{t('percentage')}</MenuItem>
@@ -150,10 +150,10 @@ const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDele
             <TextField
               label={t('discount')}
               required
-              id="podDiscount"
+              id="discount"
               variant="outlined"
-              name="podDiscount"
-              value={form.podDiscount || 0.00}
+              name="discount"
+              value={form.discount || ''}
               onChange={handleChange}
             />
           </div>

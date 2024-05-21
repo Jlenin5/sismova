@@ -130,7 +130,7 @@ const BasicInfoTab = () => {
             {...field}
             error={!!errors.name}
             helperText={errors?.name?.message}
-            label={t('supplier_document')}
+            label={t('supplier_invoice')}
             required
             autoFocus
             id="supplier_document"

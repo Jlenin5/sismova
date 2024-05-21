@@ -278,6 +278,7 @@ const locale = {
   division: 'División',
   choose_company: 'Escoger empresa',
   choose_branch_office: 'Escoger sucursal',
+  supplier_invoice: 'Factura de proveedor',
 
 }
 

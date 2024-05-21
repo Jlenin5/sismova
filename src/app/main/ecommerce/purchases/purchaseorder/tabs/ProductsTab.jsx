@@ -61,17 +61,19 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
     if (selectedValue) {
       const findProduct = dProduct.find((r) => r.id === selectedValue.id)
       const updatedProduct = { ...findProduct, selectedValue }
+      console.log(updatedProduct)
       setListProd((prevList) => [...prevList, updatedProduct])
       let purchaseOrderDetailInterface = {
         id: updatedProduct.id,
         product_id: updatedProduct.id,
-        podName: updatedProduct.name,
+        product_name: updatedProduct.name,
         price: updatedProduct.sale_price,
+        quantity: 0,
+        tax_method: 1,
+        tax_net: 18,
+        discount_method: 1,
+        discount: 0,
         podStock: updatedProduct.prodStock,
-        podTax: 0.18,
-        podDiscountMethod: 1,
-        podDiscount: 0.00,
-        quantity: 1,
         total: updatedProduct.sale_price
       }
       onChange([...selectedProducts, purchaseOrderDetailInterface])
@@ -93,14 +95,14 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
 
   const calculateTax = () => {
     const tax = listProd.reduce((total, product) => {
-      return total + parseFloat(Number(product.podTax).toFixed(2) * product.quantity)
+      return total + parseFloat(Number(product.tax_net).toFixed(2) * product.quantity)
     }, 0)
     return tax.toFixed(2)
   }
 
   const calculateDiscount = () => {
     const discount = listProd.reduce((total, product) => {
-      return total + parseFloat(Number(product.podDiscount).toFixed(2) * product.quantity)
+      return total + parseFloat(Number(product.discount).toFixed(2) * product.quantity)
     }, 0)
     return discount.toFixed(2)
   }
@@ -156,7 +158,7 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
                       onClick={() => handleClickOpen( setListModalProd(data) )}
                     >
                       <TableCell className="w-52 px-4 md:px-0" component="th" scope="row">
-                        {data.podName ? data.podName : listFindProduct.name}
+                        {data.product_name ? data.product_name : listFindProduct.name}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
                         S/. {data.price}
@@ -168,10 +170,10 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
                         {data.quantity}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        S/. {(data.podDiscount * data.quantity).toFixed(2)}
+                        S/. {(data.discount * data.quantity).toFixed(2)}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        {(data.podTax * data.quantity).toFixed(2)}
+                        {(data.tax_net * data.quantity).toFixed(2)}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
                         S/. {data.total}
