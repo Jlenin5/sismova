@@ -1,6 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
 import { Controller, useFormContext } from 'react-hook-form'
 
 function PricingTab(props) {
@@ -51,6 +55,88 @@ function PricingTab(props) {
           />
         )}
       />
+
+      <div className="flex">
+        <Controller
+          name="product_taxes.igv"
+          control={control}
+          render={({ field }) => (
+            <FormControl className="mt-8 mb-16 mr-16" fullWidth>
+              <InputLabel id="igv">{t('igv')}</InputLabel>
+              <Select
+                {...field}
+                labelId="igv"
+                id="demo-simple-select"
+                label={t('igv')}
+              >
+                <MenuItem value={0}>{t('no')}</MenuItem>
+                <MenuItem value={1}>{t('yes')}</MenuItem>
+              </Select>
+            </FormControl>
+          )}
+        />
+        <Controller
+          name="product_taxes.igv_value"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              className="mt-8 mb-16"
+              label={t('igv_value')}
+              id="priceTaxExcl"
+              InputProps={{
+                startAdornment: <InputAdornment position="start">%</InputAdornment>,
+              }}
+              type="text"
+              onKeyPress={props.singleNumber}
+              variant="outlined"
+              autoFocus
+              fullWidth
+            />
+          )}
+        />
+      </div>
+
+      <div className="flex">
+        <Controller
+          name="product_taxes.isc"
+          control={control}
+          render={({ field }) => (
+            <FormControl className="mt-8 mb-16 mr-16" fullWidth>
+              <InputLabel id="isc">{t('isc')}</InputLabel>
+              <Select
+                {...field}
+                labelId="isc"
+                id="demo-simple-select"
+                label={t('isc')}
+              >
+                <MenuItem value={0}>{t('no')}</MenuItem>
+                <MenuItem value={1}>{t('yes')}</MenuItem>
+              </Select>
+            </FormControl>
+          )}
+        />
+        <Controller
+          name="product_taxes.isc_value"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              className="mt-8 mb-16"
+              label={t('isc_value')}
+              id="priceTaxExcl"
+              InputProps={{
+                startAdornment: <InputAdornment position="start">%</InputAdornment>,
+              }}
+              type="text"
+              onKeyPress={props.singleNumber}
+              variant="outlined"
+              autoFocus
+              fullWidth
+            />
+          )}
+        />
+      </div>
 
       {/* <Controller
         name="priceTaxExcl"

@@ -279,6 +279,10 @@ const locale = {
   choose_company: 'Escoger empresa',
   choose_branch_office: 'Escoger sucursal',
   supplier_invoice: 'Factura de proveedor',
+  yes: 'Sí',
+  no: 'No',
+  igv: 'IGV',
+  isc: 'ISC',
 
 }
 

@@ -1,6 +1,6 @@
 const ProductInterface = {
   id: null,
-  code: '00000004',
+  code: '',
   featured: '',
   name: '',
   description: '',
@@ -17,6 +17,12 @@ const ProductInterface = {
   categories: [],
   // branch_offices: [],
   product_images: [],
+  product_taxes: {
+    igv: 1,
+    isc: 0,
+    igv_value: 18,
+    isc_value: 0,
+  }
 }
 
 export default ProductInterface

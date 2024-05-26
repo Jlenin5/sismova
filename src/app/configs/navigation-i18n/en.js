@@ -279,6 +279,10 @@ const locale = {
   choose_company: 'Choose company',
   choose_branch_office: 'Choose branch office',
   supplier_invoice: 'Supplier invoice',
+  yes: 'Yes',
+  no: 'No',
+  igv: 'IGV',
+  isc: 'ISC',
   
 }
 
