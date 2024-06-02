@@ -61,19 +61,18 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
     if (selectedValue) {
       const findProduct = dProduct.find((r) => r.id === selectedValue.id)
       const updatedProduct = { ...findProduct, selectedValue }
-      console.log(updatedProduct)
       setListProd((prevList) => [...prevList, updatedProduct])
       let purchaseOrderDetailInterface = {
         id: updatedProduct.id,
         product_id: updatedProduct.id,
         product_name: updatedProduct.name,
-        price: updatedProduct.sale_price,
-        quantity: 0,
+        sale_price: updatedProduct.sale_price,
+        quantity: 1,
         tax_method: 1,
         tax_net: 18,
         discount_method: 1,
         discount: 0,
-        podStock: updatedProduct.prodStock,
+        stock: 1,
         total: updatedProduct.sale_price
       }
       onChange([...selectedProducts, purchaseOrderDetailInterface])
@@ -164,13 +163,16 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
                         S/. {data.price}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        {data.podStock ? data.podStock : listFindProduct.prodStock}
+                        {data.stock ? data.stock : listFindProduct.stock}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
                         {data.quantity}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
                         S/. {(data.discount * data.quantity).toFixed(2)}
+                      </TableCell>
+                      <TableCell className="p-4 md:p-16" component="th" scope="row">
+                        {data.sub_total}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
                         {(data.tax_net * data.quantity).toFixed(2)}

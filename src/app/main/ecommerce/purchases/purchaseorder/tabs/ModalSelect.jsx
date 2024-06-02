@@ -42,7 +42,7 @@ const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDele
   }
 
   const handleForm = () => {
-    if(form.podStock < form.quantity) {
+    if(form.stock < form.quantity) {
       setOpenResponse({
         open: true,
         message: t('quantity_exceeds_stock'),
@@ -63,8 +63,8 @@ const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDele
       }
       let subTotal = parseFloat(form.price) * parseInt(form.quantity)
       let discount = parseFloat(subTotal - form.discount)
-      let tax = parseFloat(discount * form.podTax)
-      form.podTotal = (discount + tax).toFixed(2)
+      let tax = parseFloat(discount * form.tax_net)
+      form.total = (subTotal * tax).toFixed(2)
       setTimeout(() => {
         handleClose()
       }, 1300)
@@ -114,7 +114,7 @@ const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDele
           <Button variant="outlined" color="error" onClick={handleClose}>X</Button>
         </DialogTitle>
         <DialogContent>
-          <div className="grid grid-flow-row-dense grid-cols-2 gap-32 mt-12">
+        <div className="grid grid-flow-row-dense grid-cols-2 gap-32 mt-12">
             <TextField
               label={t('sale_price')}
               required
@@ -130,7 +130,7 @@ const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDele
               id="quantity"
               variant="outlined"
               name="quantity"
-              value={form.quantity || ''}
+              value={form.quantity || 1}
               onChange={handleChange}
             />
             <FormControl fullWidth>
@@ -153,7 +153,7 @@ const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDele
               id="discount"
               variant="outlined"
               name="discount"
-              value={form.discount || ''}
+              value={form.discount || 0}
               onChange={handleChange}
             />
           </div>

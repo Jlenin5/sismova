@@ -47,10 +47,12 @@ const PurchaseOrderTable = ({
   })
 
   useEffect(() => {
-    dispatch(getPurhcaseOrders({ page: page + 1, rowsPerPage, searchText:'' })).then((response) => {
-      setData(response.payload.data)
-      setLengthPage(response.payload.totalRows)
-      setLoading(false)
+    setTimeout(() => {
+      dispatch(getPurhcaseOrders({ page: page + 1, rowsPerPage, searchText:'' })).then((response) => {
+        setData(response.payload.data)
+        setLengthPage(response.payload.totalRows)
+        setLoading(false)
+      })
     })
   }, [dispatch, page])
 

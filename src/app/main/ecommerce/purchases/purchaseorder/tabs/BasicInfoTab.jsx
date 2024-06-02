@@ -52,7 +52,7 @@ const BasicInfoTab = () => {
             getOptionLabel={(option) => option.name}
             onChange={(_, data) => {
               onChange(data)
-              methods.setValue("warehouses", data?.id || null)
+              methods.setValue("warehouse_id", data?.id || null)
               return data
             }}
             value={dWarehouse.find((option) => option.id === value) || null}
@@ -79,7 +79,7 @@ const BasicInfoTab = () => {
             getOptionLabel={(option) => option.first_name}
             onChange={(_, data) => {
               onChange(data)
-              methods.setValue("employees", data?.id || null)
+              methods.setValue("employee_id", data?.id || null)
               return data
             }}
             value={employees.find((option) => option.id === value) || null}
@@ -106,7 +106,7 @@ const BasicInfoTab = () => {
             getOptionLabel={(option) => option.name}
             onChange={(_, data) => {
               onChange(data)
-              methods.setValue("suppliers", data?.id || null)
+              methods.setValue("supplier_id", data?.id || null)
               return data
             }}
             value={dSupplier.find((option) => option.id === value) || null}
