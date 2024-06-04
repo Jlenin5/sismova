@@ -33,10 +33,10 @@ const PurchaseOrderTableHead = (props) => {
       sort: false,
     },
     {
-      id: 'puorReference',
+      id: 'code',
       align: 'left',
       disablePadding: false,
-      label: t('reference'),
+      label: t('code'),
       sort: true,
     },
     {

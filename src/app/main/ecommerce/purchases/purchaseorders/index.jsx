@@ -11,19 +11,20 @@ import { useDispatch, useSelector } from 'react-redux'
 const index = () => {
   const dispatch = useDispatch()
   const purchaseOrders = useSelector(selectPurchaseOrder)
+  const [searchText, setSearchText] = useState('')
   const [data,setData] = useState(purchaseOrders)
   const [loading, setLoading] = useState(true)
   const [lengthPage, setLengthPage] = useState(data.length)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
-  useEffect(() => {
-    dispatch(getPurhcaseOrders({ page: page + 1, rowsPerPage })).then((response) => {
-      setData(response.payload.data)
-      setLengthPage(response.payload.totalRows)
-      setLoading(false)
-    })
-  }, [dispatch, page])
+  // useEffect(() => {
+  //   dispatch(getPurhcaseOrders({ page: page + 1, rowsPerPage })).then((response) => {
+  //     setData(response.payload.data)
+  //     setLengthPage(response.payload.totalRows)
+  //     setLoading(false)
+  //   })
+  // }, [dispatch, page])
 
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'))
 
@@ -36,6 +37,8 @@ const index = () => {
           setLoading={setLoading}
           page={page}
           rowsPerPage={rowsPerPage}
+          setSearchText={setSearchText}
+          searchText={searchText}
         />
       }
       content={
@@ -48,6 +51,8 @@ const index = () => {
           setPage={setPage}
           rowsPerPage={rowsPerPage}
           setRowsPerPage={setRowsPerPage}
+          setSearchText={setSearchText}
+          searchText={searchText}
         />
       }
       scroll={isMobile ? 'normal' : 'content'}

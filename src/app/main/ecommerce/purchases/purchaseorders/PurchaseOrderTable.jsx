@@ -54,18 +54,7 @@ const PurchaseOrderTable = ({
         setLoading(false)
       })
     })
-  }, [dispatch, page])
-
-  useEffect(() => {
-    if (searchText.length !== 0) {
-      setData(
-        _.filter(purchaseOrders, (item) => item.puorNumber.toLowerCase().includes(searchText.toLowerCase()))
-      )
-      setPage(0)
-    } else {
-      setData(purchaseOrders)
-    }
-  }, [purchaseOrders, searchText])
+  }, [dispatch, page, rowsPerPage, setLoading, setData])
 
   function handleRequestSort(event, property) {
     const id = property

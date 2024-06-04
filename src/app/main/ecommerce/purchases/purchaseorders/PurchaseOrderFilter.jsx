@@ -24,7 +24,7 @@ const PurchaseOrderFilter = ({ open, page, rowsPerPage, setLoading, handleFilter
           <div spacing={2} className="flex flex-wrap m-16 gap-16 justify-center">
             <TextField
               id="outlined-basic"
-              label={t('reference')}
+              label={t('code')}
               variant="outlined"
               onChange={(e) => handleFilters(e.target.value)}
             />
