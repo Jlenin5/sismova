@@ -292,7 +292,7 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
         </FormControl>
       </DialogContent>
       <DialogActions className="mb-20 mr-20">
-        <Button variant="contained" color="error" onClick={() => handleClose(dataToEdit.id)}>Eliminar</Button>
+        {form.id ? <Button variant="contained" color="error" onClick={() => handleClose(dataToEdit.id)}>Eliminar</Button> : <></>}
         <Button variant="contained" color="success" onClick={handleSubmit}>Guardar</Button>
       </DialogActions>
       {/* <Dialog
