@@ -173,7 +173,7 @@ const EmployeeTable = (props) => {
                     tabIndex={-1}
                     key={n.id}
                     selected={isSelected}
-                    onClick={() => setIdE(n.id) }
+                    onClick={() => setIdE(n) }
                   >
                     <TableCell className="w-40 md:w-64 text-center" padding="none">
                       <Checkbox
@@ -243,6 +243,7 @@ const EmployeeTable = (props) => {
         setAnchorEl={setAnchorEl}
         openOption={openOption}
         dataToEdit={props.dataToEdit}
+        setDataToEdit={props.setDataToEdit}
         idE={idE}
       />
       <TablePagination

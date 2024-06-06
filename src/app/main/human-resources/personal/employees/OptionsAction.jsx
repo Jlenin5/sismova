@@ -7,19 +7,29 @@ import { useDispatch } from 'react-redux'
 import ModalConvertToUser from './ModalConvertToUser'
 import ShowDetails from './ShowDetails'
 import { deleteEmployee } from '../store/employeesSlice'
+import EmployeeForm from './modal//EmployeeForm'
 
 const ITEM_HEIGHT = 48
 
-const OptionsAction = ({idE, openOption, anchorEl, setAnchorEl}) => {
+const OptionsAction = ({idE, openOption, anchorEl, setAnchorEl, dataToEdit, setDataToEdit}) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [openEditEmployee, setOpenEditEmployee] = useState(false)
   const [openCovertUser, setOpenConvertUser] = useState(false)
   const [openShowDetails, setOpenShowDetails] = useState(false)
   const { t } = useTranslation()
 
-  const editEmployee = () => {
+  // const editEmployee = () => {
+  //   handleClose()
+  //   navigate(`/human-resources/personal/employee/${idE}`)
+  // }
+
+  const openModalEditEmployee = () => {
     handleClose()
-    navigate(`/human-resources/personal/employee/${idE}`)
+    setOpenEditEmployee(true)
+  }
+  const closeModalEditEmployee = () => {
+    setOpenEditEmployee(false)
   }
 
   const openModalConvertUser = () => {
@@ -59,12 +69,12 @@ const OptionsAction = ({idE, openOption, anchorEl, setAnchorEl}) => {
           },
         }}
       >
-        <MenuItem onClick={editEmployee}>
+        <MenuItem onClick={() => openModalEditEmployee( setDataToEdit(idE))}>
           {t('edit')}
         </MenuItem>
         <MenuItem onClick={() => {
           handleClose()
-          dispatch(deleteEmployee(idE))
+          dispatch(deleteEmployee(idE.id))
         }}>
           {t('delete')}
         </MenuItem>
@@ -75,16 +85,23 @@ const OptionsAction = ({idE, openOption, anchorEl, setAnchorEl}) => {
           {t('convert_to_user')}
         </MenuItem>
       </Menu>
-      <ModalConvertToUser
+      {/* <ModalConvertToUser
         open={openCovertUser}
         close={closeModalConvertUser}
+        idE={idE.id}
+      /> */}
+      <EmployeeForm
+        open={openEditEmployee}
+        onClose={closeModalEditEmployee}
         idE={idE}
+        dataToEdit={dataToEdit}
+        setDataToEdit={setDataToEdit}
       />
-      <ShowDetails
+      {/* <ShowDetails
         open={openShowDetails}
         close={closeModalShowDetails}
         idE={idE}
-      />
+      /> */}
     </>
   )
 }
