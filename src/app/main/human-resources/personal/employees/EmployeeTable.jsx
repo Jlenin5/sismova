@@ -32,6 +32,7 @@ const EmployeeTable = (props) => {
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState([])
   const [data, setData] = useState(employees)
+  const [lengthPage, setLengthPage] = useState(data.length)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
@@ -44,7 +45,7 @@ const EmployeeTable = (props) => {
   }
 
   useEffect(() => {
-    dispatch(getEmployees()).then(() => setLoading(false))
+    fetchData(page, rowsPerPage)
   }, [dispatch])
 
   useEffect(() => {
@@ -103,11 +104,25 @@ const EmployeeTable = (props) => {
   }
 
   function handleChangePage(event, value) {
-    setPage(value)
+    fetchData(value, 10)
   }
 
   function handleChangeRowsPerPage(event) {
-    setRowsPerPage(event.target.value)
+    setPage(0)
+    fetchData(0, event.target.value)
+  }
+
+  const fetchData = (page, rowsPerPage) => {
+    setLoading(true)
+    setTimeout(() => {
+      dispatch(getEmployees({ page: page + 1, rowsPerPage: rowsPerPage, searchText:'' })).then((response) => {
+        setPage(page)
+        setRowsPerPage(rowsPerPage)
+        setData(response.payload.data)
+        setLengthPage(response.payload.totalRows)
+        setLoading(false)
+      })
+    })
   }
 
   if (loading) {
@@ -161,7 +176,6 @@ const EmployeeTable = (props) => {
                 ],
                 [order.direction]
               )
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((n) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 return ( 
@@ -251,7 +265,7 @@ const EmployeeTable = (props) => {
         labelRowsPerPage={t('rows_per_page')}
         labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
-        count={data.length}
+        count={lengthPage}
         rowsPerPage={rowsPerPage}
         page={page}
         backIconButtonProps={{
