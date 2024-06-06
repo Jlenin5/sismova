@@ -6,14 +6,13 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { getEmployee } from '../store/employeeSlice'
 import { useTranslation } from 'react-i18next'
 import { getMaxId, postUser } from '../store/userSlice'
 import { getRoles } from 'src/app/main/settings/controls/store/rolSlice'
 
 const ModalConvertToUser = ({open, close, idE}) => {
   const dispatch = useDispatch()
-  const [emp, setEmp] = useState({})
+  // const [emp, setEmp] = useState({})
   const [maxId, setMaxId] = useState(null)
   const [rol, setRol] = useState(1)
   const [dRol, setDRol] = useState([])
@@ -31,15 +30,15 @@ const ModalConvertToUser = ({open, close, idE}) => {
     dispatch(postUser({
       id: maxId + 1,
       Employee: idE,
-      userDisplayName: emp.empDocument,
-      userPassword: emp.empDocument,
+      // userDisplayName: emp.empDocument,
+      // userPassword: emp.empDocument,
       Rol: rol
     }))
   }
 
   useEffect(() => {
     if(idE) {
-      dispatch(getEmployee(Number(idE))).then(r => setEmp(r.payload))
+      // dispatch(getEmployee(Number(idE))).then(r => setEmp(r.payload))
       dispatch(getMaxId()).then(r => setMaxId(r.payload.ultimo_id))
       dispatch(getRoles()).then(r => setDRol(r.payload))
     }
@@ -58,7 +57,7 @@ const ModalConvertToUser = ({open, close, idE}) => {
             {t('name')}:
           </Typography>
           <Typography variant="h6" gutterBottom>
-            {emp.empFirstName}
+            {/* {emp.empFirstName} */}
           </Typography>
         </div>
         <div className="n_document">
@@ -66,7 +65,7 @@ const ModalConvertToUser = ({open, close, idE}) => {
             {t('n_document')}:
           </Typography>
           <Typography variant="h6" gutterBottom>
-            {emp.empDocument}
+            {/* {emp.empDocument} */}
           </Typography>
         </div>
         <div className="display_name">
@@ -74,7 +73,7 @@ const ModalConvertToUser = ({open, close, idE}) => {
             {t('user_name')}:
           </Typography>
           <Typography variant="h6" gutterBottom>
-            {emp.empDocument}
+            {/* {emp.empDocument} */}
           </Typography>
         </div>
         <div className="password">
@@ -82,7 +81,7 @@ const ModalConvertToUser = ({open, close, idE}) => {
             {t('password')}:
           </Typography>
           <Typography variant="h6" gutterBottom>
-            {emp.empDocument}
+            {/* {emp.empDocument} */}
           </Typography>
         </div>
         <FormControl className="mt-8 mx-4" fullWidth>

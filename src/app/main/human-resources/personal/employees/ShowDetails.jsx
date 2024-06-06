@@ -1,12 +1,11 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { getEmployee } from '../store/employeeSlice'
 import { useTranslation } from 'react-i18next'
 
 const ShowDetails = ({open, close, idE}) => {
   const dispatch = useDispatch()
-  const [emp, setEmp] = useState({})
+  // const [emp, setEmp] = useState({})
   const { t } = useTranslation()
 
   const handleClose = () => {
@@ -15,7 +14,7 @@ const ShowDetails = ({open, close, idE}) => {
 
   useEffect(() => {
     if(idE) {
-      dispatch(getEmployee(Number(idE))).then(r => setEmp(r.payload))
+      // dispatch(getEmployee(Number(idE))).then(r => setEmp(r.payload))
     }
   }, [dispatch, idE])
 
