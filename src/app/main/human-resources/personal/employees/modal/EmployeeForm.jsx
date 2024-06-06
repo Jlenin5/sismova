@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-// import './form.css'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { deleteEmployee, getMaxId, postEmployee, putEmployee } from '../../store/employeesSlice'
@@ -11,6 +10,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import EmployeeInterface from 'src/app/interfaces/EmployeeInterface'
 import { getWorkAreas } from '../../../ocupations/store/waSlice'
+import CloseIcon from '@mui/icons-material/Close'
+import IconButton from '@mui/material/IconButton'
 
 const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   
@@ -129,21 +130,28 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   }, [dispatch, dataToEdit])
 
   return (
-    <Dialog
-      onClose={handleClose}
-      open={open}
-      className='form-dialog-category'
-    >
-      <DialogTitle>Formulario</DialogTitle>
-      <DialogContent className="ctn-inputs fc-input-t">
+    <Dialog open={open} className="form-dialog-category">
+      <DialogTitle className="flex justify-between mt-10">
+        <div>{!form.id ? t('register_employee') : t('update_employee')}</div>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent className='grid grid-flow-row-dense grid-cols-2 gap-32' dividers>
         <TextField
           autoFocus
           error={!form.first_name && clicked}
           required
-          margin="dense"
           id="first_name"
           label={t('first_name')}
           type="text"
+          fullWidth
           variant="outlined"
           name='first_name'
           value={form.first_name}
@@ -152,10 +160,10 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           helperText={!form.first_name ? 'Este campo es obligatorio' : ''}
         />
         <TextField
-          margin="dense"
           id="second_name"
           label={t('second_name')}
           type="text"
+          fullWidth
           variant="outlined"
           name='second_name'
           value={form.second_name || ''}
@@ -164,10 +172,10 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
         <TextField
           error={!form.surname && clicked}
           required
-          margin="dense"
           id="surname"
           label={t('surname')}
           type="text"
+          fullWidth
           variant="outlined"
           name='surname'
           value={form.surname || ''}
@@ -178,10 +186,10 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
         <TextField
           error={!form.second_surname && clicked}
           required
-          margin="dense"
           id="second_surname"
           label={t('second_surname')}
           type="text"
+          fullWidth
           variant="outlined"
           name='second_surname'
           value={form.second_surname || ''}
@@ -190,26 +198,26 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           helperText={!form.second_surname ? 'Este campo es obligatorio' : ''}
         />
         <TextField
-          margin="dense"
           id="email"
           label={t('e_mail')}
           type="text"
+          fullWidth
           variant="outlined"
           name='email'
           value={form.email || ''}
           onChange={handleChange}
         />
         <TextField
-          margin="dense"
           id="phone"
           label={t('cell_phone')}
           type="text"
+          fullWidth
           variant="outlined"
           name='phone'
           value={form.phone || ''}
           onChange={handleChange}
         />
-        <FormControl className="mt-8 mb-16 mx-4" fullWidth>
+        <FormControl fullWidth>
           <InputLabel id="document_type">{t('document_type')}</InputLabel>
           <Select
             labelId="document_type"
@@ -227,10 +235,10 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
         <TextField
           error={!form.document_number && clicked}
           required
-          margin="dense"
           id="document_number"
           label={t('n_document')}
           type="text"
+          fullWidth
           variant="outlined"
           name='document_number'
           value={form.document_number}
@@ -246,16 +254,15 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           getOptionLabel={(option) => option.name}
           onChange={(_, data) => {
             setForm({ ...form, work_area_id: data ? data.id : 0 })
-            getProvinces(data?.id)
             return data
           }}
           name="work_area_id"
           value={workAreas.find((option) => option.id === form.work_area_id) || null}
           renderInput={(params) => (
-            <TextField {...params} label={t('choose_work_area')} />
+            <TextField {...params} label={t('select_work_area')} />
           )}
         />
-        <FormControl sx={{ width: '28.5ch', top: '2ch' }}>
+        <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">{t('sex')}</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -269,12 +276,12 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
             <MenuItem value={1}>{t('female')}</MenuItem>
           </Select>
         </FormControl>
-        <FormControl sx={{ width: '28.5ch', top: '2ch' }}>
-          <InputLabel id="demo-simple-select-label">{t('state')}</InputLabel>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">{t('status')}</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            label={t('state')}
+            label={t('status')}
             name='status'
             value={form.status}
             onChange={handleChange}
@@ -284,9 +291,9 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           </Select>
         </FormControl>
       </DialogContent>
-      <DialogActions>
-        {form.id!==null ? <Button onClick={() => handleClose(dataToEdit.id)}>Eliminar</Button> : <Button onClick={()=>handleClose(0)}>Cancelar</Button>}
-        <Button onClick={handleSubmit}>Guardar</Button>
+      <DialogActions className="mb-20 mr-20">
+        <Button variant="contained" color="error" onClick={() => handleClose(dataToEdit.id)}>Eliminar</Button>
+        <Button variant="contained" color="success" onClick={handleSubmit}>Guardar</Button>
       </DialogActions>
       {/* <Dialog
         open={openDialog}

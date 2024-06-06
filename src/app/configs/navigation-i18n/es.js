@@ -283,6 +283,11 @@ const locale = {
   no: 'No',
   igv: 'IGV',
   isc: 'ISC',
+  register_employee: 'Registrar empleado',
+  update_employee: 'Actualizar empleado',
+  choose_work_area: 'Escoger área de trabajo',
+  select_work_area: 'Seleccionar área de trabajo',
+  status: 'Estado',
 
 }
 

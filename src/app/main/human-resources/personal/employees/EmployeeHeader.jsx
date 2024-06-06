@@ -5,14 +5,25 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { selectEmployeeSearchText, setEmployeeSearchText } from '../store/employeesSlice'
+import EmployeeForm from './modal/EmployeeForm'
 
 const EmployeeHeader = (props) => {
   const dispatch = useDispatch()
+  const [open, setOpen] = useState(false)
   const searchText = useSelector(selectEmployeeSearchText)
-  const { t } = useTranslation()  
+  const { t } = useTranslation()
+
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
 
   return (
     <div className="flex flex-col sm:flex-row space-y-16 sm:space-y-0 flex-1 w-full items-center justify-between py-32 px-24 md:px-32">
@@ -55,12 +66,18 @@ const EmployeeHeader = (props) => {
             className=""
             variant="contained"
             component={Link}
-            to="/human-resources/personal/employee/new"
+            onClick={() => handleClickOpen()}
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >
             {t('add')}
           </Button>
+          <EmployeeForm
+            open={open}
+            onClose={handleClose}
+            dataToEdit={props.dataToEdit}
+            setDataToEdit={props.setDataToEdit}
+          />
         </motion.div>
       </div>
     </div>
