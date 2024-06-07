@@ -288,6 +288,8 @@ const locale = {
   choose_work_area: 'Choose work area',
   select_work_area: 'Select work area',
   status: 'Status',
+  sales_return: 'Sales return',
+  purchase_return: 'Purchase return',
   
 }
 

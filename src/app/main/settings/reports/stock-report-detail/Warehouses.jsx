@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
@@ -10,6 +11,7 @@ import TableCell from '@mui/material/TableCell'
 
 const Warehouses = () => {
 
+  const { t } = useTranslation()
   const methods = useFormContext()
   const { getValues } = methods
 
@@ -32,10 +34,10 @@ const Warehouses = () => {
         <Paper className="flex flex-col flex-auto p-24 shadow rounded-2xl overflow-hidden h-full">
           <div className="flex flex-col sm:flex-row items-start justify-between">
             <Typography className="text-lg font-medium tracking-tight leading-6 truncate">
-              Almacén
+              {t('warehouse')}
             </Typography>
             <Typography className="text-lg font-medium tracking-tight leading-6 truncate">
-              Cantidad
+              {t('quantity')}
             </Typography>
           </div>
           {getValues().warehouses.map((n) => {

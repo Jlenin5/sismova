@@ -288,6 +288,8 @@ const locale = {
   choose_work_area: 'Escoger área de trabajo',
   select_work_area: 'Seleccionar área de trabajo',
   status: 'Estado',
+  sales_return: 'Devolución de venta',
+  purchase_return: 'Devolución de compra',
 
 }
 
