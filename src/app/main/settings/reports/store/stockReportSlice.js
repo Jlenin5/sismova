@@ -1,12 +1,12 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import asyncThunkWithAxios from 'src/app/services/api'
 
-export const getStockReports = asyncThunkWithAxios('stock_report', 'get', 'ReportsSC/reports/getStockReports', 'get')
-export const getMaxId = asyncThunkWithAxios('stock_report_max', 'get', 'ReportsSC/reports/getMaxId', 'getmax')
-export const putStockReport = asyncThunkWithAxios('update_stock_report', 'put', 'ReportsSC/reports/putStockReport', 'put')
-export const postStockReport = asyncThunkWithAxios('post_stock_report', 'post', 'ReportsSC/reports/postStockReport', 'post')
-export const deleteStockReport = asyncThunkWithAxios('delete_stock_report', 'delete', 'ReportsSC/reports/deleteStockReport', 'delete')
-export const delStockReportMulti = asyncThunkWithAxios('del_stock_report_Multi', 'delete', 'ReportsSC/reports/delStockReportMulti', 'deletemulti')
+export const getStockReports = asyncThunkWithAxios('stock_report', 'get', 'ReportsSC/stockReport/getStockReports', 'get')
+export const getMaxId = asyncThunkWithAxios('stock_report_max', 'get', 'ReportsSC/stockReport/getMaxId', 'getmax')
+export const putStockReport = asyncThunkWithAxios('update_stock_report', 'put', 'ReportsSC/stockReport/putStockReport', 'put')
+export const postStockReport = asyncThunkWithAxios('post_stock_report', 'post', 'ReportsSC/stockReport/postStockReport', 'post')
+export const deleteStockReport = asyncThunkWithAxios('delete_stock_report', 'delete', 'ReportsSC/stockReport/deleteStockReport', 'delete')
+export const delStockReportMulti = asyncThunkWithAxios('del_stock_report_Multi', 'delete', 'ReportsSC/stockReport/delStockReportMulti', 'deletemulti')
 
 const stockReportAdapter = createEntityAdapter({})
 
@@ -14,12 +14,12 @@ export const { selectAll: selectStockReport, selectById: selectStockReportById }
   stockReportAdapter.getSelectors((state) => state.ReportsSC.stockReport)
 
 const stockReportSlice = createSlice({
-  name: 'ReportsSC/reports',
+  name: 'ReportsSC/stockReport',
   initialState: stockReportAdapter.getInitialState({
     searchText: '',
   }),
   reducers: {
-    setWorkAreaSearchText: {
+    setStockReportSearchText: {
       reducer: (state, action) => {
         state.searchText = action.payload
       },

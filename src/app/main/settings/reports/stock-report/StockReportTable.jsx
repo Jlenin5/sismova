@@ -1,19 +1,16 @@
 import { useTranslation } from 'react-i18next'
 import FuseScrollbars from '@fuse/core/FuseScrollbars'
 import _ from '@lodash'
-import IconButton from '@mui/material/IconButton'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import Checkbox from '@mui/material/Checkbox'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import withRouter from '@fuse/core/withRouter'
 import FuseLoading from '@fuse/core/FuseLoading'
 import StockReportTableHead from './StockReportTableHead'
@@ -24,8 +21,7 @@ const StockReportTable = (props) => {
   const dispatch = useDispatch()
   const stock_reports = useSelector(selectStockReport)
   const searchText = useSelector(selectStockReportSearchText)
-  const [anchorEl, setAnchorEl] = useState(null)
-  const openOption = Boolean(anchorEl)
+  const navigate = useNavigate()
   const { t } = useTranslation()
 
   const [loading, setLoading] = useState(true)
@@ -41,12 +37,12 @@ const StockReportTable = (props) => {
 
   useEffect(() => {
     fetchData(page, rowsPerPage)
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     if (searchText.length !== 0) {
       setData(
-        _.filter(stock_reports, (item) => item.empFirstName.toLowerCase().includes(searchText.toLowerCase()))
+        _.filter(stock_reports, (item) => item.code.toLowerCase().includes(searchText.toLowerCase()))
       )
       setPage(0)
     } else {
@@ -78,24 +74,8 @@ const StockReportTable = (props) => {
     setSelected([])
   }
 
-  function handleCheck(event, id) {
-    const selectedIndex = selected.indexOf(id)
-    let newSelected = []
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id)
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1))
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1))
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      )
-    }
-
-    setSelected(newSelected)
+  const stockReportDetail = (id) => {
+    navigate(`/settings/reports/stock-report-detail/${id}`)
   }
 
   function handleChangePage(event, value) {
@@ -182,7 +162,6 @@ const StockReportTable = (props) => {
                     tabIndex={-1}
                     key={n.id}
                     selected={isSelected}
-                    // onClick={() => setIdE(n.id) }
                   >
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {n.code}
@@ -200,16 +179,16 @@ const StockReportTable = (props) => {
                       {n.reserve_stock}
                     </TableCell>
 
-                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {n.purchase_price}
                     </TableCell>
 
-                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {n.sale_price}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" padding="none" align="center">
-                      <Button variant="contained" color="secondary">{t('reports')}</Button>
+                      <Button variant="contained" color="secondary" onClick={() => stockReportDetail(n.id)}>{t('reports')}</Button>
                     </TableCell>
 
                   </TableRow>

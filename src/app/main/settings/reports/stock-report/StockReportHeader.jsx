@@ -5,12 +5,12 @@ import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
-// import { selectEmployeeSearchText, setEmployeeSearchText } from '../store/employeesSlice'
+import { selectStockReportSearchText, setStockReportSearchText } from '../store/stockReportSlice'
 
 const StockReportHeader = (props) => {
   const dispatch = useDispatch()
-  // const searchText = useSelector(selectEmployeeSearchText)
-  const { t } = useTranslation()  
+  const searchText = useSelector(selectStockReportSearchText)
+  const { t } = useTranslation()
 
   return (
     <div className="flex flex-col sm:flex-row space-y-16 sm:space-y-0 flex-1 w-full items-center justify-between py-32 px-24 md:px-32">
@@ -38,11 +38,11 @@ const StockReportHeader = (props) => {
             className="flex flex-1"
             disableUnderline
             fullWidth
-            // value={searchText}
+            value={searchText}
             inputProps={{
               'aria-label': 'Search',
             }}
-            // onChange={(ev) => dispatch(setEmployeeSearchText(ev))}
+            onChange={(ev) => dispatch(setStockReportSearchText(ev))}
           />
         </Paper>
       </div>

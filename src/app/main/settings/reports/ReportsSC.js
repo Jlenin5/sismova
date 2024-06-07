@@ -6,6 +6,7 @@ const ProductReport = lazy(() => import('./product-report'))
 const PurchasingReport = lazy(() => import('./purchasing-report'))
 const SalesReport = lazy(() => import('./sales-report'))
 const StockReport = lazy(() => import('./stock-report'))
+const StockReportDetail = lazy(() => import('./stock-report-detail'))
 const SuppliersReport = lazy(() => import('./suppliers-report'))
 const WarehouseReport = lazy(() => import('./warehouse-report'))
 
@@ -33,6 +34,10 @@ const ReportsSC = {
     {
       path: 'settings/reports/stock-report',
       element: <StockReport />,
+    },
+    {
+      path: 'settings/reports/stock-report-detail/:id',
+      element: <StockReportDetail />,
     },
     {
       path: 'settings/reports/suppliers-report',
