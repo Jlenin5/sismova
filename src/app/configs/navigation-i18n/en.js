@@ -252,7 +252,7 @@ const locale = {
   excel: 'Excel',
   pdf: 'PDF',
   reference: 'Reference',
-  reports: 'Informes',
+  reports: 'Reports',
   stock_report: 'Stock report',
   warehouse_report: 'Warehouse report',
   product_report: 'Product report',

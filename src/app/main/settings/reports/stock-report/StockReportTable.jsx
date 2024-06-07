@@ -10,6 +10,7 @@ import TableCell from '@mui/material/TableCell'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
+import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
@@ -17,17 +18,20 @@ import withRouter from '@fuse/core/withRouter'
 import FuseLoading from '@fuse/core/FuseLoading'
 import StockReportTableHead from './StockReportTableHead'
 import { useDispatch, useSelector } from 'react-redux'
-// import { getEmployees, selectEmployee, selectEmployeeSearchText } from '../store/employeesSlice'
+import { getStockReports, selectStockReport, selectStockReportSearchText } from '../store/stockReportSlice'
 
 const StockReportTable = (props) => {
   const dispatch = useDispatch()
-  // const employees = useSelector(selectEmployee)
-  // const searchText = useSelector(selectEmployeeSearchText)
+  const stock_reports = useSelector(selectStockReport)
+  const searchText = useSelector(selectStockReportSearchText)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const openOption = Boolean(anchorEl)
   const { t } = useTranslation()
 
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState([])
-  // const [data, setData] = useState(employees)
+  const [data, setData] = useState(stock_reports)
+  const [lengthPage, setLengthPage] = useState(data.length)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
@@ -36,19 +40,19 @@ const StockReportTable = (props) => {
   })
 
   useEffect(() => {
-    // dispatch(getEmployees()).then(() => setLoading(false))
-  }, [dispatch])
+    fetchData(page, rowsPerPage)
+  }, [])
 
-  // useEffect(() => {
-  //   if (searchText.length !== 0) {
-  //     setData(
-  //       _.filter(employees, (item) => item.empFirstName.toLowerCase().includes(searchText.toLowerCase()))
-  //     )
-  //     setPage(0)
-  //   } else {
-  //     setData(employees)
-  //   }
-  // }, [employees, searchText])
+  useEffect(() => {
+    if (searchText.length !== 0) {
+      setData(
+        _.filter(stock_reports, (item) => item.empFirstName.toLowerCase().includes(searchText.toLowerCase()))
+      )
+      setPage(0)
+    } else {
+      setData(stock_reports)
+    }
+  }, [stock_reports, searchText])
 
   function handleRequestSort(event, property) {
     const id = property
@@ -62,13 +66,13 @@ const StockReportTable = (props) => {
     })
   }
 
-  // function handleSelectAllClick(event) {
-  //   if (event.target.checked) {
-  //     setSelected(data.map((n) => n.id))
-  //     return
-  //   }
-  //   setSelected([])
-  // }
+  function handleSelectAllClick(event) {
+    if (event.target.checked) {
+      setSelected(data.map((n) => n.id))
+      return
+    }
+    setSelected([])
+  }
 
   function handleDeselect() {
     setSelected([])
@@ -95,49 +99,63 @@ const StockReportTable = (props) => {
   }
 
   function handleChangePage(event, value) {
-    setPage(value)
+    fetchData(value, 10)
   }
 
   function handleChangeRowsPerPage(event) {
-    setRowsPerPage(event.target.value)
+    setPage(0)
+    fetchData(0, event.target.value)
   }
 
-  // if (loading) {
-  //   return (
-  //     <div className="flex items-center justify-center h-full">
-  //       <FuseLoading />
-  //     </div>
-  //   )
-  // }
+  const fetchData = (page, rowsPerPage) => {
+    setLoading(true)
+    setTimeout(() => {
+      dispatch(getStockReports({ page: page + 1, rowsPerPage: rowsPerPage, searchText:'' })).then((response) => {
+        setPage(page)
+        setRowsPerPage(rowsPerPage)
+        setData(response.payload.data)
+        setLengthPage(response.payload.totalRows)
+        setLoading(false)
+      })
+    })
+  }
 
-  // if (data.length === 0) {
-  //   return (
-  //     <motion.div
-  //       initial={{ opacity: 0 }}
-  //       animate={{ opacity: 1, transition: { delay: 0.1 } }}
-  //       className="flex flex-1 items-center justify-center h-full"
-  //     >
-  //       <Typography color="text.secondary" variant="h5">
-  //         {t('there_is_no_data')}
-  //       </Typography>
-  //     </motion.div>
-  //   )
-  // }
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <FuseLoading />
+      </div>
+    )
+  }
+
+  if (data.length === 0) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { delay: 0.1 } }}
+        className="flex flex-1 items-center justify-center h-full"
+      >
+        <Typography color="text.secondary" variant="h5">
+          {t('there_is_no_data')}
+        </Typography>
+      </motion.div>
+    )
+  }
 
   return (
     <div className="w-full flex flex-col min-h-full">
       <FuseScrollbars className="grow overflow-x-auto">
         <Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
           <StockReportTableHead
-            // ids={selected}
+            ids={selected}
             order={order}
-            // onSelectAllClick={handleSelectAllClick}
+            onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            // rowCount={data.length}
+            rowCount={data.length}
             onMenuItemClick={handleDeselect}
           />
           <TableBody>
-            {/* {_.orderBy(
+            {_.orderBy(
                 data,
                 [
                   (o) => {
@@ -153,7 +171,6 @@ const StockReportTable = (props) => {
                 ],
                 [order.direction]
               )
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((n) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 return ( 
@@ -165,68 +182,40 @@ const StockReportTable = (props) => {
                     tabIndex={-1}
                     key={n.id}
                     selected={isSelected}
-                    onClick={() => setIdE(n.id) }
+                    // onClick={() => setIdE(n.id) }
                   >
-                    <TableCell className="w-40 md:w-64 text-center" padding="none">
-                      <Checkbox
-                        checked={isSelected}
-                        onClick={(event) => event.stopPropagation()}
-                        onChange={(event) => handleCheck(event, n.id)}
-                        />
-                    </TableCell>
-
-                    <TableCell className='w-40'>
-                    </TableCell>
-
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.empFirstName}
+                      {n.code}
                     </TableCell>
             
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.empEmail}
+                      {n.name}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.empDocument}
-                    </TableCell>
-            
-                    <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.empPhone}
+                      {n.unit}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.empGender === 0 ? t('male') : t('female')}
+                      {n.reserve_stock}
                     </TableCell>
 
-                    <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.empState ? (
-                        <FuseSvgIcon className="text-green" size={20}>
-                          heroicons-outline:check-circle
-                        </FuseSvgIcon>
-                      ) : (
-                        <FuseSvgIcon className="text-red" size={20}>
-                          heroicons-outline:minus-circle
-                        </FuseSvgIcon>
-                      )}
+                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
+                      {n.purchase_price}
                     </TableCell>
 
-                    <TableCell className="p-4 md:p-16" component="th" scope="row" padding="none">
-                      <IconButton
-                        aria-label="more"
-                        id="long-button"
-                        aria-controls={openOption ? 'long-menu' : undefined}
-                        aria-expanded={openOption ? 'true' : undefined}
-                        aria-haspopup="true"
-                        onClick={handleClick}
-                      >
-                        <MoreVertIcon />
-                      </IconButton>
+                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
+                      {n.sale_price}
+                    </TableCell>
+
+                    <TableCell className="p-4 md:p-16" component="th" scope="row" padding="none" align="center">
+                      <Button variant="contained" color="secondary">{t('reports')}</Button>
                     </TableCell>
 
                   </TableRow>
                 )
               })
-            } */}
+            }
           </TableBody>
         </Table>
       </FuseScrollbars>
@@ -235,7 +224,7 @@ const StockReportTable = (props) => {
         labelRowsPerPage={t('rows_per_page')}
         labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
-        // count={data.length}
+        count={lengthPage}
         rowsPerPage={rowsPerPage}
         page={page}
         backIconButtonProps={{
