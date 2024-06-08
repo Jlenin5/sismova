@@ -49,7 +49,7 @@ function StockReport(props) {
   useDeepCompareEffect(() => {
     const { id } = routeParams
     dispatch(getStockReport(Number(id))).then((action) => {
-      if (!action.payload) {
+      if (!action.payload.data) {
         setNoProduct(true)
       }
     })

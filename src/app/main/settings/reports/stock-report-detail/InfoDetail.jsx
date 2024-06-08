@@ -1,9 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import Paper from '@mui/material/Paper'
-import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import { useFormContext } from 'react-hook-form'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Sales from './tabs/Sales'
@@ -14,8 +13,6 @@ import PurchaseReturn from './tabs/PurchaseReturn'
 
 const InfoDetail = () => {
 
-  const methods = useFormContext()
-  const { formState, watch, getValues } = methods
   const [tabValue, setTabValue] = useState(0)
   const { t } = useTranslation()
 
@@ -29,9 +26,7 @@ const InfoDetail = () => {
         staggerChildren: 0.1,
       },
     },
-  };
-
-  console.log(getValues())
+  }
 
   return (
     <motion.div

@@ -3,11 +3,6 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import { useFormContext } from 'react-hook-form'
-import FuseScrollbars from '@fuse/core/FuseScrollbars'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableRow from '@mui/material/TableRow'
-import TableCell from '@mui/material/TableCell'
 
 const Warehouses = () => {
 

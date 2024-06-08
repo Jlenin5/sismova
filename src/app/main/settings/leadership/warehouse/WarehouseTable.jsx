@@ -22,6 +22,7 @@ const WarehouseTable = (props) => {
   const dispatch = useDispatch()
   const branchoffices = useSelector(selectWarehouse)
   const searchText = useSelector(selectWarehouseSearchText)
+  console.log(searchText)
   const { t } = useTranslation()
 
   const [loading, setLoading] = useState(true)

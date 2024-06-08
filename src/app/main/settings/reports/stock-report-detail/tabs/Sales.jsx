@@ -47,7 +47,7 @@ const Sales = () => {
             inputProps={{
               'aria-label': 'Search',
             }}
-            // onChange={(ev) => dispatch(setProductSearchText(ev))}
+            // onChange={(ev) => dispatch(setStockReportSearchText(ev))}
           />
         </Paper>
         <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -78,41 +78,41 @@ const Sales = () => {
             {getValues().sales.map((n) => {
               return (
                 <TableRow
-                  className="h-72"
+                  className="h-8"
                   hover
                   role="checkbox"
                   tabIndex={-1}
                   key={n.id}
                 >
-                  <TableCell className="p-4 md:p-16" component="th" scope="row">
+                  <TableCell className="p-2 md:p-8" component="th" scope="row">
                     {n.code}
                   </TableCell>
 
-                  <TableCell className="p-4 md:p-16" component="th" scope="row">
+                  <TableCell className="p-2 md:p-8" component="th" scope="row">
                     {n.date}
                   </TableCell>
 
-                  <TableCell className="p-4 md:p-16" component="th" scope="row">
+                  <TableCell className="p-2 md:p-8" component="th" scope="row">
                     {n.client}
                   </TableCell>
 
-                  <TableCell className="p-4 md:p-16" component="th" scope="row">
+                  <TableCell className="p-2 md:p-8" component="th" scope="row">
                     {n.warehouse}
                   </TableCell>
 
-                  <TableCell className="p-4 md:p-16" component="th" scope="row">
+                  <TableCell className="p-2 md:p-8" component="th" scope="row">
                     {n.branch_office}
                   </TableCell>
 
-                  <TableCell className="p-4 md:p-16" component="th" scope="row">
+                  <TableCell className="p-2 md:p-8" component="th" scope="row">
                     {n.company}
                   </TableCell>
                   
-                  <TableCell className="p-4 md:p-16" component="th" scope="row">
+                  <TableCell className="p-2 md:p-8" component="th" scope="row">
                     {n.quantity}
                   </TableCell>
 
-                  <TableCell className="p-4 md:p-16" component="th" scope="row">
+                  <TableCell className="p-2 md:p-8" component="th" scope="row">
                     {n.total}
                   </TableCell>
 
