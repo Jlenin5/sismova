@@ -1,0 +1,105 @@
+import { useTranslation } from 'react-i18next'
+import TableCell from '@mui/material/TableCell'
+import TableRow from '@mui/material/TableRow'
+import TableSortLabel from '@mui/material/TableSortLabel'
+import Tooltip from '@mui/material/Tooltip'
+import { useDispatch } from 'react-redux'
+import TableHead from '@mui/material/TableHead'
+import { lighten } from '@mui/material/styles'
+
+const SaleHeader = (props) => {
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
+
+  const rows = [
+    {
+      id: 'code',
+      align: 'left',
+      disablePadding: false,
+      label: t('code'),
+      sort: true,
+    },
+    {
+      id: 'date',
+      align: 'left',
+      disablePadding: false,
+      label: t('date'),
+      sort: true,
+    },
+    {
+      id: 'client',
+      align: 'left',
+      disablePadding: false,
+      label: t('client'),
+      sort: true,
+    },
+    {
+      id: 'company',
+      align: 'left',
+      disablePadding: false,
+      label: t('company'),
+      sort: true,
+    },
+    {
+      id: 'branch_office',
+      align: 'left',
+      disablePadding: false,
+      label: t('branch_office'),
+      sort: true,
+    },
+    {
+      id: 'warehouse',
+      align: 'left',
+      disablePadding: false,
+      label: t('warehouse'),
+      sort: true,
+    },
+    {
+      id: 'quantity',
+      align: 'left',
+      disablePadding: false,
+      label: t('quantity'),
+      sort: true,
+    },
+    {
+      id: 'total',
+      align: 'left',
+      disablePadding: false,
+      label: t('total'),
+      sort: true,
+    },
+  ]
+
+  return (
+    <TableHead>
+      <TableRow className="h-48 sm:h-64">
+        {rows.map((row) => {
+          return (
+            <TableCell
+              sx={{
+                backgroundColor: (theme) =>
+                  theme.palette.mode === 'light'
+                    ? lighten(theme.palette.background.default, 0.4)
+                    : lighten(theme.palette.background.default, 0.02),
+              }}
+              className="p-4 md:p-16"
+              key={row.id}
+              align={row.align}
+              padding={row.disablePadding ? 'none' : 'normal'}
+            >
+              {row.sort && (
+                <Tooltip placement={row.align === 'right' ? 'bottom-end' : 'bottom-start'} enterDelay={300}>
+                  <TableSortLabel className="font-semibold">
+                    {row.label}
+                  </TableSortLabel>
+                </Tooltip>
+              )}
+            </TableCell>
+          )
+        }, this)}
+      </TableRow>
+    </TableHead>
+  )
+}
+
+export default SaleHeader

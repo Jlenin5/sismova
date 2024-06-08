@@ -57,7 +57,7 @@ const InfoDetail = () => {
             <Tab className="h-24" label={t('sales_return')} />
             <Tab className="h-24" label={t('purchase_return')} />
           </Tabs>
-          <div className="p-16 sm:p-24 max-w-3xl">
+          <div className="p-16 sm:p-24 max-w-full">
             <div className={tabValue !== 0 ? 'hidden' : ''}>
               <Sales />
             </div>
