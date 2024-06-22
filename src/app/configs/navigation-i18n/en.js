@@ -290,6 +290,8 @@ const locale = {
   status: 'Status',
   sales_return: 'Sales return',
   purchase_return: 'Purchase return',
+  your_audience: 'Your audience',
+  demographic_properties_of_your_users: 'Demographic properties of your users',
   
 }
 

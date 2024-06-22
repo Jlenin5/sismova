@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import withReducer from 'app/store/withReducer'
 import { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,7 +7,7 @@ import FusePageSimple from '@fuse/core/FusePageSimple'
 import { motion } from 'framer-motion'
 import Typography from '@mui/material/Typography'
 import reducer from './store'
-import { getWidgets, selectWidgets } from './store/widgetsSlice'
+import { getAudiences, selectWidgets } from './store/widgetsSlice'
 import AnalyticsDashboardAppHeader from './AnalyticsDashboardAppHeader'
 import VisitorsOverviewWidget from './widgets/VisitorsOverviewWidget'
 import ConversionsWidget from './widgets/SaleWidget'
@@ -18,12 +19,13 @@ import AgeWidget from './widgets/AgeWidget'
 import LanguageWidget from './widgets/LanguageWidget'
 import GenderWidget from './widgets/GenderWidget'
 
-function AnalyticsDashboardApp() {
+const AnalyticsDashboardApp = () => {
   const dispatch = useDispatch()
   const widgets = useSelector(selectWidgets)
+  const { t } = useTranslation()
 
   useEffect(() => {
-    dispatch(getWidgets())
+    dispatch(getAudiences())
   }, [dispatch])
 
   return (
@@ -58,43 +60,43 @@ function AnalyticsDashboardApp() {
                   </motion.div>
 
                   <motion.div variants={item} className="sm:col-span-2 lg:col-span-1 ">
-                    <ConversionsWidget />
+                    {/* <ConversionsWidget /> */}
                   </motion.div>
 
                   <motion.div variants={item} className="sm:col-span-2 lg:col-span-1 ">
-                    <ImpressionsWidget />
+                    {/* <ImpressionsWidget /> */}
                   </motion.div>
 
                   <motion.div variants={item} className="sm:col-span-2 lg:col-span-1 ">
-                    <VisitsWidget />
+                    {/* <VisitsWidget /> */}
                   </motion.div>
 
                   <motion.div variants={item} className="sm:col-span-2 lg:col-span-1 ">
-                    <VisitsWidget />
+                    {/* <VisitsWidget /> */}
                   </motion.div>
 
                   <motion.div variants={item} className="sm:col-span-2 lg:col-span-1 ">
-                    <VisitsWidget />
+                    {/* <VisitsWidget /> */}
                   </motion.div>
 
                   <motion.div variants={item} className="sm:col-span-2 lg:col-span-1 ">
-                    <VisitsWidget />
+                    {/* <VisitsWidget /> */}
                   </motion.div>
 
                   <motion.div variants={item} className="sm:col-span-2 lg:col-span-3">
                     {/* <VisitorsVsPageViewsWidget /> */}
                   </motion.div>
 
-                  {/* <div className="w-full mt-16 sm:col-span-3">
+                  <div className="w-full mt-16 sm:col-span-3">
                     <Typography className="text-2xl font-semibold tracking-tight leading-6">
-                      Your Audience
+                      {t('your_audience')}
                     </Typography>
                     <Typography className="font-medium tracking-tight" color="text.secondary">
-                      Demographic properties of your users
+                      {t('demographic_properties_of_your_users')}
                     </Typography>
-                  </div> */}
+                  </div>
 
-                  {/* <div className="sm:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-32 w-full">
+                  <div className="sm:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-32 w-full">
                     <motion.div variants={item} className="">
                       <NewVsReturningWidget />
                     </motion.div>
@@ -102,12 +104,12 @@ function AnalyticsDashboardApp() {
                       <GenderWidget />
                     </motion.div>
                     <motion.div variants={item} className="">
-                      <AgeWidget />
+                      {/* <AgeWidget /> */}
                     </motion.div>
                     <motion.div variants={item} className="">
-                      <LanguageWidget />
+                      {/* <LanguageWidget /> */}
                     </motion.div>
-                  </div> */}
+                  </div>
                 </motion.div>
               )
             )

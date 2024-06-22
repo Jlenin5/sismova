@@ -1,23 +1,17 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice } from '@reduxjs/toolkit'
+import asyncThunkWithAxios from 'src/app/services/api'
 
-export const getWidgets = createAsyncThunk('analyticsDashboardApp/widgets/getWidgets', async () => {
-  const response = await axios.get('/api/dashboards/analytics/widgets');
-
-  const data = await response.data;
-
-  return data;
-});
+export const getAudiences = asyncThunkWithAxios('audience', 'get', 'analyticsDashboardApp/widgets/getAudiences', 'get')
 
 const widgetsSlice = createSlice({
   name: 'analyticsDashboardApp/widgets',
   initialState: null,
   reducers: {},
   extraReducers: {
-    [getWidgets.fulfilled]: (state, action) => action.payload,
+    [getAudiences.fulfilled]: (state, action) => action.payload,
   },
-});
+})
 
-export const selectWidgets = ({ analyticsDashboardApp }) => analyticsDashboardApp.widgets;
+export const selectWidgets = ({ analyticsDashboardApp }) => analyticsDashboardApp.widgets
 
-export default widgetsSlice.reducer;
+export default widgetsSlice.reducer

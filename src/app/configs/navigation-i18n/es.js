@@ -290,7 +290,8 @@ const locale = {
   status: 'Estado',
   sales_return: 'Devolución de venta',
   purchase_return: 'Devolución de compra',
-
+  your_audience: 'Tu audiencia',
+  demographic_properties_of_your_users: 'Propiedades demográficas de tus usuarios',
 }
 
 export default locale
