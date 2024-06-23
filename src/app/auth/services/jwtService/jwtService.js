@@ -71,7 +71,6 @@ class JwtService extends FuseUtils.EventEmitter {
           },
         })
         .then((response) => {
-          console.log(response)
           if (response.data.user) {
             this.setSession(response.data.access_token)
             resolve(response.data.user)
@@ -92,7 +91,6 @@ class JwtService extends FuseUtils.EventEmitter {
           },
         })
         .then((response) => {
-          console.log(response)
           if (response.data.user) {
             this.setSession(response.data.access_token)
             resolve(response.data.user)

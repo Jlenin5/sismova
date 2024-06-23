@@ -41,7 +41,6 @@ function App() {
   const user = useSelector(selectUser)
   const langDirection = useSelector(selectCurrentLanguageDirection)
   const mainTheme = useSelector(selectMainTheme)
-  console.log(user)
 
   return (
     <CacheProvider value={createCache(emotionCacheOptions[langDirection])}>

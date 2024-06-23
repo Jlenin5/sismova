@@ -40,7 +40,6 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
       message: 'Comprueba tu dirección de correo electrónico',
     })
   }
-  console.log(user)
 
   if (user && user.password !== password) {
     error.push({
