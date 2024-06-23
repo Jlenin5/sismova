@@ -25,7 +25,7 @@ function UserMenu(props) {
     setUserMenu(null)
   }
 
-  const roles = user.roles.name
+  const roles = user.rol.name
   let avatar = ''
 
   if(user.employees) {

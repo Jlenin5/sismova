@@ -1,11 +1,11 @@
 const UserInterface = {
   id: null,
-  Employee: 1,
+  employee_id: 1,
   employees: {},
-  userDisplayName: '',
-  userPassword: '',
-  Rol: 1,
-  roles: {},
+  display_ame: '',
+  password: '',
+  rol_id: 1,
+  rol: {},
   uuid: '',
 }
 

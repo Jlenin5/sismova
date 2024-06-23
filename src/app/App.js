@@ -41,6 +41,7 @@ function App() {
   const user = useSelector(selectUser)
   const langDirection = useSelector(selectCurrentLanguageDirection)
   const mainTheme = useSelector(selectMainTheme)
+  console.log(user)
 
   return (
     <CacheProvider value={createCache(emotionCacheOptions[langDirection])}>
@@ -48,7 +49,7 @@ function App() {
         <AuthProvider>
           <BrowserRouter>
             <FuseAuthorization
-              userRole={user.roles.name}
+              userRole={user.rol.name}
               loginRedirectUrl={settingsConfig.loginRedirectUrl}
             >
               <SnackbarProvider

@@ -22,7 +22,7 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
 
   const userPromise = axios.get(url_user)
     .then(response => {
-      const userapi = _.cloneDeep(response.data.find((_user) => _user.display_email === email))
+      const userapi = _.cloneDeep(response.data.data.find((_user) => _user.display_email === email))
       return userapi
     })
     .catch(error => {
@@ -40,6 +40,7 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
       message: 'Comprueba tu dirección de correo electrónico',
     })
   }
+  console.log(user)
 
   if (user && user.password !== password) {
     error.push({
@@ -72,7 +73,7 @@ mock.onGet('/api/auth/access-token').reply(async (config) => {
     const { id } = jwtDecode(access_token)
 
     const userPromise = axios.get(url_user).then(response => {
-      const userapi = _.cloneDeep(response.data.find((_user) => _user.uuid === id))
+      const userapi = _.cloneDeep(response.data.data.find((_user) => _user.uuid === id))
       return userapi
     })
     .catch(error => {
