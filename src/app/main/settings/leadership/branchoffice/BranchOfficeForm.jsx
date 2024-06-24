@@ -13,7 +13,7 @@ import { deleteBranchoffice, getMaxId, postBranchoffice, putBranchoffice } from 
 import { getEmployees } from 'src/app/main/human-resources/personal/store/employeesSlice'
 import axios from 'axios'
 import { API_URL } from 'src/app/services/url'
-import { getCompany } from '../store/CompanySlice'
+import { getCompanies } from '../store/companiesSlice'
 
 const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   const dispatch = useDispatch()
@@ -89,7 +89,7 @@ const BranchOfficeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
     const fetchData = async () => {
       try {
         await dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
-        await dispatch(getCompany()).then(r => setCompanies(r.payload))
+        await dispatch(getCompanies()).then(r => setCompanies(r.payload))
         await dispatch(getEmployees()).then(response => setEmployee(response.payload.data))
       } catch (error) {
         console.error('Error al obtener el maxId', error);

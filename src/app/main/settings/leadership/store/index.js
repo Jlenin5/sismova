@@ -1,10 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit'
-import company from './CompanySlice'
+import companies from './companiesSlice'
 import branchoffice from './branchofficeSlice'
 import warehouse from './warehouseSlice'
 
 const reducer = combineReducers({
-  company,
+  companies,
   branchoffice,
   warehouse
 })

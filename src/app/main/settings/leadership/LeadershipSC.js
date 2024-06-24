@@ -1,18 +1,18 @@
 import { lazy } from 'react'
 import { Navigate } from 'react-router-dom'
 
-const Company = lazy(() => import('./company'))
+const Companies = lazy(() => import('./companies'))
 const BranchOffice = lazy(() => import('./branchoffice'))
 const Warehouse = lazy(() => import('./warehouse'))
 
-const SalesEC = {
+const LeadershipSC = {
   settings: {
     layout: {},
   },
   routes: [
     {
       path: 'settings/leadership/companies',
-      element: <Company />,
+      element: <Companies />,
     },
     {
       path: 'settings/leadership/branch-offices',
@@ -29,4 +29,4 @@ const SalesEC = {
   ],
 }
 
-export default SalesEC
+export default LeadershipSC

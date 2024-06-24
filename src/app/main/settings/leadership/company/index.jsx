@@ -9,7 +9,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { motion } from 'framer-motion';
 import Typography from '@mui/material/Typography';
-import { getCompany, putCompany } from '../store/CompanySlice'
+import { getCompanies, putBusiness } from '../store/companiesSlice'
 import { useEffect, useState } from 'react';
 import { URL_PUBLIC } from 'src/app/services/url';
 
@@ -37,7 +37,7 @@ function Index() {
     // let newData = data.map((el) => (el.prodId === db.prodId ? db : el))
     // setData(newData)
     // console.log(updateFile)
-    putCompany(db, updateFile)
+    putBusiness(db, updateFile)
   }
 
   const handleChange = (e) => {
@@ -100,7 +100,7 @@ function Index() {
   }
 
   useEffect(() => {
-    dispatch(getCompany())
+    dispatch(getCompanies())
     .then((response) => {
       setData(response.payload)
     })
