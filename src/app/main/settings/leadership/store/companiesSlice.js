@@ -39,8 +39,8 @@ const companiesSlice = createSlice({
   },
 })
 
-export const { setCompanySearchText } = companiesSlice.actions
+export const { setCompaniesSearchText } = companiesSlice.actions
 
-export const selectCompanySearchText = ({ LeadershipSC }) => LeadershipSC.companies.searchText
+export const selectCompaniesSearchText = ({ LeadershipSC }) => LeadershipSC.companies.searchText
 
 export default companiesSlice.reducer
