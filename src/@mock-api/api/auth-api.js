@@ -7,12 +7,9 @@ import jwtDecode from 'jwt-decode'
 import mock from '../mock'
 import mockApi from '../mock-api.json'
 import axios from 'axios'
+import { API_URL } from 'src/app/services/url'
 
 let usersApi = mockApi.components.examples.auth_users.value
-// api_web
-// const url_user = 'https://sismova.tech/backsis/public/api/user'
-// api local
-const url_user = 'http://127.0.0.1:8000/api/user'
 
 /* eslint-disable camelcase */
 
@@ -20,17 +17,7 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
   const data = JSON.parse(config.data)
   const { email, password } = data
 
-  const userPromise = axios.get(url_user)
-    .then(response => {
-      const userapi = _.cloneDeep(response.data.data.find((_user) => _user.display_email === email))
-      return userapi
-    })
-    .catch(error => {
-      console.error('Error al obtener el JSON:', error)
-      return null
-    })
-
-  const [user] = await Promise.all([userPromise])
+  const user = await axios.post(API_URL+'auth/login', { email, password }).then(response => response.data)
 
   const error = []
 
@@ -41,21 +28,18 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
     })
   }
 
-  if (user && user.password !== password) {
-    error.push({
-      type: 'password',
-      message: 'Comprueba tu contraseña',
-    })
-  }
+  // if (user && user.password !== password) {
+  //   error.push({
+  //     type: 'password',
+  //     message: 'Comprueba tu contraseña',
+  //   })
+  // }
 
   if (error.length === 0) {
-    delete user.password
-    
-    const access_token = generateJWTToken({ id: user.uuid })
 
     const response = {
       user,
-      access_token,
+      access_token: user.access_token
     }
 
     return [200, response]
@@ -68,26 +52,15 @@ mock.onGet('/api/auth/access-token').reply(async (config) => {
   const data = JSON.parse(config.data)
   const { access_token } = data
 
-  if (verifyJWTToken(access_token)) {
-    const { id } = jwtDecode(access_token)
+  if (!verifyJWTToken(access_token)) {
 
-    const userPromise = axios.get(url_user).then(response => {
-      const userapi = _.cloneDeep(response.data.data.find((_user) => _user.uuid === id))
-      return userapi
-    })
-    .catch(error => {
-      console.error('Error al obtener el JSON:', error)
-      return null
-    })
-    const [user] = await Promise.all([userPromise])
+    const user = await axios.get(API_URL+'auth/refresh').then(response => response.data)
 
-    delete user.password
-
-    const updatedAccessToken = generateJWTToken({ id: user.uuid })
+    // delete user.password
 
     const response = {
       user,
-      access_token: updatedAccessToken,
+      access_token: user.access_token
     }
 
     return [200, response]

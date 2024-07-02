@@ -10,8 +10,6 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import UserInterface from '../interfaces/UserInterface'
 
-const url = 'https://sismova.tech/backsis/public/api/rol'
-
 export const setUser = createAsyncThunk('user/setUser', async (user, { dispatch, getState }) => {
   /*
     You can redirect the logged-in user to a specific route depending on his role
@@ -56,7 +54,7 @@ export const updateUserShortcuts = createAsyncThunk(
 export const logoutUser = () => async (dispatch, getState) => {
   const { user } = getState()
 
-  if (!user.rol_id || user.rol_id.length === 0) {
+  if (!user.roles || user.roles.length === 0) {
     // is guest
     return null
   }

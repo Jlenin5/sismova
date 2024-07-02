@@ -25,11 +25,11 @@ function UserMenu(props) {
     setUserMenu(null)
   }
 
-  const roles = user.rol.name
+  const roles = 'admin'
   let avatar = ''
 
-  if(user.employees) {
-    avatar = user.employees.avatars.name
+  if(user.avatar) {
+    avatar = user.avatar.name
   }
 
   return (
@@ -41,7 +41,7 @@ function UserMenu(props) {
       >
         <div className="hidden md:flex flex-col mx-4 items-end">
           <Typography component="span" className="font-semibold flex">
-            {user.display_name}
+            {user.nickname}
           </Typography>
           <Typography className="text-11 font-medium capitalize" color="text.secondary">
             {roles.toString()}
@@ -52,7 +52,7 @@ function UserMenu(props) {
         {avatar ? (
           <Avatar className="md:mx-4" alt="user photo" src={`https://sismova.tech/backsis/public/images/avatars/${avatar ? avatar : 'nocamera.png'}`} />
         ) : (
-          <Avatar className="md:mx-4">{user.display_name.charAt(0)}</Avatar>
+          <Avatar className="md:mx-4">{user.nickname.charAt(0)}</Avatar>
         )}
       </Button>
 

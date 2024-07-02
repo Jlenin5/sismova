@@ -30,8 +30,8 @@ function UserNavbarHeader(props) {
 
   let avatar = ''
 
-  if(user.employees) {
-    avatar = user.employees.avatars.name
+  if(user.avatar) {
+    avatar = user.avatars.name
   }
 
   return (
@@ -44,16 +44,16 @@ function UserNavbarHeader(props) {
           }}
           className="avatar text-32 font-bold w-96 h-96"
           src={`https://sismova.tech/backsis/public/images/avatars/${avatar ? avatar : 'nocamera.png'}`}
-          alt={user.display_name}
+          alt={user.nickname}
         >
-          {user.display_name.charAt(0)}
+          {user.nickname.charAt(0)}
         </Avatar>
       </div>
       <Typography className="username text-14 whitespace-nowrap font-medium">
-        {user.display_name}
+        {user.name}
       </Typography>
       <Typography className="email text-13 whitespace-nowrap font-medium" color="text.secondary">
-        {user.display_email}
+        {user.email}
       </Typography>
     </Root>
   )

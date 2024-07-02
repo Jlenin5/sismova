@@ -1,12 +1,12 @@
 const UserInterface = {
   id: null,
   employee_id: 1,
-  employees: {},
-  display_ame: '',
+  employee: {},
+  name: '',
+  email: '',
   password: '',
-  rol_id: 1,
-  rol: {},
   uuid: '',
+  roles: []
 }
 
 export default UserInterface
