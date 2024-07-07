@@ -47,6 +47,12 @@ const themesConfig = {
         dark: '#3730a3',
         contrastText: darkPaletteText.primary,
       },
+      refresh: {
+        light: '#F68711',
+        main: '#F68711',
+        dark: '#F68711',
+        contrastText: darkPaletteText.primary,
+      },
       pdf: {
         light: '#E53935',
         main: '#E53935',

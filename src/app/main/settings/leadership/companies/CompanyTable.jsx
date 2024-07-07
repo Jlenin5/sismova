@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import _ from '@lodash'
 import Checkbox from '@mui/material/Checkbox'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import FuseScrollbars from '@fuse/core/FuseScrollbars'
 import FuseLoading from '@fuse/core/FuseLoading'
@@ -14,22 +14,13 @@ import TableCell from '@mui/material/TableCell'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import CompanyTableHead from './CompanyTableHead'
-import { useDispatch, useSelector } from 'react-redux'
-import { getCompanies, selectCompanies, selectCompaniesSearchText } from '../store/companiesSlice'
 import CompanyForm from './CompanyForm'
 
-const CompanyTable = (props) => {
-  const dispatch = useDispatch()
-  const branchoffices = useSelector(selectCompanies)
-  const searchText = useSelector(selectCompaniesSearchText)
-  const { t } = useTranslation()
+function CompanyTable(props) {
 
-  const [loading, setLoading] = useState(true)
+  const { t } = useTranslation()
   const [selected, setSelected] = useState([])
-  const [data,setData] = useState(branchoffices)
-  const [page, setPage] = useState(0)
   const [open, setOpen] = useState(false)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
     direction: 'asc',
     id: null,
@@ -38,28 +29,11 @@ const CompanyTable = (props) => {
   const handleClickOpen = () => {
     setOpen(true)
   }
+
   const handleClose = () => {
+    props.fetchData(props.page, props.rowsPerPage, '')
     setOpen(false)
   }
-  
-  useEffect(() => {
-    dispatch(getCompanies()).then(() => setLoading(false))
-    .catch((error) => {
-      console.error('Error al obtener usuarios', error)
-      setLoading(false)
-    })
-  }, [dispatch])
-
-  useEffect(() => {
-    if (searchText.length !== 0) {
-      setData(
-        _.filter(branchoffices, (item) => item.name.toLowerCase().includes(searchText.toLowerCase()))
-      )
-      setPage(0)
-    } else {
-      setData(branchoffices)
-    }
-  }, [branchoffices, searchText])
 
   function handleRequestSort(event, property) {
     const id = property
@@ -105,15 +79,15 @@ const CompanyTable = (props) => {
     setSelected(newSelected)
   }
 
-  function handleChangePage(event, value) {
-    setPage(value)
+  const handleChangePage = (event, value) => {
+    props.setPage(value)
   }
 
   function handleChangeRowsPerPage(event) {
-    setRowsPerPage(event.target.value)
+    props.setRowsPerPage(event.target.value)
   }
 
-  if (loading) {
+  if (props.loading) {
     return (
       <div className="flex items-center justify-center h-full">
         <FuseLoading />
@@ -121,7 +95,7 @@ const CompanyTable = (props) => {
     )
   }
 
-  if (data.length === 0) {
+  if (props.data.length === 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -144,12 +118,12 @@ const CompanyTable = (props) => {
             order={order}
             onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            rowCount={data.length}
+            rowCount={props.data.length}
             onMenuItemClick={handleDeselect}
           />
           <TableBody>
             {_.orderBy(
-              data,
+              props.data,
               [
                 (o) => {
                   switch (order.id) {
@@ -164,7 +138,6 @@ const CompanyTable = (props) => {
               ],
               [order.direction]
             )
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((n) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 return (
@@ -194,7 +167,15 @@ const CompanyTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      {n.employee.first_name}
+                    </TableCell>
+
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {n.phone}
+                    </TableCell>
+
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      {n.document_number}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
@@ -235,9 +216,9 @@ const CompanyTable = (props) => {
         labelRowsPerPage="Filas por página"
         labelDisplayedRows={({ from, to, count }) => `${from}-${to} de ${count}`}
         component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
+        count={props.lengthPage}
+        rowsPerPage={props.rowsPerPage}
+        page={props.page}
         backIconButtonProps={{
           'aria-label': 'Previous Page',
         }}

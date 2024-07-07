@@ -292,6 +292,10 @@ const locale = {
   purchase_return: 'Purchase return',
   your_audience: 'Your audience',
   demographic_properties_of_your_users: 'Demographic properties of your users',
+  companies: 'Companies',
+  register_company: 'Register company',
+  update_company: 'Update company',
+  assigned: 'Assigned',
   
 }
 

@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-// import './form.css'
 import React, { useEffect, useState } from 'react'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
@@ -9,18 +8,16 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } 
 import Autocomplete from '@mui/material/Autocomplete'
 import CompanyInterface from 'src/app/interfaces/CompanyInterface'
 import { useDispatch } from 'react-redux'
-import { deleteCompanies, getMaxId, postCompanies, putCompanies } from '../store/companiesSlice'
+import { deleteCompanies, postCompanies, putCompanies } from '../store/companiesSlice'
 import { getEmployees } from 'src/app/main/human-resources/personal/store/employeesSlice'
-import axios from 'axios'
-import { API_URL } from 'src/app/services/url'
-import { getCompanies } from '../store/companiesSlice'
+import CloseIcon from '@mui/icons-material/Close'
+import IconButton from '@mui/material/IconButton'
 
-const CompanyForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
+const CompanyForm = (props) => {
   const dispatch = useDispatch()
   const [form, setForm] = useState(CompanyInterface)
-  const [maxId, setMaxId] = useState(null)
+  const [clicked, setClicked] = useState(false)
   const [employee, setEmployee] = useState([])
-  const [companies, setCompanies] = useState([])
   const { t } = useTranslation()
   
   const handleChange = (e) => {
@@ -37,61 +34,51 @@ const CompanyForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
       alert("Datos incompletos")
       return
     }
-    if(form.id===null) {
-      dispatch(postCompanies({
-        ...form,
-        id: maxId+1
-      }))
-      setMaxId(maxId+1)
-    } else {
-      dispatch(putCompanies(form))
-    }
-    onClose()
+    form.id ? dispatch(putCompanies(form)) : dispatch(postCompanies(form))
+    props.onClose()
     handleReset()
   }
   const handleReset = () => {
     setForm(CompanyInterface)
-    setDataToEdit(null)
   }
   const handleClose = (id) => {
     if(id===form.id) {
       dispatch(deleteCompanies(id))
       handleReset()
-      onClose()
+      props.onClose()
     }
     handleReset()
-    onClose()
+    props.onClose()
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
-        await dispatch(getCompanies()).then(r => setCompanies(r.payload))
-        await dispatch(getEmployees()).then(response => setEmployee(response.payload.data))
-      } catch (error) {
-        console.error('Error al obtener el maxId', error);
-      }
-    }
-    if (open) {
-      fetchData();
-    }
-    if(dataToEdit) {
-      setForm(dataToEdit)
+    dispatch(getEmployees()).then(response => setEmployee(response.payload.data))
+    if(props.dataToEdit) {
+      setForm(props.dataToEdit)
     } else {
       setForm(CompanyInterface)
     }
-  }, [dispatch, dataToEdit, open])
+  }, [dispatch, props.dataToEdit])
 
   return (
-    <Dialog
-      onClose={handleClose}
-      open={open}
-      className='form-dialog-bogory'
-    >
-      <DialogContent className='grid grid-flow-row-dense grid-cols-2 gap-32 mt-12'>
+    <Dialog open={props.open}>
+      <DialogTitle className="flex justify-between mt-10">
+        <div>{!form.id ? t('register_company') : t('update_company')}</div>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent className='grid grid-flow-row-dense grid-cols-2 gap-32' dividers>
         <TextField
           autoFocus
+          error={!form.name && clicked}
+          required
           id="name"
           label={t('name')}
           fullWidth
@@ -99,6 +86,8 @@ const CompanyForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           name='name'
           value={form.name}
           onChange={handleChange}
+          onClick={() => setClicked(true)}
+          helperText={!form.first_name ? 'Este campo es obligatorio' : ''}
         />
         <TextField
           id="phone"
@@ -107,6 +96,15 @@ const CompanyForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           variant="outlined"
           name='phone'
           value={form.phone}
+          onChange={handleChange}
+        />
+        <TextField
+          id="document_number"
+          label={t('document_number')}
+          fullWidth
+          variant="outlined"
+          name='document_number'
+          value={form.document_number}
           onChange={handleChange}
         />
         <TextField
@@ -157,12 +155,9 @@ const CompanyForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           </Select>
         </FormControl>
       </DialogContent>
-      <DialogActions>
-        {form.id!==null ?
-        <Button onClick={() => handleClose(dataToEdit.id)}>{t('delete')}</Button>
-        :
-        <Button onClick={()=>handleClose(0)}>{t('cancel')}</Button>}
-        <Button onClick={handleSubmit}>{t('save')}</Button>
+      <DialogActions className="mb-20 mr-20">
+        {form.id ? <Button variant="contained" color="error" onClick={() => handleClose(props.dataToEdit.id)}>{t('delete')}</Button> : <></>}
+        <Button variant="contained" color="success" onClick={handleSubmit}>{t('save')}</Button>
       </DialogActions>
     </Dialog>
   )

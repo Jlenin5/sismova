@@ -6,22 +6,29 @@ import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { selectCompaniesSearchText, setCompaniesSearchText } from '../store/companiesSlice'
 import CompanyForm from './CompanyForm'
 
-const CompanyHeader = (props) => {
+function CompanyHeader(props) {
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
   const searchText = useSelector(selectCompaniesSearchText)
   const { t } = useTranslation()
+
+  const setFetchData = () => {
+    props.fetchData(props.page, props.rowsPerPage, searchText)
+  }
+  const refresh = () => {
+    setFetchData()
+  }
 
   const handleClickOpen = () => {
     setOpen(true)
   }
 
   const handleClose = () => {
+    setFetchData()
     setOpen(false)
   }
 
@@ -34,7 +41,7 @@ const CompanyHeader = (props) => {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        {t('branch_offices')}
+        {t('companies')}
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -62,6 +69,14 @@ const CompanyHeader = (props) => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
         >
+          <Button
+            className="mr-12"
+            variant="contained"
+            onClick={() => refresh()}
+            color="refresh"
+          >
+            <FuseSvgIcon>heroicons-outline:refresh</FuseSvgIcon>
+          </Button>
           <Button
             className=""
             variant="contained"
