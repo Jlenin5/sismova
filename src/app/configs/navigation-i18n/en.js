@@ -303,6 +303,8 @@ const locale = {
   district: 'district',
   register_warehouse: 'Register warehouse',
   update_warehouse: 'Update warehouse',
+  customers: 'Customers',
+  birthdate: 'Birthdate',
   
 }
 

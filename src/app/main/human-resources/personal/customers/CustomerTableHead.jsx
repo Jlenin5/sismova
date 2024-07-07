@@ -16,9 +16,9 @@ import { Box } from '@mui/system'
 import TableHead from '@mui/material/TableHead'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
-import { delClientMulti } from '../store/clientSlice'
+import { delCustomerMulti } from '../store/customersSlice'
 
-function ClientTableHead(props) {
+function CustomerTableHead(props) {
   const dispatch = useDispatch()
   const numSelected = props.ids.length
   const [selectedClientsMenu, setSelectedClientsMenu] = useState(null)
@@ -130,7 +130,7 @@ function ClientTableHead(props) {
                 <MenuList>
                   <MenuItem
                     onClick={() => {
-                      dispatch(delClientMulti(props.ids))
+                      dispatch(delCustomerMulti(props.ids))
                       props.onMenuItemClick()
                       closeSelectedClientsMenu()
                     }}
@@ -183,4 +183,4 @@ function ClientTableHead(props) {
   )
 }
 
-export default ClientTableHead
+export default CustomerTableHead

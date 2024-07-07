@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom'
 
 const Employees = lazy(() => import('./employees'))
 const Suppliers = lazy(() => import('./suppliers'))
-const Clients = lazy(() => import('./clients'))
+const Customers = lazy(() => import('./customers'))
 const Users = lazy(() => import('./users'))
 
 const PersonalHR = {
@@ -20,8 +20,8 @@ const PersonalHR = {
       element: <Suppliers />,
     },
     {
-      path: 'human-resources/personal/clients',
-      element: <Clients />,
+      path: 'human-resources/personal/customers',
+      element: <Customers />,
     },
     {
       path: 'human-resources/personal/users',

@@ -7,20 +7,28 @@ import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
-import { selectClientSearchText, setClientSearchText } from '../store/clientSlice'
-import ClientForm from './ClientForm'
+import { selectCustomerSearchText, setcustomersearchText } from '../store/customersSlice'
+import CustomerForm from './CustomerForm'
 
-const ClientHeader = (props) => {
+function CustomerHeader(props) {
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
-  const searchText = useSelector(selectClientSearchText)
+  const searchText = useSelector(selectCustomerSearchText)
   const { t } = useTranslation()
+
+  const setFetchData = () => {
+    props.fetchData(props.page, props.rowsPerPage, searchText)
+  }
+  const refresh = () => {
+    setFetchData()
+  }
 
   const handleClickOpen = () => {
     setOpen(true)
   }
 
   const handleClose = () => {
+    setFetchData()
     setOpen(false)
   }
 
@@ -33,7 +41,7 @@ const ClientHeader = (props) => {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        {t('clients')}
+        {t('customers')}
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -54,13 +62,21 @@ const ClientHeader = (props) => {
             inputProps={{
               'aria-label': 'Search',
             }}
-            onChange={(ev) => dispatch(setClientSearchText(ev))}
+            onChange={(ev) => dispatch(setcustomersearchText(ev))}
           />
         </Paper>
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
         >
+          <Button
+            className="mr-12"
+            variant="contained"
+            onClick={() => refresh()}
+            color="refresh"
+          >
+            <FuseSvgIcon>heroicons-outline:refresh</FuseSvgIcon>
+          </Button>
           <Button
             className=""
             variant="contained"
@@ -70,7 +86,7 @@ const ClientHeader = (props) => {
           >
             {t('add')}
           </Button>
-          <ClientForm
+          <CustomerForm
             open={open}
             onClose={handleClose}
             dataToEdit={props.dataToEdit}
@@ -82,4 +98,4 @@ const ClientHeader = (props) => {
   )
 }
 
-export default ClientHeader
+export default CustomerHeader

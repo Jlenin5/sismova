@@ -333,11 +333,11 @@ const navigationConfig = [
             translate: 'users'
           },
           {
-            id: 'human-resources.personal.clients',
-            title: 'Clients',
+            id: 'human-resources.personal.customers',
+            title: 'Customers',
             type: 'item',
-            url: 'human-resources/personal/clients',
-            translate: 'clients',
+            url: 'human-resources/personal/customers',
+            translate: 'customers',
           },
           {
             id: 'human-resources.personal.suppliers',

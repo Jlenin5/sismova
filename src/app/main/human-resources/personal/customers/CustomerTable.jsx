@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import FuseScrollbars from '@fuse/core/FuseScrollbars'
 import _ from '@lodash'
 import Checkbox from '@mui/material/Checkbox'
@@ -9,25 +10,17 @@ import TableRow from '@mui/material/TableRow'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import withRouter from '@fuse/core/withRouter'
 import FuseLoading from '@fuse/core/FuseLoading'
-import ClientTableHead from './ClientTableHead'
-import ClientForm from './ClientForm'
-import { useDispatch, useSelector } from 'react-redux'
-import { getClients, selectClient, selectClientSearchText } from '../store/clientSlice'
+import CustomerTableHead from './CustomerTableHead'
+import CustomerForm from './CustomerForm'
 
-const ClientTable = (props) => {
-  const dispatch = useDispatch()
-  const clients = useSelector(selectClient)
-  const searchText = useSelector(selectClientSearchText)
-
-  const [loading, setLoading] = useState(true)
+const CustomerTable = (props) => {
+  
+  const { t } = useTranslation()
   const [selected, setSelected] = useState([])
-  const [data, setData] = useState(clients)
-  const [page, setPage] = useState(0)
   const [open, setOpen] = useState(false)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
     direction: 'asc',
     id: null,
@@ -37,23 +30,9 @@ const ClientTable = (props) => {
     setOpen(true);
   }
   const handleClose = () => {
+    props.fetchData(props.page, props.rowsPerPage, '')
     setOpen(false);
   }
-
-  useEffect(() => {
-    dispatch(getClients()).then((response) => setLoading(false))
-  }, [dispatch])
-
-  useEffect(() => {
-    if (searchText.length !== 0) {
-      setData(
-        _.filter(clients, (item) => item.name.toLowerCase().includes(searchText.toLowerCase()))
-      )
-      setPage(0)
-    } else {
-      setData(clients)
-    }
-  }, [clients, searchText])
 
   function handleRequestSort(event, property) {
     const id = property
@@ -69,7 +48,7 @@ const ClientTable = (props) => {
 
   function handleSelectAllClick(event) {
     if (event.target.checked) {
-      setSelected(data.map((n) => n.id))
+      setSelected(props.data.map((n) => n.id))
       return
     }
     setSelected([])
@@ -100,14 +79,14 @@ const ClientTable = (props) => {
   }
 
   function handleChangePage(event, value) {
-    setPage(value)
+    props.setPage(value)
   }
 
   function handleChangeRowsPerPage(event) {
-    setRowsPerPage(event.target.value)
+    props.setRowsPerPage(event.target.value)
   }
 
-  if (loading) {
+  if (props.loading) {
     return (
       <div className="flex items-center justify-center h-full">
         <FuseLoading />
@@ -115,7 +94,7 @@ const ClientTable = (props) => {
     )
   }
 
-  if (data.length === 0) {
+  if (props.data.length === 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -133,17 +112,17 @@ const ClientTable = (props) => {
     <div className="w-full flex flex-col min-h-full">
       <FuseScrollbars className="grow overflow-x-auto">
         <Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
-          <ClientTableHead
+          <CustomerTableHead
             ids={selected}
             order={order}
             onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            rowCount={data.length}
+            rowCount={props.data.length}
             onMenuItemClick={handleDeselect}
           />
           <TableBody>
             {_.orderBy(
-                data,
+                props.data,
                 [
                   (o) => {
                     switch (order.id) {
@@ -158,7 +137,6 @@ const ClientTable = (props) => {
                 ],
                 [order.direction]
               )
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((n) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 return ( 
@@ -184,7 +162,7 @@ const ClientTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.name}
+                      {n.first_name}
                     </TableCell>
             
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
@@ -222,7 +200,7 @@ const ClientTable = (props) => {
           </TableBody>
         </Table>
       </FuseScrollbars>
-      <ClientForm
+      <CustomerForm
         open={open}
         onClose={handleClose}
         dataToEdit={props.dataToEdit}
@@ -231,9 +209,9 @@ const ClientTable = (props) => {
       <TablePagination
         className="shrink-0 border-t-1"
         component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
+        count={props.lengthPage}
+        rowsPerPage={props.rowsPerPage}
+        page={props.page}
         backIconButtonProps={{
           'aria-label': 'Previous Page',
         }}
@@ -247,4 +225,4 @@ const ClientTable = (props) => {
   )
 }
 
-export default withRouter(ClientTable)
+export default withRouter(CustomerTable)

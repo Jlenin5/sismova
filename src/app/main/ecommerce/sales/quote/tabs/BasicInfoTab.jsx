@@ -12,7 +12,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUser } from 'app/store/userSlice'
 import { useEffect, useState } from 'react'
-import { getClients } from 'src/app/main/human-resources/personal/store/clientSlice'
+import { getCustomers } from 'src/app/main/human-resources/personal/store/customersSlice'
 import { getCoins } from '../../../finances/store/coinSlice'
 import { getCompanies } from 'src/app/main/settings/leadership/store/companiesSlice'
 import { getBranchoffices } from 'src/app/main/settings/leadership/store/branchofficeSlice'
@@ -35,7 +35,7 @@ const BasicInfoTab = () => {
   const { t } = useTranslation()
 
   useEffect(() => {
-    dispatch(getClients()).then((r) => setDClient(r.payload))
+    dispatch(getCustomers()).then((r) => setDClient(r.payload))
     dispatch(getCoins()).then(r => setDCurrency(r.payload))
     dispatch(getCompanies()).then(r => setDCompany(r.payload))
     dispatch(getBranchoffices()).then(r => setDBO(r.payload))

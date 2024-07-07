@@ -263,9 +263,9 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           )}
         />
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">{t('sex')}</InputLabel>
+          <InputLabel id="gender">{t('sex')}</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
+            labelId="gender"
             id="demo-simple-select"
             label={t('sex')}
             name='gender'
@@ -277,9 +277,9 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           </Select>
         </FormControl>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">{t('status')}</InputLabel>
+          <InputLabel id="status">{t('status')}</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
+            labelId="status"
             id="demo-simple-select"
             label={t('status')}
             name='status'
