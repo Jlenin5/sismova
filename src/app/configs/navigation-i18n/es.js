@@ -301,6 +301,8 @@ const locale = {
   department: 'Departamento',
   province: 'Provincia',
   district: 'Distrito',
+  register_warehouse: 'Registrar almacén',
+  update_warehouse: 'Actualizar almacén',
   
 }
 

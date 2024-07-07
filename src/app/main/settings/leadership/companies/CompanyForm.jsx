@@ -142,11 +142,11 @@ function CompanyForm(props) {
           )}
         />
         <FormControl fullWidth>
-          <InputLabel id="status">{t('state')}</InputLabel>
+          <InputLabel id="status">{t('status')}</InputLabel>
           <Select
             labelId="status"
             id="demo-simple-select"
-            label={t('state')}
+            label={t('status')}
             value={form.status}
             name="status"
             onChange={handleChange}

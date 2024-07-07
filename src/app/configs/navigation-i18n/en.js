@@ -301,6 +301,8 @@ const locale = {
   department: 'Department',
   province: 'Province',
   district: 'district',
+  register_warehouse: 'Register warehouse',
+  update_warehouse: 'Update warehouse',
   
 }
 

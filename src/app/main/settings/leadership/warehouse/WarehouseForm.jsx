@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-// import './form.css'
 import React, { useEffect, useState } from 'react'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
@@ -9,17 +8,20 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } 
 import Autocomplete from '@mui/material/Autocomplete'
 import WarehouseInterface from 'src/app/interfaces/WarehouseInterface'
 import { useDispatch } from 'react-redux'
-import { deleteWarehouse, getMaxId, postWarehouse, putWarehouse } from '../store/warehouseSlice'
+import { deleteWarehouse, postWarehouse, putWarehouse } from '../store/warehouseSlice'
 import { getEmployees } from 'src/app/main/human-resources/personal/store/employeesSlice'
+import { getCompanies } from '../store/companiesSlice'
 import axios from 'axios'
 import { API_URL } from 'src/app/services/url'
 import { getBranchoffices } from '../store/branchofficeSlice'
+import CloseIcon from '@mui/icons-material/Close'
+import IconButton from '@mui/material/IconButton'
 
-const WarehouseForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
+function WarehouseForm(props) {
   const dispatch = useDispatch()
   const [form, setForm] = useState(WarehouseInterface)
-  const [maxId, setMaxId] = useState(null)
   const [employee, setEmployee] = useState([])
+  const [companies, setCompanies] = useState([])
   const [branchOffices, setBranchOffices] = useState([])
   const [dep, setDep] = useState([])
   const [prov, setProv] = useState([])
@@ -59,36 +61,27 @@ const WarehouseForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
       alert("Datos incompletos")
       return
     }
-    if(form.id===null) {
-      dispatch(postWarehouse({
-        ...form,
-        id: maxId+1
-      }))
-      setMaxId(maxId+1)
-    } else {
-      dispatch(putWarehouse(form))
-    }
-    onClose()
+    form.id ? dispatch(putWarehouse(form)) : dispatch(postWarehouse(form))
+    props.onClose()
     handleReset()
   }
   const handleReset = () => {
     setForm(WarehouseInterface)
-    setDataToEdit(null)
   }
   const handleClose = (id) => {
     if(id===form.id) {
       dispatch(deleteWarehouse(id))
       handleReset()
-      onClose()
+      props.onClose()
     }
     handleReset()
-    onClose()
+    props.onClose()
   }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
+        await dispatch(getCompanies()).then(r => setCompanies(r.payload.data))
         await dispatch(getBranchoffices()).then(r => setBranchOffices(r.payload.data))
         await dispatch(getEmployees()).then(response => setEmployee(response.payload.data))
       } catch (error) {
@@ -99,22 +92,30 @@ const WarehouseForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
       fetchData()
     }
     getDepartments()
-    if(dataToEdit) {
-      getProvinces(dataToEdit.department_id)
-      getDistricts(dataToEdit.province_id)
-      setForm(dataToEdit)
+    if(props.dataToEdit) {
+      getProvinces(props.dataToEdit.department_id)
+      getDistricts(props.dataToEdit.province_id)
+      setForm(props.dataToEdit)
     } else {
       setForm(WarehouseInterface)
     }
-  }, [dispatch, dataToEdit, open])
+  }, [dispatch, props.dataToEdit, open])
 
   return (
-    <Dialog
-      onClose={handleClose}
-      open={open}
-      className='form-dialog-bogory'
-    >
-      <DialogContent className='grid grid-flow-row-dense grid-cols-2 gap-32 mt-12'>
+    <Dialog open={props.open}>
+      <DialogTitle className="flex justify-between mt-10">
+        <div>{!form.id ? t('register_warehouse') : t('update_warehouse')}</div>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent className='grid grid-flow-row-dense grid-cols-2 gap-32' dividers>
         <TextField
           autoFocus
           id="name"
@@ -147,6 +148,22 @@ const WarehouseForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           freeSolo
           fullWidth
           id="combo-box-department"
+          options={companies}
+          getOptionLabel={(option) => option.name}
+          onChange={(_, data) => {
+            setForm({ ...form, company_id: data ? data.id : 0 })
+            return data
+          }}
+          name="company_id"
+          value={companies.find((option) => option.id === form.company_id) || null}
+          renderInput={(params) => (
+            <TextField {...params} label={t('choose_company')} />
+          )}
+        />
+        <Autocomplete
+          freeSolo
+          fullWidth
+          id="combo-box-department"
           options={branchOffices}
           getOptionLabel={(option) => option.name}
           onChange={(_, data) => {
@@ -157,7 +174,7 @@ const WarehouseForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           name="branch_office_id"
           value={branchOffices.find((option) => option.id === form.branch_office_id) || null}
           renderInput={(params) => (
-            <TextField {...params} label={t('choose_warehouse')} />
+            <TextField {...params} label={t('choose_branch_office')} />
           )}
         />
         <Autocomplete
@@ -219,27 +236,28 @@ const WarehouseForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           value={form.address}
           onChange={handleChange}
         />
+        <Autocomplete
+          freeSolo
+          fullWidth
+          id="combo-box-employee"
+          options={employee}
+          getOptionLabel={(option) => option.first_name}
+          onChange={(_, data) => {
+            setForm({ ...form, employee_id: data ? data.id : 0 })
+            return data
+          }}
+          name="employee_id"
+          value={employee.find((option) => option.id === form.employee_id) || null}
+          renderInput={(params) => (
+            <TextField {...params} label={t('responsible')} />
+          )}
+        />
         <FormControl fullWidth>
-          <InputLabel id="employee_id">{t('responsible')}</InputLabel>
-          <Select
-            labelId="employee_id"
-            id="demo-simple-select"
-            label={t('responsible')}
-            value={form.employee_id}
-            name="employee_id"
-            onChange={handleChange}
-          >
-            {
-              employee.map(r => <MenuItem value={r.id} key={r.id}>{r.first_name}</MenuItem>)
-            }
-          </Select>
-        </FormControl>
-        <FormControl fullWidth>
-          <InputLabel id="status">{t('state')}</InputLabel>
+          <InputLabel id="status">{t('status')}</InputLabel>
           <Select
             labelId="status"
             id="demo-simple-select"
-            label={t('state')}
+            label={t('status')}
             value={form.status}
             name="status"
             onChange={handleChange}
@@ -249,12 +267,9 @@ const WarehouseForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
           </Select>
         </FormControl>
       </DialogContent>
-      <DialogActions>
-        {form.id!==null ?
-        <Button onClick={() => handleClose(dataToEdit.id)}>{t('delete')}</Button>
-        :
-        <Button onClick={()=>handleClose(0)}>{t('cancel')}</Button>}
-        <Button onClick={handleSubmit}>{t('save')}</Button>
+      <DialogActions className="mb-20 mr-20">
+        {form.id ? <Button variant="contained" color="error" onClick={() => handleClose(props.dataToEdit.id)}>{t('delete')}</Button> : <></>}
+        <Button variant="contained" color="success" onClick={handleSubmit}>{t('save')}</Button>
       </DialogActions>
     </Dialog>
   )

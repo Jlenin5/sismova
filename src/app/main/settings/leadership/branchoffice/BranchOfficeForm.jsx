@@ -19,7 +19,6 @@ import IconButton from '@mui/material/IconButton'
 function BranchOfficeForm(props) {
   const dispatch = useDispatch()
   const [form, setForm] = useState(BranchOfficeInterface)
-  const [maxId, setMaxId] = useState(null)
   const [employee, setEmployee] = useState([])
   const [companies, setCompanies] = useState([])
   const [dep, setDep] = useState([]);
@@ -60,15 +59,7 @@ function BranchOfficeForm(props) {
       alert("Datos incompletos")
       return
     }
-    if(form.id===null) {
-      dispatch(postBranchoffice({
-        ...form,
-        id: maxId+1
-      }))
-      setMaxId(maxId+1)
-    } else {
-      dispatch(putBranchoffice(form))
-    }
+    form.id ? dispatch(putBranchoffice(form)) : dispatch(postBranchoffice(form))
     props.onClose()
     handleReset()
   }
@@ -243,11 +234,11 @@ function BranchOfficeForm(props) {
           )}
         />
         <FormControl fullWidth>
-          <InputLabel id="status">{t('state')}</InputLabel>
+          <InputLabel id="status">{t('status')}</InputLabel>
           <Select
             labelId="status"
             id="demo-simple-select"
-            label={t('state')}
+            label={t('status')}
             value={form.status}
             name="status"
             onChange={handleChange}
