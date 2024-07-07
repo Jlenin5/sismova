@@ -233,7 +233,7 @@ const locale = {
   choose_province: 'Escoger provincia',
   choose_district: 'Escoger distrito',
   address: 'Dirección',
-  responsible: 'Encargado',
+  responsible: 'Responsable',
   series: 'Series',
   purchase_order_details: 'Detalles de la orden de compra',
   warehouse: 'Almacén',
@@ -296,6 +296,11 @@ const locale = {
   register_company: 'Registrar empresa',
   update_company: 'Actualizar empresa',
   assigned: 'Asignado',
+  register_branch_office: 'Registrar sucursal',
+  update_branch_office: 'Actualizar sucursal',
+  department: 'Departamento',
+  province: 'Provincia',
+  district: 'Distrito',
   
 }
 

@@ -40,10 +40,10 @@ const CompanyTableHead = (props) => {
       sort: true,
     },
     {
-      id: 'assigned',
+      id: 'responsible',
       align: 'left',
       disablePadding: false,
-      label: t('assigned'),
+      label: t('responsible'),
       sort: true,
     },
     {

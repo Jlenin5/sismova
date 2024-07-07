@@ -2,7 +2,6 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import asyncThunkWithAxios from 'src/app/services/api'
 
 export const getBranchoffices = asyncThunkWithAxios('bo', 'get', 'LeadershipSC/branchoffice/getBranchoffices', 'get')
-export const getMaxId = asyncThunkWithAxios('bomax', 'get', 'LeadershipSC/branchoffice/getMaxId', 'getmax')
 export const putBranchoffice = asyncThunkWithAxios('updatebo', 'put', 'LeadershipSC/branchoffice/putBranchoffice', 'put')
 export const postBranchoffice = asyncThunkWithAxios('postbo', 'post', 'LeadershipSC/branchoffice/postBranchoffice', 'post')
 export const deleteBranchoffice = asyncThunkWithAxios('deletebo', 'delete', 'LeadershipSC/branchoffice/deleteBranchoffice', 'delete')

@@ -1181,10 +1181,10 @@ const navigationConfig = [
         children: [
           {
             id: 'settings.leadership.companies',
-            title: 'Company',
+            title: 'Companies',
             type: 'item',
             url: 'settings/leadership/companies',
-            translate: 'company',
+            translate: 'companies',
             end: true
           },
           {

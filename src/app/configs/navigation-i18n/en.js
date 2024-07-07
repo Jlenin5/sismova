@@ -296,6 +296,11 @@ const locale = {
   register_company: 'Register company',
   update_company: 'Update company',
   assigned: 'Assigned',
+  register_branch_office: 'Register branch office',
+  update_branch_office: 'Update branch office',
+  department: 'Department',
+  province: 'Province',
+  district: 'district',
   
 }
 

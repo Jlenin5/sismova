@@ -13,7 +13,7 @@ import { getEmployees } from 'src/app/main/human-resources/personal/store/employ
 import CloseIcon from '@mui/icons-material/Close'
 import IconButton from '@mui/material/IconButton'
 
-const CompanyForm = (props) => {
+function CompanyForm(props) {
   const dispatch = useDispatch()
   const [form, setForm] = useState(CompanyInterface)
   const [clicked, setClicked] = useState(false)
@@ -125,21 +125,22 @@ const CompanyForm = (props) => {
           value={form.address}
           onChange={handleChange}
         />
-        <FormControl fullWidth>
-          <InputLabel id="employee_id">{t('responsible')}</InputLabel>
-          <Select
-            labelId="employee_id"
-            id="demo-simple-select"
-            label={t('responsible')}
-            value={form.employee_id}
-            name="employee_id"
-            onChange={handleChange}
-          >
-            {
-              employee.map(r => <MenuItem value={r.id} key={r.id}>{r.first_name}</MenuItem>)
-            }
-          </Select>
-        </FormControl>
+        <Autocomplete
+          freeSolo
+          fullWidth
+          id="combo-box-employee"
+          options={employee}
+          getOptionLabel={(option) => option.first_name}
+          onChange={(_, data) => {
+            setForm({ ...form, employee_id: data ? data.id : 0 })
+            return data
+          }}
+          name="employee_id"
+          value={employee.find((option) => option.id === form.employee_id) || null}
+          renderInput={(params) => (
+            <TextField {...params} label={t('responsible')} />
+          )}
+        />
         <FormControl fullWidth>
           <InputLabel id="status">{t('state')}</InputLabel>
           <Select
