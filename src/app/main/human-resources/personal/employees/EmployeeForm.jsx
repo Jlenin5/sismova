@@ -95,7 +95,7 @@ const EmployeeForm = (props) => {
   const handleReset = () => {
     setForm(EmployeeInterface)
   }
-  
+
   const handleClose = (id) => {
     if(id===form.id) {
       dispatch(deleteEmployee(id))
@@ -267,8 +267,8 @@ const EmployeeForm = (props) => {
             value={form.gender}
             onChange={handleChange}
           >
-            <MenuItem value={0}>{t('male')}</MenuItem>
-            <MenuItem value={1}>{t('female')}</MenuItem>
+            <MenuItem value={0}>{t('man')}</MenuItem>
+            <MenuItem value={1}>{t('woman')}</MenuItem>
           </Select>
         </FormControl>
         <FormControl fullWidth>
