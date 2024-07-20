@@ -2,7 +2,6 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import asyncThunkWithAxios from 'src/app/services/api'
 
 export const getEmployees = asyncThunkWithAxios('emp', 'get', 'PersonalHR/employees/getEmployees', 'get')
-export const getMaxId = asyncThunkWithAxios('empmax', 'get', 'PersonalHR/employees/getMaxId', 'getmax')
 export const putEmployee = asyncThunkWithAxios('updateemp', 'put', 'PersonalHR/employees/putEmployee', 'put')
 export const postEmployee = asyncThunkWithAxios('postemp', 'post', 'PersonalHR/employees/postEmployee', 'post')
 export const deleteEmployee = asyncThunkWithAxios('deleteemp', 'delete', 'PersonalHR/employees/deleteEmployee', 'delete')
