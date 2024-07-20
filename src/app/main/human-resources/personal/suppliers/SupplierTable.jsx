@@ -10,26 +10,17 @@ import TableRow from '@mui/material/TableRow'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import withRouter from '@fuse/core/withRouter'
 import FuseLoading from '@fuse/core/FuseLoading'
 import SupplierTableHead from './SupplierTableHead'
 import SupplierForm from './SupplierForm'
-import { useDispatch, useSelector } from 'react-redux'
-import { getSuppliers, selectSupplier, selectSupplierSearchText } from '../store/supplierSlice'
 
-const SupplierTable = (props) => {
-  const dispatch = useDispatch()
-  const clients = useSelector(selectSupplier)
-  const searchText = useSelector(selectSupplierSearchText)
+function SupplierTable(props) {
+  
   const { t } = useTranslation()
-
-  const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState([])
-  const [data, setData] = useState(clients)
-  const [page, setPage] = useState(0)
   const [open, setOpen] = useState(false)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
     direction: 'asc',
     id: null,
@@ -39,23 +30,9 @@ const SupplierTable = (props) => {
     setOpen(true);
   }
   const handleClose = () => {
+    props.fetchData(props.page, props.rowsPerPage, '')
     setOpen(false);
   }
-
-  useEffect(() => {
-    dispatch(getSuppliers()).then((response) => setLoading(false))
-  }, [dispatch])
-
-  useEffect(() => {
-    if (searchText.length !== 0) {
-      setData(
-        _.filter(clients, (item) => item.cliFirstName.toLowerCase().includes(searchText.toLowerCase()))
-      )
-      setPage(0)
-    } else {
-      setData(clients)
-    }
-  }, [clients, searchText])
 
   function handleRequestSort(event, property) {
     const id = property
@@ -71,7 +48,7 @@ const SupplierTable = (props) => {
 
   function handleSelectAllClick(event) {
     if (event.target.checked) {
-      setSelected(data.map((n) => n.id))
+      setSelected(props.data.map((n) => n.id))
       return
     }
     setSelected([])
@@ -102,14 +79,14 @@ const SupplierTable = (props) => {
   }
 
   function handleChangePage(event, value) {
-    setPage(value)
+    props.setPage(value)
   }
 
   function handleChangeRowsPerPage(event) {
-    setRowsPerPage(event.target.value)
+    props.setRowsPerPage(event.target.value)
   }
 
-  if (loading) {
+  if (props.loading) {
     return (
       <div className="flex items-center justify-center h-full">
         <FuseLoading />
@@ -117,7 +94,7 @@ const SupplierTable = (props) => {
     )
   }
 
-  if (data.length === 0) {
+  if (props.data.length === 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -140,12 +117,12 @@ const SupplierTable = (props) => {
             order={order}
             onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            rowCount={data.length}
+            rowCount={props.data.length}
             onMenuItemClick={handleDeselect}
           />
           <TableBody>
             {_.orderBy(
-                data,
+                props.data,
                 [
                   (o) => {
                     switch (order.id) {
@@ -160,7 +137,6 @@ const SupplierTable = (props) => {
                 ],
                 [order.direction]
               )
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((n) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 return ( 
@@ -194,7 +170,7 @@ const SupplierTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.document_number}
+                      {n.document}
                     </TableCell>
             
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
@@ -231,9 +207,9 @@ const SupplierTable = (props) => {
         labelRowsPerPage={t('rows_per_page')}
         labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
+        count={props.lengthPage}
+        rowsPerPage={props.rowsPerPage}
+        page={props.page}
         backIconButtonProps={{
           'aria-label': 'Previous Page',
         }}

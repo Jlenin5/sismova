@@ -1,7 +1,6 @@
 const SupplierInterface = {
   id: null,
-  document_type: 1,
-  document_number: '',
+  document: '',
   name: '',
   email: '',
   address: '',

@@ -27,7 +27,7 @@ function Index() {
   useEffect(() => {
     if (searchText.length !== 0) {
       setData(
-        _.filter(customers, (item) => item.name.toLowerCase().includes(searchText.toLowerCase()))
+        _.filter(customers, (item) => item.first_name.toLowerCase().includes(searchText.toLowerCase()))
       )
     } else {
       setData(customers)

@@ -131,7 +131,7 @@ function SupplierTableHead(props) {
                     <ListItemIcon className="min-w-40">
                       <FuseSvgIcon>heroicons-outline:trash</FuseSvgIcon>
                     </ListItemIcon>
-                    <ListItemText primary="Eliminar" />
+                    <ListItemText primary={t('delete')} />
                   </MenuItem>
                 </MenuList>
               </Menu>

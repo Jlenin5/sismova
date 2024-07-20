@@ -305,6 +305,9 @@ const locale = {
   update_warehouse: 'Actualizar almacén',
   customers: 'Clientes',
   birthdate: 'Fecha de nacimiento',
+  register_supplier: 'Registrar proveedor',
+  update_supplier: 'Actualizar proveedor',
+  web_site: 'Sitio web',
   
 }
 

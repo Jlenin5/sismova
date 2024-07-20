@@ -16,11 +16,19 @@ const SupplierHeader = (props) => {
   const searchText = useSelector(selectSupplierSearchText)
   const { t } = useTranslation()
 
+  const setFetchData = () => {
+    props.fetchData(props.page, props.rowsPerPage, searchText)
+  }
+  const refresh = () => {
+    setFetchData()
+  }
+  
   const handleClickOpen = () => {
     setOpen(true)
   }
 
   const handleClose = () => {
+    setFetchData()
     setOpen(false)
   }
 
@@ -61,6 +69,14 @@ const SupplierHeader = (props) => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
         >
+          <Button
+            className="mr-12"
+            variant="contained"
+            onClick={() => refresh()}
+            color="refresh"
+          >
+            <FuseSvgIcon>heroicons-outline:refresh</FuseSvgIcon>
+          </Button>
           <Button
             className=""
             variant="contained"
