@@ -7,11 +7,11 @@ import { useDispatch } from 'react-redux'
 import ModalConvertToUser from './ModalConvertToUser'
 import ShowDetails from './ShowDetails'
 import { deleteEmployee } from '../store/employeesSlice'
-import EmployeeForm from './modal//EmployeeForm'
+import EmployeeForm from './EmployeeForm'
 
 const ITEM_HEIGHT = 48
 
-const OptionsAction = ({idE, openOption, anchorEl, setAnchorEl, dataToEdit, setDataToEdit}) => {
+function OptionsAction(props) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [openEditEmployee, setOpenEditEmployee] = useState(false)
@@ -29,6 +29,7 @@ const OptionsAction = ({idE, openOption, anchorEl, setAnchorEl, dataToEdit, setD
     setOpenEditEmployee(true)
   }
   const closeModalEditEmployee = () => {
+    props.fetchData(props.page, props.rowsPerPage, '')
     setOpenEditEmployee(false)
   }
 
@@ -37,6 +38,7 @@ const OptionsAction = ({idE, openOption, anchorEl, setAnchorEl, dataToEdit, setD
     setOpenConvertUser(true)
   }
   const closeModalConvertUser = () => {
+    props.fetchData(props.page, props.rowsPerPage, '')
     setOpenConvertUser(false)
   }
 
@@ -45,11 +47,12 @@ const OptionsAction = ({idE, openOption, anchorEl, setAnchorEl, dataToEdit, setD
     setOpenShowDetails(true)
   }
   const closeModalShowDetails = () => {
+    props.fetchData(props.page, props.rowsPerPage, '')
     setOpenShowDetails(false)
   }
 
   const handleClose = () => {
-    setAnchorEl(null)
+    props.setAnchorEl(null)
   }
 
   return (
@@ -59,8 +62,8 @@ const OptionsAction = ({idE, openOption, anchorEl, setAnchorEl, dataToEdit, setD
         MenuListProps={{
           'aria-labelledby': 'long-button',
         }}
-        anchorEl={anchorEl}
-        open={openOption}
+        anchorEl={props.anchorEl}
+        open={props.openOption}
         onClose={handleClose}
         PaperProps={{
           style: {
@@ -69,12 +72,12 @@ const OptionsAction = ({idE, openOption, anchorEl, setAnchorEl, dataToEdit, setD
           },
         }}
       >
-        <MenuItem onClick={() => openModalEditEmployee( setDataToEdit(idE))}>
+        <MenuItem onClick={() => openModalEditEmployee( props.setDataToEdit(props.idE))}>
           {t('edit')}
         </MenuItem>
         <MenuItem onClick={() => {
           handleClose()
-          dispatch(deleteEmployee(idE.id))
+          dispatch(deleteEmployee(props.idE.id))
         }}>
           {t('delete')}
         </MenuItem>
@@ -93,9 +96,9 @@ const OptionsAction = ({idE, openOption, anchorEl, setAnchorEl, dataToEdit, setD
       <EmployeeForm
         open={openEditEmployee}
         onClose={closeModalEditEmployee}
-        idE={idE}
-        dataToEdit={dataToEdit}
-        setDataToEdit={setDataToEdit}
+        idE={props.idE}
+        dataToEdit={props.dataToEdit}
+        setDataToEdit={props.setDataToEdit}
       />
       {/* <ShowDetails
         open={openShowDetails}

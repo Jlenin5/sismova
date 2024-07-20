@@ -190,6 +190,8 @@ function UserTable(props) {
       />
       <TablePagination
         className="shrink-0 border-t-1"
+        labelRowsPerPage={t('rows_per_page')}
+        labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
         count={props.lengthPage}
         rowsPerPage={props.rowsPerPage}

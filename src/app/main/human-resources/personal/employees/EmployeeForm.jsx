@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { deleteEmployee, getMaxId, postEmployee, putEmployee } from '../../store/employeesSlice'
+import { deleteEmployee, postEmployee, putEmployee } from '../store/employeesSlice'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material'
 import Autocomplete from '@mui/material/Autocomplete'
 import FormControl from '@mui/material/FormControl'
@@ -9,11 +9,11 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import EmployeeInterface from 'src/app/interfaces/EmployeeInterface'
-import { getWorkAreas } from '../../../ocupations/store/waSlice'
+import { getWorkAreas } from '../../ocupations/store/waSlice'
 import CloseIcon from '@mui/icons-material/Close'
 import IconButton from '@mui/material/IconButton'
 
-const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
+const EmployeeForm = (props) => {
   
   const dispatch = useDispatch()
   const [form, setForm] = useState(EmployeeInterface)
@@ -22,7 +22,6 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   // const [dataDoc,setDataDoc] = useState([])
   // const [openDialog, setOpenDialog] = useState(false)
   const [workAreas, setWorkAreas] = useState([])
-  const [maxId, setMaxId] = useState(null)
   const { t } = useTranslation()
   
   const handleChange = (e) => {
@@ -77,15 +76,12 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
         //   if(form.phone==='') {
         //     form.phone = null
         //   }
-        dispatch(postEmployee({
-          ...form,
-          id: maxId+1
-        }))
+        dispatch(postEmployee(form))
         // }
       } else {
         dispatch(putEmployee(form))
       }
-      onClose()
+      props.onClose()
       handleReset()
     } catch(error) {
       if (error.response && error.response.status === 409) {
@@ -98,16 +94,16 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
   
   const handleReset = () => {
     setForm(EmployeeInterface)
-    setDataToEdit(null)
   }
+  
   const handleClose = (id) => {
     if(id===form.id) {
       dispatch(deleteEmployee(id))
       handleReset()
-      onClose()
+      props.onClose()
     }
     handleReset()
-    onClose()
+    props.onClose()
   }
 
   const handleKeyPress = (e) => {
@@ -121,16 +117,15 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
 
   useEffect(() => {
     dispatch(getWorkAreas()).then(r => setWorkAreas(r.payload.data))
-    dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
-    if(dataToEdit) {
-      setForm(dataToEdit)
+    if(props.dataToEdit) {
+      setForm(props.dataToEdit)
     } else {
       setForm(EmployeeInterface)
     }
-  }, [dispatch, dataToEdit])
+  }, [dispatch, props.dataToEdit])
 
   return (
-    <Dialog open={open} className="form-dialog-category">
+    <Dialog open={props.open} className="form-dialog-category">
       <DialogTitle className="flex justify-between mt-10">
         <div>{!form.id ? t('register_employee') : t('update_employee')}</div>
         <IconButton
@@ -292,8 +287,8 @@ const EmployeeForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
         </FormControl>
       </DialogContent>
       <DialogActions className="mb-20 mr-20">
-        {form.id ? <Button variant="contained" color="error" onClick={() => handleClose(dataToEdit.id)}>Eliminar</Button> : <></>}
-        <Button variant="contained" color="success" onClick={handleSubmit}>Guardar</Button>
+        {form.id ? <Button variant="contained" color="error" onClick={() => handleClose(props.dataToEdit.id)}>{t('delete')}</Button> : <></>}
+        <Button variant="contained" color="success" onClick={handleSubmit}>{t('save')}</Button>
       </DialogActions>
       {/* <Dialog
         open={openDialog}

@@ -20,21 +20,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getEmployees, selectEmployee, selectEmployeeSearchText } from '../store/employeesSlice'
 import OptionsAction from './OptionsAction'
 
-const EmployeeTable = (props) => {
-  const dispatch = useDispatch()
-  const employees = useSelector(selectEmployee)
-  const searchText = useSelector(selectEmployeeSearchText)
-  const { t } = useTranslation()
+function EmployeeTable(props) {
 
+  const { t } = useTranslation()
   const [anchorEl, setAnchorEl] = useState(null);
   const openOption = Boolean(anchorEl)
   const [idE, setIdE] = useState(null)
-  const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState([])
-  const [data, setData] = useState(employees)
-  const [lengthPage, setLengthPage] = useState(data.length)
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
     direction: 'asc',
     id: null,
@@ -43,21 +35,6 @@ const EmployeeTable = (props) => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   }
-
-  useEffect(() => {
-    fetchData(page, rowsPerPage)
-  }, [dispatch])
-
-  useEffect(() => {
-    if (searchText.length !== 0) {
-      setData(
-        _.filter(employees, (item) => item.first_name.toLowerCase().includes(searchText.toLowerCase()))
-      )
-      setPage(0)
-    } else {
-      setData(employees)
-    }
-  }, [employees, searchText])
 
   function handleRequestSort(event, property) {
     const id = property
@@ -104,28 +81,14 @@ const EmployeeTable = (props) => {
   }
 
   function handleChangePage(event, value) {
-    fetchData(value, 10)
+    props.setPage(value)
   }
 
   function handleChangeRowsPerPage(event) {
-    setPage(0)
-    fetchData(0, event.target.value)
+    props.setRowsPerPage(event.target.value)
   }
 
-  const fetchData = (page, rowsPerPage) => {
-    setLoading(true)
-    setTimeout(() => {
-      dispatch(getEmployees({ page: page + 1, rowsPerPage: rowsPerPage, searchText:'' })).then((response) => {
-        setPage(page)
-        setRowsPerPage(rowsPerPage)
-        setData(response.payload.data)
-        setLengthPage(response.payload.totalRows)
-        setLoading(false)
-      })
-    })
-  }
-
-  if (loading) {
+  if (props.loading) {
     return (
       <div className="flex items-center justify-center h-full">
         <FuseLoading />
@@ -133,7 +96,7 @@ const EmployeeTable = (props) => {
     )
   }
 
-  if (data.length === 0) {
+  if (props.data.length === 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -156,12 +119,12 @@ const EmployeeTable = (props) => {
             order={order}
             onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            rowCount={data.length}
+            rowCount={props.data.length}
             onMenuItemClick={handleDeselect}
           />
           <TableBody>
             {_.orderBy(
-                data,
+                props.data,
                 [
                   (o) => {
                     switch (order.id) {
@@ -258,6 +221,9 @@ const EmployeeTable = (props) => {
         openOption={openOption}
         dataToEdit={props.dataToEdit}
         setDataToEdit={props.setDataToEdit}
+        fetchData={props.fetchData}
+        page={props.page}
+        rowsPerPage={props.rowsPerPage}
         idE={idE}
       />
       <TablePagination
@@ -265,9 +231,9 @@ const EmployeeTable = (props) => {
         labelRowsPerPage={t('rows_per_page')}
         labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
-        count={lengthPage}
-        rowsPerPage={rowsPerPage}
-        page={page}
+        count={props.lengthPage}
+        rowsPerPage={props.rowsPerPage}
+        page={props.page}
         backIconButtonProps={{
           'aria-label': 'Previous Page',
         }}

@@ -6,22 +6,30 @@ import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { selectEmployeeSearchText, setEmployeeSearchText } from '../store/employeesSlice'
-import EmployeeForm from './modal/EmployeeForm'
+import EmployeeForm from './EmployeeForm'
 
-const EmployeeHeader = (props) => {
+function EmployeeHeader(props) {
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
   const searchText = useSelector(selectEmployeeSearchText)
   const { t } = useTranslation()
+
+  const setFetchData = () => {
+    props.fetchData(props.page, props.rowsPerPage, searchText)
+  }
+
+  const refresh = () => {
+    setFetchData()
+  }
 
   const handleClickOpen = () => {
     setOpen(true)
   }
 
   const handleClose = () => {
+    setFetchData()
     setOpen(false)
   }
 
@@ -63,9 +71,16 @@ const EmployeeHeader = (props) => {
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
         >
           <Button
+            className="mr-12"
+            variant="contained"
+            onClick={() => refresh()}
+            color="refresh"
+          >
+            <FuseSvgIcon>heroicons-outline:refresh</FuseSvgIcon>
+          </Button>
+          <Button
             className=""
             variant="contained"
-            component={Link}
             onClick={() => handleClickOpen()}
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}

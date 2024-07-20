@@ -178,7 +178,7 @@ const CustomerTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.gender === 0 ? 'Hombre' : 'Mujer'}
+                      {n.gender === 0 ? t('men') : t('woman')}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
@@ -208,6 +208,8 @@ const CustomerTable = (props) => {
       />
       <TablePagination
         className="shrink-0 border-t-1"
+        labelRowsPerPage={t('rows_per_page')}
+        labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
         count={props.lengthPage}
         rowsPerPage={props.rowsPerPage}
