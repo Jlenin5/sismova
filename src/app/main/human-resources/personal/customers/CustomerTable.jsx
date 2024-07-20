@@ -102,7 +102,7 @@ const CustomerTable = (props) => {
         className="flex flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          No hay clientes
+          {t('there_is_no_data')}
         </Typography>
       </motion.div>
     )

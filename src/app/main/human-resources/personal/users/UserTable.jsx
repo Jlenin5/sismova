@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import FuseScrollbars from '@fuse/core/FuseScrollbars'
 import _ from '@lodash'
 import Checkbox from '@mui/material/Checkbox'
@@ -17,17 +18,11 @@ import UserForm from './UserForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUsers, selectUser, selectUserSearchText } from '../store/userSlice'
 
-const UserTable = (props) => {
-  const dispatch = useDispatch()
-  const users = useSelector(selectUser)
-  const searchText = useSelector(selectUserSearchText)
+function UserTable(props) {
 
-  const [loading, setLoading] = useState(true)
+  const { t } = useTranslation()
   const [selected, setSelected] = useState([])
-  const [data, setData] = useState(users)
-  const [page, setPage] = useState(0)
   const [open, setOpen] = useState(false)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
     direction: 'asc',
     id: null,
@@ -37,23 +32,9 @@ const UserTable = (props) => {
     setOpen(true);
   }
   const handleClose = () => {
+    props.fetchData(props.page, props.rowsPerPage, '')
     setOpen(false);
   }
-
-  useEffect(() => {
-    dispatch(getUsers()).then(() => setLoading(false))
-  }, [dispatch])
-
-  useEffect(() => {
-    if (searchText.length !== 0) {
-      setData(
-        _.filter(users, (item) => item.Employee.toLowerCase().includes(searchText.toLowerCase()))
-      )
-      setPage(0)
-    } else {
-      setData(users)
-    }
-  }, [users, searchText])
 
   function handleRequestSort(event, property) {
     const id = property
@@ -69,7 +50,7 @@ const UserTable = (props) => {
 
   function handleSelectAllClick(event) {
     if (event.target.checked) {
-      setSelected(data.map((n) => n.id))
+      setSelected(props.data.map((n) => n.id))
       return
     }
     setSelected([])
@@ -100,14 +81,14 @@ const UserTable = (props) => {
   }
 
   function handleChangePage(event, value) {
-    setPage(value)
+    props.setPage(value)
   }
 
   function handleChangeRowsPerPage(event) {
-    setRowsPerPage(event.target.value)
+    props.setRowsPerPage(event.target.value)
   }
 
-  if (loading) {
+  if (props.loading) {
     return (
       <div className="flex items-center justify-center h-full">
         <FuseLoading />
@@ -115,7 +96,7 @@ const UserTable = (props) => {
     )
   }
 
-  if (data.length === 0) {
+  if (props.data.length === 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -123,7 +104,7 @@ const UserTable = (props) => {
         className="flex flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          No hay usuarios
+          {t('there_is_no_data')}
         </Typography>
       </motion.div>
     )
@@ -138,12 +119,12 @@ const UserTable = (props) => {
             order={order}
             onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            rowCount={data.length}
+            rowCount={props.data.length}
             onMenuItemClick={handleDeselect}
           />
           <TableBody>
             {_.orderBy(
-                data,
+                props.data,
                 [
                   (o) => {
                     switch (order.id) {
@@ -158,7 +139,6 @@ const UserTable = (props) => {
                 ],
                 [order.direction]
               )
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((n) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 return ( 
@@ -184,15 +164,15 @@ const UserTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.userDisplayName}
+                      {n.nickname}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.employees.empFirstName}
+                      {n.email}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.roles.rolName}
+                      {n.roles.map((r) => r.name).join(', ')}
                     </TableCell>
 
                   </TableRow>
@@ -211,9 +191,9 @@ const UserTable = (props) => {
       <TablePagination
         className="shrink-0 border-t-1"
         component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
+        count={props.lengthPage}
+        rowsPerPage={props.rowsPerPage}
+        page={props.page}
         backIconButtonProps={{
           'aria-label': 'Previous Page',
         }}

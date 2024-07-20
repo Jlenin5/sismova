@@ -308,6 +308,9 @@ const locale = {
   register_supplier: 'Register supplier',
   update_supplier: 'Update supplier',
   web_site: 'Web site',
+  register_user: 'Register user',
+  update_user: 'Update user',
+  nickname: 'Nickname',
   
 }
 

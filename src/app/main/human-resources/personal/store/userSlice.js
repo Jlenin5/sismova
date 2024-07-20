@@ -2,7 +2,6 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/too
 import asyncThunkWithAxios from 'src/app/services/api'
 
 export const getUsers = asyncThunkWithAxios('user', 'get', 'PersonalHR/users/getUsers', 'get')
-export const getMaxId = asyncThunkWithAxios('usermax', 'get', 'PersonalHR/users/getMaxId', 'getmax')
 export const putUser = asyncThunkWithAxios('updateuser', 'put', 'PersonalHR/users/putUser', 'put')
 export const postUser = asyncThunkWithAxios('postuser', 'post', 'PersonalHR/users/postUser', 'post')
 export const deleteUser = asyncThunkWithAxios('deleteuser', 'delete', 'PersonalHR/users/deleteUser', 'delete')
@@ -27,7 +26,7 @@ const userSlice = createSlice({
     },
   },
   extraReducers: {
-    [getUsers.fulfilled]: userAdapter.setAll,
+    [getUsers.fulfilled]: (state, action) => userAdapter.setAll(state, action.payload.data),
     [putUser.fulfilled]: (state, action) => userAdapter.updateOne(state, {
         id: action.payload.id,
         changes: action.payload

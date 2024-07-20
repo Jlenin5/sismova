@@ -2,10 +2,11 @@ const UserInterface = {
   id: null,
   employee_id: 1,
   employee: {},
-  name: '',
+  nickname: '',
   email: '',
   password: '',
   uuid: '',
+  status: 1,
   roles: []
 }
 

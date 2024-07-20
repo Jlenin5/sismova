@@ -7,13 +7,12 @@ import Select from '@mui/material/Select'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { getMaxId, postUser } from '../store/userSlice'
+import { postUser } from '../store/userSlice'
 import { getRoles } from 'src/app/main/settings/controls/store/rolSlice'
 
 const ModalConvertToUser = ({open, close, idE}) => {
   const dispatch = useDispatch()
   // const [emp, setEmp] = useState({})
-  const [maxId, setMaxId] = useState(null)
   const [rol, setRol] = useState(1)
   const [dRol, setDRol] = useState([])
   const { t } = useTranslation()
@@ -28,7 +27,6 @@ const ModalConvertToUser = ({open, close, idE}) => {
 
   const handleSubmit = () => {
     dispatch(postUser({
-      id: maxId + 1,
       Employee: idE,
       // userDisplayName: emp.empDocument,
       // userPassword: emp.empDocument,
@@ -39,7 +37,6 @@ const ModalConvertToUser = ({open, close, idE}) => {
   useEffect(() => {
     if(idE) {
       // dispatch(getEmployee(Number(idE))).then(r => setEmp(r.payload))
-      dispatch(getMaxId()).then(r => setMaxId(r.payload.ultimo_id))
       dispatch(getRoles()).then(r => setDRol(r.payload))
     }
   }, [dispatch, idE])

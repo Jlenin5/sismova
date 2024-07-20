@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -17,40 +18,41 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
 import { delUserMulti } from '../store/userSlice'
 
-const rows = [
-  {
-    id: 'id',
-    align: 'left',
-    disablePadding: false,
-    label: '',
-    sort: false,
-  },
-  {
-    id: 'userDisplayName',
-    align: 'left',
-    disablePadding: false,
-    label: 'Usuario',
-    sort: true,
-  },
-  {
-    id: 'Employee',
-    align: 'left',
-    disablePadding: false,
-    label: 'Nombre',
-    sort: true,
-  },
-  {
-    id: 'Rol',
-    align: 'left',
-    disablePadding: false,
-    label: 'Rol',
-    sort: true,
-  },
-]
-
 const UserTableHead = (props) => {
   const dispatch = useDispatch()
   const numSelected = props.ids.length
+  const { t } = useTranslation()
+
+  const rows = [
+    {
+      id: 'id',
+      align: 'left',
+      disablePadding: false,
+      label: '',
+      sort: false,
+    },
+    {
+      id: 'userDisplayName',
+      align: 'left',
+      disablePadding: false,
+      label: t('nickname'),
+      sort: true,
+    },
+    {
+      id: 'Employee',
+      align: 'left',
+      disablePadding: false,
+      label: t('email'),
+      sort: true,
+    },
+    {
+      id: 'Rol',
+      align: 'left',
+      disablePadding: false,
+      label: t('roles'),
+      sort: true,
+    },
+  ]
   
   const [selectedCategoriesMenu, setSelectedCategoriesMenu] = useState(null)
 

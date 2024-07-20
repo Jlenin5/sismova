@@ -1,4 +1,4 @@
-import './form.css'
+import { useTranslation } from 'react-i18next'
 import React, { useEffect, useState } from 'react'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
@@ -7,16 +7,16 @@ import Select from '@mui/material/Select'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material'
 import UserInterface from 'src/app/interfaces/UserInterface'
 import { useDispatch } from 'react-redux'
-import { deleteUser, getMaxId, postUser, putUser } from '../store/userSlice'
-import { getRoles } from 'src/app/main/settings/controls/store/rolSlice'
-import { getEmployees } from '../store/employeesSlice'
+import { deleteUser, postUser, putUser } from '../store/userSlice'
+// import { getRoles } from 'src/app/main/settings/controls/store/rolSlice'
+import CloseIcon from '@mui/icons-material/Close'
+import IconButton from '@mui/material/IconButton'
 
-function UserForm({onClose,open,dataToEdit,setDataToEdit}) {
+function UserForm(props) {
   const dispatch = useDispatch()
   const [form, setForm] = useState(UserInterface)
-  const [maxId, setMaxId] = useState(null)
-  const [role, setRole] = useState([])
-  const [employee, setEmployee] = useState([])
+  // const [role, setRole] = useState([])
+  const { t } = useTranslation()
   
   const handleChange = (e) => {
     const name = e.target.name
@@ -28,78 +28,68 @@ function UserForm({onClose,open,dataToEdit,setDataToEdit}) {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(!form.userDisplayName) {
+    if(!form.nickname) {
       alert("Datos incompletos")
       return
     }
-    if(form.id===null) {
-      dispatch(postUser({
-        ...form,
-        id: maxId+1
-      }))
-      setMaxId(maxId+1)
-    } else {
-      dispatch(putUser(form))
-    }
-    onClose()
+    form.id ? dispatch(postUser(form)) : dispatch(putUser(form))
+    props.onClose()
     handleReset()
   }
   const handleReset = () => {
     setForm(UserInterface)
-    setDataToEdit(null)
   }
   const handleClose = (id) => {
     if(id===form.id) {
       dispatch(deleteUser(id))
       handleReset()
-      onClose()
+      props.onClose()
     }
     handleReset()
-    onClose()
+    props.onClose()
   }
 
   useEffect(() => {
-    dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
-    dispatch(getRoles()).then(response => setRole(response.payload))
-    dispatch(getEmployees()).then(response => setEmployee(response.payload))
-    if(dataToEdit) {
-      setForm(dataToEdit)
+    // dispatch(getRoles()).then(response => setRole(response.payload))
+    if(props.dataToEdit) {
+      setForm(props.dataToEdit)
     } else {
       setForm(UserInterface)
     }
-  }, [dispatch, dataToEdit])
+  }, [dispatch, props.dataToEdit])
 
   return (
-    <Dialog
-      onClose={handleClose}
-      open={open}
-      className='form-dialog-category'
-    >
-      <DialogContent className='grid grid-flow-row-dense grid-cols-2 gap-32 mt-12'>
-        <FormControl fullWidth>
-          <InputLabel id="Employee">Personal</InputLabel>
-          <Select
-            labelId="Employee"
-            id="demo-simple-select"
-            label="Personal"
-            value={form.Employee}
-            name="Employee"
-            onChange={handleChange}
-          >
-            {
-              employee.map(r => <MenuItem value={r.id} key={r.id}>{r.empFirstName}</MenuItem>)
-            }
-          </Select>
-        </FormControl>
+    <Dialog open={props.open}>
+      <DialogTitle className="flex justify-between mt-10">
+        <div>{!form.id ? t('register_employee') : t('update_employee')}</div>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent className='grid grid-flow-row-dense grid-cols-2 gap-32' dividers>
         <TextField
-          id="name"
-          label="Nombre de usuario"
+          id="nickname"
+          label={t('nickname')}
           variant="outlined"
-          name='userDisplayName'
-          value={form.userDisplayName}
+          name='nickname'
+          value={form.nickname}
           onChange={handleChange}
         />
-        <FormControl fullWidth>
+        <TextField
+          id="email"
+          label={t('email')}
+          variant="outlined"
+          name='email'
+          value={form.email}
+          onChange={handleChange}
+        />
+        {/* <FormControl fullWidth>
           <InputLabel id="Rol">Rol</InputLabel>
           <Select
             labelId="Rol"
@@ -113,19 +103,19 @@ function UserForm({onClose,open,dataToEdit,setDataToEdit}) {
               role.map(r => <MenuItem value={r.id} key={r.id}>{r.rolName}</MenuItem>)
             }
           </Select>
-        </FormControl>
+        </FormControl> */}
         <TextField
           id="name"
           label="Contraseña"
           variant="outlined"
           name='userPassword'
-          value={form.userPassword}
+          value={form.password || ''}
           onChange={handleChange}
         />
       </DialogContent>
-      <DialogActions>
-        {form.id!==null ? <Button onClick={() => handleClose(dataToEdit.id)}>Eliminar</Button> : <Button onClick={()=>handleClose(0)}>Cancelar</Button>}
-        <Button onClick={handleSubmit}>Guardar</Button>
+      <DialogActions className="mb-20 mr-20">
+        {form.id ? <Button variant="contained" color="error" onClick={() => handleClose(props.dataToEdit.id)}>{t('delete')}</Button> : <></>}
+        <Button variant="contained" color="success" onClick={handleSubmit}>{t('save')}</Button>
       </DialogActions>
     </Dialog>
   )

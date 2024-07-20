@@ -1,4 +1,4 @@
-import FuseExample from '@fuse/core/FuseExample'
+import { useTranslation } from 'react-i18next'
 import Button from '@mui/material/Button'
 import Input from '@mui/material/Input'
 import Paper from '@mui/material/Paper'
@@ -10,16 +10,26 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { selectUserSearchText, setUserSearchText } from '../store/userSlice'
 import UserForm from './UserForm'
 
-const UserHeader = (props) => {
+function UserHeader(props) {
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
   const searchText = useSelector(selectUserSearchText)
+  const { t } = useTranslation()
+
+  const setFetchData = () => {
+    props.fetchData(props.page, props.rowsPerPage, searchText)
+  }
+
+  const refresh = () => {
+    setFetchData()
+  }
 
   const handleClickOpen = () => {
     setOpen(true)
   }
 
   const handleClose = () => {
+    setFetchData()
     setOpen(false)
   }
 
@@ -32,7 +42,7 @@ const UserHeader = (props) => {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Usuarios
+        {t('users')}
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -45,7 +55,7 @@ const UserHeader = (props) => {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Buscar usuario"
+            placeholder={t('search')}
             className="flex flex-1"
             disableUnderline
             fullWidth
@@ -61,13 +71,21 @@ const UserHeader = (props) => {
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
         >
           <Button
+            className="mr-12"
+            variant="contained"
+            onClick={() => refresh()}
+            color="refresh"
+          >
+            <FuseSvgIcon>heroicons-outline:refresh</FuseSvgIcon>
+          </Button>
+          <Button
             className=""
             variant="contained"
             onClick={() => handleClickOpen()}
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >
-            Agregar
+            {t('add')}
           </Button>
           <UserForm
             open={open}
