@@ -10,11 +10,13 @@ import { CacheProvider } from '@emotion/react'
 import { selectCurrentLanguageDirection } from 'app/store/i18nSlice'
 import { selectUser } from 'app/store/userSlice'
 import themeLayouts from 'app/theme-layouts/themeLayouts'
-import { selectMainTheme } from 'app/store/fuse/settingsSlice'
+import { selectMainTheme, setDefaultSettings } from 'app/store/fuse/settingsSlice'
 import FuseAuthorization from '@fuse/core/FuseAuthorization'
 import settingsConfig from 'app/configs/settingsConfig'
 import withAppProviders from './withAppProviders'
 import { AuthProvider } from './auth/AuthContext'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 // import axios from 'axios'
 /**
@@ -41,6 +43,15 @@ function App() {
   const user = useSelector(selectUser)
   const langDirection = useSelector(selectCurrentLanguageDirection)
   const mainTheme = useSelector(selectMainTheme)
+  const dispatch = useDispatch();
+
+  const newSettingsTheme = () => {
+    return JSON.parse(localStorage.getItem('newSettings'))
+  }
+  
+  useEffect(() => {
+    dispatch(setDefaultSettings(newSettingsTheme()))
+  }, [])
 
   return (
     <CacheProvider value={createCache(emotionCacheOptions[langDirection])}>

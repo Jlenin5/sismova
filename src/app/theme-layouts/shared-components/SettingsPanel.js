@@ -101,9 +101,18 @@ function SettingsPanel() {
     setOpen(false);
   };
 
+  const getSelectedTheme = () => {
+    const storedTheme = localStorage.getItem('selectedTheme');
+    return storedTheme || 'default';
+  }
+
+  useEffect(() => {
+    dispatch(changeFuseTheme(themesConfig[getSelectedTheme()]));
+  }, [])
+
   return (
     <>
-      {/* <Root id="fuse-settings-schemes" className="buttonWrapper">
+      <Root id="fuse-settings-schemes" className="buttonWrapper">
         <Button
           className="settingsButton min-w-40 w-40 h-40 m-0"
           onClick={() => handleOpen('settings')}
@@ -125,7 +134,7 @@ function SettingsPanel() {
         >
           <FuseSvgIcon size={20}>heroicons-outline:color-swatch</FuseSvgIcon>
         </Button>
-      </Root> */}
+      </Root>
       <StyledDialog
         TransitionComponent={Transition}
         aria-labelledby="settings-panel"
@@ -153,7 +162,7 @@ function SettingsPanel() {
 
           <FuseSettings />
 
-          <FuseSettingsViewerDialog className="mt-32" />
+          {/* <FuseSettingsViewerDialog className="mt-32" /> */}
         </FuseScrollbars>
       </StyledDialog>
       <StyledDialog

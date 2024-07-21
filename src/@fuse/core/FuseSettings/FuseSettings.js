@@ -104,6 +104,7 @@ function FuseSettings(props) {
           themeLayoutConfigs[newSettings?.layout?.style]?.defaults
         );
       }
+      localStorage.setItem('newSettings',JSON.stringify(newSettings))
       handleUpdate(newSettings);
     }
   }, [
@@ -329,7 +330,7 @@ function FuseSettings(props) {
         </Typography>
       </div>
 
-      <div className="FuseSettings-formGroup pb-16">
+      {/* <div className="FuseSettings-formGroup pb-16">
         <Typography className="FuseSettings-formGroupTitle" color="text.secondary">
           Theme
         </Typography>
@@ -423,7 +424,7 @@ function FuseSettings(props) {
             )}
           />
         </div>
-      </div>
+      </div> */}
 
       <Controller
         name="customScrollbars"
