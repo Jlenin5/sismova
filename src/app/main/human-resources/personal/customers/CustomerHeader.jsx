@@ -19,6 +19,7 @@ function CustomerHeader(props) {
   const setFetchData = () => {
     props.fetchData(props.page, props.rowsPerPage, searchText)
   }
+  
   const refresh = () => {
     setFetchData()
   }

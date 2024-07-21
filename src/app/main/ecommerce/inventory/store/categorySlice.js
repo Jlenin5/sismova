@@ -2,7 +2,6 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import asyncThunkWithAxios from 'src/app/services/api'
 
 export const getCategories = asyncThunkWithAxios('cate', 'get', 'inventoryEC/categories/getCategories', 'get')
-export const getMaxId = asyncThunkWithAxios('catemax', 'get', 'inventoryEC/categories/getMaxId', 'getmax')
 export const putCategory = asyncThunkWithAxios('updatecate', 'put', 'inventoryEC/categories/putCategory', 'put')
 export const postCategory = asyncThunkWithAxios('postcate', 'post', 'inventoryEC/categories/postCategory', 'post')
 export const deleteCategory = asyncThunkWithAxios('deletecate', 'delete', 'inventoryEC/categories/deleteCategory', 'delete')
@@ -27,7 +26,7 @@ const categorySlice = createSlice({
     },
   },
   extraReducers: {
-    [getCategories.fulfilled]: categoryAdapter.setAll,
+    [getCategories.fulfilled]: (state, action) => categoryAdapter.setAll(state, action.payload.data),
     [putCategory.fulfilled]: (state, action) => categoryAdapter.updateOne(state, {
         id: action.payload.id,
         changes: action.payload

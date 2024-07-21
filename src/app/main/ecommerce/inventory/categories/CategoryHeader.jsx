@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import FuseExample from '@fuse/core/FuseExample'
 import Button from '@mui/material/Button'
 import Input from '@mui/material/Input'
 import Paper from '@mui/material/Paper'
@@ -11,19 +10,26 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { selectCategorySearchText, setCategorySearchText } from '../store/categorySlice'
 import CategoryForm from './CategoryForm'
 
-const CategoriesHeader = (props) => {
-
-  const { t } = useTranslation()
-
+function CategoriesHeader(props) {
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
   const searchText = useSelector(selectCategorySearchText)
+  const { t } = useTranslation()
+
+  const setFetchData = () => {
+    props.fetchData(props.page, props.rowsPerPage, searchText)
+  }
+
+  const refresh = () => {
+    setFetchData()
+  }
 
   const handleClickOpen = () => {
     setOpen(true)
   }
 
   const handleClose = () => {
+    setFetchData()
     setOpen(false)
   }
 
@@ -64,6 +70,14 @@ const CategoriesHeader = (props) => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
         >
+          <Button
+            className="mr-12"
+            variant="contained"
+            onClick={() => refresh()}
+            color="refresh"
+          >
+            <FuseSvgIcon>heroicons-outline:refresh</FuseSvgIcon>
+          </Button>
           <Button
             className=""
             variant="contained"

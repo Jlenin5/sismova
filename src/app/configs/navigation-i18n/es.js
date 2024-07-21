@@ -311,6 +311,8 @@ const locale = {
   register_user: 'Registrar usuario',
   update_user: 'Actualizar usuario',
   nickname: 'Nombre de usuario',
+  register_category: 'Registrar categoría',
+  update_category: 'Actualizar categoría',
   
 }
 

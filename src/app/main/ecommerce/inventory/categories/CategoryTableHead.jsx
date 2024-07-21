@@ -18,8 +18,7 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
 import { delCategoryMulti } from '../store/categorySlice'
 
-const CategoriesTableHead = (props) => {
-
+function CategoriesTableHead(props) {
   const dispatch = useDispatch()
   const numSelected = props.ids.length
   const [selectedCategoryMenu, setSelectedCategoryMenu] = useState(null)
@@ -44,7 +43,7 @@ const CategoriesTableHead = (props) => {
       id: 'status',
       align: 'left',
       disablePadding: false,
-      label: t('state'),
+      label: t('status'),
       sort: true,
     },
   ]

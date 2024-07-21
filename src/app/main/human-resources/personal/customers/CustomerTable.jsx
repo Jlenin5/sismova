@@ -16,7 +16,7 @@ import FuseLoading from '@fuse/core/FuseLoading'
 import CustomerTableHead from './CustomerTableHead'
 import CustomerForm from './CustomerForm'
 
-const CustomerTable = (props) => {
+function CustomerTable(props) {
   
   const { t } = useTranslation()
   const [selected, setSelected] = useState([])
@@ -29,6 +29,7 @@ const CustomerTable = (props) => {
   const handleClickOpen = (value) => {
     setOpen(true);
   }
+  
   const handleClose = () => {
     props.fetchData(props.page, props.rowsPerPage, '')
     setOpen(false);

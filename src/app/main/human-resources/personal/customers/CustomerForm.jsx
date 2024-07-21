@@ -44,9 +44,11 @@ function CustomerForm(props) {
     props.onClose()
     handleReset()
   }
+  
   const handleReset = () => {
     setForm(CustomerInterface)
   }
+
   const handleClose = (id) => {
     if(id===form.id) {
       dispatch(deleteCustomer(id))
