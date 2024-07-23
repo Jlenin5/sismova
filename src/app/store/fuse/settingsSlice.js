@@ -68,11 +68,14 @@ export const setDefaultSettings = createAsyncThunk(
 
     dispatch(updateUserSettings(defaults));
 
-    return {
+    const changeSettings = {
       ...settings,
       defaults: _.merge({}, defaults),
       current: _.merge({}, defaults),
-    };
+    }
+    localStorage.setItem('newSettings',JSON.stringify(changeSettings.current))
+    localStorage.setItem('closeSettings',JSON.stringify(changeSettings))
+    return changeSettings;
   }
 );
 
@@ -90,7 +93,12 @@ const settingsSlice = createSlice({
     },
 
     setInitialSettings: (state, action) => {
-      return _.merge({}, initialState);
+      const closeSettings = JSON.parse(localStorage.getItem('closeSettings'));
+      if(closeSettings) {
+        return _.merge({}, closeSettings);
+      } else {
+        return _.merge({}, initialState);
+      }
     },
     resetSettings: (state, action) => {
       return {

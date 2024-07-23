@@ -76,7 +76,6 @@ function SchemePreview({ theme, className, id, onSelect }) {
 function FuseThemeSchemes(props) {
   const { themes } = props;
   const handleThemeSelect = (selectedTheme) => {
-    localStorage.setItem('selectedTheme', selectedTheme);
     props?.onSelect(themes[selectedTheme]);
   }
 

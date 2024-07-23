@@ -15,6 +15,7 @@ import themesConfig from 'app/configs/themesConfig';
 import { changeFuseTheme } from 'app/store/fuse/settingsSlice';
 import { useDispatch } from 'react-redux';
 import FuseSettingsViewerDialog from './FuseSettingsViewerDialog';
+import history from '@history'
 
 const Root = styled('div')(({ theme }) => ({
   position: 'absolute',
@@ -101,40 +102,39 @@ function SettingsPanel() {
     setOpen(false);
   };
 
-  const getSelectedTheme = () => {
-    const storedTheme = localStorage.getItem('selectedTheme');
-    return storedTheme || 'default';
+  let showPanelSettings = false
+  if(history.location.pathname == '/sign-in') {
+    showPanelSettings = true
   }
-
-  useEffect(() => {
-    dispatch(changeFuseTheme(themesConfig[getSelectedTheme()]));
-  }, [])
 
   return (
     <>
-      <Root id="fuse-settings-schemes" className="buttonWrapper">
-        <Button
-          className="settingsButton min-w-40 w-40 h-40 m-0"
-          onClick={() => handleOpen('settings')}
-          variant="text"
-          color="inherit"
-          disableRipple
-        >
-          <span>
-            <FuseSvgIcon size={20}>heroicons-solid:cog</FuseSvgIcon>
-          </span>
-        </Button>
+      {!showPanelSettings ?
+        <Root id="fuse-settings-schemes" className="buttonWrapper">
+          <Button
+            className="settingsButton min-w-40 w-40 h-40 m-0"
+            onClick={() => handleOpen('settings')}
+            variant="text"
+            color="inherit"
+            disableRipple
+          >
+            <span>
+              <FuseSvgIcon size={20}>heroicons-solid:cog</FuseSvgIcon>
+            </span>
+          </Button>
 
-        <Button
-          className="min-w-40 w-40 h-40 m-0"
-          onClick={() => handleOpen('schemes')}
-          variant="text"
-          color="inherit"
-          disableRipple
-        >
-          <FuseSvgIcon size={20}>heroicons-outline:color-swatch</FuseSvgIcon>
-        </Button>
-      </Root>
+          <Button
+            className="min-w-40 w-40 h-40 m-0"
+            onClick={() => handleOpen('schemes')}
+            variant="text"
+            color="inherit"
+            disableRipple
+          >
+            <FuseSvgIcon size={20}>heroicons-outline:color-swatch</FuseSvgIcon>
+          </Button>
+        </Root>
+        : <></>
+      }
       <StyledDialog
         TransitionComponent={Transition}
         aria-labelledby="settings-panel"
