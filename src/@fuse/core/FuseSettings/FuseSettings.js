@@ -104,7 +104,6 @@ function FuseSettings(props) {
           themeLayoutConfigs[newSettings?.layout?.style]?.defaults
         );
       }
-      localStorage.setItem('newSettings',JSON.stringify(newSettings))
       handleUpdate(newSettings);
     }
   }, [

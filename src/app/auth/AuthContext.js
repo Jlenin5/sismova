@@ -5,6 +5,7 @@ import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { logoutUser, setUser } from 'app/store/userSlice';
 import jwtService from './services/jwtService';
+import { setDefaultSettings } from 'app/store/fuse/settingsSlice';
 
 const AuthContext = React.createContext();
 
@@ -12,6 +13,8 @@ function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(undefined);
   const [waitAuthCheck, setWaitAuthCheck] = useState(true);
   const dispatch = useDispatch();
+
+  const newSettings = JSON.parse(localStorage.getItem('newSettings'));
 
   useEffect(() => {
     jwtService.on('onAutoLogin', () => {
@@ -74,6 +77,7 @@ function AuthProvider({ children }) {
       setWaitAuthCheck(false);
       setIsAuthenticated(false);
     }
+    dispatch(setDefaultSettings(newSettings));
   }, [dispatch]);
 
   return waitAuthCheck ? (
