@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Slider from '@mui/material/Slider';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -20,9 +20,9 @@ function AdjustFontSize(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [fontSize, setFontSize] = useState(1);
 
-  function changeHtmlFontSize() {
+  function changeHtmlFontSize(fontSizeChange) {
     const html = document.getElementsByTagName('html')[0];
-    html.style.fontSize = `${fontSize * 62.5}%`;
+    html.style.fontSize = `${fontSizeChange * 62.5}%`;
   }
 
   const handleClick = (event) => {
@@ -32,6 +32,19 @@ function AdjustFontSize(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleChangeFontSize = (value) => {
+    setFontSize(value)
+    localStorage.setItem('fontsize', value)
+  }
+  
+  useEffect(() => {
+    const fontSize = localStorage.getItem('fontsize')
+    if(fontSize) {
+      setFontSize(parseFloat(fontSize))
+      changeHtmlFontSize(parseFloat(fontSize))
+    }
+  }, [])
 
   return (
     <div>
@@ -77,8 +90,8 @@ function AdjustFontSize(props) {
             min={0.7}
             max={1.3}
             valueLabelDisplay="off"
-            onChange={(ev, value) => setFontSize(value)}
-            onChangeCommitted={changeHtmlFontSize}
+            onChange={(ev, value) => handleChangeFontSize(value)}
+            onChangeCommitted={() => changeHtmlFontSize(fontSize)}
           />
         </div>
       </Menu>
