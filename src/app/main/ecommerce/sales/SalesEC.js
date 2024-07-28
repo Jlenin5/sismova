@@ -14,31 +14,31 @@ const SalesEC = {
   },
   routes: [
     {
-      path: 'ecommerce/sales/quote/:id',
+      path: 'e-commerce/sales/quote/:id',
       element: <Quote />,
     },
     {
-      path: 'ecommerce/sales/quotes',
+      path: 'e-commerce/sales/quotes',
       element: <Quotes />,
     },
     {
-      path: 'ecommerce/sales/sale-orders',
+      path: 'e-commerce/sales/sale-orders',
       element: <SaleOrders />,
     },
     {
-      path: 'ecommerce/sales/sale-order/:id',
+      path: 'e-commerce/sales/sale-order/:id',
       element: <SaleOrder />,
     },
     {
-      path: 'ecommerce/sales/tickets',
+      path: 'e-commerce/sales/tickets',
       element: <Ticket />,
     },
     {
-      path: 'ecommerce/sales/invoices',
+      path: 'e-commerce/sales/invoices',
       element: <Invoice />,
     },
     {
-      path: 'ecommerce/sales',
+      path: 'e-commerce/sales',
       element: <Navigate to="sale-orders" />,
     },
   ],

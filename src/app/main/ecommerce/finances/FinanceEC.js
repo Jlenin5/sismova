@@ -10,15 +10,15 @@ const FinanceEC = {
   },
   routes: [
     {
-      path: 'ecommerce/finances/coins',
+      path: 'e-commerce/finances/coins',
       element: <Coins />,
     },
     {
-      path: 'ecommerce/finances/taxes',
+      path: 'e-commerce/finances/taxes',
       element: <Taxes />,
     },
     {
-      path: 'ecommerce/finances',
+      path: 'e-commerce/finances',
       element: <Navigate to="taxes" />,
     },
   ],

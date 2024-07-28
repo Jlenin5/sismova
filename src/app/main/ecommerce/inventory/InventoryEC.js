@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom'
 const Categories = lazy(() => import('./categories'))
 const Products = lazy(() => import('./products'))
 const Product = lazy(() => import('./product'))
+const Brands = lazy(() => import('./brands'))
 const MeasurementsUnits = lazy(() => import('./measurement-units'))
 
 const InventoryEC = {
@@ -12,23 +13,27 @@ const InventoryEC = {
   },
   routes: [
     {
-      path: 'ecommerce/inventory/categories',
+      path: 'e-commerce/inventory/categories',
       element: <Categories />,
     },
     {
-      path: 'ecommerce/inventory/products',
+      path: 'e-commerce/inventory/products',
       element: <Products />,
     },
     {
-      path: 'ecommerce/inventory/product/:id',
+      path: 'e-commerce/inventory/product/:id',
       element: <Product />,
     },
     {
-      path: 'ecommerce/inventory/measurement-units',
+      path: 'e-commerce/inventory/brands',
+      element: <Brands />,
+    },
+    {
+      path: 'e-commerce/inventory/measurement-units',
       element: <MeasurementsUnits />,
     },
     {
-      path: 'ecommerce/inventory',
+      path: 'e-commerce/inventory',
       element: <Navigate to="products" />,
     },
   ],

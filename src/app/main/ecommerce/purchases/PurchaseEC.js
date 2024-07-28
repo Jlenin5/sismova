@@ -10,15 +10,15 @@ const PurchaseEC = {
   },
   routes: [
     {
-      path: 'ecommerce/purchases/purchase-orders',
+      path: 'e-commerce/purchases/purchase-orders',
       element: <PurchaseOrders />,
     },
     {
-      path: 'ecommerce/purchases/purchase-order/:id',
+      path: 'e-commerce/purchases/purchase-order/:id',
       element: <PurchaseOrder />,
     },
     {
-      path: 'ecommerce/sales',
+      path: 'e-commerce/sales',
       element: <Navigate to="sale-orders" />,
     },
   ],

@@ -318,6 +318,9 @@ const locale = {
   update_measurement_unit: 'Actualizar unidad de medida',
   stock_alert: 'Alerta de stock',
   select_unit_of_measure: 'Seleccionar unidad de medida',
+  brands: 'Marcas',
+  register_brand: 'Registrar marca',
+  update_brand: 'Actualizar marca',
   
 }
 
