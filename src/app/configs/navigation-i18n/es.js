@@ -321,6 +321,7 @@ const locale = {
   brands: 'Marcas',
   register_brand: 'Registrar marca',
   update_brand: 'Actualizar marca',
+  select_brand: 'Seleccionar marca',
   
 }
 

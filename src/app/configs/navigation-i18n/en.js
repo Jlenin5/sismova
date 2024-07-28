@@ -321,6 +321,7 @@ const locale = {
   brands: 'Brands',
   register_brand: 'Register brand',
   update_brand: 'Update brand',
+  select_brand: 'Select brand',
   
 }
 

@@ -8,6 +8,7 @@ const ProductInterface = {
   stock_alert: 0,
   purchase_price: 0.00,
   sale_price: 0.00,
+  brand_id: 1,
   width: 0.00,
   height: 0.00,
   depth: 0.00,
@@ -16,6 +17,7 @@ const ProductInterface = {
   status: 1,
   categories: [],
   unit: {},
+  brand: {},
   images: [],
   tax: {
     igv: 1,

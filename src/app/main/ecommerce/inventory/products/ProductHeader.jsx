@@ -71,7 +71,7 @@ function ProductHeader(props) {
             className=""
             variant="contained"
             component={Link}
-            to="/ecommerce/inventory/product/new"
+            to="/e-commerce/inventory/product/new"
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >

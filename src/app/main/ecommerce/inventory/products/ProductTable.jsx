@@ -54,7 +54,7 @@ function ProductTable(props) {
   }
 
   function handleClick(item) {
-    props.navigate(`/ecommerce/inventory/product/${item}`)
+    props.navigate(`/e-commerce/inventory/product/${item}`)
   }
 
   function handleCheck(event, id) {
@@ -210,6 +210,10 @@ function ProductTable(props) {
                       {n.unit.short_name}
                     </TableCell>
 
+                    <TableCell className="p-4 md:p-8" component="th" scope="row">
+                      {n.brand.name}
+                    </TableCell>
+
                     <TableCell className="p-4 md:p-8" component="th" scope="row" align="right">
                       <span>S/.</span>
                       {n.purchase_price}
@@ -227,7 +231,7 @@ function ProductTable(props) {
                       />
                     </TableCell>
 
-                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
+                    <TableCell className="p-4 md:p-16 flex justify-center items-center h-72" component="th" scope="row" align="center">
                       {n.status ? (
                         <FuseSvgIcon className="text-green" size={20}>
                           heroicons-outline:check-circle
