@@ -6,30 +6,13 @@ import Popover from '@mui/material/Popover'
 import Typography from '@mui/material/Typography'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { changeLanguage, selectCurrentLanguage, selectLanguages } from 'app/store/i18nSlice'
-import es from 'app/configs/navigation-i18n/es'
-import en from 'app/configs/navigation-i18n/en'
-import i18n from 'i18next'
 
 function LanguageSwitcher(props) {
   const currentLanguage = useSelector(selectCurrentLanguage)
   const languages = useSelector(selectLanguages)
   const [menu, setMenu] = useState(null)
   const dispatch = useDispatch()
-
-  // useEffect(() => {
-  //   switch (currentLanguage.id) {
-  //     case 'es':
-  //       i18n.addResourceBundle('es', 'translation', es, true, false)
-  //       break
-  //     case 'en':
-  //       i18n.addResourceBundle('en', 'translation', en, true, false)
-  //       break
-  //     default:
-  //       break
-  //   }
-  // }, [currentLanguage.id])
 
   const langMenuClick = (event) => {
     setMenu(event.currentTarget)
@@ -41,29 +24,11 @@ function LanguageSwitcher(props) {
 
   function handleLanguageChange(lng) {
     dispatch(changeLanguage(lng.id))
-    // console.log(lng)
-
-    // switch (lng.id) {
-    //   case 'es':
-    //     i18n.addResourceBundle('es', 'translation', es, true, false)
-    //     break
-    //   case 'en':
-    //     i18n.addResourceBundle('en', 'translation', en, true, false)
-    //     break
-    //   default:
-    //     break
-    // }
 
     langMenuClose()
   }
 
-  // const storedLanguage = localStorage.getItem('languageId')
-  // if (storedLanguage) {
-  //   dispatch(changeLanguage(storedLanguage))
-  // }
-
   useEffect(() => {
-    // Cambia el idioma después de que la renderización haya terminado
     const storedLanguage = localStorage.getItem('languageId');
     if (storedLanguage) {
       handleLanguageChange({ id: storedLanguage });
