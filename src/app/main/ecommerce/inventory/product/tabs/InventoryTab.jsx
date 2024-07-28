@@ -1,66 +1,24 @@
 import { useTranslation } from 'react-i18next'
 import TextField from '@mui/material/TextField'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
-
-// const url = 'https://sismova.tech/backsis/public/api/sn'
+import Autocomplete from '@mui/material/Autocomplete'
+import { getMeasurementUnits } from '../../store/measurementUnitsSlice'
 
 function InventoryTab(props) {
   const dispatch = useDispatch()
-  const [prNumber, setPrNumber] = useState(null)
-  const [dSN, setDSN] = useState([])
+  const [measurementUnit, setMeasurementUnit] = useState([])
   const methods = useFormContext()
-  const { control, watch, setValue } = methods
-  // const SerialNumber = watch('SerialNumber')
-  // const prodNumber = watch('prodNumber')
+  const { control } = methods
   const { t } = useTranslation()
 
-  // const getSN = async () => {
-  //   return await axios.get(url)
-  // }
-
-  // useEffect(() => {
-    // getSN().then(r => setDSN(r.data))
-  // },[dispatch])
-
   useEffect(() => {
-    // if (prNumber !== null) {
-    //   var addProdNumber = 0
-    //   if (prodNumber === '00000') {
-    //     addProdNumber = (Number(prNumber) + 1).toString().padStart(5, '0')
-    //   } else {
-    //     addProdNumber = prodNumber
-    //   }
-    //   setValue('prodNumber', addProdNumber)
-    // }  
-  }, [prNumber, setValue])
-
-  // const snFilter = dSN.find(r => r.id === SerialNumber)
+    dispatch(getMeasurementUnits()).then(r => setMeasurementUnit(r.payload.data))
+  }, [dispatch])
 
   return (
     <div>
-      <div className="flex -mx-4">
-        {/* <Controller
-          name="SerialNumber"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              className="mt-8 mb-16 mx-4"
-              label={t('serie')}
-              autoFocus
-              id="serie"
-              variant="outlined"
-              fullWidth
-              disabled
-              value={snFilter?.snSerie || ''}
-            />
-          )}
-        /> */}
-      </div>
-
       <Controller
         name="stock_alert"
         control={control}
@@ -68,8 +26,8 @@ function InventoryTab(props) {
           <TextField
             {...field}
             className="mt-8 mb-16"
-            label={t('stock')}
-            id="stock"
+            label={t('stock_alert')}
+            id="stock_alert"
             variant="outlined"
             type="text"
             onKeyPress={props.singleNumber}
@@ -77,22 +35,33 @@ function InventoryTab(props) {
           />
         )}
       />
- 
       <Controller
-        name="unit_id"
+        name="unit"
         control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            className="mt-8 mb-16"
-            label={t('unit_of_measurement')}
-            id="unit"
-            variant="outlined"
-            type="text"
-            onKeyPress={props.singleNumber}
-            fullWidth
-          />
-        )}
+        render={({ field: { onChange, value } }) => {
+          return (
+            <Autocomplete
+              freeSolo
+              className="mt-8 mb-16"
+              fullWidth
+              id="tags-outlined"
+              options={measurementUnit}
+              getOptionLabel={(option) => option.name}
+              onChange={(_, data) => {
+                onChange(data)
+                return data
+              }}
+              value={value}
+              renderInput={(params) => (
+                <TextField
+                {...params}
+                label={t('select_unit_of_measure')}
+                  placeholder={t('append')}
+                  />
+              )}
+            />
+          )
+        }}
       />
     </div>
   )
