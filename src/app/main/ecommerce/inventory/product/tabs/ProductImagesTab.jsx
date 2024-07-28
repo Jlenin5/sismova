@@ -53,12 +53,12 @@ function ProductImagesTab(props) {
   const [openError, setOpenError] = useState(false)
   const [sendId, setSendId] = useState(null)
   const { control, watch, setValue } = methods
-  const product_images = watch('product_images') || []
+  const images = watch('images') || []
   const featured = watch('featured')
   const [clickNumber, setClickNumber] = useState(null)
 
   const handleChange = (newImages) => {
-    setValue('product_images', newImages)
+    setValue('images', newImages)
   }
 
   const handleClickOpen = (featured) => {
@@ -90,19 +90,19 @@ function ProductImagesTab(props) {
   }
 
   const handleRemoveImage = (itemImage) => {
-    let findImage = product_images.find((image) => image.featured === itemImage)
+    let findImage = images.find((image) => image.featured === itemImage)
     if(featured === findImage.featured) {
       setOpenError(true)
     } else {
-      let updatedImages = product_images.filter((image) => image.featured !== itemImage)
+      let updatedImages = images.filter((image) => image.featured !== itemImage)
       handleChange(updatedImages)
       setClickNumber(null)
     }
   }
 
   var nuevo = []
-  for(let i=0; i<product_images.length; i++) {
-    const url = `${URL_PUBLIC}images/products/${product_images[i].path}`
+  for(let i=0; i<images.length; i++) {
+    const url = `${URL_PUBLIC}images/products/${images[i].path}`
     const palabraBuscada = "blob"
     nuevo.push(findWordInText(url, palabraBuscada))
   }
@@ -111,7 +111,7 @@ function ProductImagesTab(props) {
     <Root>
       <div className="flex justify-center sm:justify-start flex-wrap -mx-16">
         <Controller
-          name="product_images"
+          name="images"
           control={control}
           render={({ field: { onChange, value } }) => (
             <Box
@@ -164,7 +164,7 @@ function ProductImagesTab(props) {
             </Box>
           )}
         />
-        {product_images.map((media, index) => (
+        {images.map((media, index) => (
           <div
             onClick={() => handleClickOpen(media.featured)}
             role="button"

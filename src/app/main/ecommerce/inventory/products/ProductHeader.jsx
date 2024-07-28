@@ -9,10 +9,18 @@ import { Link } from 'react-router-dom'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { selectProductSearchText, setProductSearchText } from '../store/productsSlice'
 
-const ProductHeader = (props) => {
+function ProductHeader(props) {
   const dispatch = useDispatch()
   const searchText = useSelector(selectProductSearchText)
   const { t } = useTranslation()
+
+  const setFetchData = () => {
+    props.fetchData(props.page, props.rowsPerPage, searchText)
+  }
+  
+  const refresh = () => {
+    setFetchData()
+  }
 
   return (
     <div className="flex flex-col sm:flex-row space-y-16 sm:space-y-0 flex-1 w-full items-center justify-between py-32 px-24 md:px-32">
@@ -51,6 +59,14 @@ const ProductHeader = (props) => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
         >
+          <Button
+            className="mr-12"
+            variant="contained"
+            onClick={() => refresh()}
+            color="refresh"
+          >
+            <FuseSvgIcon>heroicons-outline:refresh</FuseSvgIcon>
+          </Button>
           <Button
             className=""
             variant="contained"

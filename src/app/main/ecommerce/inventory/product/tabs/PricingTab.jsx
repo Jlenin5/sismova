@@ -58,7 +58,7 @@ function PricingTab(props) {
 
       <div className="flex">
         <Controller
-          name="product_taxes.igv"
+          name="tax.igv"
           control={control}
           render={({ field }) => (
             <FormControl className="mt-8 mb-16 mr-16" fullWidth>
@@ -76,7 +76,7 @@ function PricingTab(props) {
           )}
         />
         <Controller
-          name="product_taxes.igv_value"
+          name="tax.igv_value"
           control={control}
           render={({ field }) => (
             <TextField
@@ -99,7 +99,7 @@ function PricingTab(props) {
 
       <div className="flex">
         <Controller
-          name="product_taxes.isc"
+          name="tax.isc"
           control={control}
           render={({ field }) => (
             <FormControl className="mt-8 mb-16 mr-16" fullWidth>
@@ -117,7 +117,7 @@ function PricingTab(props) {
           )}
         />
         <Controller
-          name="product_taxes.isc_value"
+          name="tax.isc_value"
           control={control}
           render={({ field }) => (
             <TextField

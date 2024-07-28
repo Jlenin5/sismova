@@ -1,7 +1,7 @@
 const CategoryInterface = {
   id: null,
   name: '',
-  status: true
+  status: 1
 }
 
 export default CategoryInterface

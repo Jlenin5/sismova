@@ -19,38 +19,14 @@ import ProductTableHead from './ProductTableHead'
 import { getProducts, selectProduct, selectProductSearchText } from '../store/productsSlice'
 import { URL_PUBLIC } from 'src/app/services/url'
 
-const ProductTable = (props) => {
-  const dispatch = useDispatch()
-  const products = useSelector(selectProduct)
-  const searchText = useSelector(selectProductSearchText)
+function ProductTable(props) {
+  
   const { t } = useTranslation()
-
-  const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState([])
-  const [data, setData] = useState(products)
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
     direction: 'asc',
     id: null,
   })
-
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(getProducts()).then(() => setLoading(false))
-    })
-  }, [dispatch])
-
-  useEffect(() => {
-    if (searchText.length !== 0) {
-      setData(
-        _.filter(products, (item) => item.name.toLowerCase().includes(searchText.toLowerCase()))
-      )
-      setPage(0)
-    } else {
-      setData(products)
-    }
-  }, [products, searchText])
 
   function handleRequestSort(event, property) {
     const id = property
@@ -102,11 +78,11 @@ const ProductTable = (props) => {
   }
 
   function handleChangePage(event, value) {
-    setPage(value)
+    props.setPage(value)
   }
 
   function handleChangeRowsPerPage(event) {
-    setRowsPerPage(event.target.value)
+    props.setRowsPerPage(event.target.value)
   }
 
   const findWordInText = (texto, palabra) => {
@@ -124,7 +100,7 @@ const ProductTable = (props) => {
     }
   }
 
-  if (loading) {
+  if (props.loading) {
     return (
       <div className="flex items-center justify-center h-full">
         <FuseLoading />
@@ -132,7 +108,7 @@ const ProductTable = (props) => {
     )
   }
 
-  if (data.length === 0) {
+  if (props.data.length === 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -155,12 +131,12 @@ const ProductTable = (props) => {
             order={order}
             onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            rowCount={data.length}
+            rowCount={props.data.length}
             onMenuItemClick={handleDeselect}
           />
           <TableBody>
             {_.orderBy(
-              data,
+              props.data,
               [
                 (o) => {
                   switch (order.id) {
@@ -175,7 +151,6 @@ const ProductTable = (props) => {
               ],
               [order.direction]
             )
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((n) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 const findImage = (findImage) => {
@@ -208,10 +183,10 @@ const ProductTable = (props) => {
                       scope="row"
                       padding="none"
                     >
-                      { n.product_images.length > 0 && n.featured ? (
+                      { n.images.length > 0 && n.featured ? (
                         <img
                           className="w-full block rounded h-52"
-                          src={findImage(_.find(n.product_images, { featured: n.featured }).path)}
+                          src={findImage(_.find(n.images, { featured: n.featured }).path)}
                           alt={n.name}
                         />
                       ) : (
@@ -274,9 +249,9 @@ const ProductTable = (props) => {
         labelRowsPerPage={t('rows_per_page')}
         labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
+        count={props.lengthPage}
+        rowsPerPage={props.rowsPerPage}
+        page={props.page}
         backIconButtonProps={{
           'aria-label': 'Previous Page',
         }}

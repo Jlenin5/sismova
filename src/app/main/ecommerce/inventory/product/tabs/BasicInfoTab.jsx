@@ -12,7 +12,7 @@ import { getBranchoffices } from 'src/app/main/settings/leadership/store/brancho
 
 const BasicInfoTab = () => {
   const dispatch = useDispatch()
-  const [dCate, setDCate] = useState([])
+  const [categories, setCategories] = useState([])
   const [dBO, setDBO] = useState([])
   const methods = useFormContext()
   const { control, formState } = methods
@@ -21,7 +21,7 @@ const BasicInfoTab = () => {
 
   useEffect(() => {
     dispatch(getBranchoffices()).then((r) => setDBO(r.payload.data))
-    dispatch(getCategories()).then((r) => setDCate(r.payload))
+    dispatch(getCategories()).then((r) => setCategories(r.payload.data))
   }, [dispatch])
 
   return (
@@ -69,7 +69,7 @@ const BasicInfoTab = () => {
         name="categories"
         control={control}
         render={({ field: { onChange, value } }) => {
-          const availableCategories = dCate.filter(
+          const availableCategories = categories.filter(
             (category) => !value.some((selected) => selected.id === category.id)
           )
           return (

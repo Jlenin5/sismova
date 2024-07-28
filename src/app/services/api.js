@@ -19,7 +19,7 @@ const asyncThunkWithAxios = (endpoint, method, actionName, changeMethod) => {
       } else {
         response = await axios.post(API_URL + endpoint + '/' + params.id, params, config)
       }
-    } else if (changeMethod === 'getid' || changeMethod === 'delete') {
+    } else if (changeMethod === 'show' || changeMethod === 'delete') {
       response = await axios[method](API_URL + endpoint + '/' + params)
     } else if (changeMethod === 'deletemulti') {
       response = await axios.delete(API_URL + endpoint, {

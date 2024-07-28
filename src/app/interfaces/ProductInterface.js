@@ -16,8 +16,8 @@ const ProductInterface = {
   status: 1,
   categories: [],
   // branch_offices: [],
-  product_images: [],
-  product_taxes: {
+  images: [],
+  tax: {
     igv: 1,
     isc: 0,
     igv_value: 18,

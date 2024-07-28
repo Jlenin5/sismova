@@ -20,7 +20,7 @@ const ProductHeader = (props) => {
   const routeParams = useParams()
   const { id } = routeParams
   const featured = watch('featured')
-  const product_images = watch('product_images')
+  const images = watch('images')
   const name = watch('name')
   const theme = useTheme()
   const navigate = useNavigate()
@@ -29,12 +29,12 @@ const ProductHeader = (props) => {
   const handleSaveProduct = async () => {
     const productData = getValues()
     const formData = new FormData()
-    await Promise.all(productData.product_images.map(async (image, index) => {
+    await Promise.all(productData.images.map(async (image, index) => {
       const response = await fetch(image.path)
       const blob = await response.blob()
-      formData.append(`product_images[${index}][path]`, blob, `image${index}.jpg`)
-      formData.append(`product_images[${index}][product_id]`, productData.id)
-      formData.append(`product_images[${index}][featured]`, image.featured)
+      formData.append(`images[${index}][path]`, blob, `image${index}.jpg`)
+      formData.append(`images[${index}][product_id]`, productData.id)
+      formData.append(`images[${index}][featured]`, image.featured)
     }))
     formData.append('productData', JSON.stringify(productData))
     !getValues().id ? dispatch(postProduct(formData)) : dispatch(putProduct(formData))
@@ -101,10 +101,10 @@ const ProductHeader = (props) => {
             initial={{ scale: 0 }}
             animate={{ scale: 1, transition: { delay: 0.3 } }}
           >
-            {product_images.length > 0 && featured ? (
+            {images.length > 0 && featured ? (
               <img
                 className="w-32 sm:w-48 rounded"
-                src={findImage(_.find(product_images, { featured: featured }).path)}
+                src={findImage(_.find(images, { featured: featured }).path)}
                 alt={name}
               />
             ) : (
