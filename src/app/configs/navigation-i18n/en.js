@@ -313,6 +313,9 @@ const locale = {
   nickname: 'Nickname',
   register_category: 'Register category',
   update_category: 'Update category',
+  measurement_units: 'Measurement units',
+  register_measurement_unit: 'Register measurement unit',
+  update_measurement_unit: 'Update measurement unit',
   
 }
 

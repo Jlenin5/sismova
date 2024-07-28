@@ -13,23 +13,14 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
-import UnitTableHead from './UnitTableHead'
-import { useDispatch, useSelector } from 'react-redux'
-import { getUnits, selectUnit, selectUnitSearchText } from '../store/unitSlice'
-import UnitForm from './UnitForm'
+import MeasurementUnitTableHead from './MeasurementUnitTableHead'
+import MeasurementUnitForm from './MeasurementUnitForm'
 
-const UnitTable = (props) => {
-  const dispatch = useDispatch()
-  const branchoffices = useSelector(selectUnit)
-  const searchText = useSelector(selectUnitSearchText)
+function MeasurementUnitTable(props) {
+  
   const { t } = useTranslation()
-
-  const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState([])
-  const [data,setData] = useState(branchoffices)
-  const [page, setPage] = useState(0)
   const [open, setOpen] = useState(false)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
     direction: 'asc',
     id: null,
@@ -38,28 +29,11 @@ const UnitTable = (props) => {
   const handleClickOpen = () => {
     setOpen(true)
   }
+
   const handleClose = () => {
+    props.fetchData(props.page, props.rowsPerPage, '')
     setOpen(false)
   }
-  
-  useEffect(() => {
-    dispatch(getUnits()).then(() => setLoading(false))
-    .catch((error) => {
-      console.error('Error al obtener usuarios', error)
-      setLoading(false)
-    })
-  }, [dispatch])
-
-  useEffect(() => {
-    if (searchText.length !== 0) {
-      setData(
-        _.filter(branchoffices, (item) => item.name.toLowerCase().includes(searchText.toLowerCase()))
-      )
-      setPage(0)
-    } else {
-      setData(branchoffices)
-    }
-  }, [branchoffices, searchText])
 
   function handleRequestSort(event, property) {
     const id = property
@@ -75,7 +49,7 @@ const UnitTable = (props) => {
 
   function handleSelectAllClick(event) {
     if (event.target.checked) {
-      setSelected(data.map((n) => n.id))
+      setSelected(props.data.map((n) => n.id))
       return
     }
     setSelected([])
@@ -106,14 +80,14 @@ const UnitTable = (props) => {
   }
 
   function handleChangePage(event, value) {
-    setPage(value)
+    props.setPage(value)
   }
 
   function handleChangeRowsPerPage(event) {
-    setRowsPerPage(event.target.value)
+    props.setRowsPerPage(event.target.value)
   }
 
-  if (loading) {
+  if (props.loading) {
     return (
       <div className="flex items-center justify-center h-full">
         <FuseLoading />
@@ -121,7 +95,7 @@ const UnitTable = (props) => {
     )
   }
 
-  if (data.length === 0) {
+  if (props.data.length === 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -139,17 +113,17 @@ const UnitTable = (props) => {
     <div className="w-full flex flex-col min-h-full">
       <FuseScrollbars className="grow overflow-x-auto">
         <Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
-          <UnitTableHead
+          <MeasurementUnitTableHead
             ids={selected}
             order={order}
             onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            rowCount={data.length}
+            rowCount={props.data.length}
             onMenuItemClick={handleDeselect}
           />
           <TableBody>
             {_.orderBy(
-              data,
+              props.data,
               [
                 (o) => {
                   switch (order.id) {
@@ -164,7 +138,6 @@ const UnitTable = (props) => {
               ],
               [order.direction]
             )
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((n) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 return (
@@ -198,15 +171,15 @@ const UnitTable = (props) => {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.base_unit}
-                    </TableCell>
-
-                    <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.operator}
-                    </TableCell>
-
-                    <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.operator_value}
+                      {n.status ? (
+                        <FuseSvgIcon className="text-green" size={20}>
+                          heroicons-outline:check-circle
+                        </FuseSvgIcon>
+                      ) : (
+                        <FuseSvgIcon className="text-red" size={20}>
+                          heroicons-outline:minus-circle
+                        </FuseSvgIcon>
+                      )}
                     </TableCell>
 
                   </TableRow>
@@ -216,7 +189,7 @@ const UnitTable = (props) => {
           </TableBody>
         </Table>
       </FuseScrollbars>
-      <UnitForm
+      <MeasurementUnitForm
         open={open}
         onClose={handleClose}
         dataToEdit={props.dataToEdit}
@@ -224,12 +197,12 @@ const UnitTable = (props) => {
       />
       <TablePagination
         className="shrink-0 border-t-1"
-        labelRowsPerPage="Filas por página"
-        labelDisplayedRows={({ from, to, count }) => `${from}-${to} de ${count}`}
+        labelRowsPerPage={t('rows_per_page')}
+        labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
+        count={props.lengthPage}
+        rowsPerPage={props.rowsPerPage}
+        page={props.page}
         backIconButtonProps={{
           'aria-label': 'Previous Page',
         }}
@@ -243,4 +216,4 @@ const UnitTable = (props) => {
   )
 }
 
-export default withRouter(UnitTable)
+export default withRouter(MeasurementUnitTable)

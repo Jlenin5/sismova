@@ -6,22 +6,30 @@ import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
-import { selectUnitSearchText, setUnitSearchText } from '../store/unitSlice'
-import UnitForm from './UnitForm'
+import { selectMeasurementUnitSearchText, setMeasurementUnitSearchText } from '../store/measurementUnitsSlice'
+import MeasurementUnitForm from './MeasurementUnitForm'
 
-const UnitHeader = (props) => {
+function MeasurementUnitHeader(props) {
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
-  const searchText = useSelector(selectUnitSearchText)
+  const searchText = useSelector(selectMeasurementUnitSearchText)
   const { t } = useTranslation()
+
+  const setFetchData = () => {
+    props.fetchData(props.page, props.rowsPerPage, searchText)
+  }
+  
+  const refresh = () => {
+    setFetchData()
+  }
 
   const handleClickOpen = () => {
     setOpen(true)
   }
 
   const handleClose = () => {
+    setFetchData()
     setOpen(false)
   }
 
@@ -34,7 +42,7 @@ const UnitHeader = (props) => {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        {t('units')}
+        {t('measurement_units')}
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -55,13 +63,21 @@ const UnitHeader = (props) => {
             inputProps={{
               'aria-label': 'Search',
             }}
-            onChange={(ev) => dispatch(setUnitSearchText(ev))}
+            onChange={(ev) => dispatch(setMeasurementUnitSearchText(ev))}
           />
         </Paper>
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
         >
+          <Button
+            className="mr-12"
+            variant="contained"
+            onClick={() => refresh()}
+            color="refresh"
+          >
+            <FuseSvgIcon>heroicons-outline:refresh</FuseSvgIcon>
+          </Button>
           <Button
             className=""
             variant="contained"
@@ -71,7 +87,7 @@ const UnitHeader = (props) => {
           >
             {t('add')}
           </Button>
-          <UnitForm
+          <MeasurementUnitForm
             open={open}
             onClose={handleClose}
             dataToEdit={props.dataToEdit}
@@ -83,4 +99,4 @@ const UnitHeader = (props) => {
   )
 }
 
-export default UnitHeader
+export default MeasurementUnitHeader

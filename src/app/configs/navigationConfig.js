@@ -119,6 +119,14 @@ const navigationConfig = [
             url: 'ecommerce/inventory/products',
             translate: 'products',
           },
+          {
+            id: 'ecommerce.inventory.measurement-units',
+            title: 'MeasurementUnits',
+            type: 'item',
+            url: 'ecommerce/inventory/measurement-units',
+            translate: 'measurement_units',
+            end: true
+          },
           // {
           //   id: 'e-commerce-orders',
           //   title: 'Orders',
@@ -1242,14 +1250,6 @@ const navigationConfig = [
             type: 'item',
             url: 'settings/controls/series',
             translate: 'series',
-            end: true
-          },
-          {
-            id: 'settings.controls.units',
-            title: 'Units',
-            type: 'item',
-            url: 'settings/controls/units',
-            translate: 'units',
             end: true
           },
         ]

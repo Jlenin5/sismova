@@ -16,7 +16,7 @@ import { Box } from '@mui/system'
 import TableHead from '@mui/material/TableHead'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
-import { delUnitMulti } from '../store/unitSlice'
+import { delMeasurementUnitMulti } from '../store/measurementUnitsSlice'
 
 const UnitTableHead = (props) => {
   const dispatch = useDispatch()
@@ -47,26 +47,12 @@ const UnitTableHead = (props) => {
       sort: true,
     },
     {
-      id: 'base_unit',
+      id: 'status',
       align: 'left',
       disablePadding: false,
-      label: t('base_unit'),
+      label: t('status'),
       sort: true,
     },
-    {
-      id: 'operator',
-      align: 'left',
-      disablePadding: true,
-      label: t('operator'),
-      sort: true,
-    },
-    {
-      id: 'operator_value',
-      align: 'left',
-      disablePadding: true,
-      label: t('operator_value'),
-      sort: true,
-    }
   ]
 
   const createSortHandler = (property) => (event) => {
@@ -123,7 +109,7 @@ const UnitTableHead = (props) => {
                 <MenuList>
                   <MenuItem
                     onClick={() => {
-                      dispatch(delUnitMulti(props.ids))
+                      dispatch(delMeasurementUnitMulti(props.ids))
                       props.onMenuItemClick()
                       closeSelectedBOMenu()
                     }}
