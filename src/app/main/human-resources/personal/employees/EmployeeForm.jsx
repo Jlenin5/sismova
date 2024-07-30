@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
-import React, { useEffect, useState } from 'react'
+import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { deleteEmployee, postEmployee, putEmployee } from '../store/employeesSlice'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material'
@@ -13,14 +15,9 @@ import { getWorkAreas } from '../../ocupations/store/waSlice'
 import CloseIcon from '@mui/icons-material/Close'
 import IconButton from '@mui/material/IconButton'
 
-const EmployeeForm = (props) => {
-  
+function EmployeeForm(props) {
   const dispatch = useDispatch()
   const [form, setForm] = useState(EmployeeInterface)
-  const [clicked, setClicked] = useState(false)
-  const [clickedDoc, setClickedDoc] = useState(false)
-  // const [dataDoc,setDataDoc] = useState([])
-  // const [openDialog, setOpenDialog] = useState(false)
   const [workAreas, setWorkAreas] = useState([])
   const { t } = useTranslation()
   
@@ -33,61 +30,18 @@ const EmployeeForm = (props) => {
     })
   }
 
-  // const openDialogModal = () => {
-  //   setOpenDialog(true);
-  // }
-
-  // const closeDialogModal = () => {
-  //   setOpenDialog(false);
-  // }
-
-  // const isEmailAlreadyExists = (email) => {
-  //   return data.some((item) => item.email === email)
-  // }
-  // const isDocumentAlreadyExists = (document) => {
-  //   return data.some((item) => item.document_number === document)
-  // }
-  // const isPhoneAlreadyExists = (phone) => {
-  //   return data.some((item) => item.phone === phone)
-  // }
-
   const handleSubmit = (e) => {
     e.preventDefault()
     
     if(!form.first_name || !form.document_number || form.document_number.length<8) {
-      // openDialogModal()
       return
     }
     try {
-      if(form.id === null) {
-        // if (isDocumentAlreadyExists(form.document_number)) {
-        //   alert("El N° de documento ya existe.");
-        //   return
-        // } else if(isEmailAlreadyExists(form.email)) {
-        //   alert("El correo ya existe.")
-        //   return
-        // } else if(isPhoneAlreadyExists(form.phone)) {
-        //   alert("El N° de celular ya existe.");
-        //   return
-        // } else {
-        //   if(form.email==='') {
-        //     form.email = null
-        //   }
-        //   if(form.phone==='') {
-        //     form.phone = null
-        //   }
-        dispatch(postEmployee(form))
-        // }
-      } else {
-        dispatch(putEmployee(form))
-      }
+      form.id ? dispatch(putEmployee(form)) : dispatch(postEmployee(form))
       props.onClose()
       handleReset()
     } catch(error) {
       if (error.response && error.response.status === 409) {
-        console.log('El correo electrónico ya está registrado')
-      } else {
-        console.error('Error desconocido:', error)
       }
     }
   }
@@ -115,13 +69,16 @@ const EmployeeForm = (props) => {
     }
   }
 
+  const handleDateChange = (date) => {
+    setForm({
+      ...form,
+      birthdate: zonedTimeToUtc(date).toISOString()
+    })
+  }
+
   useEffect(() => {
     dispatch(getWorkAreas()).then(r => setWorkAreas(r.payload.data))
-    if(props.dataToEdit) {
-      setForm(props.dataToEdit)
-    } else {
-      setForm(EmployeeInterface)
-    }
+    props.dataToEdit ? setForm(props.dataToEdit) : setForm(EmployeeInterface)
   }, [dispatch, props.dataToEdit])
 
   return (
@@ -141,7 +98,6 @@ const EmployeeForm = (props) => {
       <DialogContent className='grid grid-flow-row-dense grid-cols-2 gap-32' dividers>
         <TextField
           autoFocus
-          error={!form.first_name && clicked}
           required
           id="first_name"
           label={t('first_name')}
@@ -151,8 +107,6 @@ const EmployeeForm = (props) => {
           name='first_name'
           value={form.first_name}
           onChange={handleChange}
-          onClick={() => setClicked(true)}
-          helperText={!form.first_name ? 'Este campo es obligatorio' : ''}
         />
         <TextField
           id="second_name"
@@ -165,7 +119,6 @@ const EmployeeForm = (props) => {
           onChange={handleChange}
         />
         <TextField
-          error={!form.surname && clicked}
           required
           id="surname"
           label={t('surname')}
@@ -175,11 +128,8 @@ const EmployeeForm = (props) => {
           name='surname'
           value={form.surname || ''}
           onChange={handleChange}
-          onClick={() => setClicked(true)}
-          helperText={!form.surname ? 'Este campo es obligatorio' : ''}
         />
         <TextField
-          error={!form.second_surname && clicked}
           required
           id="second_surname"
           label={t('second_surname')}
@@ -189,8 +139,6 @@ const EmployeeForm = (props) => {
           name='second_surname'
           value={form.second_surname || ''}
           onChange={handleChange}
-          onClick={() => setClicked(true)}
-          helperText={!form.second_surname ? 'Este campo es obligatorio' : ''}
         />
         <TextField
           id="email"
@@ -228,7 +176,6 @@ const EmployeeForm = (props) => {
           </Select>
         </FormControl>
         <TextField
-          error={!form.document_number && clicked}
           required
           id="document_number"
           label={t('n_document')}
@@ -238,8 +185,6 @@ const EmployeeForm = (props) => {
           name='document_number'
           value={form.document_number}
           onChange={handleChange}
-          onClick={() => setClicked(true)}
-          helperText={!form.document_number ? 'Este campo es obligatorio' : ''}
         />
         <Autocomplete
           freeSolo
@@ -256,6 +201,18 @@ const EmployeeForm = (props) => {
           renderInput={(params) => (
             <TextField {...params} label={t('select_work_area')} />
           )}
+        />
+        <DatePicker
+          name='birthdate'
+          value={form.birthdate ? utcToZonedTime(new Date(form.birthdate)) : null}
+          onChange={handleDateChange}
+          slotProps={{
+            textField: {
+              label: t('birthdate'),
+              variant: 'outlined',
+            },
+          }}
+          maxDate={new Date()}
         />
         <FormControl fullWidth>
           <InputLabel id="gender">{t('sex')}</InputLabel>
@@ -290,27 +247,6 @@ const EmployeeForm = (props) => {
         {form.id ? <Button variant="contained" color="error" onClick={() => handleClose(props.dataToEdit.id)}>{t('delete')}</Button> : <></>}
         <Button variant="contained" color="success" onClick={handleSubmit}>{t('save')}</Button>
       </DialogActions>
-      {/* <Dialog
-        open={openDialog}
-        onClose={closeDialogModal}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">Datos incompletos</DialogTitle>
-        <DialogContent>
-          <h3>Por favor, complete todos los campos obligatorios(*).</h3>
-          <br />
-          <b>La longitud del documento debe contener estos valores:</b>
-          <p>DNI: 8 dígitos</p>
-          <p>RUC: 11 dígitos</p>
-          <p>CE: 12 Dígitos</p>
-          <br />
-          <h3>El número de celular debe contener 9 dígitos</h3>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeDialogModal} autoFocus>OK</Button>
-        </DialogActions>
-      </Dialog> */}
     </Dialog>
   )
 }

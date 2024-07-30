@@ -15,6 +15,7 @@ const EmployeeInterface = {
   document_number: '',
   email: '',
   phone: '',
+  birthdate: new Date(),
   gender: 0,
   status: 1,
 }
