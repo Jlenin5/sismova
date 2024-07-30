@@ -83,6 +83,16 @@ function CustomerTable(props) {
     props.setPage(value)
   }
 
+  const typeDocument = (document_type) => {
+    if(document_type == 1) {
+      return t('dni')
+    } else if(document_type == 2) {
+      return t('ruc')
+    } else {
+      return t('ce')
+    }
+  }
+
   function handleChangeRowsPerPage(event) {
     props.setRowsPerPage(event.target.value)
   }
@@ -171,15 +181,15 @@ function CustomerTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      { typeDocument(n.document_type) }
+                    </TableCell>
+
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {n.document_number}
                     </TableCell>
             
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {n.phone}
-                    </TableCell>
-
-                    <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.gender === 0 ? t('men') : t('woman')}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">

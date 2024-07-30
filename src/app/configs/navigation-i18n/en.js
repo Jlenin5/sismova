@@ -329,6 +329,11 @@ const locale = {
   currency_pen: 'S/ - PEN',
   currency_usd: '$ - USD',
   supplier_document_date: 'Supplier document date',
+  natural_person: 'Natural person',
+  legal_person: 'Legal person',
+  customer_type: 'Customer type',
+  register_customer: 'Register customer',
+  update_customer: 'Update customer',
   
 }
 

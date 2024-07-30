@@ -50,6 +50,13 @@ function CustomerTableHead(props) {
       id: 'document',
       align: 'left',
       disablePadding: false,
+      label: t('document'),
+      sort: true,
+    },
+    {
+      id: 'n_document',
+      align: 'left',
+      disablePadding: false,
       label: t('n_document'),
       sort: true,
     },
@@ -58,13 +65,6 @@ function CustomerTableHead(props) {
       align: 'left',
       disablePadding: false,
       label: t('cell_phone'),
-      sort: true,
-    },
-    {
-      id: 'gender',
-      align: 'left',
-      disablePadding: false,
-      label: t('gender'),
       sort: true,
     },
     {

@@ -1,6 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import React, { useEffect, useState } from 'react'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
@@ -16,6 +14,13 @@ import IconButton from '@mui/material/IconButton'
 function CustomerForm(props) {
   const dispatch = useDispatch()
   const [form, setForm] = useState(CustomerInterface)
+  const [customerTypeOption, setCustomerTypeOption] = useState(true)
+  const [inputDocument, setInputDocument] = useState('')
+  const [inputFirstName, setInputFirstName] = useState('')
+  const [inputSecondName, setInputSecondName] = useState('')
+  const [inputSurname, setInputSurname] = useState('')
+  const [inputSecondSurname, setInputSecondSurname] = useState('')
+  const [inputEmail, setInputEmail] = useState('')
   const { t } = useTranslation()
   
   const handleChange = (e) => {
@@ -24,13 +29,6 @@ function CustomerForm(props) {
     setForm({
       ...form,
       [name]: value
-    })
-  }
-
-  const handleDateChange = (date) => {
-    setForm({
-      ...form,
-      birthdate: zonedTimeToUtc(date).toISOString()
     })
   }
 
@@ -47,6 +45,7 @@ function CustomerForm(props) {
   
   const handleReset = () => {
     setForm(CustomerInterface)
+    cleanInputs()
   }
 
   const handleClose = (id) => {
@@ -59,18 +58,34 @@ function CustomerForm(props) {
     props.onClose()
   }
 
-  useEffect(() => {
-    if(props.dataToEdit) {
-      setForm(props.dataToEdit)
+  const changeCustomerType = (e) => {
+    const selectedValue = e.target.value
+    if(selectedValue == 2) {
+      setCustomerTypeOption(false)
     } else {
-      setForm(CustomerInterface)
+      setCustomerTypeOption(true)
     }
-  }, [dispatch, props.dataToEdit])
+    cleanInputs()
+    handleChange(e)
+  }
+
+  const cleanInputs = () => {
+    setInputDocument('')
+    setInputFirstName('')
+    setInputSecondName('')
+    setInputSurname('')
+    setInputSecondSurname('')
+    setInputEmail('')
+  }
+
+  useEffect(() => {
+    props.dataToEdit ? setForm(props.dataToEdit) : setForm(CustomerInterface)
+  }, [props.dataToEdit])
 
   return (
     <Dialog open={props.open}>
       <DialogTitle className="flex justify-between mt-10">
-        <div>{!form.id ? t('register_employee') : t('update_employee')}</div>
+        <div>{!form.id ? t('register_customer') : t('update_customer')}</div>
         <IconButton
           aria-label="close"
           onClick={handleClose}
@@ -82,48 +97,6 @@ function CustomerForm(props) {
         </IconButton>
       </DialogTitle>
       <DialogContent className='grid grid-flow-row-dense grid-cols-2 gap-32' dividers>
-        <TextField
-          autoFocus
-          required
-          id="first_name"
-          label={t('first_name')}
-          type="text"
-          fullWidth
-          variant="outlined"
-          name='first_name'
-          value={form.first_name}
-          onChange={handleChange}
-        />
-        <TextField
-          id="second_name"
-          label={t('second_name')}
-          type="text"
-          fullWidth
-          variant="outlined"
-          name='second_name'
-          value={form.second_name || ''}
-          onChange={handleChange}
-        />
-        <TextField
-          id="surname"
-          label={t('surname')}
-          type="text"
-          fullWidth
-          variant="outlined"
-          name='surname'
-          value={form.surname || ''}
-          onChange={handleChange}
-        />
-        <TextField
-          id="second_surname"
-          label={t('second_surname')}
-          type="text"
-          fullWidth
-          variant="outlined"
-          name='second_surname'
-          value={form.second_surname || ''}
-          onChange={handleChange}
-        />
         <FormControl fullWidth>
           <InputLabel id="document_type">{t('document_type')}</InputLabel>
           <Select
@@ -132,7 +105,7 @@ function CustomerForm(props) {
             name='document_type'
             label={t('document_type')}
             value={form.document_type}
-            onChange={handleChange}
+            onChange={changeCustomerType}
           >
             <MenuItem value={1}>{t('dni')}</MenuItem>
             <MenuItem value={2}>{t('ruc')}</MenuItem>
@@ -140,6 +113,7 @@ function CustomerForm(props) {
           </Select>
         </FormControl>
         <TextField
+          autoFocus
           required
           id="document_number"
           label={t('n_document')}
@@ -147,8 +121,71 @@ function CustomerForm(props) {
           fullWidth
           variant="outlined"
           name='document_number'
-          value={form.document_number}
-          onChange={handleChange}
+          value={form.document_number ? form.document_number : inputDocument}
+          onChange={(event) => {
+            handleChange(event)
+            setInputDocument(event.target.value)
+          }}
+        />
+        <TextField
+          required
+          id="first_name"
+          label={customerTypeOption ? t('first_name') : t('full_name')}
+          type="text"
+          fullWidth
+          variant="outlined"
+          name='first_name'
+          value={form.first_name ? form.first_name : inputFirstName}
+          onChange={(event) => {
+            handleChange(event)
+            setInputFirstName(event.target.value)
+          }}
+          disabled={form.document_number ? false : inputDocument ? false : true}
+        />
+        <TextField
+          id="second_name"
+          label={t('second_name')}
+          type="text"
+          fullWidth
+          variant="outlined"
+          name='second_name'
+          value={form.second_name ? form.second_name : inputSecondName}
+          onChange={(event) => {
+            handleChange(event)
+            setInputSecondName(event.target.value)
+          }}
+          disabled={form.document_number ? false : inputDocument ? false : true}
+          style={{ display: customerTypeOption ? 'block' : 'none' }}
+        />
+        <TextField
+          id="surname"
+          label={t('surname')}
+          type="text"
+          fullWidth
+          variant="outlined"
+          name='surname'
+          value={form.surname ? form.surname : inputSurname}
+          onChange={(event) => {
+            handleChange(event)
+            setInputSurname(event.target.value)
+          }}
+          disabled={form.document_number ? false : inputDocument ? false : true}
+          style={{ display: customerTypeOption ? 'block' : 'none' }}
+        />
+        <TextField
+          id="second_surname"
+          label={t('second_surname')}
+          type="text"
+          fullWidth
+          variant="outlined"
+          name='second_surname'
+          value={form.second_surname ? form.second_surname : inputSecondSurname}
+          onChange={(event) => {
+            handleChange(event)
+            setInputSecondSurname(event.target.value)
+          }}
+          disabled={form.document_number ? false : inputDocument ? false : true}
+          style={{ display: customerTypeOption ? 'block' : 'none' }}
         />
         <TextField
           id="email"
@@ -157,8 +194,12 @@ function CustomerForm(props) {
           fullWidth
           variant="outlined"
           name='email'
-          value={form.email || ''}
-          onChange={handleChange}
+          value={form.email ? form.email : inputEmail}
+          onChange={(event) => {
+            handleChange(event)
+            setInputEmail(event.target.value)
+          }}
+          disabled={form.document_number ? false : inputDocument ? false : true}
         />
         <TextField
           id="phone"
@@ -169,32 +210,7 @@ function CustomerForm(props) {
           name='phone'
           value={form.phone || ''}
           onChange={handleChange}
-        />
-        <FormControl fullWidth>
-          <InputLabel id="gender">{t('sex')}</InputLabel>
-          <Select
-            labelId="gender"
-            id="demo-simple-select"
-            label={t('sex')}
-            name='gender'
-            value={form.gender}
-            onChange={handleChange}
-          >
-            <MenuItem value={0}>{t('male')}</MenuItem>
-            <MenuItem value={1}>{t('female')}</MenuItem>
-          </Select>
-        </FormControl>
-        <DatePicker
-          name='birthdate'
-          value={form.birthdate ? utcToZonedTime(new Date(form.birthdate)) : null}
-          onChange={handleDateChange}
-          slotProps={{
-            textField: {
-              label: t('birthdate'),
-              variant: 'outlined',
-            },
-          }}
-          maxDate={new Date()}
+          disabled={form.document_number ? false : inputDocument ? false : true}
         />
         <FormControl fullWidth>
           <InputLabel id="status">{t('status')}</InputLabel>
