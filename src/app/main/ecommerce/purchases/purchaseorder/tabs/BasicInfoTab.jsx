@@ -5,89 +5,148 @@ import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
-import axios from 'axios'
 import Autocomplete from '@mui/material/Autocomplete'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { Controller, useFormContext } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectUser } from 'app/store/userSlice'
+import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { getSuppliers } from 'src/app/main/human-resources/personal/store/supplierSlice'
-import { getCoins } from '../../../finances/store/coinSlice'
 import { getCompanies } from 'src/app/main/settings/leadership/store/companiesSlice'
-import { getSeries } from 'src/app/main/settings/controls/store/serieSlice'
-import { getMaxId } from '../../store/purchaseorderSlice'
 import { getWarehouses } from 'src/app/main/settings/leadership/store/warehouseSlice'
-import { getEmployees } from 'src/app/main/human-resources/personal/store/employeesSlice'
+import { getBranchoffices } from 'src/app/main/settings/leadership/store/branchofficeSlice'
 
-const BasicInfoTab = () => {
+function BasicInfoTab() {
   const dispatch = useDispatch()
-  const [maxId, setMaxId] = useState(null)
-  const [employees, setEmployees] = useState([])
   const [dSupplier, setDSupplier] = useState([])
-  const [dWarehouse, setWarehouse] = useState([])
+  const [companies, setCompanies] = useState([])
+  const [inputBranchOffice, setInputBranchOffice] = useState('')
+  const [branchOffices, setBranchOffices] = useState([])
+  const [disableBranchOffice, setDisableBranchOffice] = useState(true)
+  const [inputWarehouse, setInputWarehouse] = useState('')
+  const [warehouses, setWarehouse] = useState([])
+  const [disableWarehouse, setDisableWarehouse] = useState(true)
   const methods = useFormContext()
-  const { control, formState, watch, setValue } = methods
+  const { control, formState } = methods
   const { errors } = formState
-  const code = watch('code')
   const { t } = useTranslation()
 
+  const CompanySelected = (id) => {
+    if(id && (typeof id) == 'number') {
+      dispatch(getBranchoffices({ filters: `company_id=${id}` })).then(r => setBranchOffices(r.payload.data))
+      setDisableBranchOffice(false)
+    } else {
+      setDisableBranchOffice(true)
+      setDisableWarehouse(true)
+      setInputBranchOffice('')
+      setInputWarehouse('')
+    }
+  }
+  
+  const BranchOfficeSelected = async (id) => {
+    if(id && (typeof id) == 'number') {
+      dispatch(getWarehouses({ filters: `branch_office_id=${id}` })).then(r => setWarehouse(r.payload.data))
+      setDisableWarehouse(false)
+    } else {
+      setDisableWarehouse(true)
+      setInputWarehouse('')
+    }
+  }
+  
   useEffect(() => {
-    dispatch(getEmployees()).then((r) => setEmployees(r.payload.data))
+    dispatch(getCompanies()).then(r => setCompanies(r.payload.data))
     dispatch(getSuppliers()).then((r) => setDSupplier(r.payload.data))
-    dispatch(getWarehouses()).then(r => setWarehouse(r.payload.data))
-    dispatch(getMaxId()).then(r => setMaxId(r.payload.ultimo_id))
   }, [dispatch])
 
   return (
-    <div className="grid grid-flow-row-dense grid-cols-3 gap-32 -mx-4 max-w-4xl">
+    <div className="flex flex-wrap md:grid md:grid-flow-row-dense grid-cols-2 md:grid-cols-3 gap-32 -mx-4 max-w-4xl">
+
       <Controller
-        name="warehouses"
+        name="companies"
         control={control}
         render={({ field: { onChange, value } }) => (
           <Autocomplete
             freeSolo
             id="tags-outlined"
-            options={dWarehouse}
+            options={companies}
             getOptionLabel={(option) => option.name}
+            onInputChange={(event, newInputValue) => CompanySelected(newInputValue)}
             onChange={(_, data) => {
               onChange(data)
-              methods.setValue("warehouse_id", data?.id || null)
+              methods.setValue("company_id", data?.id || 0)
+              CompanySelected(data?.id)
               return data
             }}
-            value={dWarehouse.find((option) => option.id === value) || null}
+            value={companies.find((option) => option.id === value) || null}
             renderInput={(params) => (
               <TextField
                 required
+                autoFocus
                 {...params}
-                label={t('warehouse')}
+                label={t('select_company')}
               />
             )}
             fullWidth
           />
         )}
       />
-      
+
       <Controller
-        name="employees"
+        name="branch_offices"
         control={control}
         render={({ field: { onChange, value } }) => (
           <Autocomplete
             freeSolo
+            disabled={disableBranchOffice}
             id="tags-outlined"
-            options={employees}
-            getOptionLabel={(option) => option.first_name}
+            options={branchOffices}
+            getOptionLabel={(option) => option.name}
+            onInputChange={(event, newInputValue) => {
+              BranchOfficeSelected(newInputValue)
+              setInputBranchOffice(newInputValue)
+            }}
+            inputValue={inputBranchOffice}
             onChange={(_, data) => {
               onChange(data)
-              methods.setValue("employee_id", data?.id || null)
+              methods.setValue("branch_office_id", data?.id || null)
+              BranchOfficeSelected(data.id)
               return data
             }}
-            value={employees.find((option) => option.id === value) || null}
+            value={branchOffices.find((option) => option.id === value) || null}
             renderInput={(params) => (
               <TextField
                 required
                 {...params}
-                label={t('employees')}
+                label={t('select_branch_office')}
+              />
+            )}
+            fullWidth
+          />
+        )}
+      />
+
+      <Controller
+        name="warehouses"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Autocomplete
+            freeSolo
+            disabled={disableWarehouse}
+            id="tags-outlined"
+            options={warehouses}
+            getOptionLabel={(option) => option.name}
+            onChange={(_, data) => {
+              onChange(data)
+              methods.setValue("warehouse_id", data?.id || null)
+              return data
+            }}
+            onInputChange={(event, newInputValue) => setInputWarehouse(newInputValue)}
+            inputValue={inputWarehouse}
+            value={warehouses.find((option) => option.id === value) || null}
+            renderInput={(params) => (
+              <TextField
+                required
+                {...params}
+                label={t('select_warehouse')}
               />
             )}
             fullWidth
@@ -103,7 +162,7 @@ const BasicInfoTab = () => {
             freeSolo
             id="tags-outlined"
             options={dSupplier}
-            getOptionLabel={(option) => option.name}
+            getOptionLabel={(option) => option.document + ' - ' + option.name}
             onChange={(_, data) => {
               onChange(data)
               methods.setValue("supplier_id", data?.id || null)
@@ -132,33 +191,15 @@ const BasicInfoTab = () => {
             helperText={errors?.name?.message}
             label={t('supplier_invoice')}
             required
-            autoFocus
             id="supplier_document"
             variant="outlined"
+            fullWidth
           />
         )}
       />
 
       <Controller
-        name="date"
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <DatePicker
-            value={utcToZonedTime(new Date(value))}
-            onChange={onChange}
-            slotProps={{
-              textField: {
-                label: t('start_date'),
-                variant: 'outlined',
-              },
-            }}
-            maxDate={new Date()}
-          />
-        )}
-      />
-
-      <Controller
-        name="date_approved"
+        name="supplier_document_date"
         control={control}
         defaultValue=""
         render={({ field: { onChange, value } }) => (
@@ -167,14 +208,51 @@ const BasicInfoTab = () => {
             onChange={onChange}
             slotProps={{
               textField: {
-                label: t('end_date'),
+                label: t('supplier_document_date'),
+                required: true,
                 variant: 'outlined',
               },
             }}
             minDate={new Date()}
+            fullWidth
+            className="w-full"
           />
         )}
       />
+
+      <Controller
+        name="currency"
+        control={control}
+        render={({ field }) => (
+          <FormControl fullWidth>
+            <InputLabel id="status">{t('currency')}</InputLabel>
+            <Select
+              {...field}
+              labelId="status"
+              id="demo-simple-select"
+              label={t('currency')}
+            >
+              <MenuItem value={1}>{t('currency_pen')}</MenuItem>
+              <MenuItem value={0}>{t('currency_usd')}</MenuItem>
+            </Select>
+          </FormControl>
+        )}
+      />
+
+      <Controller
+        name="exchange_rate"
+        control={control}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            label={t('exchange_rate')}
+            id="exchange_rate"
+            variant="outlined"
+            fullWidth
+          />
+        )}
+      />
+
     </div>
   )
 }

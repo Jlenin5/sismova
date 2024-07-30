@@ -32,8 +32,22 @@ const asyncThunkWithAxios = (endpoint, method, actionName, changeMethod) => {
       response = await axios[method](url, params)
       window.open(url, '_blank')
     } else {
+      let queryParams = [];
+      if (params && params.page) {
+        queryParams.push(`page=${params.page}`);
+      }
+      if (params && params.rowsPerPage) {
+        queryParams.push(`per_page=${params.rowsPerPage}`);
+      }
+      if (params && params.search) {
+        queryParams.push(`search=${params.search}`);
+      }
+      if (params && params.filters) {
+        queryParams.push(`filters=${params.filters}`);
+      }
+      const queryString = queryParams.join('&')
       const url = params
-        ? API_URL + endpoint + `?page=${params.page}&per_page=${params.rowsPerPage}&search=${params.search}`
+        ? API_URL + endpoint + (queryString ? `?${queryString}` : '')
         : API_URL + endpoint
       response = await axios[method](url, params)
     }

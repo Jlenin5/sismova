@@ -322,6 +322,13 @@ const locale = {
   register_brand: 'Registrar marca',
   update_brand: 'Actualizar marca',
   select_brand: 'Seleccionar marca',
+  select_company: 'Seleccionar empresa',
+  select_warehouse: 'Seleccionar almacén',
+  select_branch_office: 'Seleccionar sucursal',
+  exchange_rate: 'Tipo de cambio',
+  currency_pen: 'S/ - PEN',
+  currency_usd: '$ - USD',
+  supplier_document_date: 'Fecha documento proveedor',
   
 }
 

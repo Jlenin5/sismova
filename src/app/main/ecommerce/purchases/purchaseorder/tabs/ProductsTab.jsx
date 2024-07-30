@@ -58,6 +58,7 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
   }, [allProducts, dispatch])
 
   const handleProductChange = (_, selectedValue) => {
+    console.log(selectedValue)
     if (selectedValue) {
       const findProduct = dProduct.find((r) => r.id === selectedValue.id)
       const updatedProduct = { ...findProduct, selectedValue }

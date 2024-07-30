@@ -98,7 +98,7 @@ const PurchaseOrderHeader = ({
             className=""
             variant="contained"
             component={Link}
-            to="/ecommerce/purchases/purchase-order/new"
+            to="/e-commerce/purchases/purchase-order/new"
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >

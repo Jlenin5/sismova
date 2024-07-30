@@ -15,7 +15,7 @@ const OptionsAction = ({idE, openOption, anchorEl, setAnchorEl}) => {
 
   const editEmployee = () => {
     handleClose()
-    navigate(`/ecommerce/purchases/purchase-order/${idE}`)
+    navigate(`/e-commerce/purchases/purchase-order/${idE}`)
   }
 
   const purchaseOrderPdf = () => {
