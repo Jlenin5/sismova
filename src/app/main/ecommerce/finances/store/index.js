@@ -1,9 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit'
-import coin from './coinSlice'
+import currencies from './currenciesSlice'
 import tax from './taxSlice'
 
 const reducer = combineReducers({
-  coin,
+  currencies,
   tax,
 })
 

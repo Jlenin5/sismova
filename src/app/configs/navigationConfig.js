@@ -210,11 +210,11 @@ const navigationConfig = [
         translate: 'finance',
         children: [
           {
-            id: 'e-commerce.finances.coins',
-            title: 'coins',
+            id: 'e-commerce.finances.currencies',
+            title: 'currencies',
             type: 'item',
-            url: '/e-commerce/finances/coins',
-            translate: 'currency',
+            url: '/e-commerce/finances/currencies',
+            translate: 'currencies',
             end: true
           },
           {

@@ -1,4 +1,4 @@
-import FuseExample from '@fuse/core/FuseExample'
+import { useTranslation } from 'react-i18next'
 import Button from '@mui/material/Button'
 import Input from '@mui/material/Input'
 import Paper from '@mui/material/Paper'
@@ -7,19 +7,29 @@ import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
-import { selectCoinSearchText, setCoinSearchText } from '../store/coinSlice'
-import CoinForm from './CoinForm'
+import { selectCurrencySearchText, setCurrencySearchText } from '../store/currenciesSlice'
+import CurrencyForm from './CurrencyForm'
 
-function CoinHeader(props) {
+function CurrencyHeader(props) {
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
-  const searchText = useSelector(selectCoinSearchText)
+  const searchText = useSelector(selectCurrencySearchText)
+  const { t } = useTranslation()
+
+  const setFetchData = () => {
+    props.fetchData(props.page, props.rowsPerPage, searchText)
+  }
+
+  const refresh = () => {
+    setFetchData()
+  }
 
   const handleClickOpen = () => {
     setOpen(true)
   }
 
   const handleClose = () => {
+    setFetchData()
     setOpen(false)
   }
   
@@ -32,7 +42,7 @@ function CoinHeader(props) {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Monedas
+        {t('currencies')}
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -45,7 +55,7 @@ function CoinHeader(props) {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Buscar moneda"
+            placeholder={t('search')}
             className="flex flex-1"
             disableUnderline
             fullWidth
@@ -53,7 +63,7 @@ function CoinHeader(props) {
             inputProps={{
               'aria-label': 'Search',
             }}
-            onChange={(ev) => dispatch(setCoinSearchText(ev))}
+            onChange={(ev) => dispatch(setCurrencySearchText(ev))}
           />
         </Paper>
         <motion.div
@@ -61,15 +71,23 @@ function CoinHeader(props) {
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
         >
           <Button
+            className="mr-12"
+            variant="contained"
+            onClick={() => refresh()}
+            color="refresh"
+          >
+            <FuseSvgIcon>heroicons-outline:refresh</FuseSvgIcon>
+          </Button>
+          <Button
             className=""
             variant="contained"
             onClick={() => handleClickOpen()}
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >
-            Agregar
+            {t('add')}
           </Button>
-          <CoinForm
+          <CurrencyForm
             open={open}
             onClose={handleClose}
             dataToEdit={props.dataToEdit}
@@ -81,4 +99,4 @@ function CoinHeader(props) {
   )
 }
 
-export default CoinHeader
+export default CurrencyHeader

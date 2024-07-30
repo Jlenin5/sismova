@@ -1,8 +1,9 @@
 const CurrencyInterface = {
   id: null,
-  curName: '',
-  curSymbol: '',
-  curConvert: 0.00,
+  name: '',
+  code: '',
+  symbol: '',
+  status: 1,
 }
 
 export default CurrencyInterface

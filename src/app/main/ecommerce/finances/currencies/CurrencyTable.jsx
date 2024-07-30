@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import FuseScrollbars from '@fuse/core/FuseScrollbars'
 import _ from '@lodash'
 import Checkbox from '@mui/material/Checkbox'
@@ -9,25 +10,17 @@ import TableRow from '@mui/material/TableRow'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import withRouter from '@fuse/core/withRouter'
 import FuseLoading from '@fuse/core/FuseLoading'
-import CoinTableHead from './CoinTableHead'
-import CoinForm from './CoinForm'
-import { useDispatch, useSelector } from 'react-redux'
-import { getCoins, selectCoin, selectCoinSearchText } from '../store/coinSlice'
+import CurrencyTableHead from './CurrencyTableHead'
+import CurrencyForm from './CurrencyForm'
 
-function CoinTable(props) {
-  const dispatch = useDispatch()
-  const coins = useSelector(selectCoin)
-  const searchText = useSelector(selectCoinSearchText)
-
-  const [loading, setLoading] = useState(true)
+function CurrencyTable(props) {
+  
+  const { t } = useTranslation()
   const [selected, setSelected] = useState([])
-  const [data, setData] = useState(coins)
-  const [page, setPage] = useState(0)
   const [open, setOpen] = useState(false)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
     direction: 'asc',
     id: null,
@@ -37,23 +30,9 @@ function CoinTable(props) {
     setOpen(true);
   }
   const handleClose = () => {
+    props.fetchData(props.page, props.rowsPerPage, '')
     setOpen(false);
   }
-
-  useEffect(() => {
-    dispatch(getCoins()).then(() => setLoading(false))
-  }, [dispatch])
-
-  useEffect(() => {
-    if (searchText.length !== 0) {
-      setData(
-        _.filter(coins, (item) => item.curName.toLowerCase().includes(searchText.toLowerCase()))
-      )
-      setPage(0)
-    } else {
-      setData(coins)
-    }
-  }, [coins, searchText])
 
   function handleRequestSort(event, property) {
     const id = property
@@ -69,7 +48,7 @@ function CoinTable(props) {
 
   function handleSelectAllClick(event) {
     if (event.target.checked) {
-      setSelected(data.map((n) => n.id))
+      setSelected(props.data.map((n) => n.id))
       return
     }
     setSelected([])
@@ -100,14 +79,14 @@ function CoinTable(props) {
   }
 
   function handleChangePage(event, value) {
-    setPage(value)
+    props.setPage(value)
   }
 
   function handleChangeRowsPerPage(event) {
-    setRowsPerPage(event.target.value)
+    props.setRowsPerPage(event.target.value)
   }
 
-  if (loading) {
+  if (props.loading) {
     return (
       <div className="flex items-center justify-center h-full">
         <FuseLoading />
@@ -115,7 +94,7 @@ function CoinTable(props) {
     )
   }
 
-  if (data.length === 0) {
+  if (props.data.length === 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -123,7 +102,7 @@ function CoinTable(props) {
         className="flex flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          No hay monedas
+          {t('there_is_no_data')}
         </Typography>
       </motion.div>
     )
@@ -133,17 +112,17 @@ function CoinTable(props) {
     <div className="w-full flex flex-col min-h-full">
       <FuseScrollbars className="grow overflow-x-auto">
         <Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
-          <CoinTableHead
+          <CurrencyTableHead
             ids={selected}
             order={order}
             onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            rowCount={data.length}
+            rowCount={props.data.length}
             onMenuItemClick={handleDeselect}
           />
           <TableBody>
             {_.orderBy(
-                data,
+                props.data,
                 [
                   (o) => {
                     switch (order.id) {
@@ -158,7 +137,6 @@ function CoinTable(props) {
                 ],
                 [order.direction]
               )
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((n) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 return ( 
@@ -184,17 +162,28 @@ function CoinTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.curName}
+                      {n.name}
                     </TableCell>
             
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.curSymbol}
+                      {n.code}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.curConvert}
+                      {n.symbol}
                     </TableCell>
 
+                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
+                      {n.status ? (
+                        <FuseSvgIcon className="text-green" size={20}>
+                          heroicons-outline:check-circle
+                        </FuseSvgIcon>
+                      ) : (
+                        <FuseSvgIcon className="text-red" size={20}>
+                          heroicons-outline:minus-circle
+                        </FuseSvgIcon>
+                      )}
+                    </TableCell>
                   </TableRow>
                 )
               })
@@ -202,7 +191,7 @@ function CoinTable(props) {
           </TableBody>
         </Table>
       </FuseScrollbars>
-      <CoinForm
+      <CurrencyForm
         open={open}
         onClose={handleClose}
         dataToEdit={props.dataToEdit}
@@ -210,10 +199,12 @@ function CoinTable(props) {
       />
       <TablePagination
         className="shrink-0 border-t-1"
+        labelRowsPerPage={t('rows_per_page')}
+        labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
+        count={props.lengthPage}
+        rowsPerPage={props.rowsPerPage}
+        page={props.page}
         backIconButtonProps={{
           'aria-label': 'Previous Page',
         }}
@@ -227,4 +218,4 @@ function CoinTable(props) {
   )
 }
 
-export default withRouter(CoinTable)
+export default withRouter(CurrencyTable)

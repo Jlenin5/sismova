@@ -334,6 +334,9 @@ const locale = {
   customer_type: 'Tipo de cliente',
   register_customer: 'Registrar cliente',
   update_customer: 'Actualizar cliente',
+  register_currency: 'Registrar moneda',
+  update_currency: 'Actualizar moneda',
+  symbol: 'Símbolo',
   
 }
 

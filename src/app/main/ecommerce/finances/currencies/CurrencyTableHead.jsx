@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -15,44 +16,51 @@ import { Box } from '@mui/system'
 import TableHead from '@mui/material/TableHead'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
-import { delCoinMulti } from '../store/coinSlice'
+import { delCurrencyMulti } from '../store/currenciesSlice'
 
-const rows = [
-  {
-    id: 'id',
-    align: 'left',
-    disablePadding: false,
-    label: '',
-    sort: false,
-  },
-  {
-    id: 'curName',
-    align: 'left',
-    disablePadding: false,
-    label: 'Nombre',
-    sort: true,
-  },
-  {
-    id: 'curSymbol',
-    align: 'left',
-    disablePadding: false,
-    label: 'Símbolo',
-    sort: true,
-  },
-  {
-    id: 'curConvert',
-    align: 'left',
-    disablePadding: false,
-    label: 'Conversión',
-    sort: true,
-  },
-]
-
-function CoinTableHead(props) {
+function CurrencyTableHead(props) {
   const dispatch = useDispatch()
   const numSelected = props.ids.length
-  
   const [selectedCoinMenu, setSelectedCoinMenu] = useState(null)
+  const { t } = useTranslation()
+
+  const rows = [
+    {
+      id: 'id',
+      align: 'left',
+      disablePadding: false,
+      label: '',
+      sort: false,
+    },
+    {
+      id: 'name',
+      align: 'left',
+      disablePadding: false,
+      label: t('name'),
+      sort: true,
+    },
+    {
+      id: 'code',
+      align: 'left',
+      disablePadding: false,
+      label: t('code'),
+      sort: true,
+    },
+    {
+      id: 'symbol',
+      align: 'left',
+      disablePadding: false,
+      label: t('symbol'),
+      sort: true,
+    },
+    {
+      id: 'status',
+      align: 'left',
+      disablePadding: false,
+      label: t('status'),
+      sort: true,
+    },
+  ]
 
   const createSortHandler = (property) => (event) => {
     props.onRequestSort(event, property)
@@ -108,7 +116,7 @@ function CoinTableHead(props) {
                 <MenuList>
                   <MenuItem
                     onClick={() => {
-                      dispatch(delCoinMulti(props.ids))
+                      dispatch(delCurrencyMulti(props.ids))
                       props.onMenuItemClick()
                       closeSelectedCoinMenu()
                     }}
@@ -116,7 +124,7 @@ function CoinTableHead(props) {
                     <ListItemIcon className="min-w-40">
                       <FuseSvgIcon>heroicons-outline:trash</FuseSvgIcon>
                     </ListItemIcon>
-                    <ListItemText primary="Eliminar" />
+                    <ListItemText primary={t('delete')} />
                   </MenuItem>
                 </MenuList>
               </Menu>
@@ -161,4 +169,4 @@ function CoinTableHead(props) {
   )
 }
 
-export default CoinTableHead
+export default CurrencyTableHead

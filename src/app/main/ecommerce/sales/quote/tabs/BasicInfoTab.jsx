@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectUser } from 'app/store/userSlice'
 import { useEffect, useState } from 'react'
 import { getCustomers } from 'src/app/main/human-resources/personal/store/customersSlice'
-import { getCoins } from '../../../finances/store/coinSlice'
+import { getCurrencies } from '../../../finances/store/currenciesSlice'
 import { getCompanies } from 'src/app/main/settings/leadership/store/companiesSlice'
 import { getBranchoffices } from 'src/app/main/settings/leadership/store/branchofficeSlice'
 import { getSeries } from 'src/app/main/settings/controls/store/serieSlice'
@@ -36,7 +36,7 @@ const BasicInfoTab = () => {
 
   useEffect(() => {
     dispatch(getCustomers()).then((r) => setDClient(r.payload))
-    dispatch(getCoins()).then(r => setDCurrency(r.payload))
+    dispatch(getCurrencies()).then(r => setDCurrency(r.payload))
     dispatch(getCompanies()).then(r => setDCompany(r.payload))
     dispatch(getBranchoffices()).then(r => setDBO(r.payload))
     dispatch(getSeries()).then(r => setDSerie(r.payload))
