@@ -325,7 +325,7 @@ const locale = {
   select_company: 'Select company',
   select_warehouse: 'Select warehouse',
   select_branch_office: 'Select branch office',
-  exchange_rate: 'Change type',
+  exchange_rate: 'Exchange rate',
   currency_pen: 'S/ - PEN',
   currency_usd: '$ - USD',
   supplier_document_date: 'Supplier document date',

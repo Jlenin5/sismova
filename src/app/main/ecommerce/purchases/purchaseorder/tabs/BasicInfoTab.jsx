@@ -14,10 +14,12 @@ import { getSuppliers } from 'src/app/main/human-resources/personal/store/suppli
 import { getCompanies } from 'src/app/main/settings/leadership/store/companiesSlice'
 import { getWarehouses } from 'src/app/main/settings/leadership/store/warehouseSlice'
 import { getBranchoffices } from 'src/app/main/settings/leadership/store/branchofficeSlice'
+import { getCurrencies } from '../../../finances/store/currenciesSlice'
 
 function BasicInfoTab() {
   const dispatch = useDispatch()
   const [dSupplier, setDSupplier] = useState([])
+  const [currencies, setCurrencies] = useState([])
   const [companies, setCompanies] = useState([])
   const [inputBranchOffice, setInputBranchOffice] = useState('')
   const [branchOffices, setBranchOffices] = useState([])
@@ -53,6 +55,7 @@ function BasicInfoTab() {
   }
   
   useEffect(() => {
+    dispatch(getCurrencies()).then(r => setCurrencies(r.payload.data))
     dispatch(getCompanies()).then(r => setCompanies(r.payload.data))
     dispatch(getSuppliers()).then((r) => setDSupplier(r.payload.data))
   }, [dispatch])
@@ -221,7 +224,7 @@ function BasicInfoTab() {
       />
 
       <Controller
-        name="currency"
+        name="currencies"
         control={control}
         render={({ field }) => (
           <FormControl fullWidth>
@@ -232,8 +235,9 @@ function BasicInfoTab() {
               id="demo-simple-select"
               label={t('currency')}
             >
-              <MenuItem value={1}>{t('currency_pen')}</MenuItem>
-              <MenuItem value={0}>{t('currency_usd')}</MenuItem>
+              {currencies.map(item => (
+                <MenuItem key={item.id} value={item.id}>{item.symbol + ' - ' + item.code}</MenuItem>
+              ))}
             </Select>
           </FormControl>
         )}
