@@ -190,9 +190,7 @@ function BasicInfoTab() {
         render={({ field }) => (
           <TextField
             {...field}
-            error={!!errors.name}
-            helperText={errors?.name?.message}
-            label={t('supplier_invoice')}
+            label={t('supplier_document')}
             required
             id="supplier_document"
             variant="outlined"
@@ -226,14 +224,18 @@ function BasicInfoTab() {
       <Controller
         name="currencies"
         control={control}
-        render={({ field }) => (
+        render={({ field: { onChange, value } }) => (
           <FormControl fullWidth>
-            <InputLabel id="status">{t('currency')}</InputLabel>
+            <InputLabel id="currency">{t('currency')}</InputLabel>
             <Select
-              {...field}
-              labelId="status"
+              labelId="currency"
               id="demo-simple-select"
               label={t('currency')}
+              onChange={(event) => {
+                onChange(event.target.value)
+                methods.setValue("currency_id", event.target.value || null)
+              }}
+              value={value || ''}
             >
               {currencies.map(item => (
                 <MenuItem key={item.id} value={item.id}>{item.symbol + ' - ' + item.code}</MenuItem>

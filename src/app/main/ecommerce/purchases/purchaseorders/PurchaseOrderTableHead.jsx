@@ -40,28 +40,80 @@ const PurchaseOrderTableHead = (props) => {
       sort: true,
     },
     {
-      id: 'Currency',
+      id: 'description',
+      align: 'left',
+      disablePadding: false,
+      label: t('description'),
+      sort: true,
+      minWidth: '350px',
+    },
+    {
+      id: 'currency',
       align: 'left',
       disablePadding: false,
       label: t('currency'),
       sort: true,
     },
     {
-      id: 'Company',
+      id: 'company',
       align: 'left',
       disablePadding: false,
       label: t('company'),
       sort: true,
     },
     {
-      id: 'Supplier',
+      id: 'branch_office',
+      align: 'left',
+      disablePadding: false,
+      label: t('branch_office'),
+      sort: true,
+    },
+    {
+      id: 'warehouse',
+      align: 'left',
+      disablePadding: false,
+      label: t('warehouse'),
+      sort: true,
+    },
+    {
+      id: 'supplier',
       align: 'left',
       disablePadding: false,
       label: t('supplier'),
       sort: true,
     },
     {
-      id: 'Employee',
+      id: 'supplier_document',
+      align: 'left',
+      disablePadding: false,
+      label: t('supplier_document'),
+      sort: true,
+      minWidth: '210px',
+    },
+    {
+      id: 'document_date',
+      align: 'left',
+      disablePadding: false,
+      label: t('document_date'),
+      sort: true,
+      minWidth: '180px',
+    },
+    {
+      id: 'paid',
+      align: 'left',
+      disablePadding: false,
+      label: t('paid'),
+      sort: true,
+    },
+    {
+      id: 'approved',
+      align: 'left',
+      disablePadding: false,
+      label: t('approved'),
+      sort: true,
+    },
+    {
+      id: 'user',
       align: 'left',
       disablePadding: false,
       label: t('user'),
@@ -75,25 +127,27 @@ const PurchaseOrderTableHead = (props) => {
       sort: true,
     },
     {
-      id: 'qtSubtotal',
-      align: 'right',
+      id: 'sub_total',
+      align: 'center',
       disablePadding: false,
       label: t('sub_total'),
       sort: true,
+      minWidth: '150px',
     },
     {
-      id: 'qtTotal',
-      align: 'right',
+      id: 'total',
+      align: 'center',
       disablePadding: false,
       label: t('total'),
       sort: true,
     },
     {
-      id: 'qtCreatedAt',
-      align: 'right',
+      id: 'start_date',
+      align: 'left',
       disablePadding: false,
       label: t('start_date'),
       sort: true,
+      minWidth: '180px',
     },
     {
       id: 'actions',
@@ -177,6 +231,7 @@ const PurchaseOrderTableHead = (props) => {
           return (
             <TableCell
               sx={{
+                minWidth: row.minWidth ? row.minWidth : 'auto',
                 backgroundColor: (theme) =>
                   theme.palette.mode === 'light'
                     ? lighten(theme.palette.background.default, 0.4)
@@ -186,16 +241,15 @@ const PurchaseOrderTableHead = (props) => {
               key={row.id}
               align={row.align}
               padding={row.disablePadding ? 'none' : 'normal'}
-              sortDirection={props.order.prodId === row.id ? props.order.direction : false}
+              sortDirection={props.order.id === row.id ? props.order.direction : false}
             >
               {row.sort && (
                 <Tooltip
-                  // title="Sort"
                   placement={row.align === 'right' ? 'bottom-end' : 'bottom-start'}
                   enterDelay={300}
                 >
                   <TableSortLabel
-                    active={props.order.prodId === row.id}
+                    active={props.order.id === row.id}
                     direction={props.order.direction}
                     onClick={createSortHandler(row.id)}
                     className="font-semibold"

@@ -162,7 +162,37 @@ const PurchaseOrderTable = ({
             onMenuItemClick={handleDeselect}
           />
           <TableBody>
-            {data
+            {_.orderBy(
+                data,
+                [
+                  (o) => {
+                    switch (order.id) {
+                      case 'currency': {
+                        return o.currency.id
+                      }
+                      case 'company': {
+                        return o.company.id
+                      }
+                      case 'branch_office': {
+                        return o.branch_office.id
+                      }
+                      case 'warehouse': {
+                        return o.warehouse.id
+                      }
+                      case 'supplier': {
+                        return o.supplier.id
+                      }
+                      case 'user': {
+                        return o.user.id
+                      }
+                      default: {
+                        return o[order.id]
+                      }
+                    }
+                  },
+                ],
+                [order.direction]
+              )
               .map((n) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 return (
@@ -176,7 +206,7 @@ const PurchaseOrderTable = ({
                     selected={isSelected}
                     onClick={() => setIdE(n.id) }
                   >
-                    <TableCell className="w-40 md:w-64 text-center" padding="none">
+                    <TableCell className="w-40 md:w-64 text-right">
                       <Checkbox
                         checked={isSelected}
                         onClick={(event) => event.stopPropagation()}
@@ -192,25 +222,52 @@ const PurchaseOrderTable = ({
                       >
                     </TableCell>
  
-                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {n.code}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {/* {n.currencies.curName} */}
+                      {n.description}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {/* <span>S/.</span> */}
-                      {n.warehouses.name}
+                      {n.currency?.symbol + ' - ' + n.currency?.code}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.suppliers.name}
+                      {n.company?.name}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.employees.first_name}
+                      {n.branch_office?.name}
+                    </TableCell>
+
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      {n.warehouse?.name}
+                    </TableCell>
+
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      {n.supplier?.name}
+                    </TableCell>
+
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      {n.supplier_document}
+                    </TableCell>
+
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      {n.supplier_document_date}
+                    </TableCell>
+
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      {n.paid == 1 ? 'Sí' : 'No'}
+                    </TableCell>
+
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      {n.approved == 1 ? 'Sí' : 'No'}
+                    </TableCell>
+
+                    <TableCell className="p-4 md:p-16" component="th" scope="row">
+                      {/* {n.employees.first_name} */}
                     </TableCell>
                     
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="center">
@@ -218,15 +275,15 @@ const PurchaseOrderTable = ({
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.sub_total}
+                      {/* {n.sub_total} */}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.total}
+                      {/* {n.total} */}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.date}
+                      {/* {n.date} */}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" padding="none">

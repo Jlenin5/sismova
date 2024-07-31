@@ -337,6 +337,11 @@ const locale = {
   register_currency: 'Register currency',
   update_currency: 'Update currency',
   symbol: 'Symbol',
+  document_date: 'Document date',
+  supplier_document: 'Supplier document',
+  paid: 'Paid',
+  approved: 'Approved',
+  description: 'Description',
   
 }
 

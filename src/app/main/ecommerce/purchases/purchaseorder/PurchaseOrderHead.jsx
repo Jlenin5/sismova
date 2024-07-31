@@ -26,21 +26,9 @@ const PurchaseOrderHead = () => {
   const theme = useTheme()
   const navigate = useNavigate()
   const { t } = useTranslation()
-
-  useEffect(() => {
-    dispatch(getMaxId()).then(r => setMaxId(r.payload))
-  }, [dispatch])
   
   const handleSaveProduct = async () => {
-    if(getValues().id === null) {
-      const quoteData = getValues()
-      quoteData.id = maxId.ultimo_id + 1
-      // console.log(quoteData)
-      dispatch(postPurchaseOrder(quoteData))
-    } else {
-      const quoteData = getValues()
-      dispatch(putPurchaseOrder(getValues()))
-    }
+    getValues().id ? dispatch(putPurchaseOrder(getValues())) : dispatch(postPurchaseOrder(getValues()))
     // returnProducts()
   }
 
