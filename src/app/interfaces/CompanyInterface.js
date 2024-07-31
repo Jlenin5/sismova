@@ -6,7 +6,7 @@ const CompanyInterface = {
   document_number: '',
   email: '',
   address: '',
-  employee_id: 1,
+  employee_id: null,
   web_site: '',
   phone: '',
   status: 1,

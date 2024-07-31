@@ -8,7 +8,7 @@ const BranchOfficeInterface = {
   province_id: 0,
   district_id: 0,
   address: '',
-  employee_id: 1,
+  employee_id: null,
   status: 1,
 }
 

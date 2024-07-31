@@ -167,7 +167,7 @@ function CompanyTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.employee.first_name}
+                      {n.employee?.first_name}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
