@@ -14,7 +14,7 @@ const PurchaseOrderInterface = {
   paid: 0,
   status: 1,
   date_approved: null,
-  supplier_document_date: new Date(),
+  supplier_document_date: null,
   user_approved_id: null,
   migrate_purchase: 0,
   migrate_kardex: 0,

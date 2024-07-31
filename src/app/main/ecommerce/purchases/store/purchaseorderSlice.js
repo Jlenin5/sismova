@@ -2,8 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import asyncThunkWithAxios from 'src/app/services/api'
 import PurchaseOrderInterface from 'src/app/interfaces/PurchaseOrderInterface'
 
-export const getPurchaseOrder = asyncThunkWithAxios('puor', 'get', 'PurchaseEC/purchaseorders/getPurchaseOrder', 'getid')
-// export const getMaxId = asyncThunkWithAxios('puormax', 'get', 'PurchaseEC/purchaseorders/getMaxId', 'getmax')
+export const getPurchaseOrder = asyncThunkWithAxios('puor', 'get', 'PurchaseEC/purchaseorders/getPurchaseOrder', 'show')
 export const putPurchaseOrder = asyncThunkWithAxios('updatepuor', 'put', 'PurchaseEC/purchaseorders/putPurchaseOrder', 'put')
 export const postPurchaseOrder = asyncThunkWithAxios('postpuor', 'post', 'PurchaseEC/purchaseorders/postPurchaseOrder', 'post')
 export const deletePurchaseOrder = asyncThunkWithAxios('deletepuor', 'delete', 'PurchaseEC/purchaseorders/deletePurchaseOrder', 'delete')
@@ -21,7 +20,7 @@ const purchaseorderSlice = createSlice({
     },
   },
   extraReducers: {
-    [getPurchaseOrder.fulfilled]: (state, action) => action.payload,
+    [getPurchaseOrder.fulfilled]: (state, action) => action.payload.data,
     [putPurchaseOrder.fulfilled]: (state, action) => action.payload,
     [deletePurchaseOrder.fulfilled]: (state, action) => null,
     [postPurchaseOrder.fulfilled]: (state, action) => action.payload

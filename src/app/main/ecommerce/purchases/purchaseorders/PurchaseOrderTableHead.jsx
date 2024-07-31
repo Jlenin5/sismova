@@ -142,12 +142,12 @@ const PurchaseOrderTableHead = (props) => {
       sort: true,
     },
     {
-      id: 'start_date',
+      id: 'date_approved',
       align: 'left',
       disablePadding: false,
-      label: t('start_date'),
+      label: t('date_approved'),
       sort: true,
-      minWidth: '180px',
+      minWidth: '210px',
     },
     {
       id: 'actions',

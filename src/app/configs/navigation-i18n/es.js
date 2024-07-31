@@ -342,6 +342,7 @@ const locale = {
   paid: 'Pagado',
   approved: 'Aprobado',
   description: 'Descripción',
+  date_approved: 'Fecha de aprobación',
   
 }
 

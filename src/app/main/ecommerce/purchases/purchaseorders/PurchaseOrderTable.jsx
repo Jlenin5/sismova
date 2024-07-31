@@ -168,22 +168,22 @@ const PurchaseOrderTable = ({
                   (o) => {
                     switch (order.id) {
                       case 'currency': {
-                        return o.currency.id
+                        return o.currency?.id
                       }
                       case 'company': {
-                        return o.company.id
+                        return o.company?.id
                       }
                       case 'branch_office': {
-                        return o.branch_office.id
+                        return o.branch_office?.id
                       }
                       case 'warehouse': {
-                        return o.warehouse.id
+                        return o.warehouse?.id
                       }
                       case 'supplier': {
-                        return o.supplier.id
+                        return o.supplier?.id
                       }
                       case 'user': {
-                        return o.user.id
+                        return o.user?.id
                       }
                       default: {
                         return o[order.id]
@@ -267,7 +267,7 @@ const PurchaseOrderTable = ({
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {/* {n.employees.first_name} */}
+                      {n.user?.employee?.first_name}
                     </TableCell>
                     
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="center">
@@ -283,7 +283,7 @@ const PurchaseOrderTable = ({
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {/* {n.date} */}
+                      {n.date_approved}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" padding="none">

@@ -8,6 +8,7 @@ import Select from '@mui/material/Select'
 import Autocomplete from '@mui/material/Autocomplete'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { Controller, useFormContext } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { getSuppliers } from 'src/app/main/human-resources/personal/store/supplierSlice'
@@ -29,6 +30,8 @@ function BasicInfoTab() {
   const [disableWarehouse, setDisableWarehouse] = useState(true)
   const methods = useFormContext()
   const { control, formState } = methods
+  const routeParams = useParams()
+  const { id } = routeParams
   const { errors } = formState
   const { t } = useTranslation()
 
@@ -56,6 +59,8 @@ function BasicInfoTab() {
   
   useEffect(() => {
     dispatch(getCurrencies()).then(r => setCurrencies(r.payload.data))
+    dispatch(getBranchoffices()).then(r => setBranchOffices(r.payload.data))
+    dispatch(getWarehouses()).then(r => setWarehouse(r.payload.data))
     dispatch(getCompanies()).then(r => setCompanies(r.payload.data))
     dispatch(getSuppliers()).then((r) => setDSupplier(r.payload.data))
   }, [dispatch])
@@ -64,7 +69,7 @@ function BasicInfoTab() {
     <div className="flex flex-wrap md:grid md:grid-flow-row-dense grid-cols-2 md:grid-cols-3 gap-32 -mx-4 max-w-4xl">
 
       <Controller
-        name="companies"
+        name="company_id"
         control={control}
         render={({ field: { onChange, value } }) => (
           <Autocomplete
@@ -94,12 +99,12 @@ function BasicInfoTab() {
       />
 
       <Controller
-        name="branch_offices"
+        name="branch_office_id"
         control={control}
         render={({ field: { onChange, value } }) => (
           <Autocomplete
             freeSolo
-            disabled={disableBranchOffice}
+            disabled={id !== 'new' ? false : disableBranchOffice}
             id="tags-outlined"
             options={branchOffices}
             getOptionLabel={(option) => option.name}
@@ -107,7 +112,7 @@ function BasicInfoTab() {
               BranchOfficeSelected(newInputValue)
               setInputBranchOffice(newInputValue)
             }}
-            inputValue={inputBranchOffice}
+            inputValue={id!=='new' ? (branchOffices.find((option) => option.id === value)?.name || '') : inputBranchOffice}
             onChange={(_, data) => {
               onChange(data)
               methods.setValue("branch_office_id", data?.id || null)
@@ -128,12 +133,12 @@ function BasicInfoTab() {
       />
 
       <Controller
-        name="warehouses"
+        name="warehouse_id"
         control={control}
         render={({ field: { onChange, value } }) => (
           <Autocomplete
             freeSolo
-            disabled={disableWarehouse}
+            disabled={id !== 'new' ? false : disableWarehouse}
             id="tags-outlined"
             options={warehouses}
             getOptionLabel={(option) => option.name}
@@ -143,7 +148,7 @@ function BasicInfoTab() {
               return data
             }}
             onInputChange={(event, newInputValue) => setInputWarehouse(newInputValue)}
-            inputValue={inputWarehouse}
+            inputValue={id!=='new' ? (warehouses.find((option) => option.id === value)?.name || '') : inputWarehouse}
             value={warehouses.find((option) => option.id === value) || null}
             renderInput={(params) => (
               <TextField
@@ -158,7 +163,7 @@ function BasicInfoTab() {
       />
 
       <Controller
-        name="suppliers"
+        name="supplier_id"
         control={control}
         render={({ field: { onChange, value } }) => (
           <Autocomplete
@@ -202,11 +207,11 @@ function BasicInfoTab() {
       <Controller
         name="supplier_document_date"
         control={control}
-        defaultValue=""
         render={({ field: { onChange, value } }) => (
           <DatePicker
-            value={utcToZonedTime(new Date(value))}
+            value={value ? new Date(value) : null}
             onChange={onChange}
+            format="dd/MM/yyyy"
             slotProps={{
               textField: {
                 label: t('supplier_document_date'),
@@ -214,7 +219,6 @@ function BasicInfoTab() {
                 variant: 'outlined',
               },
             }}
-            minDate={new Date()}
             fullWidth
             className="w-full"
           />
@@ -222,7 +226,7 @@ function BasicInfoTab() {
       />
 
       <Controller
-        name="currencies"
+        name="currency_id"
         control={control}
         render={({ field: { onChange, value } }) => (
           <FormControl fullWidth>

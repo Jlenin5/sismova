@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { forceUpdate } from 'react'
 import Button from '@mui/material/Button'
 import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
@@ -9,27 +8,23 @@ import { useDispatch } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import _ from '@lodash'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
-import { deletePurchaseOrder, putPurchaseOrder, getMaxId, postPurchaseOrder } from '../store/purchaseorderSlice'
-import { useEffect, useState } from 'react'
+import { deletePurchaseOrder, putPurchaseOrder, postPurchaseOrder } from '../store/purchaseorderSlice'
 
-const PurchaseOrderHead = () => {
+function PurchaseOrderHead() {
 
   const dispatch = useDispatch()
   const methods = useFormContext()
   const { formState, watch, getValues } = methods
-  const [maxId, setMaxId] = useState([])
   const { isValid, dirtyFields } = formState
   const routeParams = useParams()
   const { id } = routeParams
-  // const featuredImageId = watch('featuredImageId')
-  // const productImages = watch('product_images')
+  const code = watch('code')
   const theme = useTheme()
   const navigate = useNavigate()
   const { t } = useTranslation()
   
   const handleSaveProduct = async () => {
     getValues().id ? dispatch(putPurchaseOrder(getValues())) : dispatch(postPurchaseOrder(getValues()))
-    // returnProducts()
   }
 
   function handleRemoveProduct() {
@@ -67,31 +62,12 @@ const PurchaseOrderHead = () => {
 
         <div className="flex items-center max-w-full">
           <motion.div
-            className="hidden sm:flex"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1, transition: { delay: 0.3 } }}
-          >
-            {/* {productImages.length > 0 && featuredImageId ? (
-              <img
-                className="w-32 sm:w-48 rounded"
-                src={findImage(_.find(productImages, { featured: featuredImageId }).primPath)}
-                alt={prodName}
-              />
-            ) : (
-              <img
-                className="w-32 sm:w-48 rounded"
-                src="assets/images/apps/ecommerce/product-image-placeholder.png"
-                alt={prodName}
-              />
-            )} */}
-          </motion.div>
-          <motion.div
             className="flex flex-col items-center sm:items-start min-w-0 mx-8 sm:mx-16"
             initial={{ x: -20 }}
             animate={{ x: 0, transition: { delay: 0.3 } }}
           >
             <Typography className="text-16 sm:text-20 truncate font-semibold">
-              {t('purchase_order')}
+              {code || t('purchase_order')}
             </Typography>
             <Typography variant="caption" className="font-medium">
               {t('purchase_order_details')}
