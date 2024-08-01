@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Button from '@mui/material/Button'
 import Input from '@mui/material/Input'
 import Paper from '@mui/material/Paper'
@@ -9,16 +10,26 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { selectWorkAreaSearchText, setWorkAreaSearchText } from '../store/waSlice'
 import WAForm from './WAForm'
 
-const WAHeader = (props) => {
+function WAHeader(props) {
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
   const searchText = useSelector(selectWorkAreaSearchText)
+  const { t } = useTranslation()
+
+  const setFetchData = () => {
+    props.fetchData(props.page, props.rowsPerPage, searchText)
+  }
+
+  const refresh = () => {
+    setFetchData()
+  }
 
   const handleClickOpen = () => {
     setOpen(true)
   }
 
   const handleClose = () => {
+    setFetchData()
     setOpen(false)
   }
 
@@ -31,7 +42,7 @@ const WAHeader = (props) => {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Áreas de trabajo
+        {t('work_areas')}
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -44,7 +55,7 @@ const WAHeader = (props) => {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Buscar área de trabajo"
+            placeholder={t('search')}
             className="flex flex-1"
             disableUnderline
             fullWidth
@@ -60,13 +71,21 @@ const WAHeader = (props) => {
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
         >
           <Button
+            className="mr-12"
+            variant="contained"
+            onClick={() => refresh()}
+            color="refresh"
+          >
+            <FuseSvgIcon>heroicons-outline:refresh</FuseSvgIcon>
+          </Button>
+          <Button
             className=""
             variant="contained"
             onClick={() => handleClickOpen()}
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >
-            Agregar
+            {t('add')}
           </Button>
           <WAForm
             open={open}

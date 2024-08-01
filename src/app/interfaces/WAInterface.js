@@ -1,7 +1,7 @@
 const WAInterface = {
   id: null,
   name: '',
-  status: true
+  status: 1
 }
 
 export default WAInterface

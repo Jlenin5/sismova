@@ -343,6 +343,8 @@ const locale = {
   approved: 'Approved',
   description: 'Description',
   date_approved: 'Date approved',
+  register_work_area: 'Register work area',
+  update_work_area: 'Update work area',
   
 }
 

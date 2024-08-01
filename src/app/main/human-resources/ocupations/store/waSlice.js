@@ -2,7 +2,6 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import asyncThunkWithAxios from 'src/app/services/api'
 
 export const getWorkAreas = asyncThunkWithAxios('wa', 'get', 'OcupationHR/workareas/getWorkAreas', 'get')
-export const getMaxId = asyncThunkWithAxios('wamax', 'get', 'OcupationHR/workareas/getMaxId', 'getmax')
 export const putWorkArea = asyncThunkWithAxios('updatewa', 'put', 'OcupationHR/workareas/putWorkArea', 'put')
 export const postWorkArea = asyncThunkWithAxios('postwa', 'post', 'OcupationHR/workareas/postWorkArea', 'post')
 export const deleteWorkArea = asyncThunkWithAxios('deletewa', 'delete', 'OcupationHR/workareas/deleteWorkArea', 'delete')

@@ -1,99 +1,104 @@
-import './form.css'
-import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useEffect, useState } from 'react'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material'
 import WAInterface from 'src/app/interfaces/WAInterface'
-import { deleteWorkArea, getMaxId, postWorkArea, putWorkArea } from '../store/waSlice'
 import { useDispatch } from 'react-redux'
+import { deleteWorkArea, postWorkArea, putWorkArea } from '../store/waSlice'
+import CloseIcon from '@mui/icons-material/Close'
+import IconButton from '@mui/material/IconButton'
 
-const WAForm = ({onClose,open,dataToEdit,setDataToEdit}) => {
+function WAForm (props) {
   const dispatch = useDispatch()
   const [form, setForm] = useState(WAInterface)
-  const [maxId, setMaxId] = useState(null)
+  const { t } = useTranslation()
   
   const handleChange = (e) => {
     const name = e.target.name
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+    const value = e.target.value
     setForm({
       ...form,
       [name]: value
     })
   }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     if(!form.name) {
       alert("Datos incompletos")
       return
     }
-    if(form.id===null) {
-      dispatch(postWorkArea({
-        ...form,
-        id: maxId+1
-      }))
-      setMaxId(maxId+1)
-    } else {
-      dispatch(putWorkArea(form))
-    }
-    onClose()
+    form.id ? dispatch(putWorkArea(form)) : dispatch(postWorkArea(form))
+    props.onClose()
     handleReset()
   }
+
   const handleReset = () => {
     setForm(WAInterface)
-    setDataToEdit(null)
   }
+
   const handleClose = (id) => {
     if(id===form.id) {
       dispatch(deleteWorkArea(id))
       handleReset()
-      onClose()
+      props.onClose()
     }
     handleReset()
-    onClose()
+    props.onClose()
   }
 
   useEffect(() => {
-    dispatch(getMaxId()).then(response => setMaxId(response.payload.ultimo_id))
-    if(dataToEdit) {
-      setForm(dataToEdit)
-    } else {
-      setForm(WAInterface)
-    }
-  }, [dispatch, dataToEdit])
+    props.dataToEdit ? setForm(props.dataToEdit) : setForm(WAInterface)
+  }, [dispatch, props.dataToEdit])
 
   return (
-    <Dialog
-      onClose={handleClose}
-      open={open}
-      className='form-dialog-category'
-    >
-      <DialogTitle>Formulario</DialogTitle>
-      <DialogContent>
-        <TextField
+    <Dialog open={props.open}>
+      <DialogTitle className="flex justify-between mt-10">
+        <div>{!form.id ? t('register_work_area') : t('update_work_area')}</div>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent className='grid grid-flow-row-dense grid-cols-2 gap-32' dividers>
+      <TextField
           autoFocus
-          margin="dense"
+          required
           id="name"
-          label="Nombre del área de trabajo"
+          label={t('name')}
           type="text"
           fullWidth
-          variant="standard"
+          variant="outlined"
           name='name'
           value={form.name}
           onChange={handleChange}
         />
-        Estado:
-        <label className="switch">
-          <input
-            type="checkbox" 
-            name='status'
+        <FormControl fullWidth>
+          <InputLabel id="status">{t('status')}</InputLabel>
+          <Select
+            labelId="status"
+            id="demo-simple-select"
+            label={t('status')}
             value={form.status}
-            checked={form.status}
+            name="status"
             onChange={handleChange}
-          />
-          <span className="slider"></span>
-        </label>
+          >
+            <MenuItem value={0}>{t('inactive')}</MenuItem>
+            <MenuItem value={1}>{t('active')}</MenuItem>
+          </Select>
+        </FormControl>
       </DialogContent>
-      <DialogActions>
-        {form.id!==null ? <Button onClick={() => handleClose(dataToEdit.id)}>Eliminar</Button> : <Button onClick={()=>handleClose(0)}>Cancelar</Button>}
-        <Button onClick={handleSubmit}>Guardar</Button>
+      <DialogActions className="mb-20 mr-20">
+        {form.id ? <Button variant="contained" color="error" onClick={() => handleClose(props.dataToEdit.id)}>{t('delete')}</Button> : <></>}
+        <Button variant="contained" color="success" onClick={handleSubmit}>{t('save')}</Button>
       </DialogActions>
     </Dialog>
   )
