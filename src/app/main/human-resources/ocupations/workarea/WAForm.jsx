@@ -69,7 +69,7 @@ function WAForm (props) {
         </IconButton>
       </DialogTitle>
       <DialogContent className='grid grid-flow-row-dense grid-cols-2 gap-32' dividers>
-      <TextField
+        <TextField
           autoFocus
           required
           id="name"

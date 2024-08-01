@@ -1,4 +1,4 @@
-import FuseExample from '@fuse/core/FuseExample'
+import { useTranslation } from 'react-i18next'
 import Button from '@mui/material/Button'
 import Input from '@mui/material/Input'
 import Paper from '@mui/material/Paper'
@@ -10,16 +10,26 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { selectJobPositionSearchText, setJobPositionSearchText } from '../store/jpSlice'
 import JPForm from './JPForm'
 
-const JPHeader = (props) => {
+function JPHeader(props) {
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
   const searchText = useSelector(selectJobPositionSearchText)
+  const { t } = useTranslation()
+
+  const setFetchData = () => {
+    props.fetchData(props.page, props.rowsPerPage, searchText)
+  }
+
+  const refresh = () => {
+    setFetchData()
+  }
 
   const handleClickOpen = () => {
     setOpen(true)
   }
 
   const handleClose = () => {
+    setFetchData()
     setOpen(false)
   }
 
@@ -32,7 +42,7 @@ const JPHeader = (props) => {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Posiciones laborales
+        {t('job_positions')}
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -45,7 +55,7 @@ const JPHeader = (props) => {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Buscar posición laboral"
+            placeholder={t('search')}
             className="flex flex-1"
             disableUnderline
             fullWidth
@@ -61,13 +71,21 @@ const JPHeader = (props) => {
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
         >
           <Button
+            className="mr-12"
+            variant="contained"
+            onClick={() => refresh()}
+            color="refresh"
+          >
+            <FuseSvgIcon>heroicons-outline:refresh</FuseSvgIcon>
+          </Button>
+          <Button
             className=""
             variant="contained"
             onClick={() => handleClickOpen()}
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >
-            Agregar
+            {t('add')}
           </Button>
           <JPForm
             open={open}

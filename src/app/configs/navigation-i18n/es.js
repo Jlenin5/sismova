@@ -345,6 +345,8 @@ const locale = {
   date_approved: 'Fecha de aprobación',
   register_work_area: 'Registrar área de trabajo',
   update_work_area: 'Actualizar área de trabajo',
+  register_job_position: 'Registrar posición laboral',
+  update_job_position: 'Actualizar posición laboral',
   
 }
 

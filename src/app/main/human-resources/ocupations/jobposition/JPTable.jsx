@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import FuseScrollbars from '@fuse/core/FuseScrollbars'
 import _ from '@lodash'
 import Checkbox from '@mui/material/Checkbox'
@@ -9,26 +10,17 @@ import TableRow from '@mui/material/TableRow'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import withRouter from '@fuse/core/withRouter'
 import FuseLoading from '@fuse/core/FuseLoading'
 import JPTableHead from './JPTableHead'
 import JPForm from './JPForm'
-import { useDispatch, useSelector } from 'react-redux'
-import { getJobPositions, selectJobPosition, selectJobPositionSearchText } from '../store/jpSlice'
 
-const JPTable = (props) => {
-  const dispatch = useDispatch()
-  const jobpositions = useSelector(selectJobPosition)
-  const searchText = useSelector(selectJobPositionSearchText)
+function JPTable(props) {
 
-  const [loading, setLoading] = useState(true)
+  const { t } = useTranslation()
   const [selected, setSelected] = useState([])
-  const [data, setData] = useState(jobpositions)
-  const [page, setPage] = useState(0)
   const [open, setOpen] = useState(false)
-
-  const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
     direction: 'asc',
     id: null,
@@ -38,23 +30,9 @@ const JPTable = (props) => {
     setOpen(true)
   }
   const handleClose = () => {
+    props.fetchData(props.page, props.rowsPerPage, '')
     setOpen(false)
   }
-
-  useEffect(() => {
-    dispatch(getJobPositions()).then(() => setLoading(false))
-  }, [dispatch])
-
-  useEffect(() => {
-    if (searchText.length !== 0) {
-      setData(
-        _.filter(jobpositions, (item) => item.name.toLowerCase().includes(searchText.toLowerCase()))
-      )
-      setPage(0)
-    } else {
-      setData(jobpositions)
-    }
-  }, [jobpositions, searchText])
 
   const handleRequestSort = (event, property) => {
     const id = property
@@ -70,7 +48,7 @@ const JPTable = (props) => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      setSelected(data.map((n) => n.id))
+      setSelected(props.data.map((n) => n.id))
       return
     }
     setSelected([])
@@ -101,14 +79,14 @@ const JPTable = (props) => {
   }
 
   const handleChangePage = (event, value) => {
-    setPage(value)
+    props.setPage(value)
   }
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(event.target.value)
+    props.setRowsPerPage(event.target.value)
   }
 
-  if (loading) {
+  if (props.loading) {
     return (
       <div className="flex items-center justify-center h-full">
         <FuseLoading />
@@ -116,7 +94,7 @@ const JPTable = (props) => {
     )
   }
 
-  if (data.length === 0) {
+  if (props.data.length === 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -124,7 +102,7 @@ const JPTable = (props) => {
         className="flex flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          No hay posiciones laborales
+          {t('there_is_no_data')}
         </Typography>
       </motion.div>
     )
@@ -139,12 +117,12 @@ const JPTable = (props) => {
             order={order}
             onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            rowCount={data.length}
+            rowCount={props.data.length}
             onMenuItemClick={handleDeselect}
           />
           <TableBody>
             {_.orderBy(
-                data,
+                props.data,
                 [
                   (o) => {
                     switch (order.id) {
@@ -159,7 +137,6 @@ const JPTable = (props) => {
                 ],
                 [order.direction]
               )
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((n) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 return (
@@ -215,10 +192,12 @@ const JPTable = (props) => {
       />
       <TablePagination
         className="shrink-0 border-t-1"
+        labelRowsPerPage={t('rows_per_page')}
+        labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
+        count={props.lengthPage}
+        rowsPerPage={props.rowsPerPage}
+        page={props.page}
         backIconButtonProps={{
           'aria-label': 'Previous Page',
         }}

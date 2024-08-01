@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -17,35 +18,35 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
 import { delJPMulti } from '../store/jpSlice'
 
-const rows = [
-  {
-    id: 'id',
-    align: 'left',
-    disablePadding: false,
-    label: '',
-    sort: false,
-  },
-  {
-    id: 'jpName',
-    align: 'left',
-    disablePadding: false,
-    label: 'Nombre',
-    sort: true,
-  },
-  {
-    id: 'jpState',
-    align: 'left',
-    disablePadding: false,
-    label: 'Estado',
-    sort: true,
-  },
-]
-
 function JPTableHead(props) {
   const dispatch = useDispatch()
   const numSelected = props.selectedJPIds.length
-  
   const [selectedCategoriesMenu, setSelectedCategoriesMenu] = useState(null)
+  const { t } = useTranslation()
+
+  const rows = [
+    {
+      id: 'id',
+      align: 'left',
+      disablePadding: false,
+      label: '',
+      sort: false,
+    },
+    {
+      id: 'name',
+      align: 'left',
+      disablePadding: false,
+      label: t('name'),
+      sort: true,
+    },
+    {
+      id: 'status',
+      align: 'left',
+      disablePadding: false,
+      label: t('status'),
+      sort: true,
+    },
+  ]
 
   const createSortHandler = (property) => (event) => {
     props.onRequestSort(event, property)
@@ -109,7 +110,7 @@ function JPTableHead(props) {
                     <ListItemIcon className="min-w-40">
                       <FuseSvgIcon>heroicons-outline:trash</FuseSvgIcon>
                     </ListItemIcon>
-                    <ListItemText primary="Eliminar" />
+                    <ListItemText primary={t('delete')} />
                   </MenuItem>
                 </MenuList>
               </Menu>
