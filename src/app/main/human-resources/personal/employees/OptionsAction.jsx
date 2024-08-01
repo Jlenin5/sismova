@@ -88,11 +88,11 @@ function OptionsAction(props) {
           {t('convert_to_user')}
         </MenuItem>
       </Menu>
-      {/* <ModalConvertToUser
+      <ModalConvertToUser
         open={openCovertUser}
         close={closeModalConvertUser}
-        idE={idE.id}
-      /> */}
+        idE={props.idE}
+      />
       <EmployeeForm
         open={openEditEmployee}
         onClose={closeModalEditEmployee}

@@ -347,6 +347,7 @@ const locale = {
   update_work_area: 'Actualizar área de trabajo',
   register_job_position: 'Registrar posición laboral',
   update_job_position: 'Actualizar posición laboral',
+  select_job_position: 'Seleccionar posición laboral',
   
 }
 

@@ -347,6 +347,7 @@ const locale = {
   update_work_area: 'Update work area',
   register_job_position: 'Register job position',
   update_job_position: 'Update job position',
+  select_job_position: 'Select job position',
   
 }
 

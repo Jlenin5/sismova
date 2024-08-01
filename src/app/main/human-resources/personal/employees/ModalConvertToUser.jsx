@@ -33,11 +33,12 @@ const ModalConvertToUser = ({open, close, idE}) => {
       Rol: rol
     }))
   }
+  console.log(idE)
 
   useEffect(() => {
     if(idE) {
       // dispatch(getEmployee(Number(idE))).then(r => setEmp(r.payload))
-      dispatch(getRoles()).then(r => setDRol(r.payload))
+      // dispatch(getRoles()).then(r => setDRol(r.payload))
     }
   }, [dispatch, idE])
 
@@ -81,7 +82,7 @@ const ModalConvertToUser = ({open, close, idE}) => {
             {/* {emp.empDocument} */}
           </Typography>
         </div>
-        <FormControl className="mt-8 mx-4" fullWidth>
+        {/* <FormControl className="mt-8 mx-4" fullWidth>
           <InputLabel id="prodWebHome">{t('select_rol')}</InputLabel>
           <Select
             labelId="prodWebHome"
@@ -94,7 +95,7 @@ const ModalConvertToUser = ({open, close, idE}) => {
               <MenuItem value={rol.id} key={rol.id}>{rol.rolName}</MenuItem>
             ))}
           </Select>
-        </FormControl>
+        </FormControl> */}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>{t('cancel')}</Button>

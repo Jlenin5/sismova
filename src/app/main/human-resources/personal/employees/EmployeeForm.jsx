@@ -14,11 +14,13 @@ import EmployeeInterface from 'src/app/interfaces/EmployeeInterface'
 import { getWorkAreas } from '../../ocupations/store/waSlice'
 import CloseIcon from '@mui/icons-material/Close'
 import IconButton from '@mui/material/IconButton'
+import { getJobPositions } from '../../ocupations/store/jpSlice'
 
 function EmployeeForm(props) {
   const dispatch = useDispatch()
   const [form, setForm] = useState(EmployeeInterface)
   const [workAreas, setWorkAreas] = useState([])
+  const [jobPositions, setJobPositions] = useState([])
   const { t } = useTranslation()
   
   const handleChange = (e) => {
@@ -78,6 +80,7 @@ function EmployeeForm(props) {
 
   useEffect(() => {
     dispatch(getWorkAreas()).then(r => setWorkAreas(r.payload.data))
+    dispatch(getJobPositions()).then(r => setJobPositions(r.payload.data))
     props.dataToEdit ? setForm(props.dataToEdit) : setForm(EmployeeInterface)
   }, [dispatch, props.dataToEdit])
 
@@ -167,7 +170,7 @@ function EmployeeForm(props) {
             id="demo-simple-select"
             name='document_type'
             label={t('document_type')}
-            value={form.document_type}
+            value={form.document_type || ''}
             onChange={handleChange}
           >
             <MenuItem value={1}>{t('dni')}</MenuItem>
@@ -200,6 +203,22 @@ function EmployeeForm(props) {
           value={workAreas.find((option) => option.id === form.work_area_id) || null}
           renderInput={(params) => (
             <TextField {...params} label={t('select_work_area')} />
+          )}
+        />
+        <Autocomplete
+          freeSolo
+          fullWidth
+          id="combo-box-department"
+          options={jobPositions}
+          getOptionLabel={(option) => option.name}
+          onChange={(_, data) => {
+            setForm({ ...form, job_position_id: data ? data.id : 0 })
+            return data
+          }}
+          name="job_position_id"
+          value={jobPositions.find((option) => option.id === form.job_position_id) || null}
+          renderInput={(params) => (
+            <TextField {...params} label={t('select_job_position')} />
           )}
         />
         <DatePicker
