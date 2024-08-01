@@ -204,8 +204,9 @@ function EmployeeForm(props) {
         />
         <DatePicker
           name='birthdate'
-          value={form.birthdate ? utcToZonedTime(new Date(form.birthdate)) : null}
+          value={form.birthdate ? new Date(form.birthdate) : null}
           onChange={handleDateChange}
+          format="dd/MM/yyyy"
           slotProps={{
             textField: {
               label: t('birthdate'),
