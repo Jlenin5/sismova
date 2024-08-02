@@ -74,9 +74,9 @@ function EmployeeForm(props) {
   const handleDateChange = (date) => {
     setForm({
       ...form,
-      birthdate: zonedTimeToUtc(date).toISOString()
-    })
-  }
+      birthdate: date
+    });
+  };
 
   useEffect(() => {
     dispatch(getWorkAreas()).then(r => setWorkAreas(r.payload.data))
@@ -224,7 +224,9 @@ function EmployeeForm(props) {
         <DatePicker
           name='birthdate'
           value={form.birthdate ? new Date(form.birthdate) : null}
-          onChange={handleDateChange}
+          onChange={(date) => {
+            handleDateChange(date);
+          }}
           format="dd/MM/yyyy"
           slotProps={{
             textField: {
@@ -232,7 +234,6 @@ function EmployeeForm(props) {
               variant: 'outlined',
             },
           }}
-          maxDate={new Date()}
         />
         <FormControl fullWidth>
           <InputLabel id="gender">{t('sex')}</InputLabel>
