@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { postUser } from '../store/userSlice'
 import { getRoles } from 'src/app/main/settings/controls/store/rolSlice'
 
-const ModalConvertToUser = ({open, close, idE}) => {
+const ModalConvertToUser = ({open, close, emp}) => {
   const dispatch = useDispatch()
   // const [emp, setEmp] = useState({})
   const [rol, setRol] = useState(1)
@@ -25,22 +25,45 @@ const ModalConvertToUser = ({open, close, idE}) => {
     setRol(event.target.value)
   }
 
+  const calculateAge = (birthdate) => {
+    const today = new Date();
+    const birthDate = new Date(birthdate);
+  
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+  
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+  
+    return age;
+  }
+
+  const nameLowerCase = emp?.first_name.toLowerCase() ?? ''
+  const nameReplace = nameLowerCase.replace(/\s+/g, '') // remove whitespace
+  const surnameLowerCase = emp?.surname.toLowerCase() ?? ''
+  const surnameReplace = surnameLowerCase.replace(/\s+/g, '')
+  const newEmail = nameReplace + '.' + surnameReplace + '@sismova.tech'
+  const newNickName = emp?.first_name.substr(0,3) + calculateAge(emp?.birthdate)
+
   const handleSubmit = () => {
     dispatch(postUser({
-      Employee: idE,
-      // userDisplayName: emp.empDocument,
-      // userPassword: emp.empDocument,
-      Rol: rol
+      employee_id: emp?.id,
+      nickname: emp?.first_name,
+      email: newEmail,
+      password: nameReplace + '.' + surnameReplace,
+      uuid: '',
+      status: 1
     }))
   }
-  console.log(idE)
+  console.log(emp)
 
   useEffect(() => {
-    if(idE) {
-      // dispatch(getEmployee(Number(idE))).then(r => setEmp(r.payload))
+    if(emp) {
+      // dispatch(getEmployee(Number(emp))).then(r => setEmp(r.payload))
       // dispatch(getRoles()).then(r => setDRol(r.payload))
     }
-  }, [dispatch, idE])
+  }, [dispatch, emp])
 
   return (
     <Dialog
@@ -49,13 +72,21 @@ const ModalConvertToUser = ({open, close, idE}) => {
       className='form-dialog-category'
     >
       <DialogTitle>{t('user_data')}</DialogTitle>
-      <DialogContent className='grid grid-flow-row-dense grid-cols-2 gap-32 mt-12'>
+      <DialogContent className='grid grid-flow-row-dense grid-cols-1 gap-32 mt-12'>
         <div className="name">
           <Typography variant="h6" gutterBottom className="text-red">
-            {t('name')}:
+            {t('user_name')}:
           </Typography>
           <Typography variant="h6" gutterBottom>
-            {/* {emp.empFirstName} */}
+            {newNickName}
+          </Typography>
+        </div>
+        <div className="name">
+          <Typography variant="h6" gutterBottom className="text-red">
+            {t('e_mail')}:
+          </Typography>
+          <Typography variant="h6" gutterBottom>
+            {newEmail}
           </Typography>
         </div>
         <div className="n_document">
@@ -63,15 +94,7 @@ const ModalConvertToUser = ({open, close, idE}) => {
             {t('n_document')}:
           </Typography>
           <Typography variant="h6" gutterBottom>
-            {/* {emp.empDocument} */}
-          </Typography>
-        </div>
-        <div className="display_name">
-          <Typography variant="h6" gutterBottom className="text-red">
-            {t('user_name')}:
-          </Typography>
-          <Typography variant="h6" gutterBottom>
-            {/* {emp.empDocument} */}
+            {emp?.document_number}
           </Typography>
         </div>
         <div className="password">
@@ -79,7 +102,7 @@ const ModalConvertToUser = ({open, close, idE}) => {
             {t('password')}:
           </Typography>
           <Typography variant="h6" gutterBottom>
-            {/* {emp.empDocument} */}
+            {nameReplace + '.' + surnameReplace}
           </Typography>
         </div>
         {/* <FormControl className="mt-8 mx-4" fullWidth>

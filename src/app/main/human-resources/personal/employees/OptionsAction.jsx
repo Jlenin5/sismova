@@ -91,7 +91,7 @@ function OptionsAction(props) {
       <ModalConvertToUser
         open={openCovertUser}
         close={closeModalConvertUser}
-        idE={props.idE}
+        emp={props.idE}
       />
       <EmployeeForm
         open={openEditEmployee}
