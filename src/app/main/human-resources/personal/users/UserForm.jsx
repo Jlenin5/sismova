@@ -61,7 +61,7 @@ function UserForm(props) {
   return (
     <Dialog open={props.open}>
       <DialogTitle className="flex justify-between mt-10">
-        <div>{!form.id ? t('register_employee') : t('update_employee')}</div>
+        <div>{!form.id ? t('register_user') : t('update_user')}</div>
         <IconButton
           aria-label="close"
           onClick={handleClose}
