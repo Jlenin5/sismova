@@ -68,10 +68,24 @@ const ProductTableHead = (props) => {
       sort: true,
     },
     {
-      id: 'stock_alert',
+      id: 'stock',
       align: 'right',
       disablePadding: false,
-      label: t('stock_alert'),
+      label: t('stock'),
+      sort: true,
+    },
+    {
+      id: 'stock_min',
+      align: 'right',
+      disablePadding: false,
+      label: t('stock_min'),
+      sort: true,
+    },
+    {
+      id: 'booking',
+      align: 'right',
+      disablePadding: false,
+      label: t('booking'),
       sort: true,
     },
     {

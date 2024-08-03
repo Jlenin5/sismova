@@ -348,6 +348,9 @@ const locale = {
   register_job_position: 'Registrar posición laboral',
   update_job_position: 'Actualizar posición laboral',
   select_job_position: 'Seleccionar posición laboral',
+  stock_min: 'Stock min',
+  stock_max: 'Stock max',
+  booking: 'Reserva',
   
 }
 

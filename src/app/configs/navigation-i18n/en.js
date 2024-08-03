@@ -177,7 +177,7 @@ const locale = {
   send: 'Send',
   administrator: 'Administrator',
   plate: 'Plate',
-  brand: 'Brnad',
+  brand: 'Brand',
   color: 'Color',
   ages: 'Ages',
   age: 'Age',
@@ -348,6 +348,9 @@ const locale = {
   register_job_position: 'Register job position',
   update_job_position: 'Update job position',
   select_job_position: 'Select job position',
+  stock_min: 'Stock min',
+  stock_max: 'Stock max',
+  booking: 'Booking',
   
 }
 

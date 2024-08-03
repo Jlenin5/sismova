@@ -100,6 +100,12 @@ function ProductTable(props) {
     }
   }
 
+  const calculateStock = (stockData) => {
+    if (Array.isArray(stockData)) {
+      return stockData.reduce((sum, item) => sum + Number(item.total), 0)
+    }
+  }
+
   if (props.loading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -220,15 +226,23 @@ function ProductTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-8" component="th" scope="row" align="right">
-                      {n.stock_alert}
+                      {calculateStock(n.stock)}
                       <i
                         className={clsx(
                           'inline-block w-8 h-8 rounded mx-8',
-                          n.stock_alert <= 5 && 'bg-red',
-                          n.stock_alert > 5 && n.stock_alert <= 25 && 'bg-orange',
-                          n.stock_alert > 25 && 'bg-green'
+                          calculateStock(n.stock) <= 5 && 'bg-red',
+                          calculateStock(n.stock) > 5 && calculateStock(n.stock) <= 25 && 'bg-orange',
+                          calculateStock(n.stock) > 25 && 'bg-green'
                         )}
                       />
+                    </TableCell>
+
+                    <TableCell className="p-4 md:p-8" component="th" scope="row" align="right">
+                      {n.stock_alert}
+                    </TableCell>
+
+                    <TableCell className="p-4 md:p-8" component="th" scope="row" align="right">
+                      {calculateStock(n.booking)}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16 flex justify-center items-center h-72" component="th" scope="row" align="center">
