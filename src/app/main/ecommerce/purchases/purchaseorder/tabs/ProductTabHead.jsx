@@ -1,28 +1,23 @@
 import { useTranslation } from 'react-i18next'
-import Checkbox from '@mui/material/Checkbox'
-import IconButton from '@mui/material/IconButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import MenuList from '@mui/material/MenuList'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import Tooltip from '@mui/material/Tooltip'
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Box } from '@mui/system'
 import TableHead from '@mui/material/TableHead'
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
-// import { delQuoteMulti } from '../store/quotesSlice'
 
 const ProductTabHead = () => {
 
   const { t } = useTranslation()
 
   const rows = [
+    {
+      id: 'code',
+      align: 'left',
+      disablePadding: false,
+      label: t('code'),
+      sort: true,
+    },
     {
       id: 'product',
       align: 'left',
@@ -31,17 +26,10 @@ const ProductTabHead = () => {
       sort: true,
     },
     {
-      id: 'unit price',
+      id: 'price',
       align: 'left',
       disablePadding: false,
-      label: t('unit_price'),
-      sort: true,
-    },
-    {
-      id: 'stock',
-      align: 'left',
-      disablePadding: false,
-      label: t('stock'),
+      label: t('price'),
       sort: true,
     },
     {
@@ -52,29 +40,15 @@ const ProductTabHead = () => {
       sort: true,
     },
     {
-      id: 'descount',
+      id: 'tax',
       align: 'left',
-      disablePadding: false,
-      label: t('discount'),
-      sort: true,
-    },
-    {
-      id: 'sub_total',
-      align: 'left',
-      disablePadding: false,
-      label: t('sub_total'),
-      sort: true,
-    },
-    {
-      id: 'taxnet',
-      align: 'center',
       disablePadding: false,
       label: t('tax'),
       sort: true,
     },
     {
-      id: 'subtotal',
-      align: 'center',
+      id: 'total',
+      align: 'left',
       disablePadding: false,
       label: t('total'),
       sort: true,
@@ -97,18 +71,13 @@ const ProductTabHead = () => {
               key={row.id}
               align={row.align}
               padding={row.disablePadding ? 'none' : 'normal'}
-            //   sortDirection={props.order.prodId === row.id ? props.order.direction : false}
             >
               {row.sort && (
                 <Tooltip
-                  // title="Sort"
                   placement={row.align === 'right' ? 'bottom-end' : 'bottom-start'}
                   enterDelay={300}
                 >
                   <TableSortLabel
-                    // active={props.order.prodId === row.id}
-                    // direction={props.order.direction}
-                    // onClick={createSortHandler(row.id)}
                     className="font-semibold"
                   >
                     {row.label}

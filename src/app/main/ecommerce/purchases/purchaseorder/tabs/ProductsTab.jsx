@@ -58,23 +58,20 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
   }, [allProducts, dispatch])
 
   const handleProductChange = (_, selectedValue) => {
-    console.log(selectedValue)
     if (selectedValue) {
       const findProduct = dProduct.find((r) => r.id === selectedValue.id)
       const updatedProduct = { ...findProduct, selectedValue }
+      console.log(updatedProduct)
       setListProd((prevList) => [...prevList, updatedProduct])
       let purchaseOrderDetailInterface = {
         id: updatedProduct.id,
+        code: updatedProduct.code,
         product_id: updatedProduct.id,
         product_name: updatedProduct.name,
-        sale_price: updatedProduct.sale_price,
+        price: updatedProduct.purchase_price,
         quantity: 1,
-        tax_method: 1,
-        tax_net: 18,
-        discount_method: 1,
-        discount: 0,
-        stock: 1,
-        total: updatedProduct.sale_price
+        tax: 18,
+        total: updatedProduct.purchase_price
       }
       onChange([...selectedProducts, purchaseOrderDetailInterface])
     }
@@ -95,7 +92,7 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
 
   const calculateTax = () => {
     const tax = listProd.reduce((total, product) => {
-      return total + parseFloat(Number(product.tax_net).toFixed(2) * product.quantity)
+      return total + parseFloat(Number(product.tax).toFixed(2) * product.quantity)
     }, 0)
     return tax.toFixed(2)
   }
@@ -120,9 +117,9 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
           options={dProduct
             .filter((o) => !selectedProducts.some((p) => p.product_id === o.id))
             .map((o) => ({
-              id: o.id, name: o.name, sale_price: o.sale_price
+              id: o.id, code: o.code, name: o.name, price: o.purchase_price
             }))}
-          getOptionLabel={(o) => o.name}
+          getOptionLabel={(o) => o.code + ' - ' + o.name}
           onChange={handleProductChange}
           renderInput={(params) => 
             <TextField
@@ -133,14 +130,7 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
         />
         <FuseScrollbars className="grow overflow-x-auto">
           <Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
-            <ProductTabHead
-              // ids={selected}
-              // order={order}
-              // onSelectAllClick={handleSelectAllClick}
-              // onRequestSort={handleRequestSort}
-              // rowCount={data.length}
-              // onMenuItemClick={handleDeselect}
-            />
+            <ProductTabHead />
             <TableBody>
               {
                 listProd.map((data) => {
@@ -157,6 +147,9 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
                       role="checkbox"
                       onClick={() => handleClickOpen( setListModalProd(data) )}
                     >
+                      <TableCell className="p-4 md:p-16" component="th" scope="row">
+                        {data.code}
+                      </TableCell>
                       <TableCell className="w-52 px-4 md:px-0" component="th" scope="row">
                         {data.product_name ? data.product_name : listFindProduct.name}
                       </TableCell>
@@ -164,19 +157,10 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
                         S/. {data.price}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        {data.stock ? data.stock : listFindProduct.stock}
-                      </TableCell>
-                      <TableCell className="p-4 md:p-16" component="th" scope="row">
                         {data.quantity}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        S/. {(data.discount * data.quantity).toFixed(2)}
-                      </TableCell>
-                      <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        {data.sub_total}
-                      </TableCell>
-                      <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        {(data.tax_net * data.quantity).toFixed(2)}
+                        {(data.tax * data.quantity).toFixed(2)}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
                         S/. {data.total}

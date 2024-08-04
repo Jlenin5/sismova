@@ -116,12 +116,12 @@ const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDele
         <DialogContent>
         <div className="grid grid-flow-row-dense grid-cols-2 gap-32 mt-12">
             <TextField
-              label={t('sale_price')}
+              label={t('price')}
               required
               id="price"
               variant="outlined"
               name="price"
-              value={form.price || listProdTable.sale_price}
+              value={form.price || listProdTable.price}
               onChange={handleChange}
             />
             <TextField
@@ -131,29 +131,6 @@ const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDele
               variant="outlined"
               name="quantity"
               value={form.quantity || 1}
-              onChange={handleChange}
-            />
-            <FormControl fullWidth>
-              <InputLabel id="discount_method">{t('discount_method')}</InputLabel>
-              <Select
-                labelId="discount_method"
-                id="demo-simple-select"
-                label={t('discount_method')}
-                value={form.discount_method || 1}
-                name="discount_method"
-                onChange={handleChange}
-              >
-                <MenuItem value={0}>{t('percentage')}</MenuItem>
-                <MenuItem value={1}>{t('fixed_value')}</MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              label={t('discount')}
-              required
-              id="discount"
-              variant="outlined"
-              name="discount"
-              value={form.discount || 0}
               onChange={handleChange}
             />
           </div>
