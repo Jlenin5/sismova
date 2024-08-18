@@ -110,9 +110,8 @@ const BasicInfoTab = () => {
       <Controller
         name="description"
         control={control}
-        render={({ field }) => (
+        render={({ field: { onChange, value } }) => (
           <TextField
-            {...field}
             label={t('description')}
             id="description"
             className="mt-24 -mx-4 max-w-4xl"
@@ -121,6 +120,10 @@ const BasicInfoTab = () => {
             maxRows={7}
             variant="outlined"
             fullWidth
+            onChange={(event) => {
+              onChange(event.target.value)
+            }}
+            value={value || ''}
           />
         )}
       />

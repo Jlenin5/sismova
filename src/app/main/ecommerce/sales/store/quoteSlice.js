@@ -21,7 +21,7 @@ const quoteSlice = createSlice({
   },
   extraReducers: {
     [getQuote.fulfilled]: (state, action) => action.payload.data,
-    [putQuote.fulfilled]: (state, action) => action.payload,
+    [putQuote.fulfilled]: (state, action) => action.payload.data,
     [deleteQuote.fulfilled]: (state, action) => null,
     [postQuote.fulfilled]: (state, action) => action.payload
   },
