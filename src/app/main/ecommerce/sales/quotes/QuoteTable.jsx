@@ -97,6 +97,14 @@ function QuoteTable(props) {
     )
   }
 
+  const printEmployee = (employee) => {
+    let first_name = employee?.first_name
+    let second_name = employee?.second_name || ''
+    let surname = employee?.surname || ''
+    let second_surname = employee?.second_surname || ''
+    return `${first_name} ${second_name} ${surname} ${second_surname}`
+  }
+
   if (props.data.length === 0) {
     return (
       <motion.div
@@ -141,6 +149,7 @@ function QuoteTable(props) {
               [order.direction]
             )
               .map((n) => {
+                console.log(n)
                 const isSelected = selected.indexOf(n.id) !== -1
                 return (
                   <TableRow
@@ -186,7 +195,7 @@ function QuoteTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.user?.employee?.first_name}
+                      {n.user_approved ? printEmployee(n.user_approved?.employee) : ''}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="center">
