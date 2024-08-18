@@ -1,24 +1,14 @@
 const QuotationInterface = {
   id: null,
-  SerialNumber: 2,
-  qtNumber: '00000',
-  Currency: 1,
-  Company: 1,
-  BranchOffice: 1,
-  Client: 1,
-  User: 1,
-  qtSubtotal: 0.00,
-  qtIgv: 0.00,
-  qtTotal: 0.00,
-  qtStartDate: new Date(),
-  qtEndDate: new Date(),
-  serial_number: [],
-  currencies: [],
-  companies: [],
-  branch_offices: [],
-  clients: [],
-  users: [],
-  quote_details: []
+  code: '',
+  description: '',
+  customer_id: null,
+  currency_id: null,
+  exchange_rate: 1,
+  status: 1,
+  currency: [],
+  customer: [],
+  product_quotations: []
 }
 
 export default QuotationInterface

@@ -2,10 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 import asyncThunkWithAxios from 'src/app/services/api'
 import QuotationInterface from 'src/app/interfaces/QuotationInterface'
 
-export const getQuote = asyncThunkWithAxios('qt', 'get', 'SalesEC/quote/getQuote', 'getid')
-export const getMaxId = asyncThunkWithAxios('qtmax', 'get', 'SalesEC/quote/getMaxId', 'getmax')
-export const putQuote = asyncThunkWithAxios('updateqt', 'put', 'SalesEC/quote/putQuote', 'put')
-export const postQuote = asyncThunkWithAxios('postqt', 'post', 'SalesEC/quote/postQuote', 'post')
+export const getQuote = asyncThunkWithAxios('quotation', 'get', 'SalesEC/quote/getQuote', 'show')
+export const putQuote = asyncThunkWithAxios('update_quotation', 'put', 'SalesEC/quote/putQuote', 'put')
+export const postQuote = asyncThunkWithAxios('post_quotation', 'post', 'SalesEC/quote/postQuote', 'post')
 export const deleteQuote = asyncThunkWithAxios('deleteqt', 'delete', 'SalesEC/quote/deleteQuote', 'delete')
 
 const quoteSlice = createSlice({
@@ -21,7 +20,7 @@ const quoteSlice = createSlice({
     },
   },
   extraReducers: {
-    [getQuote.fulfilled]: (state, action) => action.payload,
+    [getQuote.fulfilled]: (state, action) => action.payload.data,
     [putQuote.fulfilled]: (state, action) => action.payload,
     [deleteQuote.fulfilled]: (state, action) => null,
     [postQuote.fulfilled]: (state, action) => action.payload

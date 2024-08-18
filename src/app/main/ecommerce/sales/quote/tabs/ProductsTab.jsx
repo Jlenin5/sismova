@@ -6,18 +6,13 @@ import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
-import TablePagination from '@mui/material/TablePagination'
 import TextField from '@mui/material/TextField'
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import Autocomplete from '@mui/material/Autocomplete'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
-import Button from '@mui/material/Button'
-import { Controller, useFormContext } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { getProducts } from 'src/app/main/ecommerce/inventory/store/productsSlice'
-import { getTaxes } from 'src/app/main/ecommerce/finances/store/taxSlice'
 import ProductTabHead from './ProductTabHead'
 import ModalSelect from './ModalSelect'
 import ProductInterface from 'src/app/interfaces/ProductInterface'
@@ -27,54 +22,67 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
   const [dProduct, setDProduct] = useState([])
   const [open, setOpen] = useState(false)
   const [listProd, setListProd] = useState([])
-  const [listQuoteDetails, setListQuoteDetails] = useState([])
+  const [changeProductByListFilter, setChangeProductByListFilter] = useState([])
   const [listModalProd, setListModalProd] = useState(ProductInterface)
-  const [quantities, setQuantities] = useState({})
   const { t } = useTranslation()
 
   const handleClickOpen = (value) => {
-    setOpen(true);
+    setOpen(true)
   }
   const handleClose = () => {
-    setOpen(false);
+    setOpen(false)
   }
 
   const handleModalClose = (updatedForm, selectedProduct) => {
-    // Busca el producto en la lista y actualiza sus datos
     const updatedListProd = listProd.map((prod) => {
       if (prod.id === selectedProduct.id) {
-        return { ...prod, ...updatedForm };
+        return { ...prod, ...updatedForm }
       }
-      return prod;
+      return prod
     })
 
-    setListProd(updatedListProd);
-    // updateProduct(selectedProduct.id, updatedForm)
+    setListProd(updatedListProd)
+    updateProduct(selectedProduct.id, updatedForm)
     handleClose()
   }
 
   useEffect(() => {
-    dispatch(getProducts()).then((r) => setDProduct(r.payload))
+    dispatch(getProducts()).then((r) => {
+      setDProduct(r.payload.data)
+      if (allProducts && r.payload.data.length) {
+        const foundProduct = r.payload.data.filter(product => allProducts.some(p => p.product_id === product.id))
+        setChangeProductByListFilter(foundProduct || [])
+      }
+    })
     setListProd(allProducts)
-    setListQuoteDetails(allProducts)
   }, [allProducts, dispatch])
-
+0
   const handleProductChange = (_, selectedValue) => {
     if (selectedValue) {
       const findProduct = dProduct.find((r) => r.id === selectedValue.id)
-      const updatedProduct = { ...findProduct, prodName: selectedValue.prodName }
-      // setListProd((prevList) => [...prevList, updatedProduct])
+      const updatedProduct = { ...findProduct, selectedValue }
+      setListProd((prevList) => [...prevList, updatedProduct])
       let quoteDetailInterface = {
         id: updatedProduct.id,
-        qtdProdName: updatedProduct.prodName,
-        qtdProdPrice: updatedProduct.prodSalePrice,
-        qtdQuantity: 1,
-        qtdSubtotal: updatedProduct.prodSalePrice,
-        qtdTotal: 0
+        code: updatedProduct.code,
+        product_id: updatedProduct.id,
+        product_name: updatedProduct.name,
+        reserve: calculateStock(updatedProduct.booking),
+        discount_type: null,
+        discount: 0,
+        tax_net: 18,
+        price: updatedProduct.sale_price,
+        quantity: 1,
+        total: (updatedProduct.sale_price * 1.18).toFixed(2),
+        client_accept: 0
       }
-      setListQuoteDetails((prevList) => [...prevList, quoteDetailInterface])
       onChange([...selectedProducts, quoteDetailInterface])
     }
+  }
+
+  const handleDeleteItem = (productId) => {
+    const updatedSelectedProducts = selectedProducts.filter(product => product.product_id !== productId);
+    onChange(updatedSelectedProducts)
   }
 
   // const updatePrice = (id, action) => {
@@ -107,19 +115,29 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
   //   }
   // }
 
-  const getTotalPrice = () => {
-    const totalPrice = listProd.reduce((total, product) => {
-      let startPrice = parseFloat(Number(product.prodSalePrice).toFixed(2))
-      return total + (product.updatedPrice || startPrice)
+  const calculateStock = (stockData) => {
+    if (Array.isArray(stockData)) {
+      return stockData.reduce((sum, item) => sum + Number(item.total), 0)
+    }
+  }
+
+  const calculateSubTotal = () => {
+    const subtotal = listProd.reduce((total, product) => {
+      return total + parseFloat((Number(product.total) - (Number(product.tax_net) / 100)).toFixed(2))
     }, 0)
-    return totalPrice.toFixed(2)
+    return subtotal.toFixed(2)
   }
 
   const getTax = () => {
-    // return getTotalPrice() * 0.18
+    return (Number(calculateTotal()) - Number(calculateSubTotal())).toFixed(2)
   }
 
-  // console.log(listQuoteDetails)
+  const calculateTotal = () => {
+    const subtotal = listProd.reduce((total, product) => {
+      return total + parseFloat(Number(product.total).toFixed(2))
+    }, 0)
+    return subtotal.toFixed(2)
+  }
 
   return (
     <div className="flex flex-wrap -mx-4 w-full">
@@ -127,11 +145,11 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
         <Autocomplete
           id="tags-outlined"
           options={dProduct
-            .filter((o) => !listProd.some((p) => p.id === o.id))
+            .filter((o) => !selectedProducts.some((p) => p.product_id === o.id))
             .map((o) => ({
-              id: o.id, prodName: o.prodName, prodSalePrice: o.prodSalePrice
+              id: o.id, code: o.code, name: o.name, price: o.sale_price
             }))}
-          getOptionLabel={(o) => o.prodName}
+          getOptionLabel={(o) => o.code + ' - ' + o.name}
           onChange={handleProductChange}
           renderInput={(params) => 
             <TextField
@@ -142,18 +160,15 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
         />
         <FuseScrollbars className="grow overflow-x-auto">
           <Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
-            <ProductTabHead
-              // ids={selected}
-              // order={order}
-              // onSelectAllClick={handleSelectAllClick}
-              // onRequestSort={handleRequestSort}
-              // rowCount={data.length}
-              // onMenuItemClick={handleDeselect}
-            />
+            <ProductTabHead />
             <TableBody>
               {
-                listQuoteDetails.map((data) => {
-                  // console.log(data.qtdProdName)
+                listProd.map((data) => {
+                  let listFindProduct = []
+                  if(listFindProduct) {
+                    listFindProduct = changeProductByListFilter.find(r => r.id === data.product_id)
+                    listFindProduct = listFindProduct || []
+                  }
                   return (
                     <TableRow
                       key={data.id}
@@ -162,51 +177,29 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
                       role="checkbox"
                       onClick={() => handleClickOpen( setListModalProd(data) )}
                     >
+                      <TableCell className="p-4 md:p-16" component="th" scope="row">
+                        {data.code}
+                      </TableCell>
                       <TableCell className="w-52 px-4 md:px-0" component="th" scope="row">
-                        {data.qtdProdName}
+                        {data.product_name ? data.product_name : listFindProduct.name}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        S/. {data.updatedPrice || data.qtdProdPrice}
+                        S/. {data.price}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        {/* {data.prodStock} */}
+                        {data.reserve}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        {data.qtdQuantity}
-                        {/* <div className="grid grid-cols-3 w-full box-item-product">
-                          <button
-                            onClick={() => updatePrice(data.id, 'subtract')}
-                            className="max-w-1/3 btn-left"
-                          >
-                            <FuseSvgIcon className="text-16" size={22} color="action">material-outline:remove</FuseSvgIcon>
-                          </button>
-                          <input
-                            className='w-1/3 m-auto'
-                            value={quantities[data.id] || 1}
-                            onChange={(e) => updatePrice(data.id, 'change', parseInt(e.target.value, 10))}
-                            placeholder='1'
-                          />
-                          <button
-                            onClick={() => updatePrice(data.id, 'add')}
-                            className="max-w-1/3 btn-right"
-                          >
-                            <FuseSvgIcon className="text-16" size={22} color="action">material-outline:add</FuseSvgIcon>
-                          </button>
-                        </div> */}
+                        {data.quantity}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
                         S/. 0.00
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        18%
+                        {data.tax_net}%
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        S/. {data.qtdSubtotal}
-                      </TableCell>
-                      <TableCell className="w-60" component="th" scope="row">
-                        <IconButton aria-label="delete" size="large">
-                          <DeleteIcon fontSize="inherit" className="text-red-500" />
-                        </IconButton>
+                        S/. {data.total}
                       </TableCell>
                     </TableRow>
                   )
@@ -218,28 +211,26 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
         </FuseScrollbars>
         <ModalSelect
           open={open}
-          onClose={(updatedProduct, selectedProduct) => {
-            handleModalClose(updatedProduct, selectedProduct);
-            handleClose();
-          }}
-          listProd={listModalProd}
+          modalClose={handleModalClose}
+          onClose={handleClose}
+          listProdTable={listModalProd}
+          listProd={changeProductByListFilter}
+          onDeleteItem={handleDeleteItem}
         />
       </div>
-      <div className="w-1/3 px-16">
+      <div className="w-1/3 pl-16">
         <div className="w-full grid grid-cols-2">
-          <div className="w-2/3">
-            <h2>Prec. Total Prod.</h2>
-            <h2>{t('tax')}</h2>
+          <div className="w-1/2">
             <h2>{t('sub_total')}</h2>
-            <h2>{t('net_total')}</h2>
+            <h2>{t('tax')}</h2>
             <h2>{t('final_value')}</h2>
           </div>
-          <div className="w-1/3">
+          <div className="w-1/2">
+            <h2>S/. {calculateSubTotal()}</h2>
+            <h2>S/. {getTax()}</h2>
             {/* <h2>S/.{getTotalPrice()}</h2>
-            <h2>S/.{getTax()}</h2>
-            <h2>S/.{getTotalPrice()}</h2>
-            <h2>S/.{getTotalPrice()}</h2>
             <h2>S/.{getTotalPrice()}</h2> */}
+            <h2>S/. {calculateTotal()}</h2>
           </div>
         </div>
       </div>

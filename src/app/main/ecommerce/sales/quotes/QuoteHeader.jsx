@@ -55,7 +55,7 @@ const QuoteHeader = (props) => {
             className=""
             variant="contained"
             component={Link}
-            to="/ecommerce/sales/quote/new"
+            to="/e-commerce/sales/quote/new"
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >

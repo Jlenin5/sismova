@@ -351,6 +351,12 @@ const locale = {
   stock_min: 'Stock min',
   stock_max: 'Stock max',
   booking: 'Booking',
+  open: 'Open',
+  refused: 'Refused',
+  client_accept: 'Client accept',
+  fixed: 'Fixed',
+  discount_type: 'Discount type',
+  customer: 'Cliente',
   
 }
 

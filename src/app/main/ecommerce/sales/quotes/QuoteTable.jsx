@@ -7,50 +7,22 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
+import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import Typography from '@mui/material/Typography'
-import clsx from 'clsx'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
 import withRouter from '@fuse/core/withRouter'
 import FuseLoading from '@fuse/core/FuseLoading'
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import QuoteTableHead from './QuoteTableHead'
-import { getQuotes, selectQuote, selectQuoteSearchText } from '../store/quotesSlice'
-// import { getCategories } from '../store/categorySlice'
 
-const QuoteTable = (props) => {
-  const dispatch = useDispatch()
-  const quotes = useSelector(selectQuote)
-  const searchText = useSelector(selectQuoteSearchText)
+function QuoteTable(props) {
+
   const { t } = useTranslation()
-
-  const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState([])
-  const [data, setData] = useState(quotes)
-  const [page, setPage] = useState(0)
-  // const [dCategory, setDCategory] = useState([])
-  const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, setOrder] = useState({
     direction: 'asc',
     id: null,
   })
-
-  useEffect(() => {
-    dispatch(getQuotes()).then(() => setLoading(false))
-    // dispatch(getCategories()).then((response) => setDCategory(response.payload))
-  }, [dispatch])
-
-  useEffect(() => {
-    if (searchText.length !== 0) {
-      setData(
-        _.filter(quotes, (item) => item.qtNumber.toLowerCase().includes(searchText.toLowerCase()))
-      )
-      setPage(0)
-    } else {
-      setData(quotes)
-    }
-  }, [quotes, searchText])
 
   function handleRequestSort(event, property) {
     const id = property
@@ -67,7 +39,7 @@ const QuoteTable = (props) => {
 
   function handleSelectAllClick(event) {
     if (event.target.checked) {
-      setSelected(data.map((n) => n.id))
+      setSelected(props.data.map((n) => n.id))
       return
     }
     setSelected([])
@@ -78,7 +50,7 @@ const QuoteTable = (props) => {
   }
 
   function handleClick(item) {
-    props.navigate(`/ecommerce/sales/quote/${item}`);
+    props.navigate(`/e-commerce/sales/quote/${item}`);
   }
 
   function handleCheck(event, id) {
@@ -102,14 +74,22 @@ const QuoteTable = (props) => {
   }
 
   function handleChangePage(event, value) {
-    setPage(value)
+    props.setPage(value)
   }
 
   function handleChangeRowsPerPage(event) {
-    setRowsPerPage(event.target.value)
+    props.setRowsPerPage(event.target.value)
   }
 
-  if (loading) {
+  const formatDate = (dateString) => {
+    const date = new Date(dateString)
+    const day = String(date.getUTCDate()).padStart(2, '0')
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0')
+    const year = date.getUTCFullYear()
+    return `${day}-${month}-${year}`
+  }
+
+  if (props.loading) {
     return (
       <div className="flex items-center justify-center h-full">
         <FuseLoading />
@@ -117,7 +97,7 @@ const QuoteTable = (props) => {
     )
   }
 
-  if (data.length === 0) {
+  if (props.data.length === 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -140,12 +120,12 @@ const QuoteTable = (props) => {
             order={order}
             onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            rowCount={data.length}
+            rowCount={props.data.length}
             onMenuItemClick={handleDeselect}
           />
           <TableBody>
             {_.orderBy(
-              data,
+              props.data,
               [
                 (o) => {
                   switch (order.id) {
@@ -160,7 +140,6 @@ const QuoteTable = (props) => {
               ],
               [order.direction]
             )
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((n) => {
                 const isSelected = selected.indexOf(n.id) !== -1
                 return (
@@ -191,40 +170,43 @@ const QuoteTable = (props) => {
                     </TableCell>
  
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {n.serial_number.snSerie + ' - ' + n.qtNumber}
+                      {n.code}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.currencies.curName}
+                      {n.currency?.symbol + ' - ' + n.currency?.code}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {/* <span>S/.</span> */}
-                      {n.companies.comName}
+                      {n.customer?.document_number}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.clients.cliFirstName}
+                      {n.customer?.first_name}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.users.employees.empFirstName}
+                      {n.user?.employee?.first_name}
                     </TableCell>
-                    
+
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="center">
-                      {n.qtIgv === '1' ? 'No' : 'Sí'}
+                      {formatDate(n.created_at)}
                     </TableCell>
 
-                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.qtSubtotal}
+                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="center">
+                      {n.approved === 1 ? t('yes') : t('no')}
                     </TableCell>
 
-                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.qtTotal}
-                    </TableCell>
-
-                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="right">
-                      {n.qtStartDate}
+                    <TableCell className="p-4 md:p-16 flex justify-center items-center h-72" component="th" scope="row" align="center">
+                      {n.status ? (
+                        <FuseSvgIcon className="text-green" size={20}>
+                          heroicons-outline:check-circle
+                        </FuseSvgIcon>
+                      ) : (
+                        <FuseSvgIcon className="text-red" size={20}>
+                          heroicons-outline:minus-circle
+                        </FuseSvgIcon>
+                      )}
                     </TableCell>
 
                   </TableRow>
@@ -238,9 +220,9 @@ const QuoteTable = (props) => {
         labelRowsPerPage={t('rows_per_page')}
         labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
         component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
+        count={props.lengthPage}
+        rowsPerPage={props.rowsPerPage}
+        page={props.page}
         backIconButtonProps={{
           'aria-label': 'Previous Page',
         }}

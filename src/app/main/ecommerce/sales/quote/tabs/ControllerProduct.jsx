@@ -4,31 +4,29 @@ import ProductsTab from './ProductsTab'
 const ControllerProduct = () => {
 
   const methods = useFormContext()
-  const { control, formState, watch, setValue } = methods
-  const quote_details = watch('quote_details');
+  const { control, watch, setValue } = methods
+  const product_quotations = watch('product_quotations');
   
   const updateProductName = (productId, newName) => {
-    const updatedProducts = quote_details.map(product => {
+    const updatedProducts = product_quotations.map(product => {
       if (product.id === productId) {
         return { ...product, ...newName };
       }
       return product;
     });
-    setValue('quote_details', updatedProducts);
+    setValue('product_quotations', updatedProducts);
   }
-
-  // console.log(quote_details)
 
   return (
     <Controller
-      name="quote_details"
+      name="product_quotations"
       control={control}
       render={({ field: { onChange, value } }) => (
         <ProductsTab
           onChange={onChange}
-          allProducts={quote_details}
+          allProducts={product_quotations}
           selectedProducts={value}
-          updateProductName={updateProductName}
+          updateProduct={updateProductName}
         />
       )}
     />

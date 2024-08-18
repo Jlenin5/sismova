@@ -24,6 +24,13 @@ const ProductTabHead = () => {
 
   const rows = [
     {
+      id: 'code',
+      align: 'left',
+      disablePadding: false,
+      label: t('code'),
+      sort: true,
+    },
+    {
       id: 'product',
       align: 'left',
       disablePadding: false,
@@ -71,13 +78,6 @@ const ProductTabHead = () => {
       disablePadding: false,
       label: t('sub_total'),
       sort: true,
-    },
-    {
-      id: 'actions',
-      align: 'left',
-      disablePadding: true,
-      label: '',
-      sort: false,
     },
 ]
 

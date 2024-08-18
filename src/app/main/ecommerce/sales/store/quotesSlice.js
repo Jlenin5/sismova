@@ -1,8 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import asyncThunkWithAxios from 'src/app/services/api'
 
-export const getQuotes = asyncThunkWithAxios('qt', 'get', 'SalesEC/quotes/getQuotes', 'get')
-export const getMaxId = asyncThunkWithAxios('qtmax', 'get', 'SalesEC/quotes/getMaxId', 'getmax')
+export const getQuotes = asyncThunkWithAxios('quotation', 'get', 'SalesEC/quotes/getQuotes', 'get')
 export const putQuote = asyncThunkWithAxios('updateqt', 'put', 'SalesEC/quotes/putQuote', 'put')
 export const postQuote = asyncThunkWithAxios('postqt', 'post', 'SalesEC/quotes/postQuote', 'post')
 export const deleteQuote = asyncThunkWithAxios('deleteqt', 'delete', 'SalesEC/quotes/deleteQuote', 'delete')
@@ -27,7 +26,7 @@ const quotesSlice = createSlice({
     },
   },
   extraReducers: {
-    [getQuotes.fulfilled]: quoteAdapter.setAll,
+    [getQuotes.fulfilled]: (state, action) => quoteAdapter.setAll(state, action.payload.data),
     [putQuote.fulfilled]: (state, action) => quoteAdapter.updateOne(state, {
         id: action.payload.id,
         changes: action.payload

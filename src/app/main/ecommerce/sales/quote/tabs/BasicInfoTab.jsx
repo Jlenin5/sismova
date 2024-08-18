@@ -14,247 +14,117 @@ import { selectUser } from 'app/store/userSlice'
 import { useEffect, useState } from 'react'
 import { getCustomers } from 'src/app/main/human-resources/personal/store/customersSlice'
 import { getCurrencies } from '../../../finances/store/currenciesSlice'
-import { getCompanies } from 'src/app/main/settings/leadership/store/companiesSlice'
-import { getBranchoffices } from 'src/app/main/settings/leadership/store/branchofficeSlice'
-import { getSeries } from 'src/app/main/settings/controls/store/serieSlice'
-import { getMaxId } from '../../store/quoteSlice'
 
 const BasicInfoTab = () => {
   const dispatch = useDispatch()
-  const [maxId, setMaxId] = useState(null)
   const user = useSelector(selectUser)
-  const [dClient, setDClient] = useState([])
-  const [dCurrency, setDCurrency] = useState([])
-  const [dCompany, setDCompany] = useState([])
-  const [dBO, setDBO] = useState([])
-  const [dSerie, setDSerie] = useState([])
+  const [clients, setClients] = useState([])
+  const [currencies, setCurrencies] = useState([])
   const methods = useFormContext()
   const { control, formState, watch, setValue } = methods
   const { errors } = formState
-  const qtNumber = watch('qtNumber')
   const { t } = useTranslation()
 
   useEffect(() => {
-    dispatch(getCustomers()).then((r) => setDClient(r.payload))
-    dispatch(getCurrencies()).then(r => setDCurrency(r.payload))
-    dispatch(getCompanies()).then(r => setDCompany(r.payload))
-    dispatch(getBranchoffices()).then(r => setDBO(r.payload))
-    dispatch(getSeries()).then(r => setDSerie(r.payload))
-    dispatch(getMaxId()).then(r => setMaxId(r.payload.ultimo_id))
+    dispatch(getCustomers()).then((r) => setClients(r.payload.data))
+    dispatch(getCurrencies()).then(r => setCurrencies(r.payload.data))
   }, [dispatch])
 
-  useEffect(() => {
-    if (maxId !== null) {
-      var addQtNumber = 0
-      if (qtNumber === '00000') {
-        addQtNumber = (Number(maxId) + 1).toString().padStart(5, '0')
-      } else {
-        addQtNumber = qtNumber
-      }
-      setValue('qtNumber', addQtNumber)
-    }  
-  }, [qtNumber, maxId, setValue])
-
-  var companyName = ''
-  if(dCompany.length > 0) {
-    companyName = dCompany[0].comName
-  }
-
-  var serieName = ''
-  if(dSerie.length > 0) {
-    const findSerie = dSerie.find(r => r.id === 2)
-    serieName = findSerie.snSerie
-  }
-
   return (
-    <div className="grid grid-flow-row-dense grid-cols-3 gap-32 -mx-4 max-w-4xl">
+    <div>
+
+      <div className="grid grid-flow-row-dense grid-cols-3 gap-32 -mx-4 max-w-4xl">
+
+        <Controller
+          name="currency_id"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <FormControl fullWidth>
+              <InputLabel id="currency">{t('currency')}</InputLabel>
+              <Select
+                labelId="currency"
+                id="demo-simple-select"
+                label={t('currency')}
+                onChange={(event) => {
+                  onChange(event.target.value)
+                  methods.setValue("currency_id", event.target.value || null)
+                }}
+                value={value || ''}
+              >
+                {currencies.map(item => (
+                  <MenuItem key={item.id} value={item.id}>{item.symbol + ' - ' + item.code}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+        />
+
+        <Controller
+          name="customer_id"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Autocomplete
+              freeSolo
+              id="tags-outlined"
+              options={clients}
+              getOptionLabel={(option) => option.first_name}
+              onChange={(_, data) => {
+                onChange(data)
+                methods.setValue("customer_id", data?.id || null)
+                return data
+              }}
+              value={clients.find((option) => option.id === value) || null}
+              renderInput={(params) => (
+                <TextField
+                  required
+                  {...params}
+                  label={t('client')}
+                />
+              )}
+              fullWidth
+            />
+          )}
+        />
+
+        <Controller
+          name="status"
+          control={control}
+          render={({ field }) => (
+            <FormControl fullWidth>
+              <InputLabel id="status">{t('state')}</InputLabel>
+              <Select
+                {...field}
+                labelId="status"
+                id="demo-simple-select"
+                label={t('state')}
+              >
+                <MenuItem value={1}>{t('open')}</MenuItem>
+                <MenuItem value={0}>{t('refused')}</MenuItem>
+              </Select>
+            </FormControl>
+          )}
+        />
+
+      </div>
+
       <Controller
-        name="SerialNumber"
+        name="description"
         control={control}
         render={({ field }) => (
           <TextField
             {...field}
-            error={!!errors.name}
-            helperText={errors?.name?.message}
-            label={t('serie')}
-            disabled
-            required
-            autoFocus
-            id="serialNumber"
+            label={t('description')}
+            id="description"
+            className="mt-24 -mx-4 max-w-4xl"
+            multiline
+            minRows={6}
+            maxRows={7}
             variant="outlined"
-            value={serieName}
-          />
-        )}
-      />
-
-      <Controller
-        name="qtNumber"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            error={!!errors.name}
-            helperText={errors?.name?.message}
-            label={t('number')}
-            disabled
-            required
-            autoFocus
-            id="qtNumber"
-            variant="outlined"
-            value={qtNumber}
-          />
-        )}
-      />
-
-      <Controller
-        multiple
-        name="Currency"
-        control={control}
-        render={({ field }) => (
-          <FormControl className="mt-8 mx-4" fullWidth>
-            <InputLabel id="prodWebHome">{t('currency')}</InputLabel>
-            <Select
-              {...field}
-              labelId="prodWebHome"
-              id="demo-simple-select"
-              label={t('currency')}
-            >
-              {
-                dCurrency.map(r => (
-                  <MenuItem value={r.id} key={r.id}>{r.curName}</MenuItem>
-                ))
-              }
-            </Select>
-          </FormControl>
-        )}
-      />
-
-      <Controller
-        name="Company"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            error={!!errors.name}
-            helperText={errors?.name?.message}
-            label={t('company')}
-            disabled
-            required
-            id="company"
-            variant="outlined"
-            value={companyName}
-          />
-        )}
-      />
-
-      <Controller
-        name="BranchOffice"
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <Autocomplete
-            freeSolo
-            id="tags-outlined"
-            options={dBO}
-            getOptionLabel={(option) => option.boName}
-            onChange={(_, data) => {
-              onChange(data)
-              methods.setValue("BranchOffice", data?.id || null)
-              return data
-            }}
-            value={dBO.find((option) => option.id === value) || null}
-            renderInput={(params) => (
-              <TextField
-                required
-                {...params}
-                label={t('branch_office')}
-              />
-            )}
-            fullWidth
-          />
-        )}
-      />
-      
-      <Controller
-        name="User"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            error={!!errors.name}
-            disabled
-            required
-            helperText={errors?.name?.message}
-            label={t('assigned_user')}
-            id="employee"
-            variant="outlined"
-            value={user.employees.empFirstName}
-          />
-        )}
-      />
-
-      <Controller
-        name="Client"
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <Autocomplete
-            freeSolo
-            id="tags-outlined"
-            options={dClient}
-            getOptionLabel={(option) => option.cliFirstName}
-            onChange={(_, data) => {
-              onChange(data)
-              methods.setValue("Client", data?.id || null)
-              return data
-            }}
-            value={dClient.find((option) => option.id === value) || null}
-            renderInput={(params) => (
-              <TextField
-                required
-                {...params}
-                label={t('client')}
-              />
-            )}
             fullWidth
           />
         )}
       />
 
-      <Controller
-        name="qtStartDate"
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <DatePicker
-            value={utcToZonedTime(new Date(value))}
-            onChange={onChange}
-            slotProps={{
-              textField: {
-                label: t('start_date'),
-                variant: 'outlined',
-              },
-            }}
-            maxDate={new Date()}
-          />
-        )}
-      />
-
-      <Controller
-        name="qtEndDate"
-        control={control}
-        defaultValue=""
-        render={({ field: { onChange, value } }) => (
-          <DatePicker
-            value={utcToZonedTime(new Date(value))}
-            onChange={onChange}
-            slotProps={{
-              textField: {
-                label: t('end_date'),
-                variant: 'outlined',
-              },
-            }}
-            minDate={new Date()}
-          />
-        )}
-      />
     </div>
   )
 }

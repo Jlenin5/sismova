@@ -18,7 +18,7 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon'
 import { lighten } from '@mui/material/styles'
 import { delQuoteMulti } from '../store/quotesSlice'
 
-const QuoteTableHead = (props) => {
+function QuoteTableHead(props) {
   const dispatch = useDispatch()
   const numSelected = props.ids.length
   const [selectedProductsMenu, setSelectedProductsMenu] = useState(null)
@@ -33,66 +33,62 @@ const QuoteTableHead = (props) => {
       sort: false,
     },
     {
-      id: 'SerialNumber',
+      id: 'code',
       align: 'left',
       disablePadding: false,
       label: t('code'),
       sort: true,
     },
     {
-      id: 'Currency',
+      id: 'currency',
       align: 'left',
       disablePadding: false,
       label: t('currency'),
       sort: true,
     },
     {
-      id: 'Company',
+      id: 'document_number',
       align: 'left',
       disablePadding: false,
-      label: t('company'),
+      label: t('n_document'),
       sort: true,
+      minWidth: '110px',
     },
     {
-      id: 'Client',
+      id: 'customer',
       align: 'left',
       disablePadding: false,
-      label: t('client'),
+      label: t('customer'),
       sort: true,
+      minWidth: '210px',
     },
     {
-      id: 'Employee',
+      id: 'user',
       align: 'left',
       disablePadding: false,
       label: t('user'),
       sort: true,
+      minWidth: '210px',
     },
     {
-      id: 'qtIgv',
+      id: 'date',
       align: 'center',
       disablePadding: false,
-      label: t('tax'),
+      label: t('date'),
       sort: true,
     },
     {
-      id: 'qtSubtotal',
-      align: 'right',
+      id: 'approved',
+      align: 'center',
       disablePadding: false,
-      label: t('sub_total'),
+      label: t('approved'),
       sort: true,
     },
     {
-      id: 'qtTotal',
-      align: 'right',
+      id: 'status',
+      align: 'center',
       disablePadding: false,
-      label: t('total'),
-      sort: true,
-    },
-    {
-      id: 'qtCreatedAt',
-      align: 'right',
-      disablePadding: false,
-      label: t('start_date'),
+      label: t('status'),
       sort: true,
     },
   ]
@@ -170,6 +166,7 @@ const QuoteTableHead = (props) => {
           return (
             <TableCell
               sx={{
+                minWidth: row.minWidth ? row.minWidth : 'auto',
                 backgroundColor: (theme) =>
                   theme.palette.mode === 'light'
                     ? lighten(theme.palette.background.default, 0.4)
@@ -179,7 +176,7 @@ const QuoteTableHead = (props) => {
               key={row.id}
               align={row.align}
               padding={row.disablePadding ? 'none' : 'normal'}
-              sortDirection={props.order.prodId === row.id ? props.order.direction : false}
+              sortDirection={props.order.id === row.id ? props.order.direction : false}
             >
               {row.sort && (
                 <Tooltip
@@ -188,7 +185,7 @@ const QuoteTableHead = (props) => {
                   enterDelay={300}
                 >
                   <TableSortLabel
-                    active={props.order.prodId === row.id}
+                    active={props.order.id === row.id}
                     direction={props.order.direction}
                     onClick={createSortHandler(row.id)}
                     className="font-semibold"
