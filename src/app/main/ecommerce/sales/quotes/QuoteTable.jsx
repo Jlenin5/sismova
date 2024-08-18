@@ -149,7 +149,6 @@ function QuoteTable(props) {
               [order.direction]
             )
               .map((n) => {
-                console.log(n)
                 const isSelected = selected.indexOf(n.id) !== -1
                 return (
                   <TableRow
