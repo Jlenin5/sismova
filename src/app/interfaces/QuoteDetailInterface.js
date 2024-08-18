@@ -4,7 +4,7 @@ const QuoteDetailInterface = {
   product_name: 1,
   quotation_id: 1,
   stock: 0,
-  price: 0,
+  product_price: 0,
   tax_method: 1,
   tax_net: 18,
   discount_type: 1,

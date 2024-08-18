@@ -150,12 +150,12 @@ const ModalSelect = ({open, modalClose, onClose, listProdTable, listProd, onDele
             onKeyPress={singleNumber}
           />
           <TextField
-            label={t('sale_price')}
+            label={t('product_price')}
             required
-            id="price"
+            id="product_price"
             variant="outlined"
-            name="price"
-            value={form.price || ''}
+            name="product_price"
+            value={form.product_price || ''}
             onChange={handleChange}
           />
           <TextField

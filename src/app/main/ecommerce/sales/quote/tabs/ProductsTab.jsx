@@ -71,7 +71,7 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
         discount_type: null,
         discount: 0,
         tax_net: 18,
-        price: updatedProduct.sale_price,
+        product_price: updatedProduct.sale_price,
         quantity: 1,
         total: (updatedProduct.sale_price * 1.18).toFixed(2),
         client_accept: 0
@@ -147,7 +147,7 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
           options={dProduct
             .filter((o) => !selectedProducts.some((p) => p.product_id === o.id))
             .map((o) => ({
-              id: o.id, code: o.code, name: o.name, price: o.sale_price
+              id: o.id, code: o.code, name: o.name, product_price: o.sale_price
             }))}
           getOptionLabel={(o) => o.code + ' - ' + o.name}
           onChange={handleProductChange}
@@ -184,7 +184,7 @@ const ProductsTab = ({ onChange, selectedProducts, allProducts, updateProduct })
                         {data.product_name ? data.product_name : listFindProduct.name}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
-                        S/. {data.price}
+                        S/. {data.product_price}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row">
                         {data.reserve}
