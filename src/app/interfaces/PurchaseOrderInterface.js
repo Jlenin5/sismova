@@ -23,7 +23,7 @@ const PurchaseOrderInterface = {
   branch_offices: [],
   warehouses: [],
   suppliers: [],
-  purchase_order_details: []
+  purchase_order_products: []
 }
 
 export default PurchaseOrderInterface
